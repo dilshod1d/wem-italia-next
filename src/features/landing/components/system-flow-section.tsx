@@ -1,5 +1,6 @@
 "use client";
 
+import { howItWorksSectionConfig } from "../data/how-it-works-story";
 import { systemFlowSectionConfig } from "../data/system-flow-story";
 import { useSystemFlowVideo } from "../hooks/use-system-flow-video";
 import type { SystemFlowStageKey } from "../types/system-flow-section";
@@ -74,6 +75,7 @@ export function SystemFlowSection() {
       sectionRef={sectionRef}
       videoRef={videoRef}
       videoUrl={videoUrl}
+      nextVideoSrc={howItWorksSectionConfig.videoUrl}
       isScrolled={isScrolled}
       navTheme="light"
       indicatorLabel="Scroll Down"

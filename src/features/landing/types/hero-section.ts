@@ -12,7 +12,5 @@ export interface HeroSegment {
 export interface HeroSectionConfig {
   readonly videoUrl: string;
   readonly videoDuration: number;
-  readonly lerpFactor: number;
-  readonly scrollThreshold: number;
   readonly segments: readonly HeroSegment[];
 }

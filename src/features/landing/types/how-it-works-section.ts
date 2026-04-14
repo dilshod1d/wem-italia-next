@@ -36,8 +36,6 @@ export interface HowItWorksCopy {
 export interface HowItWorksSectionConfig {
   readonly videoUrl: string;
   readonly videoDuration: number;
-  readonly lerpFactor: number;
-  readonly scrollThreshold: number;
   readonly stages: readonly HowItWorksStage[];
   readonly copy: HowItWorksCopy;
   readonly steps: readonly HowItWorksStep[];

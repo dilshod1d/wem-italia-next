@@ -3,9 +3,7 @@ import type { HowItWorksSectionConfig } from "../types/how-it-works-section";
 export const howItWorksSectionConfig = {
   videoUrl:
     "https://res.cloudinary.com/dcderdzpp/video/upload/v1776167362/v4_cv51vo.mp4",
-  videoDuration: 5.013,
-  lerpFactor: 0.08,
-  scrollThreshold: 0.8,
+  videoDuration: 4.28,
   stages: [
     { id: 1, key: "intro", start: 0, end: 0.8 },
     { id: 2, key: "headline", start: 0.8, end: 1.55 },

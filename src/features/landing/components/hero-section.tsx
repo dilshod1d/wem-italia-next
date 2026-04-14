@@ -1,6 +1,7 @@
 "use client";
 
 import { heroStoryConfig } from "../data/hero-story";
+import { whyWemWorksSectionConfig } from "../data/why-wem-works-story";
 import { useHeroSectionVideo } from "../hooks/use-hero-section-video";
 import { HeroSlide } from "./hero-slide";
 import { CinematicVideoSection } from "./cinematic-video-section";
@@ -15,6 +16,7 @@ export function HeroSection() {
       sectionRef={sectionRef}
       videoRef={videoRef}
       videoUrl={heroStoryConfig.videoUrl}
+      nextVideoSrc={whyWemWorksSectionConfig.videoUrl}
       isScrolled={isScrolled}
       navTheme="dark"
       videoClassName="grayscale-[20%] contrast-[110%]"

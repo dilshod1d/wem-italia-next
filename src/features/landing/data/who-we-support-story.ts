@@ -1,7 +1,6 @@
 import type { WhoWeSupportSectionConfig } from "../types/who-we-support-section";
 
 export const whoWeSupportSectionConfig = {
-  sectionHeight: "320vh",
   stages: [
     { id: 1, key: "title", start: 0, end: 0.18 },
     { id: 2, key: "startups", start: 0.18, end: 0.38 },

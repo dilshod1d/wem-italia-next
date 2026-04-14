@@ -4,8 +4,6 @@ export const heroStoryConfig = {
   videoUrl:
     "https://res.cloudinary.com/dcderdzpp/video/upload/v1776096629/output_af6jf5.mp4",
   videoDuration: 4.2,
-  lerpFactor: 0.08,
-  scrollThreshold: 0.8,
   segments: [
     { id: 1, start: 0, end: 1.02, text: "Forget the stress." },
     { id: 2, start: 1.02, end: 2.08, text: "We manage your online presence." },

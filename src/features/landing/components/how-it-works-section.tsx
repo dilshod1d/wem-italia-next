@@ -1,6 +1,7 @@
 "use client";
 
 import { howItWorksSectionConfig } from "../data/how-it-works-story";
+import { portfolioResultsSectionConfig } from "../data/portfolio-results-story";
 import { useHowItWorksVideo } from "../hooks/use-how-it-works-video";
 import type {
   HowItWorksStageKey,
@@ -78,6 +79,7 @@ export function HowItWorksSection() {
       sectionRef={sectionRef}
       videoRef={videoRef}
       videoUrl={videoUrl}
+      nextVideoSrc={portfolioResultsSectionConfig.videoUrl}
       isScrolled={isScrolled}
       navTheme="light"
       indicatorLabel="Scroll Down"

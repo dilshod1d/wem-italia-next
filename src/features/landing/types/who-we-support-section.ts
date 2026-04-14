@@ -33,7 +33,6 @@ export interface WhoWeSupportCopy {
 }
 
 export interface WhoWeSupportSectionConfig {
-  readonly sectionHeight: string;
   readonly stages: readonly WhoWeSupportStage[];
   readonly copy: WhoWeSupportCopy;
   readonly cards: readonly WhoWeSupportCard[];

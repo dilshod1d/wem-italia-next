@@ -8,6 +8,7 @@ import {
   FaPeopleGroup,
 } from "react-icons/fa6";
 
+import { systemFlowSectionConfig } from "../data/system-flow-story";
 import { whyWemWorksSectionConfig } from "../data/why-wem-works-story";
 import { useWhyWemWorksVideo } from "../hooks/use-why-wem-works-video";
 import type {
@@ -124,6 +125,7 @@ export function WhyWemWorksSection() {
       sectionRef={sectionRef}
       videoRef={videoRef}
       videoUrl={videoUrl}
+      nextVideoSrc={systemFlowSectionConfig.videoUrl}
       isScrolled={isScrolled}
       navTheme="dark"
       indicatorLabel="Scroll Down"

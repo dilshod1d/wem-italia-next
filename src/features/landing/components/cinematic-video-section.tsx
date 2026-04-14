@@ -1,12 +1,13 @@
 "use client";
 
 import type { ReactNode, RefObject } from "react";
-import { ScrollIndicator } from "./scroll-indicator";
+import { Chapter } from "@/components/Chapter/Chapter";
 
 interface CinematicVideoSectionProps {
   sectionRef: RefObject<HTMLElement | null>;
   videoRef: RefObject<HTMLVideoElement | null>;
   videoUrl: string;
+  nextVideoSrc?: string;
   isScrolled: boolean;
   sectionId?: string;
   navTheme?: "light" | "dark";
@@ -29,6 +30,7 @@ export function CinematicVideoSection({
   sectionRef,
   videoRef,
   videoUrl,
+  nextVideoSrc,
   isScrolled,
   sectionId,
   navTheme = "dark",
@@ -43,43 +45,28 @@ export function CinematicVideoSection({
   videoClassName,
 }: CinematicVideoSectionProps) {
   return (
-    <section
-      id={sectionId}
-      ref={sectionRef}
-      data-nav-theme={navTheme}
-      className={cx("relative h-[400vh]", sectionClassName)}
+    <Chapter
+      sectionRef={sectionRef}
+      sectionId={sectionId}
+      navTheme={navTheme}
+      videoRef={videoRef}
+      videoSrc={videoUrl}
+      nextVideoSrc={nextVideoSrc}
+      isScrolled={isScrolled}
+      indicatorLabel={indicatorLabel}
+      indicatorPersistent={indicatorPersistent}
+      indicatorLabelClassName={indicatorLabelClassName}
+      indicatorMouseClassName={indicatorMouseClassName}
+      indicatorWheelClassName={indicatorWheelClassName}
+      overlay={
+        overlay ?? (
+          <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/60" />
+        )
+      }
+      sectionClassName={cx("relative", sectionClassName)}
+      videoClassName={videoClassName}
     >
-      <div className="sticky top-0 h-screen w-full overflow-hidden">
-        <video
-          ref={videoRef}
-          className={cx(
-            "absolute inset-0 h-full w-full object-cover",
-            videoClassName,
-          )}
-          src={videoUrl}
-          playsInline
-          muted
-          preload="auto"
-        />
-
-        <div className="absolute inset-0 z-[5]">
-          {overlay ?? (
-            <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/60" />
-          )}
-        </div>
-
-        <div className="relative z-10 h-full w-full">
-          {children}
-        </div>
-
-        <ScrollIndicator
-          hidden={!indicatorPersistent && isScrolled}
-          label={indicatorLabel}
-          labelClassName={indicatorLabelClassName}
-          mouseClassName={indicatorMouseClassName}
-          wheelClassName={indicatorWheelClassName}
-        />
-      </div>
-    </section>
+      {children}
+    </Chapter>
   );
 }

@@ -25,8 +25,6 @@ export interface SystemFlowCard {
 export interface SystemFlowSectionConfig {
   readonly videoUrl: string;
   readonly videoDuration: number;
-  readonly lerpFactor: number;
-  readonly scrollThreshold: number;
   readonly stages: readonly SystemFlowStage[];
   readonly eyebrow: string;
   readonly title: string;

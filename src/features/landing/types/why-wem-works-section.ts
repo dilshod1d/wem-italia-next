@@ -35,8 +35,6 @@ export interface WhyWemWorksProofPoint {
 export interface WhyWemWorksSectionConfig {
   readonly videoUrl: string;
   readonly videoDuration: number;
-  readonly lerpFactor: number;
-  readonly scrollThreshold: number;
   readonly stages: readonly WhyWemWorksStage[];
   readonly introTitle: string;
   readonly title: string;

@@ -42,8 +42,6 @@ export interface PortfolioResultsMetric {
 export interface PortfolioResultsSectionConfig {
   readonly videoUrl: string;
   readonly videoDuration: number;
-  readonly lerpFactor: number;
-  readonly scrollThreshold: number;
   readonly focusItemId: string;
   readonly stages: readonly PortfolioResultsStage[];
   readonly copy: PortfolioResultsCopy;

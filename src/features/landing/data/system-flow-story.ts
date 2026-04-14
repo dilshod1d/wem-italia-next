@@ -4,8 +4,6 @@ export const systemFlowSectionConfig = {
   videoUrl:
     "https://res.cloudinary.com/dcderdzpp/video/upload/v1776166093/v3_kk7e7f.mp4",
   videoDuration: 4.28,
-  lerpFactor: 0.08,
-  scrollThreshold: 0.8,
   stages: [
     { id: 1, key: "intro", start: 0, end: 0.8 },
     { id: 2, key: "title", start: 0.8, end: 1.6 },
