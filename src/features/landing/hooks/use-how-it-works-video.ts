@@ -3,6 +3,7 @@
 import { useRef, useState } from "react";
 import { useSectionPin } from "@/components/Chapter/useSectionPin";
 
+import { mapVideoProgress } from "./map-video-progress";
 import type {
   HowItWorksSectionConfig,
   HowItWorksStageKey,
@@ -25,7 +26,7 @@ export function useHowItWorksVideo(config: HowItWorksSectionConfig) {
   const { sectionRef, isScrolled } = useSectionPin({
     onUpdate: (progress) => {
       const video = videoRef.current;
-      const currentTime = videoDuration * progress;
+      const currentTime = videoDuration * mapVideoProgress(progress);
 
       if (video && video.readyState >= 1) {
         video.currentTime = currentTime;
