@@ -3,10 +3,11 @@ import type { HowItWorksSectionConfig } from "../types/how-it-works-section";
 export const howItWorksSectionConfig = {
   videoUrl:
     "https://res.cloudinary.com/dcderdzpp/video/upload/v1776167362/v4_cv51vo.mp4",
-  videoDuration: 4.28,
+  // videoDuration: 4.28,
+  videoDuration: 5.013,
   stages: [
-    { id: 1, key: "intro", start: 0, end: 0.8 },
-    { id: 2, key: "headline", start: 0.8, end: 1.55 },
+    { id: 1, key: "intro", start: 0, end: 0 },
+    { id: 2, key: "headline", start: 0, end: 1.55 },
     { id: 3, key: "context", start: 1.55, end: 2.2 },
     { id: 4, key: "analysis", start: 2.2, end: 2.95 },
     { id: 5, key: "direction", start: 2.95, end: 3.65 },

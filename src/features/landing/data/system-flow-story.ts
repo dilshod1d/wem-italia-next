@@ -3,14 +3,14 @@ import type { SystemFlowSectionConfig } from "../types/system-flow-section";
 export const systemFlowSectionConfig = {
   videoUrl:
     "https://res.cloudinary.com/dcderdzpp/video/upload/v1776166093/v3_kk7e7f.mp4",
-  videoDuration: 4.28,
+  videoDuration: 5.013,
   stages: [
-    { id: 1, key: "intro", start: 0, end: 0.8 },
-    { id: 2, key: "title", start: 0.8, end: 1.6 },
-    { id: 3, key: "body", start: 1.6, end: 2.4 },
-    { id: 4, key: "step", start: 2.4, end: 3.2 },
-    { id: 5, key: "budget", start: 3.2, end: 3.9 },
-    { id: 6, key: "support", start: 3.9, end: Number.POSITIVE_INFINITY },
+    { id: 1, key: "intro", start: 0, end: 3.0 },
+    { id: 2, key: "title", start: 3.0, end: 3.15 },
+    { id: 3, key: "body", start: 3.15, end: 3.45 },
+    { id: 4, key: "step", start: 3.45, end: 4.05 },
+    { id: 5, key: "budget", start: 4.05, end: 4.16 },
+    { id: 6, key: "support", start: 4.16, end: Number.POSITIVE_INFINITY },
   ],
   eyebrow: "How It Works",
   title: "Pay Per Step.\nNo Constraints - No Subscriptions",

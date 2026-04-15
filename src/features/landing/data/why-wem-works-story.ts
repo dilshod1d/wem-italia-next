@@ -3,7 +3,8 @@ import type { WhyWemWorksSectionConfig } from "../types/why-wem-works-section";
 export const whyWemWorksSectionConfig = {
   videoUrl:
     "https://res.cloudinary.com/dcderdzpp/video/upload/v1776161487/v2_ic3fty.mp4",
-  videoDuration: 4.28,
+  // videoDuration: 4.28,
+  videoDuration: 5.013,
   stages: [
     { id: 1, key: "intro", start: 0, end: 1.02 },
     { id: 2, key: "narrative", start: 1.02, end: 2.08 },

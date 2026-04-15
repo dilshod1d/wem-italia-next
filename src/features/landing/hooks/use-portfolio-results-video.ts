@@ -3,11 +3,11 @@
 import { useRef, useState } from "react";
 import { useSectionPin } from "@/components/Chapter/useSectionPin";
 
-import { mapVideoProgress } from "./map-video-progress";
 import type {
   PortfolioResultsSectionConfig,
   PortfolioResultsStageKey,
 } from "../types/portfolio-results-section";
+import { useVideoDebugLogger } from "./use-video-debug-logger";
 
 interface PortfolioResultsVideoState {
   lastStageKey: PortfolioResultsStageKey;
@@ -16,18 +16,24 @@ interface PortfolioResultsVideoState {
 export function usePortfolioResultsVideo(
   config: PortfolioResultsSectionConfig,
 ) {
-  const { stages, videoDuration } = config;
+  const { stages, videoDuration, videoUrl } = config;
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const stateRef = useRef<PortfolioResultsVideoState>({
     lastStageKey: stages[0]?.key ?? "intro",
   });
   const [activeStageKey, setActiveStageKey] =
     useState<PortfolioResultsStageKey>(stages[0]?.key ?? "intro");
+  const debugLogger = useVideoDebugLogger({
+    label: "Portfolio Results",
+    videoSrc: videoUrl,
+    configuredDuration: videoDuration,
+    videoRef,
+  });
 
   const { sectionRef, isScrolled } = useSectionPin({
     onUpdate: (progress) => {
       const video = videoRef.current;
-      const currentTime = videoDuration * mapVideoProgress(progress);
+      const currentTime = videoDuration * Math.min(Math.max(progress, 0), 1);
 
       if (video && video.readyState >= 1) {
         video.currentTime = currentTime;
@@ -37,6 +43,12 @@ export function usePortfolioResultsVideo(
       const activeStage = stages.find(
         (stage) => currentTime >= stage.start && currentTime < stage.end,
       );
+
+      debugLogger.logProgress({
+        progress,
+        currentTime,
+        marker: activeStage?.key ?? lastStageKey,
+      });
 
       if (activeStage && activeStage.key !== lastStageKey) {
         stateRef.current.lastStageKey = activeStage.key;

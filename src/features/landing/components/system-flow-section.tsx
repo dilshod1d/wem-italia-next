@@ -34,7 +34,8 @@ function BenefitCard({
   return (
     <article
       className={cx(
-        "absolute w-[calc(100%-3rem)] rounded-[3.2rem] px-8 py-7 text-white shadow-[0_28px_80px_rgba(0,0,0,0.08)] transition-[opacity,transform] duration-700 md:w-auto md:px-10 md:py-8",
+        "absolute w-[calc(100%-2rem)] rounded-[3.2rem] px-6 py-5 text-white shadow-[0_28px_80px_rgba(0,0,0,0.08)] transition-[opacity,transform] duration-700",
+        " md:w-[480px] md:px-8 md:py-6",
         toneClassName,
         positionClassName,
         zIndexClassName,
@@ -47,13 +48,36 @@ function BenefitCard({
         transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)",
       }}
     >
-      <h3 className="font-sans text-[2rem] font-semibold uppercase tracking-tight md:text-[3rem]">
+      <h3 className="font-sans text-[1.3rem] font-semibold uppercase tracking-tight md:text-[1.8rem]">
         {title}
       </h3>
-      <p className="mt-3 max-w-3xl font-body text-2xl leading-[1.34] md:text-[2.05rem]">
+
+      <p className="mt-4 max-w-3xl font-body text-[1.1rem] leading-[1.4] md:text-[1.4rem]">
         {body}
       </p>
     </article>
+    // <article
+    //   className={cx(
+    //     "absolute w-[calc(100%-3rem)] rounded-[3.2rem] px-4 py-3.5 text-white shadow-[0_28px_80px_rgba(0,0,0,0.08)] transition-[opacity,transform] duration-700 md:w-auto md:px-5 md:py-4",
+    //     toneClassName,
+    //     positionClassName,
+    //     zIndexClassName,
+    //     visible
+    //       ? "translate-y-0 scale-100 opacity-100"
+    //       : "pointer-events-none translate-y-10 scale-[0.94] opacity-0",
+    //   )}
+    //   style={{
+    //     transitionDelay: visible ? `${delayMs}ms` : "0ms",
+    //     transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)",
+    //   }}
+    // >
+    //   <h3 className="font-sans text-[1rem] font-semibold uppercase tracking-tight md:text-[1.5rem]">
+    //     {title}
+    //   </h3>
+    //   <p className="mt-3 max-w-3xl font-body text-xl leading-[1.34] md:text-[1.05rem]">
+    //     {body}
+    //   </p>
+    // </article>
   );
 }
 
@@ -84,7 +108,7 @@ export function SystemFlowSection() {
       indicatorMouseClassName="border-sky-200/55"
       indicatorWheelClassName="bg-sky-200/80"
       videoClassName="object-[68%_center] brightness-[1.02] contrast-[0.98] saturate-[0.92] md:object-[72%_center]"
-      overlay={<div className="absolute inset-0 bg-white/[0.02]" />}
+      overlay={<div className="absolute inset-0 bg-white/2" />}
     >
       <div className="relative h-full w-full">
         <div className="absolute inset-0 mx-auto max-w-[1600px] px-6 py-24 sm:px-10 lg:px-16">
@@ -100,7 +124,7 @@ export function SystemFlowSection() {
 
             <h2
               className={cx(
-                "mt-8 whitespace-pre-line font-sans text-[clamp(3.8rem,8vw,8.2rem)] font-semibold leading-[0.92] tracking-tight transition-all duration-700",
+                "mt-4 whitespace-pre-line font-sans text-[clamp(2.4rem,5vw,4.5rem)] font-semibold leading-[0.92] tracking-tight transition-all duration-700",
                 showTitle
                   ? "translate-y-0 opacity-100"
                   : "translate-y-8 opacity-0",
@@ -111,7 +135,7 @@ export function SystemFlowSection() {
 
             <div
               className={cx(
-                "mt-12 max-w-[1200px] space-y-4 font-body text-[2rem] leading-[1.3] text-black/85 transition-all duration-700 md:text-[3rem]",
+                "mt-6 max-w-[1200px] space-y-1 font-body text-[2rem] leading-none text-black/85 transition-all duration-700 md:text-[3rem]",
                 showParagraphs
                   ? "translate-y-0 opacity-100"
                   : "translate-y-6 opacity-0",
