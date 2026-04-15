@@ -260,7 +260,7 @@ export function FooterSection() {
                 <div className="grid gap-3">
                   <input
                     type="text"
-                    placeholder="Nome"
+                    placeholder="Name"
                     className="h-12 rounded-[0.22rem] border border-white/18 bg-[#2B2E65] px-4 font-body text-[0.95rem] text-white placeholder:text-white/35 outline-none transition-colors focus:border-cyan-300"
                   />
                   <div className="grid gap-3 md:grid-cols-2">
@@ -271,12 +271,12 @@ export function FooterSection() {
                     />
                     <input
                       type="tel"
-                      placeholder="Numero di telefono"
+                      placeholder="Phone number"
                       className="h-12 rounded-[0.22rem] border border-white/18 bg-[#2B2E65] px-4 font-body text-[0.95rem] text-white placeholder:text-white/35 outline-none transition-colors focus:border-cyan-300"
                     />
                   </div>
                   <textarea
-                    placeholder="Scrivi il tuo messaggio"
+                    placeholder="Write your message"
                     rows={5}
                     className="rounded-[0.22rem] border border-white/18 bg-[#2B2E65] px-4 py-3 font-body text-[0.95rem] text-white placeholder:text-white/35 outline-none transition-colors focus:border-cyan-300"
                   />
@@ -300,7 +300,7 @@ export function FooterSection() {
 
                 <div>
                   <p className="font-sans text-[0.95rem] font-semibold uppercase tracking-[0.08em] text-white">
-                    Navigazione
+                    Navigation
                   </p>
                   <nav className="mt-4 space-y-3">
                     {navLinks.map((link) => (

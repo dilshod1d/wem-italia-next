@@ -10,29 +10,29 @@ export const whoWeSupportSectionConfig = {
     { id: 6, key: "final", start: 0.9, end: Number.POSITIVE_INFINITY },
   ],
   copy: {
-    eyebrow: "Chi Supportiamo",
-    title: "Pensato per chi vuole crescere\ncon Metodo!",
-    warningTitle: "Non è per:",
+    eyebrow: "Who We Support",
+    title: "Designed for those who want to grow\nwith a method!",
+    warningTitle: "Not for:",
     warningBody:
-      "chi cerca singoli servizi o soluzioni economiche senza strategia.",
+      "those looking for one-off services or low-cost solutions without a strategy.",
   },
   cards: [
     {
       stage: "startups",
       title: "Startups",
-      body: "Per partire bene, anche con budget da gestire con attenzione.",
+      body: "To get started well, even with budgets that need careful management.",
       icon: "startup",
     },
     {
       stage: "professionals",
-      title: "Professionisti",
-      body: "Per una presenza digitale coerente con il proprio valore.",
+      title: "Professionals",
+      body: "For a digital presence aligned with their value.",
       icon: "professional",
     },
     {
       stage: "smes",
-      title: "PMI",
-      body: "Per una struttura più solida, meno improvvisata, più utile alla crescita.",
+      title: "SMEs",
+      body: "For a stronger structure, less improvisation, and better support for growth.",
       icon: "sme",
     },
   ],

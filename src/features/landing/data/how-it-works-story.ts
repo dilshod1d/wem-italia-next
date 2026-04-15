@@ -14,17 +14,17 @@ export const howItWorksSectionConfig = {
     { id: 7, key: "evolution", start: 4.3, end: Number.POSITIVE_INFINITY },
   ],
   copy: {
-    initialHeadline: "Un Percorso Chiaro",
-    expandedHeadline: "Un Percorso Chiaro, dal punto Giusto",
-    subtitle: "Nessuna Soluzione Standard",
+    initialHeadline: "A Clear Path",
+    expandedHeadline: "A Clear Path, from the Right Starting Point",
+    subtitle: "No Standard Solutions",
     description:
-      "Si parte dal tuo contesto reale, si definisce direzione e strategia, si costruisce la crescita.",
+      "We start from your real context, define direction and strategy, and build growth.",
   },
   steps: [
     {
       stage: "analysis",
-      title: "Step 1: ANALISI",
-      body: "Capisco il punto di partenza, gli obiettivi e le priorità.",
+      title: "Step 1: ANALYSIS",
+      body: "I understand the starting point, the goals, and the priorities.",
       toneClassName: "bg-[#2F80ED] text-white",
       positionClassName:
         "left-4 right-4 top-0 md:left-8 md:right-8 lg:left-[13rem] lg:right-auto lg:w-[min(78vw,78rem)]",
@@ -32,8 +32,8 @@ export const howItWorksSectionConfig = {
     },
     {
       stage: "direction",
-      title: "Step 2: DIREZIONE",
-      body: "Definiamo dove intervenire prima e cosa serve.",
+      title: "Step 2: DIRECTION",
+      body: "We define where to intervene first and what is needed.",
       toneClassName: "bg-[#72C840] text-white",
       positionClassName:
         "left-6 right-4 top-[6.25rem] md:left-14 md:right-6 lg:left-[21rem] lg:right-auto lg:w-[min(76vw,82rem)]",
@@ -41,8 +41,8 @@ export const howItWorksSectionConfig = {
     },
     {
       stage: "build",
-      title: "Step 3: COSTRUZIONE",
-      body: "Realizziamo ciò che ha più senso per il progetto.",
+      title: "Step 3: BUILD",
+      body: "We build what makes the most sense for the project.",
       toneClassName: "bg-[#FF3131] text-white",
       positionClassName:
         "left-8 right-4 top-[12.5rem] md:left-20 md:right-6 lg:left-[29rem] lg:right-auto lg:w-[min(74vw,82rem)]",
@@ -50,8 +50,8 @@ export const howItWorksSectionConfig = {
     },
     {
       stage: "evolution",
-      title: "Step 4: EVOLUZIONE",
-      body: "Ottimizziamo e facciamo crescere ciò che funziona",
+      title: "Step 4: EVOLUTION",
+      body: "We optimize and grow what works",
       toneClassName: "bg-[#6F3BEA] text-white",
       positionClassName:
         "left-10 right-4 top-[18.75rem] md:left-24 md:right-6 lg:left-[37rem] lg:right-auto lg:w-[min(72vw,84rem)]",

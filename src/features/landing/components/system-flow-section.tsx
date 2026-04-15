@@ -71,7 +71,7 @@ export function SystemFlowSection() {
 
   return (
     <CinematicVideoSection
-      sectionId="come-funziona"
+      sectionId="how-it-works"
       sectionRef={sectionRef}
       videoRef={videoRef}
       videoUrl={videoUrl}

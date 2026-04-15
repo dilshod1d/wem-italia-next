@@ -75,7 +75,7 @@ export function WhoWeSupportSection() {
   return (
     <Chapter
       sectionRef={sectionRef}
-      sectionId="chi-supportiamo"
+      sectionId="who-we-support"
       navTheme="light"
       isScrolled={isScrolled}
       indicatorLabel="Scroll Down"

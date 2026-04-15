@@ -63,7 +63,7 @@ function PortfolioCard({
       >
         <div className="pb-2 text-center md:pb-3">
           <h3 className="font-sans text-[1.1rem] font-semibold tracking-tight md:text-[1.35rem]">
-            {item.title}
+            {item.title} 
           </h3>
         </div>
 
@@ -94,11 +94,7 @@ interface ProofMetricCardProps {
   delayMs: number;
 }
 
-function ProofMetricCard({
-  metric,
-  visible,
-  delayMs,
-}: ProofMetricCardProps) {
+function ProofMetricCard({ metric, visible, delayMs }: ProofMetricCardProps) {
   return (
     <article
       className={cx(
@@ -151,12 +147,14 @@ export function PortfolioResultsSection() {
   const showPortfolio =
     activeStageKey === "portfolio" || activeStageKey === "focus";
   const showProof = activeStageKey === "proof";
-  const focusIndex = portfolioItems.findIndex((item) => item.id === focusItemId);
+  const focusIndex = portfolioItems.findIndex(
+    (item) => item.id === focusItemId,
+  );
   const isFocusStage = activeStageKey === "focus";
 
   return (
     <CinematicVideoSection
-      sectionId="risultati"
+      sectionId="results"
       sectionRef={sectionRef}
       videoRef={videoRef}
       videoUrl={videoUrl}

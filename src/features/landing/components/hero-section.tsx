@@ -12,7 +12,7 @@ export function HeroSection() {
 
   return (
     <CinematicVideoSection
-      sectionId="chi-siamo"
+      sectionId="who-we-are"
       sectionRef={sectionRef}
       videoRef={videoRef}
       videoUrl={heroStoryConfig.videoUrl}

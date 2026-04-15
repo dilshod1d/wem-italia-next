@@ -121,7 +121,7 @@ export function WhyWemWorksSection() {
 
   return (
     <CinematicVideoSection
-      sectionId="perche-funziona"
+      sectionId="why-it-works"
       sectionRef={sectionRef}
       videoRef={videoRef}
       videoUrl={videoUrl}

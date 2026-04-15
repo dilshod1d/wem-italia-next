@@ -1,17 +1,17 @@
 import type { FooterSectionConfig } from "../types/footer-section";
 
 export const footerSectionConfig = {
-  ctaTitle: "Vuoi una base solida per far crescere il tuo progetto?",
+  ctaTitle: "Do you want a solid foundation to grow your project?",
   ctaBody:
-    "Parliamo del tuo progetto, dei tuoi obiettivi e del budget disponibile. Capirò subito da dove partire e quale percorso può funzionare meglio.",
+    "Let's talk about your project, your goals, and the budget you have available. I will quickly understand where to start and which path can work best.",
   ctaButtons: [
     {
-      label: "Chiamami Subito",
+      label: "Call Me Now",
       href: "tel:+393493432343",
       tone: "dark",
     },
     {
-      label: "Scrivimi su Whatsapp",
+      label: "Message Me on WhatsApp",
       href: "https://wa.me/393493432343",
       tone: "light",
     },
@@ -51,7 +51,7 @@ export const footerSectionConfig = {
     {
       id: "whatsapp",
       icon: "whatsapp",
-      label: "Whatsapp",
+      label: "WhatsApp",
       value: "+39 349 34 323 43",
       href: "https://wa.me/393493432343",
     },
@@ -65,16 +65,16 @@ export const footerSectionConfig = {
     {
       id: "location",
       icon: "location",
-      label: "Dove siamo",
-      value: "Ovunque ci sia un telefono",
+      label: "Where to find us",
+      value: "Wherever there is a phone",
     },
   ],
   navLinks: [
-    { label: "Chi Siamo", href: "#chi-siamo" },
-    { label: "Perché Funziona", href: "#perche-funziona" },
-    { label: "Come Funziona", href: "#come-funziona" },
-    { label: "Risultati", href: "#risultati" },
-    { label: "Chi Supportiamo", href: "#chi-supportiamo" },
+    { label: "Who We Are", href: "#who-we-are" },
+    { label: "Why It Works", href: "#why-it-works" },
+    { label: "How It Works", href: "#how-it-works" },
+    { label: "Results", href: "#results" },
+    { label: "Who We Support", href: "#who-we-support" },
   ],
   enterpriseItems: [
     {
