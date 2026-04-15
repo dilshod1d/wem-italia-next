@@ -155,7 +155,9 @@ export function WhyWemWorksSection() {
               <div
                 className={cx(
                   "absolute left-6 top-[24%] max-w-lg transition-all duration-1000 sm:left-10 lg:left-16",
-                  showIntro ? "translate-x-0 opacity-100" : "-translate-x-8 opacity-0",
+                  showIntro
+                    ? "translate-x-0 opacity-100"
+                    : "-translate-x-8 opacity-0",
                 )}
               >
                 <h3 className="font-sans text-3xl font-medium tracking-tight text-white/75 md:text-5xl">
@@ -196,14 +198,17 @@ export function WhyWemWorksSection() {
 
               <div className="absolute inset-x-6 bottom-[18%] sm:inset-x-10 lg:inset-x-16">
                 <div className="ml-auto flex w-full max-w-[880px] flex-col gap-5">
-                  {blocks.map((block) => (
+                  {blocks.map((block, index) => (
                     <InsightBlock
                       key={block.stage}
                       title={block.title}
                       body={block.body}
                       toneClassName={block.toneClassName}
                       visible={isStageVisible(activeStageKey, block.stage)}
-                      className={block.offsetClassName}
+                      className={cx(
+                        block.offsetClassName,
+                        index !== 0 && "-mt-32",
+                      )}
                     />
                   ))}
                 </div>

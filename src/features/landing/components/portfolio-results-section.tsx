@@ -51,7 +51,10 @@ function PortfolioCard({
     >
       <div
         className={cx(
-          "w-[10.5rem] rounded-[2rem] p-3 text-white sm:w-[12rem] md:w-[14rem] md:rounded-[2.3rem] md:p-4 lg:w-[15.5rem]",
+          "w-[10.5rem] rounded-xl rounded-bl-0 p-3 text-white",
+          "sm:w-[12rem]",
+          "md:w-[14rem] md:rounded-2xl md:rounded-bl-0 md:p-4",
+          "lg:w-[15.5rem]",
           item.wrapperClassName,
           item.shellClassName,
           focused
@@ -61,9 +64,9 @@ function PortfolioCard({
               : "scale-[0.95]",
         )}
       >
-        <div className="pb-2 text-center md:pb-3">
-          <h3 className="font-sans text-[1.1rem] font-semibold tracking-tight md:text-[1.35rem]">
-            {item.title} 
+        <div className="absolute top-0 left-0 w-[80%] h-10 bg-inherit rounded-t-2xl rounded-br-2xl flex items-center justify-center">
+          <h3 className="font-sans text-[1.1rem] font-semibold tracking-tight md:text-[1.35rem] text-center">
+            {item.title}
           </h3>
         </div>
 
@@ -78,8 +81,8 @@ function PortfolioCard({
           />
         </div>
 
-        <div className="pt-3 text-center md:pt-4">
-          <p className="font-sans text-[1.05rem] font-semibold tracking-tight md:text-[1.35rem]">
+        <div className="absolute -bottom-12 h-16 left-0 w-[80%] bg-inherit rounded-bl-2xl rounded-br-2xl flex items-center justify-center">
+          <p className="font-sans text-[1.05rem] font-semibold tracking-tight md:text-[1.35rem] text-center">
             {item.footerLabel}
           </p>
         </div>
@@ -225,7 +228,7 @@ export function PortfolioResultsSection() {
 
           <div
             className={cx(
-              "absolute inset-x-0 bottom-[18%] overflow-hidden transition-all duration-700",
+              "absolute inset-x-0 bottom-[18%] transition-all duration-700",
               showPortfolio
                 ? "translate-y-0 opacity-100"
                 : "pointer-events-none translate-y-12 opacity-0",
