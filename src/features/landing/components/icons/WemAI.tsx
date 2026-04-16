@@ -1,10 +1,14 @@
 import React from "react";
 
-function WemAI() {
+interface WemAIProps {
+  className?: string;
+}
+
+function WemAI({ className = "h-auto w-40" }: WemAIProps) {
   return (
     <svg
       viewBox="0 0 293 87"
-      className="w-40 h-auto"
+      className={className}
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >

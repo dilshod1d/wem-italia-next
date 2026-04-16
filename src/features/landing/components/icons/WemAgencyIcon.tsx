@@ -1,10 +1,14 @@
 import React from "react";
 
-function WemAgencyIcon() {
+interface WemAgencyIconProps {
+  className?: string;
+}
+
+function WemAgencyIcon({ className = "h-auto w-40" }: WemAgencyIconProps) {
   return (
     <svg
       viewBox="0 0 293 87"
-      className="w-40 h-auto"
+      className={className}
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       xmlnsXlink="http://www.w3.org/1999/xlink"

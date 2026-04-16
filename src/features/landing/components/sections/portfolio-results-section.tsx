@@ -35,7 +35,8 @@ function PortfolioCard({
   delayMs,
 }: PortfolioCardProps) {
   const sizeClassName = getPortfolioCardSizeClass(distanceFromFocus);
-  const imageHeightClassName = getPortfolioCardImageHeightClass(distanceFromFocus);
+  const imageHeightClassName =
+    getPortfolioCardImageHeightClass(distanceFromFocus);
   const cardZIndex = focusMode ? Math.max(10, 30 - distanceFromFocus) : 10;
   const focusStateClassName = getPortfolioCardFocusStateClass(
     distanceFromFocus,
@@ -66,7 +67,7 @@ function PortfolioCard({
           transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)",
         }}
       >
-        <div className="absolute left-0 top-0 flex h-10 w-[82%] items-center justify-center rounded-t-2xl rounded-br-2xl bg-inherit md:h-12">
+        <div className="z-30 absolute left-0 top-0 flex h-10 w-[82%] items-center justify-center rounded-t-2xl rounded-br-2xl bg-inherit md:h-12">
           <h3 className="px-3 text-center font-sans text-[0.95rem] font-semibold tracking-tight md:text-[1.35rem]">
             {item.title}
           </h3>

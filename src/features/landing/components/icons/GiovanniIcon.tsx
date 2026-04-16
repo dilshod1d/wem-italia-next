@@ -1,10 +1,14 @@
 import React from "react";
 
-function GiovanniIcon() {
+interface GiovanniIconProps {
+  className?: string;
+}
+
+function GiovanniIcon({ className = "h-auto w-40" }: GiovanniIconProps) {
   return (
     <svg
       viewBox="0 0 293 87"
-      className="w-40 h-auto"
+      className={className}
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       xmlnsXlink="http://www.w3.org/1999/xlink"
