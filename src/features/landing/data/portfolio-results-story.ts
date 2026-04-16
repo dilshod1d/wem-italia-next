@@ -31,9 +31,9 @@ export const portfolioResultsSectionConfig = {
       imageSrc: "/portfolio/health.png",
       imageAlt: "Portfolio health clinic website preview",
       footerLabel: "Marketing 360°",
-      wrapperClassName: "bg-[#FF4040]",
+      wrapperClassName: "bg-brand-red",
       shellClassName:
-        "shadow-[0_28px_70px_rgba(255,64,64,0.26)] ring-1 ring-[#FF4040]/20",
+        "shadow-[0_28px_70px_rgba(237,45,50,0.26)] ring-1 ring-brand-red/20",
     },
     {
       id: "legal-bridge",
@@ -41,9 +41,9 @@ export const portfolioResultsSectionConfig = {
       imageSrc: "/portfolio/legal.png",
       imageAlt: "Portfolio legal services website preview",
       footerLabel: "Website & SEO",
-      wrapperClassName: "bg-[#3778F6]",
+      wrapperClassName: "bg-portfolio-blue",
       shellClassName:
-        "shadow-[0_28px_70px_rgba(55,120,246,0.24)] ring-1 ring-[#3778F6]/18",
+        "shadow-[0_28px_70px_rgba(49,121,246,0.24)] ring-1 ring-portfolio-blue/18",
     },
     {
       id: "training",
@@ -51,9 +51,9 @@ export const portfolioResultsSectionConfig = {
       imageSrc: "/portfolio/formazion.png",
       imageAlt: "Portfolio training website preview",
       footerLabel: "Website & SEO",
-      wrapperClassName: "bg-[#6E3FEA]",
+      wrapperClassName: "bg-brand-purple",
       shellClassName:
-        "shadow-[0_28px_70px_rgba(110,63,234,0.26)] ring-1 ring-[#6E3FEA]/20",
+        "shadow-[0_28px_70px_rgba(109,60,219,0.26)] ring-1 ring-brand-purple/20",
     },
     {
       id: "architecture",
@@ -61,9 +61,9 @@ export const portfolioResultsSectionConfig = {
       imageSrc: "/portfolio/architechture.png",
       imageAlt: "Portfolio architecture website preview",
       footerLabel: "Website & SEO",
-      wrapperClassName: "bg-[#F6C421]",
+      wrapperClassName: "bg-brand-yellow",
       shellClassName:
-        "shadow-[0_28px_70px_rgba(246,196,33,0.28)] ring-1 ring-[#F6C421]/20",
+        "shadow-[0_28px_70px_rgba(234,186,43,0.28)] ring-1 ring-brand-yellow/20",
     },
     {
       id: "consulting",
@@ -71,9 +71,9 @@ export const portfolioResultsSectionConfig = {
       imageSrc: "/portfolio/consult.png",
       imageAlt: "Portfolio consultancy website preview",
       footerLabel: "Website & SEO",
-      wrapperClassName: "bg-[#E84047]",
+      wrapperClassName: "bg-brand-red-alt",
       shellClassName:
-        "shadow-[0_28px_70px_rgba(232,64,71,0.25)] ring-1 ring-[#E84047]/18",
+        "shadow-[0_28px_70px_rgba(225,62,70,0.25)] ring-1 ring-brand-red-alt/18",
     },
     {
       id: "creative-satire",
@@ -81,9 +81,9 @@ export const portfolioResultsSectionConfig = {
       imageSrc: "/portfolio/creative.png",
       imageAlt: "Portfolio creative satire website preview",
       footerLabel: "Social Media",
-      wrapperClassName: "bg-[#3778F6]",
+      wrapperClassName: "bg-portfolio-blue",
       shellClassName:
-        "shadow-[0_28px_70px_rgba(55,120,246,0.24)] ring-1 ring-[#3778F6]/18",
+        "shadow-[0_28px_70px_rgba(49,121,246,0.24)] ring-1 ring-portfolio-blue/18",
     },
     {
       id: "beauty",
@@ -91,9 +91,9 @@ export const portfolioResultsSectionConfig = {
       imageSrc: "/portfolio/beauty.png",
       imageAlt: "Portfolio beauty website preview",
       footerLabel: "Branding",
-      wrapperClassName: "bg-[#7A47F4]",
+      wrapperClassName: "bg-brand-purple",
       shellClassName:
-        "shadow-[0_28px_70px_rgba(122,71,244,0.24)] ring-1 ring-[#7A47F4]/18",
+        "shadow-[0_28px_70px_rgba(109,60,219,0.24)] ring-1 ring-brand-purple/18",
     },
   ],
   metrics: [
@@ -101,29 +101,29 @@ export const portfolioResultsSectionConfig = {
       value: "+1,284%",
       label: "Social Media",
       body: "New leads in 5 weeks",
-      borderClassName: "border-[#F6C421]/85",
-      bandClassName: "bg-[#F6C421] text-white",
+      borderClassName: "border-brand-yellow/85",
+      bandClassName: "bg-brand-yellow text-white",
     },
     {
       value: "+289%",
       label: "Website & SEO",
       body: "Organic visibility in 3 months",
-      borderClassName: "border-[#D9343F]/85",
-      bandClassName: "bg-[#D9343F] text-white",
+      borderClassName: "border-brand-red/85",
+      bandClassName: "bg-brand-red text-white",
     },
     {
       value: "+800%",
       label: "Marketing 360°",
       body: "Conversions with the same budget",
-      borderClassName: "border-[#2B5FC3]/85",
-      bandClassName: "bg-[#2B5FC3] text-white",
+      borderClassName: "border-brand-blue/85",
+      bandClassName: "bg-brand-blue text-white",
     },
     {
       value: "5,000",
       label: "Website & SEO",
       body: "Organic visitors per year",
-      borderClassName: "border-[#5A39B4]/85",
-      bandClassName: "bg-[#5A39B4] text-white",
+      borderClassName: "border-brand-purple/85",
+      bandClassName: "bg-brand-purple text-white",
     },
   ],
 } satisfies PortfolioResultsSectionConfig;

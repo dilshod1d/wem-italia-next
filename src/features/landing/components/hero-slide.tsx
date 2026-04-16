@@ -1,80 +1,133 @@
-import type { HeroSegment } from "../types/hero-section";
-import { HeroSupportCard } from "./hero-support-card";
+"use client";
+
+import type { ReactNode } from "react";
+import type {
+  HeroBody,
+  HeroEyebrow,
+  HeroSectionConfig,
+  HeroStage,
+  HeroSupportCard,
+  HeroTitle,
+} from "../types/hero-section";
+import { HeroSupportCard as HeroSupportCardBlock } from "./hero-support-card";
 
 interface HeroSlideProps {
-  segment: HeroSegment;
-  isActive: boolean;
+  stage: HeroStage;
+  config: HeroSectionConfig;
 }
 
-export function HeroSlide({ segment, isActive }: HeroSlideProps) {
-  const titleLines = segment.titleLines ?? [segment.text];
-  const isRaised = segment.layout === "raised";
+function cx(...classes: Array<string | false | null | undefined>) {
+  return classes.filter(Boolean).join(" ");
+}
+
+function renderEyebrow(eyebrow: HeroEyebrow) {
+  return (
+    <p className="font-sans text-[0.65rem] uppercase tracking-[0.28em] text-white/60 md:text-[0.72rem]">
+      {eyebrow.text}
+    </p>
+  );
+}
+
+function renderTitle(title: HeroTitle) {
+  return (
+    <h1 className="font-sans text-[clamp(2rem,4vw,3.5rem)] font-semibold leading-[0.92] tracking-[-0.05em] text-white">
+      {title.lines.map((line) => (
+        <span key={line} className="block">
+          {line}
+        </span>
+      ))}
+    </h1>
+  );
+}
+
+function renderBody(body: HeroBody) {
+  return (
+    <div className="space-y-1.5 text-sm leading-6 text-white/84 md:text-base">
+      {body.paragraphs.map((paragraph) => (
+        <p key={paragraph}>{paragraph}</p>
+      ))}
+    </div>
+  );
+}
+
+function renderCard(card: HeroSupportCard) {
+  return <HeroSupportCardBlock card={card} isActive />;
+}
+
+function KeyedSlot<T>({
+  slotKey,
+  className,
+  render,
+  value,
+}: {
+  slotKey?: string;
+  className?: string;
+  render: (value: T) => ReactNode;
+  value?: T;
+}) {
+  if (!slotKey || !value) {
+    return null;
+  }
 
   return (
     <div
-      className={[
-        "absolute inset-0 transition-all duration-700",
-        "pointer-events-none opacity-0",
-        isActive ? "pointer-events-auto opacity-100" : "",
-      ].join(" ")}
-      style={{
-        transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)",
-        textShadow: "0 8px 30px rgba(0, 0, 0, 0.32)",
-      }}
+      key={slotKey}
+      className={cx("hero-slot-in", className)}
+    >
+      {render(value)}
+    </div>
+  );
+}
+
+export function HeroSlide({ stage, config }: HeroSlideProps) {
+  const placement = config.placements[stage.placementKey];
+  const eyebrow = stage.eyebrowKey ? config.eyebrows[stage.eyebrowKey] : undefined;
+  const title = stage.titleKey ? config.titles[stage.titleKey] : undefined;
+  const body = stage.bodyKey ? config.bodies[stage.bodyKey] : undefined;
+  const card = stage.supportCardKey
+    ? config.supportCards[stage.supportCardKey]
+    : undefined;
+
+  const showCopy = Boolean(
+    stage.eyebrowKey || stage.titleKey || stage.bodyKey || stage.supportCardKey,
+  );
+
+  return (
+    <div
+      className="absolute inset-0"
+      style={{ textShadow: "0 8px 30px rgba(0, 0, 0, 0.32)" }}
     >
       <div className="mx-auto flex h-full w-full max-w-7xl items-center px-6 md:px-10">
         <div
-          className={[
-            "w-full max-w-[42rem] bg-red-500 text-left transition-all duration-700",
-            isRaised
-              ? "-translate-y-16 md:-translate-y-20"
-              : "md:-translate-y-6",
-          ].join(" ")}
+          className={cx(
+            "w-full text-left transition-all duration-700",
+            showCopy ? "opacity-100" : "opacity-0",
+            placement.copyClassName,
+          )}
           style={{ transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)" }}
         >
-          {!segment.isTransition && (
-            <>
-              {segment.eyebrow ? (
-                <p className="mb-4 font-sans text-[0.65rem] uppercase tracking-[0.28em] text-white/60 md:text-[0.72rem]">
-                  {segment.eyebrow}
-                </p>
-              ) : null}
+          <KeyedSlot
+            slotKey={stage.eyebrowKey}
+            value={eyebrow}
+            render={renderEyebrow}
+            className="mb-4 min-h-[1rem]"
+          />
 
-              <h1 className="font-sans text-[clamp(2rem,4vw,3.5rem)]  font-semibold leading-[0.92] tracking-[-0.05em] text-white">
-                {titleLines.map((line) => (
-                  <span key={line} className="block">
-                    {line}
-                  </span>
-                ))}
-              </h1>
+          <KeyedSlot slotKey={stage.titleKey} value={title} render={renderTitle} />
 
-              {segment.paragraphs?.length ? (
-                <div className="mt-5 space-y-1.5 text-sm leading-6 text-white/84  md:text-base">
-                  {segment.paragraphs.map((paragraph) => (
-                    <p
-                      key={paragraph}
-                      className="transition-all duration-500"
-                      style={{
-                        transitionTimingFunction:
-                          "cubic-bezier(0.16, 1, 0.3, 1)",
-                      }}
-                    >
-                      {paragraph}
-                    </p>
-                  ))}
-                </div>
-              ) : null}
+          <KeyedSlot
+            slotKey={stage.bodyKey}
+            value={body}
+            render={renderBody}
+            className={cx("mt-5", placement.bodyClassName)}
+          />
 
-              {segment.supportCard ? (
-                <div className="mt-6">
-                  <HeroSupportCard
-                    card={segment.supportCard}
-                    isActive={isActive}
-                  />
-                </div>
-              ) : null}
-            </>
-          )}
+          <KeyedSlot
+            slotKey={stage.supportCardKey}
+            value={card}
+            render={renderCard}
+            className={placement.cardWrapClassName ?? "mt-6"}
+          />
         </div>
       </div>
     </div>

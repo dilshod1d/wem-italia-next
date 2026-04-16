@@ -7,17 +7,17 @@ import type { HeroSectionConfig } from "../types/hero-section";
 import { useVideoDebugLogger } from "./use-video-debug-logger";
 
 interface HeroVideoState {
-  lastSegmentId: number;
+  lastStageId: number;
 }
 
 export function useHeroSectionVideo(config: HeroSectionConfig) {
-  const { segments, videoDuration, videoUrl } = config;
+  const { stages, videoDuration, videoUrl } = config;
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const stateRef = useRef<HeroVideoState>({
-    lastSegmentId: segments[0]?.id ?? 0,
+    lastStageId: stages[0]?.id ?? 0,
   });
-  const [activeSegmentId, setActiveSegmentId] = useState<number>(
-    segments[0]?.id ?? 0,
+  const [activeStageId, setActiveStageId] = useState<number>(
+    stages[0]?.id ?? 0,
   );
   const debugLogger = useVideoDebugLogger({
     label: "Hero",
@@ -35,20 +35,20 @@ export function useHeroSectionVideo(config: HeroSectionConfig) {
         video.currentTime = currentTime;
       }
 
-      const { lastSegmentId } = stateRef.current;
-      const activeSegment = segments.find(
-        (segment) => currentTime >= segment.start && currentTime < segment.end,
+      const { lastStageId } = stateRef.current;
+      const activeStage = stages.find(
+        (stage) => currentTime >= stage.start && currentTime < stage.end,
       );
 
       debugLogger.logProgress({
         progress,
         currentTime,
-        marker: activeSegment?.id ?? lastSegmentId,
+        marker: activeStage?.id ?? lastStageId,
       });
 
-      if (activeSegment && activeSegment.id !== lastSegmentId) {
-        stateRef.current.lastSegmentId = activeSegment.id;
-        setActiveSegmentId(activeSegment.id);
+      if (activeStage && activeStage.id !== lastStageId) {
+        stateRef.current.lastStageId = activeStage.id;
+        setActiveStageId(activeStage.id);
       }
     },
   });
@@ -56,7 +56,7 @@ export function useHeroSectionVideo(config: HeroSectionConfig) {
   return {
     sectionRef,
     videoRef,
-    activeSegmentId,
+    activeStageId,
     isScrolled,
   };
 }

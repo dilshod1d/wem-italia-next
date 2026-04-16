@@ -14,12 +14,12 @@ interface HeroSupportCardProps {
 function getToneClasses(tone: HeroSupportCardTone) {
   switch (tone) {
     case "orange":
-      return "bg-gradient-to-r from-[#ea5a24] via-[#f06a2f] to-[#ff8255]";
+      return "bg-gradient-to-r from-brand-red-alt via-brand-red-alt to-brand-red";
     case "purple":
-      return "bg-gradient-to-r from-[#6841f4] via-[#6d38ff] to-[#8a63ff]";
+      return "bg-gradient-to-r from-brand-purple via-brand-purple to-portfolio-blue";
     case "blue":
     default:
-      return "bg-gradient-to-r from-[#256dff] via-[#2f76ff] to-[#3d8cff]";
+      return "bg-gradient-to-r from-brand-blue via-accent-gradient-start to-brand-cyan";
   }
 }
 

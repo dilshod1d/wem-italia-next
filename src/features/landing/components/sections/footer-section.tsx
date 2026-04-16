@@ -71,7 +71,7 @@ function FooterFaqRow({ item, open, onToggle }: FooterFaqRowProps) {
         <span className="flex items-center gap-3">
           <FaPlus
             className={cx(
-              "h-4 w-4 text-cyan-400 transition-opacity",
+              "h-4 w-4 text-faq-plus transition-opacity",
               open ? "opacity-35" : "opacity-100",
             )}
           />
@@ -105,7 +105,7 @@ function FooterFaqRow({ item, open, onToggle }: FooterFaqRowProps) {
 function FooterContactRow({ item }: { item: FooterContactItem }) {
   const Icon = contactIcons[item.icon];
   const content = (
-    <div className="flex items-center gap-4 rounded-[1rem] bg-white/5 px-4 py-4 ring-1 ring-white/8">
+    <div className="flex items-center gap-4 rounded-[1rem] bg-footer-surface px-4 py-4 ring-1 ring-white/8">
       <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white/8 text-white/90">
         <Icon className="h-4 w-4" />
       </div>
@@ -141,10 +141,10 @@ export function FooterSection() {
     <footer
       id="footer"
       data-nav-theme="dark"
-      className="relative z-30 bg-[#272B67] px-6 pt-12 pb-10 text-white sm:px-10 lg:px-16 overflow-visible"
+      className="relative z-30 overflow-visible bg-footer-bg px-6 pt-12 pb-10 text-white sm:px-10 lg:px-16"
     >
       <div className="mx-auto w-full max-w-[1600px]">
-        <div className="absolute -top-40 left-0 right-0  mx-auto max-w-[1400px] rounded-[1.1rem] bg-gradient-to-r from-[#2F80ED] to-[#52E5FF] px-8 py-8 text-center shadow-[0_26px_70px_rgba(26,129,255,0.26)] ring-1 ring-white/18 md:px-12">
+        <div className="absolute -top-40 left-0 right-0 mx-auto max-w-[1400px] rounded-[1.1rem] bg-gradient-to-r from-footer-cta-start to-brand-cyan px-8 py-8 text-center shadow-[0_26px_70px_rgba(26,119,254,0.26)] ring-1 ring-white/18 md:px-12">
           <h2 className="mx-auto max-w-4xl font-sans text-[2rem] font-semibold leading-[1.05] tracking-tight text-white md:text-[3rem]">
             {ctaTitle}
           </h2>
@@ -160,7 +160,7 @@ export function FooterSection() {
                   "min-w-[12rem] rounded-[0.45rem] px-6 py-3 text-center font-body text-[0.96rem] font-medium transition-transform hover:scale-[1.02]",
                   button.tone === "dark"
                     ? "bg-black text-white shadow-[0_10px_30px_rgba(0,0,0,0.26)]"
-                    : "bg-white text-[#1F2257] shadow-[0_10px_30px_rgba(255,255,255,0.18)]",
+                    : "bg-white text-footer-bg shadow-[0_10px_30px_rgba(255,255,255,0.18)]",
                 )}
               >
                 {button.label}
@@ -197,7 +197,7 @@ export function FooterSection() {
                 <span className="block font-sans text-[3.4rem] font-semibold tracking-tight text-white md:text-[5rem]">
                   LET&apos;S
                 </span>
-                <span className="block font-sans text-[3.4rem] font-semibold tracking-tight text-[#46C4FF] md:text-[5rem]">
+                <span className="block bg-gradient-to-r from-accent-gradient-start to-brand-cyan bg-clip-text font-sans text-[3.4rem] font-semibold tracking-tight text-transparent md:text-[5rem]">
                   TALK
                 </span>
               </div>
@@ -211,7 +211,7 @@ export function FooterSection() {
                       key={social.id}
                       href={social.href}
                       aria-label={social.label}
-                      className="flex h-10 w-10 items-center justify-center rounded-full border border-white/18 text-white/88 transition-colors hover:border-cyan-300 hover:text-cyan-300"
+                      className="flex h-10 w-10 items-center justify-center rounded-full border border-white/18 text-white/88 transition-colors hover:border-brand-cyan hover:text-brand-cyan"
                     >
                       <Icon className="h-4 w-4" />
                     </a>
@@ -222,34 +222,34 @@ export function FooterSection() {
 
             <form
               onSubmit={(event) => event.preventDefault()}
-              className="rounded-[0.5rem] border border-cyan-400/55 bg-[#23265B] p-3 shadow-[0_16px_40px_rgba(0,0,0,0.18)]"
+              className="rounded-[0.5rem] border border-brand-cyan/55 bg-footer-surface p-3 shadow-[0_16px_40px_rgba(0,0,0,0.18)]"
             >
               <div className="grid gap-3">
                 <input
                   type="text"
                   placeholder="Name"
-                  className="h-12 rounded-[0.22rem] border border-white/18 bg-[#2B2E65] px-4 font-body text-[0.95rem] text-white placeholder:text-white/35 outline-none transition-colors focus:border-cyan-300"
+                  className="h-12 rounded-[0.22rem] border border-white/18 bg-footer-surface px-4 font-body text-[0.95rem] text-white placeholder:text-white/35 outline-none transition-colors focus:border-brand-cyan"
                 />
                 <div className="grid gap-3 md:grid-cols-2">
                   <input
                     type="email"
                     placeholder="Email"
-                    className="h-12 rounded-[0.22rem] border border-white/18 bg-[#2B2E65] px-4 font-body text-[0.95rem] text-white placeholder:text-white/35 outline-none transition-colors focus:border-cyan-300"
+                    className="h-12 rounded-[0.22rem] border border-white/18 bg-footer-surface px-4 font-body text-[0.95rem] text-white placeholder:text-white/35 outline-none transition-colors focus:border-brand-cyan"
                   />
                   <input
                     type="tel"
                     placeholder="Phone number"
-                    className="h-12 rounded-[0.22rem] border border-white/18 bg-[#2B2E65] px-4 font-body text-[0.95rem] text-white placeholder:text-white/35 outline-none transition-colors focus:border-cyan-300"
+                    className="h-12 rounded-[0.22rem] border border-white/18 bg-footer-surface px-4 font-body text-[0.95rem] text-white placeholder:text-white/35 outline-none transition-colors focus:border-brand-cyan"
                   />
                 </div>
                 <textarea
                   placeholder="Write your message"
                   rows={5}
-                  className="rounded-[0.22rem] border border-white/18 bg-[#2B2E65] px-4 py-3 font-body text-[0.95rem] text-white placeholder:text-white/35 outline-none transition-colors focus:border-cyan-300"
+                  className="rounded-[0.22rem] border border-white/18 bg-footer-surface px-4 py-3 font-body text-[0.95rem] text-white placeholder:text-white/35 outline-none transition-colors focus:border-brand-cyan"
                 />
                 <button
                   type="submit"
-                  className="rounded-[0.22rem] bg-gradient-to-r from-[#2F80ED] to-[#52E5FF] px-6 py-3 font-sans text-[0.92rem] font-semibold tracking-[0.35em] text-white transition-transform hover:scale-[1.01]"
+                  className="rounded-[0.22rem] bg-gradient-to-r from-accent-gradient-start to-brand-cyan px-6 py-3 font-sans text-[0.92rem] font-semibold tracking-[0.35em] text-white transition-transform hover:scale-[1.01]"
                 >
                   SUBMIT
                 </button>
@@ -257,7 +257,7 @@ export function FooterSection() {
             </form>
           </div>
 
-          <div className="mt-14 rounded-[0.9rem] bg-[#23265B] px-5 py-6 ring-1 ring-white/8 md:px-8 md:py-8">
+          <div className="mt-14 rounded-[0.9rem] bg-footer-surface px-5 py-6 ring-1 ring-white/8 md:px-8 md:py-8">
             <div className="grid gap-8 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.8fr)_minmax(0,0.9fr)]">
               <div className="space-y-3">
                 {contactItems.map((item) => (
@@ -274,7 +274,7 @@ export function FooterSection() {
                     <a
                       key={link.label}
                       href={link.href}
-                      className="block font-body text-[0.95rem] text-white/84 transition-colors hover:text-cyan-300"
+                      className="block font-body text-[0.95rem] text-white/84 transition-colors hover:text-brand-cyan"
                     >
                       {link.label}
                     </a>

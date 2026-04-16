@@ -7,8 +7,11 @@ import { HeroSlide } from "../hero-slide";
 import { CinematicVideoSection } from "../cinematic-video-section";
 
 export function HeroSection() {
-  const { sectionRef, videoRef, activeSegmentId, isScrolled } =
+  const { sectionRef, videoRef, activeStageId, isScrolled } =
     useHeroSectionVideo(heroStoryConfig);
+  const activeStage =
+    heroStoryConfig.stages.find((stage) => stage.id === activeStageId) ??
+    heroStoryConfig.stages[0];
 
   return (
     <CinematicVideoSection
@@ -22,13 +25,7 @@ export function HeroSection() {
       videoClassName="object-[center_58%] grayscale-[20%] contrast-[110%]"
     >
       <div className="relative flex h-full w-full items-center justify-center">
-        {heroStoryConfig.segments.map((segment) => (
-          <HeroSlide
-            key={segment.id}
-            segment={segment}
-            isActive={activeSegmentId === segment.id}
-          />
-        ))}
+        <HeroSlide stage={activeStage} config={heroStoryConfig} />
       </div>
     </CinematicVideoSection>
   );

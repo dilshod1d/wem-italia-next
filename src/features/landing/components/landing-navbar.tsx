@@ -88,7 +88,7 @@ export function LandingNavbar() {
                 type="button"
                 aria-label="Close navigation"
                 onClick={() => setIsOpen(false)}
-                className="flex h-18 w-18 items-center justify-center rounded-full text-[#FF3B30] transition-colors hover:bg-[#FF3B30]/10 cursor-pointer"
+                className="flex h-18 w-18 items-center justify-center rounded-full text-brand-red transition-colors hover:bg-brand-red/10 cursor-pointer"
               >
                 <IoMdClose className="h-14 w-14" />
               </button>
@@ -104,9 +104,9 @@ export function LandingNavbar() {
                         onClick={() => setIsOpen(false)}
                         className="group inline-flex items-center justify-center gap-3 rounded-full px-4 py-2 font-body text-[2.2rem] text-white/82 transition-colors hover:text-white sm:text-[3rem] font-semibold tracking-tight"
                       >
-                        <span className="h-px w-0 bg-[#FF3B30] transition-all duration-300 group-hover:w-7" />
+                        <span className="h-px w-0 bg-brand-red transition-all duration-300 group-hover:w-7" />
                         <span>{link.label}</span>
-                        <span className="h-px w-0 bg-[#FF3B30] transition-all duration-300 group-hover:w-7" />
+                        <span className="h-px w-0 bg-brand-red transition-all duration-300 group-hover:w-7" />
                       </a>
                     </li>
                   ))}

@@ -95,7 +95,6 @@ interface WhoWeSupportContentProps {
   activeStageKey: WhoWeSupportStageKey;
   compact?: boolean;
   forceFinal?: boolean;
-  warningOnly?: boolean;
   renderWarning?: boolean;
 }
 
@@ -103,7 +102,6 @@ function WhoWeSupportContent({
   activeStageKey,
   compact = false,
   forceFinal = false,
-  warningOnly = false,
   renderWarning = true,
 }: WhoWeSupportContentProps) {
   const showWarning =
@@ -112,48 +110,47 @@ function WhoWeSupportContent({
 
   return (
     <>
-      {!warningOnly ? (
-        <>
-          <div className="max-w-[720px]">
-            <p className="text-[1.2rem] font-light tracking-tight text-black/30 md:text-[1.6rem]">
-              {copy.eyebrow}
-            </p>
+      <div className="max-w-[720px]">
+        <p className="text-[1.2rem] font-light tracking-tight text-black/30 md:text-[1.6rem]">
+          {copy.eyebrow}
+        </p>
 
-            <h2 className="mt-3 font-sans text-[2.4rem] font-semibold leading-[1.05] tracking-tight text-black md:text-[3.2rem]">
-              {copy.title}
-            </h2>
-          </div>
-
-          <div
-            className={cx(
-              "grid md:grid-cols-2 lg:grid-cols-3",
-              compact ? "mt-10 gap-6 lg:gap-8" : "mt-16 gap-10 lg:gap-12",
-            )}
-          >
-            {cards.map((card, index) => (
-              <AudienceCard
-                key={card.stage}
-                card={card}
-                compact={compact}
-                visible={
-                  forceFinal || isAudienceCardVisible(activeStageKey, card.stage)
-                }
-                delayMs={index * 100}
-              />
-            ))}
-          </div>
-        </>
-      ) : null}
+        <h2 className="mt-3 font-sans text-[2.4rem] font-semibold leading-[1.05] tracking-tight text-black md:text-[3.2rem]">
+          {copy.title}
+        </h2>
+      </div>
 
       <div
         className={cx(
-          warningOnly
-            ? "mt-0 transition-all duration-700"
-            : compact
-              ? "mt-8 transition-all duration-700"
-              : "mt-14 transition-all duration-700",
-          showWarning ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0",
+          "grid md:grid-cols-2 lg:grid-cols-3",
+          compact ? "mt-10 gap-6 lg:gap-8" : "mt-16 gap-10 lg:gap-12",
         )}
+      >
+        {cards.map((card, index) => (
+          <AudienceCard
+            key={card.stage}
+            card={card}
+            compact={compact}
+            visible={
+              forceFinal || isAudienceCardVisible(activeStageKey, card.stage)
+            }
+            delayMs={index * 100}
+          />
+        ))}
+      </div>
+
+      <div
+        className={cx(
+          "overflow-hidden transition-[max-height,opacity,transform,margin] duration-700",
+          compact
+            ? showWarning
+              ? "mt-6 max-h-[220px] translate-y-0 opacity-100"
+              : "mt-0 max-h-0 translate-y-6 opacity-0"
+            : showWarning
+              ? "mt-12 max-h-[240px] translate-y-0 opacity-100"
+              : "mt-0 max-h-0 translate-y-8 opacity-0",
+        )}
+        style={{ transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)" }}
       >
         <div className="flex flex-col items-start gap-5 rounded-[1.6rem] bg-white px-6 py-6 shadow-[0_12px_35px_rgba(15,23,42,0.1)] ring-1 ring-amber-200/70 md:flex-row md:items-center md:px-8 md:py-7">
           <div className="flex h-16 w-16 items-center justify-center rounded-[1rem] bg-amber-50 text-amber-500">
@@ -185,13 +182,12 @@ export function WhoWeSupportSection() {
       data-nav-theme="light"
       className="relative bg-white"
     >
-      <div ref={pinnedRef} className="relative z-20 h-screen w-full overflow-hidden bg-white">
+      <div
+        ref={pinnedRef}
+        className="relative z-20 h-screen w-full overflow-hidden bg-white"
+      >
         <div className="mx-auto h-full max-w-[1600px] px-6 py-24 sm:px-10 lg:px-16">
-          <WhoWeSupportContent
-            activeStageKey={activeStageKey}
-            compact
-            renderWarning={false}
-          />
+          <WhoWeSupportContent activeStageKey={activeStageKey} compact />
         </div>
 
         <ScrollIndicator
@@ -211,15 +207,7 @@ export function WhoWeSupportSection() {
             ? "pointer-events-none -translate-y-2 opacity-0"
             : "-translate-y-10 opacity-100",
         )}
-      >
-        <div className="mx-auto max-w-[1600px] px-6 sm:px-10 lg:px-16">
-          <WhoWeSupportContent
-            activeStageKey="final"
-            forceFinal
-            warningOnly
-          />
-        </div>
-      </div>
+      ></div>
     </section>
   );
 }
