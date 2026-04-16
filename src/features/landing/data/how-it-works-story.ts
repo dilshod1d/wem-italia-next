@@ -8,8 +8,8 @@ export const howItWorksSectionConfig = {
   stages: [
     { id: 1, key: "intro", start: 0, end: 0 },
     { id: 2, key: "headline", start: 0, end: 1.55 },
-    { id: 3, key: "context", start: 1.55, end: 2.2 },
-    { id: 4, key: "analysis", start: 2.2, end: 2.95 },
+    { id: 3, key: "context", start: 1.55, end: 1.95 },
+    { id: 4, key: "analysis", start: 1.95, end: 2.95 },
     { id: 5, key: "direction", start: 2.95, end: 3.65 },
     { id: 6, key: "build", start: 3.65, end: 4.3 },
     { id: 7, key: "evolution", start: 4.3, end: Number.POSITIVE_INFINITY },

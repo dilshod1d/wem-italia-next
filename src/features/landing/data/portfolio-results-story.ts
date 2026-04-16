@@ -3,7 +3,8 @@ import type { PortfolioResultsSectionConfig } from "../types/portfolio-results-s
 export const portfolioResultsSectionConfig = {
   videoUrl:
     "https://res.cloudinary.com/dcderdzpp/video/upload/v1776169273/v5_wlotyd.mp4",
-  videoDuration: 4.28,
+  // videoDuration: 4.28,
+  videoDuration: 5.013,
   focusItemId: "architecture",
   stages: [
     { id: 1, key: "intro", start: 0, end: 0.8 },

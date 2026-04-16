@@ -1,13 +1,13 @@
 "use client";
 
-import { howItWorksSectionConfig } from "../data/how-it-works-story";
-import { portfolioResultsSectionConfig } from "../data/portfolio-results-story";
-import { useHowItWorksVideo } from "../hooks/use-how-it-works-video";
+import { howItWorksSectionConfig } from "../../data/how-it-works-story";
+import { portfolioResultsSectionConfig } from "../../data/portfolio-results-story";
+import { useHowItWorksVideo } from "../../hooks/use-how-it-works-video";
 import type {
   HowItWorksStageKey,
   HowItWorksStep,
-} from "../types/how-it-works-section";
-import { CinematicVideoSection } from "./cinematic-video-section";
+} from "../../types/how-it-works-section";
+import { CinematicVideoSection } from "../cinematic-video-section";
 
 const { videoUrl, copy, steps } = howItWorksSectionConfig;
 
@@ -31,7 +31,7 @@ function HowItWorksStepCard({
   return (
     <article
       className={cx(
-        "absolute rounded-[2.4rem] px-6 py-5 text-left shadow-[0_24px_65px_rgba(0,0,0,0.12)] transition-[opacity,transform,box-shadow] duration-700 md:px-10 md:py-7",
+        "absolute w-full max-w-[800px]  rounded-[7rem] px-12 py-2.5 text-left shadow-[0_24px_65px_rgba(0,0,0,0.12)] transition-[opacity,transform,box-shadow] duration-700 md:px-16 md:py-3.5",
         step.toneClassName,
         step.positionClassName,
         step.zIndexClassName,
@@ -50,7 +50,7 @@ function HowItWorksStepCard({
       <h3 className="font-sans text-[1.95rem] font-semibold tracking-tight text-white md:text-[3.45rem]">
         {step.title}
       </h3>
-      <p className="mt-2 max-w-5xl font-body text-[1.2rem] leading-[1.25] text-white/96 md:text-[2rem]">
+      <p className="mt-2 font-body text-[0.9rem] leading-none text-white/96 md:text-[1.4rem]">
         {step.body}
       </p>
     </article>
@@ -87,7 +87,7 @@ export function HowItWorksSection() {
       indicatorLabelClassName="normal-case text-[1.05rem] font-medium tracking-normal text-sky-200/75"
       indicatorMouseClassName="border-sky-200/55"
       indicatorWheelClassName="bg-sky-200/80"
-      videoClassName="object-center brightness-[1.02] contrast-[0.98] saturate-[0.96]"
+      videoClassName="object-[center_86%] brightness-[1.02] contrast-[0.98] saturate-[0.96]"
       overlay={<div className="absolute inset-0 bg-white/[0.02]" />}
     >
       <div className="relative h-full w-full">
@@ -95,7 +95,7 @@ export function HowItWorksSection() {
           <div className="absolute left-6 top-[20%] max-w-[min(94vw,1520px)] text-black sm:left-10 lg:left-16">
             <h2
               className={cx(
-                "font-sans text-[clamp(3.2rem,6.2vw,6.25rem)] font-semibold leading-[0.92] tracking-tight transition-all duration-700",
+                "font-sans text-[clamp(2rem,4vw,3.5rem)] font-semibold leading-[0.92] tracking-tight transition-all duration-700",
                 showHeading
                   ? "translate-y-0 opacity-100"
                   : "translate-y-8 opacity-0",
@@ -112,12 +112,12 @@ export function HowItWorksSection() {
                   : "translate-y-6 opacity-0",
               )}
             >
-              <p className="font-body text-[1.35rem] font-medium tracking-tight text-black/90 md:text-[2rem]">
+              <p className="font-body text-[1rem] font-medium tracking-tight text-black/90 md:text-[1.4rem]">
                 {copy.subtitle}
               </p>
               <p
                 className={cx(
-                  "mt-3 max-w-[1450px] font-body text-[1.2rem] leading-[1.25] text-black/85 transition-all duration-700 md:text-[1.95rem]",
+                  "mt-3 max-w-[1450px] font-body text-[0.95rem] leading-[1.4] text-black/85 transition-all duration-700 md:text-[1.25rem]",
                   showDescription
                     ? "translate-y-0 opacity-100"
                     : "translate-y-5 opacity-0",
@@ -130,7 +130,7 @@ export function HowItWorksSection() {
 
           <div
             className={cx(
-              "absolute inset-x-0 bottom-[9%] h-[27rem] sm:h-[31rem] lg:h-[34rem]",
+              "absolute left-10 right-10 bottom-[-8%] h-[27rem] sm:h-[31rem] lg:h-[34rem] overflow-hidden",
               isFinal ? "animate-[wem-breathe_5.2s_ease-in-out_infinite]" : "",
             )}
           >

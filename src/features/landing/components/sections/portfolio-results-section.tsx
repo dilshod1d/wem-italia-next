@@ -2,13 +2,13 @@
 
 import Image from "next/image";
 
-import { portfolioResultsSectionConfig } from "../data/portfolio-results-story";
-import { usePortfolioResultsVideo } from "../hooks/use-portfolio-results-video";
+import { portfolioResultsSectionConfig } from "../../data/portfolio-results-story";
+import { usePortfolioResultsVideo } from "../../hooks/use-portfolio-results-video";
 import type {
   PortfolioResultsItem,
   PortfolioResultsMetric,
-} from "../types/portfolio-results-section";
-import { CinematicVideoSection } from "./cinematic-video-section";
+} from "../../types/portfolio-results-section";
+import { CinematicVideoSection } from "../cinematic-video-section";
 
 const { videoUrl, copy, portfolioItems, metrics, focusItemId } =
   portfolioResultsSectionConfig;
@@ -51,10 +51,10 @@ function PortfolioCard({
     >
       <div
         className={cx(
-          "w-[10.5rem] rounded-xl rounded-bl-0 p-3 text-white",
-          "sm:w-[12rem]",
-          "md:w-[14rem] md:rounded-2xl md:rounded-bl-0 md:p-4",
-          "lg:w-[15.5rem]",
+          "w-[8.4rem] rounded-xl rounded-bl-0 p-2.5  text-white",
+          "sm:w-[9.6rem]",
+          "md:w-[11.2rem] md:rounded-2xl md:rounded-bl-0 md:p-4",
+          "lg:w-[12.4rem]",
           item.wrapperClassName,
           item.shellClassName,
           focused
@@ -75,7 +75,7 @@ function PortfolioCard({
             src={item.imageSrc}
             alt={item.imageAlt}
             width={300}
-            height={600}
+            height={400}
             priority={index < 3}
             className="h-auto w-full object-cover"
           />
@@ -168,7 +168,7 @@ export function PortfolioResultsSection() {
       indicatorLabelClassName="normal-case text-[1.05rem] font-medium tracking-normal text-sky-200/75"
       indicatorMouseClassName="border-sky-200/55"
       indicatorWheelClassName="bg-sky-200/80"
-      videoClassName="object-center brightness-[1.02] contrast-[0.98] saturate-[0.94]"
+      videoClassName="object-[center_78%] brightness-[1.02] contrast-[0.98] saturate-[0.94]"
       overlay={
         <>
           <div className="absolute inset-0 bg-white/[0.02]" />
@@ -182,12 +182,12 @@ export function PortfolioResultsSection() {
             className={cx(
               "absolute left-6 max-w-[min(94vw,1480px)] text-black transition-all duration-700 sm:left-10 lg:left-16",
               showProof
-                ? "top-[18%]"
+                ? "top-[14%]"
                 : showDescription
-                  ? "top-[18%]"
+                  ? "top-[14%]"
                   : showTitle
-                    ? "top-[28%]"
-                    : "top-[34%]",
+                    ? "top-[22%]"
+                    : "top-[27%]",
             )}
           >
             <p
@@ -203,7 +203,7 @@ export function PortfolioResultsSection() {
 
             <h2
               className={cx(
-                "mt-8 font-sans text-[clamp(3.2rem,6.7vw,6.7rem)] font-semibold leading-[0.92] tracking-tight transition-all duration-700",
+                "mt-1 font-sans text-[clamp(2rem,4vw,3.5rem)] font-semibold leading-[0.92] tracking-tight transition-all duration-700",
                 showTitle || showProof
                   ? "translate-y-0 opacity-100"
                   : "translate-y-8 opacity-0",
@@ -214,7 +214,7 @@ export function PortfolioResultsSection() {
 
             <div
               className={cx(
-                "mt-10 max-w-[1300px] space-y-3 font-body text-[1.25rem] leading-[1.26] text-black/88 transition-all duration-700 md:text-[1.9rem]",
+                "mt-4 max-w-[1300px] space-y-3 font-body text-[1.25rem] leading-[0.8] text-black/88 transition-all duration-700 md:text-[1.9rem]",
                 showDescription
                   ? "translate-y-0 opacity-100"
                   : "pointer-events-none translate-y-6 opacity-0",
@@ -228,7 +228,7 @@ export function PortfolioResultsSection() {
 
           <div
             className={cx(
-              "absolute inset-x-0 bottom-[18%] transition-all duration-700",
+              "absolute inset-x-0 bottom-[5%] transition-all duration-700",
               showPortfolio
                 ? "translate-y-0 opacity-100"
                 : "pointer-events-none translate-y-12 opacity-0",
@@ -256,7 +256,7 @@ export function PortfolioResultsSection() {
 
           <div
             className={cx(
-              "absolute inset-x-0 bottom-[11%] transition-all duration-700",
+              "absolute inset-x-0 bottom-[2%] transition-all duration-700",
               showProof
                 ? "translate-y-0 opacity-100"
                 : "pointer-events-none translate-y-12 opacity-0",

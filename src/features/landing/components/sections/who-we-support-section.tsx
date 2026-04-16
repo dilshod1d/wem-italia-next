@@ -8,13 +8,13 @@ import {
   FaUserTie,
 } from "react-icons/fa6";
 
-import { whoWeSupportSectionConfig } from "../data/who-we-support-story";
-import { useWhoWeSupportSection } from "../hooks/use-who-we-support-section";
+import { whoWeSupportSectionConfig } from "../../data/who-we-support-story";
+import { useWhoWeSupportSection } from "../../hooks/use-who-we-support-section";
 import type {
   WhoWeSupportCard,
   WhoWeSupportCardIcon,
   WhoWeSupportStageKey,
-} from "../types/who-we-support-section";
+} from "../../types/who-we-support-section";
 import { Chapter } from "@/components/Chapter/Chapter";
 
 const whoWeSupportIcons: Record<WhoWeSupportCardIcon, IconType> = {
@@ -65,8 +65,9 @@ function AudienceCard({ card, visible, delayMs }: AudienceCardProps) {
 }
 
 export function WhoWeSupportSection() {
-  const { sectionRef, activeStageKey, isScrolled } =
-    useWhoWeSupportSection(whoWeSupportSectionConfig);
+  const { sectionRef, activeStageKey, isScrolled } = useWhoWeSupportSection(
+    whoWeSupportSectionConfig,
+  );
 
   const showTitle = true;
   const showWarning =
@@ -89,7 +90,9 @@ export function WhoWeSupportSection() {
           <p
             className={cx(
               "font-body text-[1.55rem] font-light tracking-tight text-black/25 transition-all duration-700 md:text-[3.2rem]",
-              showTitle ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0",
+              showTitle
+                ? "translate-y-0 opacity-100"
+                : "translate-y-8 opacity-0",
             )}
           >
             {copy.eyebrow}
@@ -97,8 +100,10 @@ export function WhoWeSupportSection() {
 
           <h2
             className={cx(
-              "mt-8 whitespace-pre-line font-sans text-[clamp(3.5rem,7vw,7rem)] font-semibold leading-[0.92] tracking-tight transition-all duration-700",
-              showTitle ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0",
+              "mt-8 whitespace-pre-line font-sans text-[clamp(2rem,4vw,3.5rem)] font-semibold leading-[0.92] tracking-tight transition-all duration-700",
+              showTitle
+                ? "translate-y-0 opacity-100"
+                : "translate-y-10 opacity-0",
             )}
           >
             {copy.title}

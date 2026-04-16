@@ -1,10 +1,10 @@
 "use client";
 
-import { howItWorksSectionConfig } from "../data/how-it-works-story";
-import { systemFlowSectionConfig } from "../data/system-flow-story";
-import { useSystemFlowVideo } from "../hooks/use-system-flow-video";
-import type { SystemFlowStageKey } from "../types/system-flow-section";
-import { CinematicVideoSection } from "./cinematic-video-section";
+import { howItWorksSectionConfig } from "../../data/how-it-works-story";
+import { systemFlowSectionConfig } from "../../data/system-flow-story";
+import { useSystemFlowVideo } from "../../hooks/use-system-flow-video";
+import type { SystemFlowStageKey } from "../../types/system-flow-section";
+import { CinematicVideoSection } from "../cinematic-video-section";
 
 const { videoUrl, eyebrow, title, paragraphs, cards } = systemFlowSectionConfig;
 
@@ -56,28 +56,6 @@ function BenefitCard({
         {body}
       </p>
     </article>
-    // <article
-    //   className={cx(
-    //     "absolute w-[calc(100%-3rem)] rounded-[3.2rem] px-4 py-3.5 text-white shadow-[0_28px_80px_rgba(0,0,0,0.08)] transition-[opacity,transform] duration-700 md:w-auto md:px-5 md:py-4",
-    //     toneClassName,
-    //     positionClassName,
-    //     zIndexClassName,
-    //     visible
-    //       ? "translate-y-0 scale-100 opacity-100"
-    //       : "pointer-events-none translate-y-10 scale-[0.94] opacity-0",
-    //   )}
-    //   style={{
-    //     transitionDelay: visible ? `${delayMs}ms` : "0ms",
-    //     transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)",
-    //   }}
-    // >
-    //   <h3 className="font-sans text-[1rem] font-semibold uppercase tracking-tight md:text-[1.5rem]">
-    //     {title}
-    //   </h3>
-    //   <p className="mt-3 max-w-3xl font-body text-xl leading-[1.34] md:text-[1.05rem]">
-    //     {body}
-    //   </p>
-    // </article>
   );
 }
 
@@ -107,7 +85,7 @@ export function SystemFlowSection() {
       indicatorLabelClassName="normal-case text-[1.05rem] font-medium tracking-normal text-sky-200/75"
       indicatorMouseClassName="border-sky-200/55"
       indicatorWheelClassName="bg-sky-200/80"
-      videoClassName="object-[68%_center] brightness-[1.02] contrast-[0.98] saturate-[0.92] md:object-[72%_center]"
+      videoClassName="object-[68%_78%] brightness-[1.02] contrast-[0.98] saturate-[0.92] md:object-[72%_78%]"
       overlay={<div className="absolute inset-0 bg-white/2" />}
     >
       <div className="relative h-full w-full">

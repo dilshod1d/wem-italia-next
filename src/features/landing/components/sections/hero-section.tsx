@@ -1,10 +1,10 @@
 "use client";
 
-import { heroStoryConfig } from "../data/hero-story";
-import { whyWemWorksSectionConfig } from "../data/why-wem-works-story";
-import { useHeroSectionVideo } from "../hooks/use-hero-section-video";
-import { HeroSlide } from "./hero-slide";
-import { CinematicVideoSection } from "./cinematic-video-section";
+import { heroStoryConfig } from "../../data/hero-story";
+import { whyWemWorksSectionConfig } from "../../data/why-wem-works-story";
+import { useHeroSectionVideo } from "../../hooks/use-hero-section-video";
+import { HeroSlide } from "../hero-slide";
+import { CinematicVideoSection } from "../cinematic-video-section";
 
 export function HeroSection() {
   const { sectionRef, videoRef, activeSegmentId, isScrolled } =
@@ -19,7 +19,7 @@ export function HeroSection() {
       nextVideoSrc={whyWemWorksSectionConfig.videoUrl}
       isScrolled={isScrolled}
       navTheme="dark"
-      videoClassName="grayscale-[20%] contrast-[110%]"
+      videoClassName="object-[center_78%] grayscale-[20%] contrast-[110%]"
     >
       <div className="relative flex h-full w-full items-center justify-center">
         {heroStoryConfig.segments.map((segment) => (
