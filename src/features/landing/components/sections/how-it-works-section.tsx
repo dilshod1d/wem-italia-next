@@ -130,7 +130,7 @@ export function HowItWorksSection() {
 
           <div
             className={cx(
-              "absolute left-10 right-10 bottom-[-8%] h-[27rem] sm:h-[31rem] lg:h-[34rem] overflow-hidden",
+              "absolute left-10 right-10 bottom-[-12%] h-[27rem] sm:h-[31rem] lg:h-[34rem] overflow-hidden",
               isFinal ? "animate-[wem-breathe_5.2s_ease-in-out_infinite]" : "",
             )}
           >

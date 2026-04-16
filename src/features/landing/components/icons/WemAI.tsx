@@ -26,8 +26,8 @@ function WemAI({ className = "h-auto w-40" }: WemAIProps) {
       />
       <path d="M285.86 44.2881V64.215H280.258V44.2881H285.86Z" fill="#C94206" />
       <path
-        fill-rule="evenodd"
-        clip-rule="evenodd"
+        fillRule="evenodd"
+        clipRule="evenodd"
         d="M255.851 27.2422H265.215L274.658 64.215H268.816L266.655 55.6521H254.331L252.17 64.215H246.328L255.771 27.2422H255.851ZM255.851 49.9701H265.215L260.813 32.9242H260.173L255.771 49.9701H255.851Z"
         fill="#C94206"
       />

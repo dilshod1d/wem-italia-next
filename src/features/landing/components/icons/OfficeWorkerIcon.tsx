@@ -166,10 +166,10 @@ function OfficeWorkerIcon() {
           y2="135.827"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="white" />
-          <stop offset="0.34" stop-color="#F6F6F6" />
-          <stop offset="0.87" stop-color="#E0E0E0" />
-          <stop offset="1" stop-color="#DADADA" />
+          <stop stopColor="white" />
+          <stop offset="0.34" stopColor="#F6F6F6" />
+          <stop offset="0.87" stopColor="#E0E0E0" />
+          <stop offset="1" stopColor="#DADADA" />
         </linearGradient>
         <linearGradient
           id="paint1_linear_7_3371"
@@ -179,11 +179,11 @@ function OfficeWorkerIcon() {
           y2="103.28"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#1D1D1B" />
-          <stop offset="0.49" stop-color="#3D3D3C" />
-          <stop offset="0.57" stop-color="#363634" />
-          <stop offset="0.82" stop-color="#232321" />
-          <stop offset="1" stop-color="#1D1D1B" />
+          <stop stopColor="#1D1D1B" />
+          <stop offset="0.49" stopColor="#3D3D3C" />
+          <stop offset="0.57" stopColor="#363634" />
+          <stop offset="0.82" stopColor="#232321" />
+          <stop offset="1" stopColor="#1D1D1B" />
         </linearGradient>
         <linearGradient
           id="paint2_linear_7_3371"
@@ -193,9 +193,9 @@ function OfficeWorkerIcon() {
           y2="102.899"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#1D1D1B" />
-          <stop offset="0.99" stop-color="#3C3C3B" />
-          <stop offset="1" stop-color="#3D3D3C" />
+          <stop stopColor="#1D1D1B" />
+          <stop offset="0.99" stopColor="#3C3C3B" />
+          <stop offset="1" stopColor="#3D3D3C" />
         </linearGradient>
         <linearGradient
           id="paint3_linear_7_3371"
@@ -205,9 +205,9 @@ function OfficeWorkerIcon() {
           y2="93.546"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#FCD7B3" />
-          <stop offset="0.61" stop-color="#F9C49A" />
-          <stop offset="1" stop-color="#F9BD91" />
+          <stop stopColor="#FCD7B3" />
+          <stop offset="0.61" stopColor="#F9C49A" />
+          <stop offset="1" stopColor="#F9BD91" />
         </linearGradient>
         <linearGradient
           id="paint4_linear_7_3371"
@@ -217,9 +217,9 @@ function OfficeWorkerIcon() {
           y2="60.3021"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#F9BD91" />
-          <stop offset="0.39" stop-color="#F9C49A" />
-          <stop offset="1" stop-color="#FCD7B3" />
+          <stop stopColor="#F9BD91" />
+          <stop offset="0.39" stopColor="#F9C49A" />
+          <stop offset="1" stopColor="#FCD7B3" />
         </linearGradient>
         <linearGradient
           id="paint5_linear_7_3371"
@@ -229,14 +229,14 @@ function OfficeWorkerIcon() {
           y2="74.1012"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#F9BD91" />
-          <stop offset="0.34" stop-color="#F9BE93" />
-          <stop offset="0.51" stop-color="#F9C39B" />
-          <stop offset="0.65" stop-color="#FACBA8" />
-          <stop offset="0.77" stop-color="#FBD6BB" />
-          <stop offset="0.87" stop-color="#FCE5D4" />
-          <stop offset="0.96" stop-color="#FEF7F1" />
-          <stop offset="1" stop-color="white" />
+          <stop stopColor="#F9BD91" />
+          <stop offset="0.34" stopColor="#F9BE93" />
+          <stop offset="0.51" stopColor="#F9C39B" />
+          <stop offset="0.65" stopColor="#FACBA8" />
+          <stop offset="0.77" stopColor="#FBD6BB" />
+          <stop offset="0.87" stopColor="#FCE5D4" />
+          <stop offset="0.96" stopColor="#FEF7F1" />
+          <stop offset="1" stopColor="white" />
         </linearGradient>
         <linearGradient
           id="paint6_linear_7_3371"
@@ -246,9 +246,9 @@ function OfficeWorkerIcon() {
           y2="5.48006"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#FCD7B3" />
-          <stop offset="0.61" stop-color="#F9C49A" />
-          <stop offset="1" stop-color="#F9BD91" />
+          <stop stopColor="#FCD7B3" />
+          <stop offset="0.61" stopColor="#F9C49A" />
+          <stop offset="1" stopColor="#F9BD91" />
         </linearGradient>
         <linearGradient
           id="paint7_linear_7_3371"
@@ -258,9 +258,9 @@ function OfficeWorkerIcon() {
           y2="5.05778"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#F9BD91" />
-          <stop offset="0.39" stop-color="#F9C49A" />
-          <stop offset="1" stop-color="#FCD7B3" />
+          <stop stopColor="#F9BD91" />
+          <stop offset="0.39" stopColor="#F9C49A" />
+          <stop offset="1" stopColor="#FCD7B3" />
         </linearGradient>
         <linearGradient
           id="paint8_linear_7_3371"
@@ -270,14 +270,14 @@ function OfficeWorkerIcon() {
           y2="32.3615"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#F9BD91" />
-          <stop offset="0.34" stop-color="#F9BE93" />
-          <stop offset="0.51" stop-color="#F9C39B" />
-          <stop offset="0.65" stop-color="#FACBA8" />
-          <stop offset="0.77" stop-color="#FBD6BB" />
-          <stop offset="0.87" stop-color="#FCE5D4" />
-          <stop offset="0.96" stop-color="#FEF7F1" />
-          <stop offset="1" stop-color="white" />
+          <stop stopColor="#F9BD91" />
+          <stop offset="0.34" stopColor="#F9BE93" />
+          <stop offset="0.51" stopColor="#F9C39B" />
+          <stop offset="0.65" stopColor="#FACBA8" />
+          <stop offset="0.77" stopColor="#FBD6BB" />
+          <stop offset="0.87" stopColor="#FCE5D4" />
+          <stop offset="0.96" stopColor="#FEF7F1" />
+          <stop offset="1" stopColor="white" />
         </linearGradient>
         <linearGradient
           id="paint9_linear_7_3371"
@@ -287,10 +287,10 @@ function OfficeWorkerIcon() {
           y2="-2.35235"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#7E4E24" />
-          <stop offset="0.26" stop-color="#734721" />
-          <stop offset="0.72" stop-color="#57361C" />
-          <stop offset="1" stop-color="#432A18" />
+          <stop stopColor="#7E4E24" />
+          <stop offset="0.26" stopColor="#734721" />
+          <stop offset="0.72" stopColor="#57361C" />
+          <stop offset="1" stopColor="#432A18" />
         </linearGradient>
         <linearGradient
           id="paint10_linear_7_3371"
@@ -300,8 +300,8 @@ function OfficeWorkerIcon() {
           y2="27.3096"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#683C11" />
-          <stop offset="1" stop-color="#432A19" />
+          <stop stopColor="#683C11" />
+          <stop offset="1" stopColor="#432A19" />
         </linearGradient>
         <linearGradient
           id="paint11_linear_7_3371"
@@ -311,8 +311,8 @@ function OfficeWorkerIcon() {
           y2="28.984"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#683C11" />
-          <stop offset="1" stop-color="#432A19" />
+          <stop stopColor="#683C11" />
+          <stop offset="1" stopColor="#432A19" />
         </linearGradient>
         <linearGradient
           id="paint12_linear_7_3371"
@@ -322,8 +322,8 @@ function OfficeWorkerIcon() {
           y2="5.97086"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#683C11" />
-          <stop offset="1" stop-color="#432A19" />
+          <stop stopColor="#683C11" />
+          <stop offset="1" stopColor="#432A19" />
         </linearGradient>
         <linearGradient
           id="paint13_linear_7_3371"
@@ -333,9 +333,9 @@ function OfficeWorkerIcon() {
           y2="29.8312"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#FCD7B3" />
-          <stop offset="0.61" stop-color="#F9C49A" />
-          <stop offset="1" stop-color="#F9BD91" />
+          <stop stopColor="#FCD7B3" />
+          <stop offset="0.61" stopColor="#F9C49A" />
+          <stop offset="1" stopColor="#F9BD91" />
         </linearGradient>
         <linearGradient
           id="paint14_linear_7_3371"
@@ -345,9 +345,9 @@ function OfficeWorkerIcon() {
           y2="48.3791"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#F9BD91" />
-          <stop offset="0.39" stop-color="#F9C49A" />
-          <stop offset="1" stop-color="#FCD7B3" />
+          <stop stopColor="#F9BD91" />
+          <stop offset="0.39" stopColor="#F9C49A" />
+          <stop offset="1" stopColor="#FCD7B3" />
         </linearGradient>
         <linearGradient
           id="paint15_linear_7_3371"
@@ -357,9 +357,9 @@ function OfficeWorkerIcon() {
           y2="29.8312"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#FCD7B3" />
-          <stop offset="0.61" stop-color="#F9C49A" />
-          <stop offset="1" stop-color="#F9BD91" />
+          <stop stopColor="#FCD7B3" />
+          <stop offset="0.61" stopColor="#F9C49A" />
+          <stop offset="1" stopColor="#F9BD91" />
         </linearGradient>
         <linearGradient
           id="paint16_linear_7_3371"
@@ -369,9 +369,9 @@ function OfficeWorkerIcon() {
           y2="48.3791"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#F9BD91" />
-          <stop offset="0.39" stop-color="#F9C49A" />
-          <stop offset="1" stop-color="#FCD7B3" />
+          <stop stopColor="#F9BD91" />
+          <stop offset="0.39" stopColor="#F9C49A" />
+          <stop offset="1" stopColor="#FCD7B3" />
         </linearGradient>
         <linearGradient
           id="paint17_linear_7_3371"
@@ -381,9 +381,9 @@ function OfficeWorkerIcon() {
           y2="142.899"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#1D1D1B" />
-          <stop offset="0.48" stop-color="#3D3D3C" />
-          <stop offset="1" stop-color="#1D1D1B" />
+          <stop stopColor="#1D1D1B" />
+          <stop offset="0.48" stopColor="#3D3D3C" />
+          <stop offset="1" stopColor="#1D1D1B" />
         </linearGradient>
         <radialGradient
           id="paint18_radial_7_3371"
@@ -393,8 +393,8 @@ function OfficeWorkerIcon() {
           gradientUnits="userSpaceOnUse"
           gradientTransform="translate(76.7168 111.387) scale(6.64247 7.05496)"
         >
-          <stop stop-color="#3D3D3C" />
-          <stop offset="1" stop-color="#1D1D1B" />
+          <stop stopColor="#3D3D3C" />
+          <stop offset="1" stopColor="#1D1D1B" />
         </radialGradient>
         <linearGradient
           id="paint19_linear_7_3371"
@@ -404,10 +404,10 @@ function OfficeWorkerIcon() {
           y2="84.1691"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#3D3D3C" />
-          <stop offset="0.15" stop-color="#363634" />
-          <stop offset="0.65" stop-color="#232321" />
-          <stop offset="1" stop-color="#1D1D1B" />
+          <stop stopColor="#3D3D3C" />
+          <stop offset="0.15" stopColor="#363634" />
+          <stop offset="0.65" stopColor="#232321" />
+          <stop offset="1" stopColor="#1D1D1B" />
         </linearGradient>
         <linearGradient
           id="paint20_linear_7_3371"
@@ -417,10 +417,10 @@ function OfficeWorkerIcon() {
           y2="151.47"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#1D1D1B" />
-          <stop offset="0.35" stop-color="#232321" />
-          <stop offset="0.85" stop-color="#363634" />
-          <stop offset="1" stop-color="#3D3D3C" />
+          <stop stopColor="#1D1D1B" />
+          <stop offset="0.35" stopColor="#232321" />
+          <stop offset="0.85" stopColor="#363634" />
+          <stop offset="1" stopColor="#3D3D3C" />
         </linearGradient>
         <linearGradient
           id="paint21_linear_7_3371"
@@ -430,9 +430,9 @@ function OfficeWorkerIcon() {
           y2="152.747"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#3D3D3C" />
-          <stop offset="0.6" stop-color="#3D3D3C" />
-          <stop offset="1" stop-color="#1D1D1B" />
+          <stop stopColor="#3D3D3C" />
+          <stop offset="0.6" stopColor="#3D3D3C" />
+          <stop offset="1" stopColor="#1D1D1B" />
         </linearGradient>
         <linearGradient
           id="paint22_linear_7_3371"
@@ -442,10 +442,10 @@ function OfficeWorkerIcon() {
           y2="117.157"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#1D1D1B" />
-          <stop offset="0.34" stop-color="#222220" />
-          <stop offset="0.75" stop-color="#30302F" />
-          <stop offset="1" stop-color="#3D3D3C" />
+          <stop stopColor="#1D1D1B" />
+          <stop offset="0.34" stopColor="#222220" />
+          <stop offset="0.75" stopColor="#30302F" />
+          <stop offset="1" stopColor="#3D3D3C" />
         </linearGradient>
         <linearGradient
           id="paint23_linear_7_3371"
@@ -455,10 +455,10 @@ function OfficeWorkerIcon() {
           y2="99.736"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#1D1D1B" />
-          <stop offset="0.34" stop-color="#222220" />
-          <stop offset="0.75" stop-color="#30302F" />
-          <stop offset="1" stop-color="#3D3D3C" />
+          <stop stopColor="#1D1D1B" />
+          <stop offset="0.34" stopColor="#222220" />
+          <stop offset="0.75" stopColor="#30302F" />
+          <stop offset="1" stopColor="#3D3D3C" />
         </linearGradient>
         <radialGradient
           id="paint24_radial_7_3371"
@@ -468,8 +468,8 @@ function OfficeWorkerIcon() {
           gradientUnits="userSpaceOnUse"
           gradientTransform="translate(97.6093 119.853) scale(26.5165 28.1632)"
         >
-          <stop stop-color="#3D3D3C" />
-          <stop offset="1" stop-color="#1D1D1B" />
+          <stop stopColor="#3D3D3C" />
+          <stop offset="1" stopColor="#1D1D1B" />
         </radialGradient>
         <radialGradient
           id="paint25_radial_7_3371"
@@ -479,10 +479,10 @@ function OfficeWorkerIcon() {
           gradientUnits="userSpaceOnUse"
           gradientTransform="translate(88.4371 97.0287) scale(9.56356 10.1574)"
         >
-          <stop stop-color="white" />
-          <stop offset="0.34" stop-color="#F6F6F6" />
-          <stop offset="0.87" stop-color="#E0E0E0" />
-          <stop offset="1" stop-color="#DADADA" />
+          <stop stopColor="white" />
+          <stop offset="0.34" stopColor="#F6F6F6" />
+          <stop offset="0.87" stopColor="#E0E0E0" />
+          <stop offset="1" stopColor="#DADADA" />
         </radialGradient>
         <linearGradient
           id="paint26_linear_7_3371"
@@ -492,10 +492,10 @@ function OfficeWorkerIcon() {
           y2="84.0916"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#3D3D3C" />
-          <stop offset="0.15" stop-color="#363634" />
-          <stop offset="0.65" stop-color="#232321" />
-          <stop offset="1" stop-color="#1D1D1B" />
+          <stop stopColor="#3D3D3C" />
+          <stop offset="0.15" stopColor="#363634" />
+          <stop offset="0.65" stopColor="#232321" />
+          <stop offset="1" stopColor="#1D1D1B" />
         </linearGradient>
         <linearGradient
           id="paint27_linear_7_3371"
@@ -505,10 +505,10 @@ function OfficeWorkerIcon() {
           y2="-69077.9"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#1D1D1B" />
-          <stop offset="0.34" stop-color="#222220" />
-          <stop offset="0.75" stop-color="#30302F" />
-          <stop offset="1" stop-color="#3D3D3C" />
+          <stop stopColor="#1D1D1B" />
+          <stop offset="0.34" stopColor="#222220" />
+          <stop offset="0.75" stopColor="#30302F" />
+          <stop offset="1" stopColor="#3D3D3C" />
         </linearGradient>
         <linearGradient
           id="paint28_linear_7_3371"
@@ -518,10 +518,10 @@ function OfficeWorkerIcon() {
           y2="99.736"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#1D1D1B" />
-          <stop offset="0.34" stop-color="#222220" />
-          <stop offset="0.75" stop-color="#30302F" />
-          <stop offset="1" stop-color="#3D3D3C" />
+          <stop stopColor="#1D1D1B" />
+          <stop offset="0.34" stopColor="#222220" />
+          <stop offset="0.75" stopColor="#30302F" />
+          <stop offset="1" stopColor="#3D3D3C" />
         </linearGradient>
         <radialGradient
           id="paint29_radial_7_3371"
@@ -531,8 +531,8 @@ function OfficeWorkerIcon() {
           gradientUnits="userSpaceOnUse"
           gradientTransform="translate(65.3606 120.47) rotate(180) scale(26.3965 28.1773)"
         >
-          <stop stop-color="#3D3D3C" />
-          <stop offset="1" stop-color="#1D1D1B" />
+          <stop stopColor="#3D3D3C" />
+          <stop offset="1" stopColor="#1D1D1B" />
         </radialGradient>
         <radialGradient
           id="paint30_radial_7_3371"
@@ -542,10 +542,10 @@ function OfficeWorkerIcon() {
           gradientUnits="userSpaceOnUse"
           gradientTransform="translate(73.5944 104.738) rotate(180) scale(9.64359 10.2991)"
         >
-          <stop stop-color="white" />
-          <stop offset="0.34" stop-color="#F6F6F6" />
-          <stop offset="0.87" stop-color="#E0E0E0" />
-          <stop offset="1" stop-color="#DADADA" />
+          <stop stopColor="white" />
+          <stop offset="0.34" stopColor="#F6F6F6" />
+          <stop offset="0.87" stopColor="#E0E0E0" />
+          <stop offset="1" stopColor="#DADADA" />
         </radialGradient>
         <linearGradient
           id="paint31_linear_7_3371"
@@ -555,8 +555,8 @@ function OfficeWorkerIcon() {
           y2="96.3848"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="white" />
-          <stop offset="1" stop-color="#DADADA" />
+          <stop stopColor="white" />
+          <stop offset="1" stopColor="#DADADA" />
         </linearGradient>
         <linearGradient
           id="paint32_linear_7_3371"
@@ -566,8 +566,8 @@ function OfficeWorkerIcon() {
           y2="100.166"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="white" />
-          <stop offset="1" stop-color="#DADADA" />
+          <stop stopColor="white" />
+          <stop offset="1" stopColor="#DADADA" />
         </linearGradient>
       </defs>
     </svg>

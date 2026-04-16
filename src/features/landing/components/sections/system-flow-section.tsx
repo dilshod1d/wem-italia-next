@@ -64,6 +64,7 @@ export function SystemFlowSection() {
     useSystemFlowVideo(systemFlowSectionConfig);
 
   const showTitle = activeStageKey !== "intro";
+  const showEyebrow = showTitle;
   const showParagraphs =
     activeStageKey === "body" ||
     activeStageKey === "step" ||
@@ -96,7 +97,14 @@ export function SystemFlowSection() {
               isFinal ? "animate-[wem-breathe_5.4s_ease-in-out_infinite]" : "",
             )}
           >
-            <p className="font-body text-[2rem] font-light tracking-tight text-black/28 md:text-[3.2rem]">
+            <p
+              className={cx(
+                "font-body text-[2rem] font-light tracking-tight text-black/28 transition-all duration-700 md:text-[3.2rem]",
+                showEyebrow
+                  ? "translate-y-0 opacity-100"
+                  : "translate-y-6 opacity-0",
+              )}
+            >
               {eyebrow}
             </p>
 

@@ -40,10 +40,10 @@ export function HeroSupportCard({ card, isActive }: HeroSupportCardProps) {
     <div
       className={[
         "max-w-[100%] rounded-[1.75rem] px-5 py-4 text-white shadow-[0_30px_60px_rgba(0,0,0,0.35)]",
-        "transition-all duration-700",
-        "translate-y-6 opacity-0",
+        "transition-all duration-500",
+        "translate-y-5 scale-[0.965] opacity-0",
         getToneClasses(card.tone),
-        isActive ? "translate-y-0 opacity-100" : "",
+        isActive ? "translate-y-0 scale-100 opacity-100" : "",
       ].join(" ")}
       style={{ transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)" }}
     >

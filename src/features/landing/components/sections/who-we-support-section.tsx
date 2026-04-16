@@ -45,12 +45,14 @@ function AudienceCard({
   return (
     <article
       className={cx(
-        "group rounded-[1.6rem] bg-white text-center shadow-[0_10px_30px_rgba(15,23,42,0.08)] ring-1 ring-slate-200/60 transition-all duration-500",
-        "motion-safe:hover:-translate-y-1 motion-safe:hover:shadow-[0_18px_45px_rgba(15,23,42,0.12)]",
+        "group rounded-[1.6rem] bg-white text-center shadow-[0_10px_30px_rgba(15,23,42,0.08)] ring-1 ring-slate-200/60 transition-all duration-[420ms] will-change-transform",
+        "motion-safe:hover:-translate-y-1.5 motion-safe:hover:scale-[1.012] motion-safe:hover:shadow-[0_18px_45px_rgba(15,23,42,0.12)]",
         compact
           ? "min-h-[220px] px-5 py-5 md:min-h-[250px]"
           : "min-h-[300px] px-6 py-7 md:min-h-[340px]",
-        visible ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0",
+        visible
+          ? "translate-y-0 scale-100 opacity-100"
+          : "translate-y-8 scale-[0.975] opacity-0",
       )}
       style={{
         transitionDelay: visible ? `${delayMs}ms` : "0ms",
@@ -81,8 +83,8 @@ function AudienceCard({
         className={cx(
           "font-body leading-[1.5] text-black/70",
           compact
-            ? "mt-3 text-[1rem] md:text-[1.15rem]"
-            : "mt-4 text-[1.2rem] md:text-[1.6rem]",
+            ? "mt-3 text-[1.4rem] md:text-[1.6rem]"
+            : "mt-4 text-[1.6rem] md:text-[2rem]",
         )}
       >
         {card.body}
@@ -134,36 +136,44 @@ function WhoWeSupportContent({
             visible={
               forceFinal || isAudienceCardVisible(activeStageKey, card.stage)
             }
-            delayMs={index * 100}
+            delayMs={index * 70}
           />
         ))}
       </div>
 
       <div
         className={cx(
-          "overflow-hidden transition-[max-height,opacity,transform,margin] duration-700",
+          "overflow-hidden transition-[max-height,opacity,transform,margin] duration-[520ms]",
           compact
             ? showWarning
               ? "mt-6 max-h-[220px] translate-y-0 opacity-100"
-              : "mt-0 max-h-0 translate-y-6 opacity-0"
+              : "mt-0 max-h-0 translate-y-4 opacity-0"
             : showWarning
               ? "mt-12 max-h-[240px] translate-y-0 opacity-100"
-              : "mt-0 max-h-0 translate-y-8 opacity-0",
+              : "mt-0 max-h-0 translate-y-6 opacity-0",
         )}
         style={{ transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)" }}
       >
-        <div className="flex flex-col items-start gap-5 rounded-[1.6rem] bg-white px-6 py-6 shadow-[0_12px_35px_rgba(15,23,42,0.1)] ring-1 ring-amber-200/70 md:flex-row md:items-center md:px-8 md:py-7">
-          <div className="flex h-16 w-16 items-center justify-center rounded-[1rem] bg-amber-50 text-amber-500">
-            <FaTriangleExclamation className="h-8 w-8" />
-          </div>
+        <div className="relative rounded-[1.6rem]">
+          <div className="pointer-events-none absolute inset-3 rounded-[1.35rem] bg-slate-200/60 blur-2xl opacity-60" />
 
-          <div className="text-black">
-            <p className="font-sans text-[1.5rem] font-semibold tracking-tight md:text-[2rem]">
-              {copy.warningTitle}
-            </p>
-            <p className="mt-1 text-[1rem] text-black/70 md:text-[1.15rem]">
-              {copy.warningBody}
-            </p>
+          <div className="relative overflow-hidden rounded-[1.6rem] border border-slate-200/80 bg-white shadow-[0_16px_38px_rgba(148,163,184,0.16)]">
+            <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(135deg,rgba(248,250,252,0.9),rgba(255,255,255,0.98)_42%,rgba(255,247,237,0.52)_100%)]" />
+
+            <div className="relative flex flex-col items-start gap-5 px-6 py-6 md:flex-row md:items-center md:px-8 md:py-7">
+              <div className="flex h-16 w-16 items-center justify-center rounded-[1rem] bg-white text-amber-500 shadow-[0_8px_18px_rgba(234,179,8,0.1)] ring-1 ring-amber-200/80">
+                <FaTriangleExclamation className="h-8 w-8" />
+              </div>
+
+              <div className="text-black">
+                <p className="font-sans text-[1.5rem] font-semibold tracking-tight text-black/92 md:text-[2rem]">
+                  {copy.warningTitle}
+                </p>
+                <p className="mt-1 text-[1rem] leading-[1.45] text-black/68 md:text-[1.15rem]">
+                  {copy.warningBody}
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
