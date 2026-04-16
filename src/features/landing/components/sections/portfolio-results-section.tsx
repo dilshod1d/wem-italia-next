@@ -21,8 +21,8 @@ interface PortfolioCardProps {
   item: PortfolioResultsItem;
   index: number;
   visible: boolean;
-  focused: boolean;
-  dimmed: boolean;
+  distanceFromFocus: number;
+  focusMode: boolean;
   delayMs: number;
 }
 
@@ -30,65 +30,127 @@ function PortfolioCard({
   item,
   index,
   visible,
-  focused,
-  dimmed,
+  distanceFromFocus,
+  focusMode,
   delayMs,
 }: PortfolioCardProps) {
+  const sizeClassName = getPortfolioCardSizeClass(distanceFromFocus);
+  const imageHeightClassName = getPortfolioCardImageHeightClass(distanceFromFocus);
+  const cardZIndex = focusMode ? Math.max(10, 30 - distanceFromFocus) : 10;
+  const focusStateClassName = getPortfolioCardFocusStateClass(
+    distanceFromFocus,
+    focusMode,
+  );
+
   return (
     <article
       className={cx(
-        "shrink-0 transition-[opacity,transform,filter] duration-700",
+        "group relative shrink-0 transition-[opacity,transform,filter] duration-700",
         visible
           ? "translate-x-0 opacity-100"
           : "pointer-events-none translate-x-20 opacity-0",
-        focused ? "z-20" : "z-10",
-        dimmed ? "blur-[2.5px]" : "",
+        focusStateClassName,
       )}
-      style={{
-        transitionDelay: visible ? `${delayMs}ms` : "0ms",
-        transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)",
-      }}
+      style={{ zIndex: cardZIndex }}
+      aria-hidden={!visible}
     >
       <div
         className={cx(
-          "w-[8.4rem] rounded-xl rounded-bl-0 p-2.5  text-white",
-          "sm:w-[9.6rem]",
-          "md:w-[11.2rem] md:rounded-2xl md:rounded-bl-0 md:p-4",
-          "lg:w-[12.4rem]",
+          "relative rounded-xl rounded-bl-none p-2.5 text-white shadow-[0_14px_38px_rgba(0,0,0,0.14)] transition-[width,filter,transform,box-shadow] duration-500 md:rounded-2xl md:rounded-bl-none md:p-4 motion-safe:hover:-translate-y-1.5 motion-safe:hover:shadow-[0_24px_58px_rgba(0,0,0,0.2)]",
+          sizeClassName,
           item.wrapperClassName,
           item.shellClassName,
-          focused
-            ? "scale-[1.04] md:-translate-y-5"
-            : dimmed
-              ? "scale-[0.88] opacity-70"
-              : "scale-[0.95]",
         )}
+        style={{
+          transitionDelay: visible ? `${delayMs}ms` : "0ms",
+          transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)",
+        }}
       >
-        <div className="absolute top-0 left-0 w-[80%] h-10 bg-inherit rounded-t-2xl rounded-br-2xl flex items-center justify-center">
-          <h3 className="font-sans text-[1.1rem] font-semibold tracking-tight md:text-[1.35rem] text-center">
+        <div className="absolute left-0 top-0 flex h-10 w-[82%] items-center justify-center rounded-t-2xl rounded-br-2xl bg-inherit md:h-12">
+          <h3 className="px-3 text-center font-sans text-[0.95rem] font-semibold tracking-tight md:text-[1.35rem]">
             {item.title}
           </h3>
         </div>
 
-        <div className="overflow-hidden rounded-[1.45rem] bg-white shadow-[inset_0_0_0_1px_rgba(255,255,255,0.22)] md:rounded-[1.7rem]">
+        <div
+          className={cx(
+            "overflow-hidden rounded-[1.45rem] bg-transparent md:rounded-[1.7rem]",
+            imageHeightClassName,
+          )}
+        >
           <Image
             src={item.imageSrc}
             alt={item.imageAlt}
             width={300}
             height={400}
             priority={index < 3}
-            className="h-auto w-full object-cover"
+            className="h-full w-full object-cover object-top transition-[transform,filter] duration-500 motion-safe:group-hover:scale-[1.025] motion-safe:group-hover:brightness-[1.03]"
           />
         </div>
 
-        <div className="absolute -bottom-12 h-16 left-0 w-[80%] bg-inherit rounded-bl-2xl rounded-br-2xl flex items-center justify-center">
-          <p className="font-sans text-[1.05rem] font-semibold tracking-tight md:text-[1.35rem] text-center">
+        <div className="absolute -bottom-12 left-0 flex h-14 w-[82%] items-center justify-center rounded-b-2xl rounded-r-2xl bg-inherit md:-bottom-14 md:h-16">
+          <p className="px-3 text-center font-sans text-[0.95rem] font-semibold tracking-tight md:text-[1.35rem]">
             {item.footerLabel}
           </p>
         </div>
       </div>
     </article>
   );
+}
+
+function getPortfolioCardSizeClass(distanceFromFocus: number) {
+  if (distanceFromFocus === 0) {
+    return "w-[11.1rem] sm:w-[12.6rem] md:w-[15rem] lg:w-[16.8rem]";
+  }
+
+  if (distanceFromFocus === 1) {
+    return "w-[10.2rem] sm:w-[11.6rem] md:w-[13.8rem] lg:w-[15.5rem]";
+  }
+
+  if (distanceFromFocus === 2) {
+    return "w-[9.5rem] sm:w-[10.8rem] md:w-[12.8rem] lg:w-[14.3rem]";
+  }
+
+  return "w-[8.7rem] sm:w-[9.9rem] md:w-[11.8rem] lg:w-[13.2rem]";
+}
+
+function getPortfolioCardImageHeightClass(distanceFromFocus: number) {
+  if (distanceFromFocus === 0) {
+    return "h-[18.5rem] sm:h-[20.5rem] md:h-[24rem] lg:h-[27rem]";
+  }
+
+  if (distanceFromFocus === 1) {
+    return "h-[17.75rem] sm:h-[19.5rem] md:h-[22.75rem] lg:h-[25.5rem]";
+  }
+
+  if (distanceFromFocus === 2) {
+    return "h-[17rem] sm:h-[18.5rem] md:h-[21.5rem] lg:h-[24rem]";
+  }
+
+  return "h-[16.25rem] sm:h-[17.75rem] md:h-[20rem] lg:h-[22.5rem]";
+}
+
+function getPortfolioCardFocusStateClass(
+  distanceFromFocus: number,
+  focusMode: boolean,
+) {
+  if (!focusMode) {
+    return "scale-100 blur-0";
+  }
+
+  if (distanceFromFocus === 0) {
+    return "scale-[1.02] blur-0";
+  }
+
+  if (distanceFromFocus === 1) {
+    return "scale-[0.98] blur-0";
+  }
+
+  if (distanceFromFocus === 2) {
+    return "scale-[0.94] blur-[0.4px]";
+  }
+
+  return "scale-[0.9] blur-[1.2px]";
 }
 
 interface ProofMetricCardProps {
@@ -234,23 +296,22 @@ export function PortfolioResultsSection() {
                 : "pointer-events-none translate-y-12 opacity-0",
             )}
           >
-            <div
-              className={cx(
-                "mx-auto flex w-max min-w-full items-end justify-center gap-3 px-8 transition-transform duration-700 sm:gap-4 md:gap-5 md:px-10",
-                isFocusStage ? "translate-x-0" : "translate-x-10",
-              )}
-            >
-              {portfolioItems.map((item, index) => (
-                <PortfolioCard
-                  key={item.id}
-                  item={item}
-                  index={index}
-                  visible={showPortfolio}
-                  focused={isFocusStage && index === focusIndex}
-                  dimmed={isFocusStage && index !== focusIndex}
-                  delayMs={index * 85}
-                />
-              ))}
+            <div className="overflow-visible">
+              <div className="relative left-1/2 flex w-max -translate-x-1/2 items-center justify-center gap-0 transition-transform duration-700">
+                {portfolioItems.map((item, index) => (
+                  <PortfolioCard
+                    key={item.id}
+                    item={item}
+                    index={index}
+                    visible={showPortfolio}
+                    focusMode={isFocusStage}
+                    distanceFromFocus={
+                      focusIndex === -1 ? 0 : Math.abs(index - focusIndex)
+                    }
+                    delayMs={index * 85}
+                  />
+                ))}
+              </div>
             </div>
           </div>
 

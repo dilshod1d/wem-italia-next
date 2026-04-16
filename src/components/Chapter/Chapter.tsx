@@ -83,9 +83,7 @@ export function Chapter({
           />
         ) : null}
 
-        <div className="absolute inset-0 z-[5]">
-          {overlay}
-        </div>
+        <div className="absolute inset-0 z-[5]">{overlay}</div>
 
         <div className={cx("relative z-10 h-full w-full", contentClassName)}>
           {children}

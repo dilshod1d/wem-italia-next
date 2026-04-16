@@ -76,24 +76,4 @@ export const footerSectionConfig = {
     { label: "Results", href: "#results" },
     { label: "Who We Support", href: "#who-we-support" },
   ],
-  enterpriseItems: [
-    {
-      id: "ai",
-      variant: "ai",
-      title: "WEM AI",
-      subtitle: "WEM ENTERPRISE",
-    },
-    {
-      id: "giovanni",
-      variant: "giovanni",
-      title: "Giovanni\nColangelo",
-      subtitle: "Strategy Lead",
-    },
-    {
-      id: "agency",
-      variant: "agency",
-      title: "WEM\nAgency",
-      subtitle: "Creative Network",
-    },
-  ],
 } satisfies FooterSectionConfig;

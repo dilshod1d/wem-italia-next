@@ -1,7 +1,7 @@
 import { HeroSection } from "./sections/hero-section";
 import { HowItWorksSection } from "./sections/how-it-works-section";
 import { LandingNavbar } from "./landing-navbar";
-import { FooterSection } from "./footer-section";
+import { FooterSection } from "./sections/footer-section";
 import { PortfolioResultsSection } from "./sections/portfolio-results-section";
 import { SystemFlowSection } from "./sections/system-flow-section";
 import { WhoWeSupportSection } from "./sections/who-we-support-section";
@@ -18,8 +18,8 @@ export function LandingPage() {
         <HowItWorksSection />
         <PortfolioResultsSection />
         <WhoWeSupportSection />
+        <FooterSection />
       </main>
-      <FooterSection />
     </>
   );
 }

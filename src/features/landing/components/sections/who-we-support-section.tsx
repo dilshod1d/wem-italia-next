@@ -1,12 +1,7 @@
 "use client";
 
 import type { IconType } from "react-icons";
-import {
-  FaRocket,
-  FaShop,
-  FaTriangleExclamation,
-  FaUserTie,
-} from "react-icons/fa6";
+import { FaTriangleExclamation } from "react-icons/fa6";
 
 import { whoWeSupportSectionConfig } from "../../data/who-we-support-story";
 import { useWhoWeSupportSection } from "../../hooks/use-who-we-support-section";
@@ -16,11 +11,14 @@ import type {
   WhoWeSupportStageKey,
 } from "../../types/who-we-support-section";
 import { Chapter } from "@/components/Chapter/Chapter";
+import OfficeWorkerIcon from "../icons/OfficeWorkerIcon";
+import StoreIcon from "../icons/StoreIcon";
+import RocketIcon from "../icons/RocketIcon";
 
 const whoWeSupportIcons: Record<WhoWeSupportCardIcon, IconType> = {
-  startup: FaRocket,
-  professional: FaUserTie,
-  sme: FaShop,
+  startup: RocketIcon,
+  professional: OfficeWorkerIcon,
+  sme: StoreIcon,
 };
 
 const { copy, cards } = whoWeSupportSectionConfig;
@@ -41,23 +39,25 @@ function AudienceCard({ card, visible, delayMs }: AudienceCardProps) {
   return (
     <article
       className={cx(
-        "rounded-[2rem] bg-white px-8 py-9 text-center shadow-[0_18px_45px_rgba(15,23,42,0.12)] ring-1 ring-slate-200/70 transition-[opacity,transform] duration-700 md:min-h-[31rem] md:px-8 md:py-10",
-        visible
-          ? "translate-y-0 scale-100 opacity-100"
-          : "pointer-events-none translate-y-12 scale-[0.94] opacity-0",
+        "group rounded-[1.6rem] bg-white px-6 py-7 text-center shadow-[0_10px_30px_rgba(15,23,42,0.08)] ring-1 ring-slate-200/60 transition-all duration-500",
+        "hover:-translate-y-1 hover:shadow-[0_18px_45px_rgba(15,23,42,0.12)]",
+        "min-h-[300px] md:min-h-[340px]",
+        visible ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0",
       )}
       style={{
         transitionDelay: visible ? `${delayMs}ms` : "0ms",
         transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)",
       }}
     >
-      <div className="mx-auto flex h-28 w-28 items-center justify-center text-slate-800 md:h-32 md:w-32">
-        <Icon className="h-full w-full" />
+      <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-[1.2rem] bg-slate-50 text-slate-700 transition group-hover:bg-slate-100">
+        <Icon />
       </div>
-      <h3 className="mt-8 font-sans text-[2.5rem] font-semibold tracking-tight text-black md:text-[3.3rem]">
+
+      <h3 className="mt-6 font-sans text-[1.6rem] font-semibold tracking-tight text-black md:text-[2rem]">
         {card.title}
       </h3>
-      <p className="mt-7 font-body text-[1.2rem] leading-[1.32] text-black/88 md:text-[1.95rem]">
+
+      <p className="mt-4 font-body text-[1.2rem] leading-[1.5] text-black/70 md:text-[1.6rem]">
         {card.body}
       </p>
     </article>
@@ -69,7 +69,6 @@ export function WhoWeSupportSection() {
     whoWeSupportSectionConfig,
   );
 
-  const showTitle = true;
   const showWarning =
     activeStageKey === "warning" || activeStageKey === "final";
 
@@ -80,67 +79,51 @@ export function WhoWeSupportSection() {
       navTheme="light"
       isScrolled={isScrolled}
       indicatorLabel="Scroll Down"
-      indicatorLabelClassName="normal-case text-[1.05rem] font-medium tracking-normal text-sky-200/75"
-      indicatorMouseClassName="border-sky-200/55"
-      indicatorWheelClassName="bg-sky-200/80"
+      indicatorLabelClassName="normal-case text-[1rem] font-medium text-sky-200/70"
+      indicatorMouseClassName="border-sky-200/50"
+      indicatorWheelClassName="bg-sky-200/70"
       sectionClassName="bg-white"
     >
-      <div className="absolute inset-0 mx-auto max-w-[1600px] px-6 py-24 sm:px-10 lg:px-16">
-        <div className="absolute left-6 top-[20%] max-w-[min(94vw,1480px)] text-black sm:left-10 lg:left-16">
-          <p
-            className={cx(
-              "font-body text-[1.55rem] font-light tracking-tight text-black/25 transition-all duration-700 md:text-[3.2rem]",
-              showTitle
-                ? "translate-y-0 opacity-100"
-                : "translate-y-8 opacity-0",
-            )}
-          >
+      <div className="mx-auto px-6 py-28 sm:px-10 lg:px-16">
+        <div className="max-w-[720px]">
+          <p className="text-[1.2rem] font-light tracking-tight text-black/30 md:text-[1.6rem]">
             {copy.eyebrow}
           </p>
 
-          <h2
-            className={cx(
-              "mt-8 whitespace-pre-line font-sans text-[clamp(2rem,4vw,3.5rem)] font-semibold leading-[0.92] tracking-tight transition-all duration-700",
-              showTitle
-                ? "translate-y-0 opacity-100"
-                : "translate-y-10 opacity-0",
-            )}
-          >
+          <h2 className="mt-3 font-sans text-[2.4rem] font-semibold leading-[1.05] tracking-tight text-black md:text-[3.2rem]">
             {copy.title}
           </h2>
         </div>
 
-        <div className="absolute inset-x-6 bottom-[20%] sm:inset-x-10 lg:inset-x-16">
-          <div className="grid gap-6 lg:grid-cols-3">
-            {cards.map((card, index) => (
-              <AudienceCard
-                key={card.stage}
-                card={card}
-                visible={isAudienceCardVisible(activeStageKey, card.stage)}
-                delayMs={index * 100}
-              />
-            ))}
-          </div>
+        <div className="mt-16 grid gap-20 md:grid-cols-2 lg:grid-cols-3">
+          {cards.map((card, index) => (
+            <AudienceCard
+              key={card.stage}
+              card={card}
+              visible={isAudienceCardVisible(activeStageKey, card.stage)}
+              delayMs={index * 100}
+            />
+          ))}
         </div>
 
         <div
           className={cx(
-            "absolute bottom-[7%] left-1/2 w-[min(92vw,72rem)] -translate-x-1/2 transition-[opacity,transform] duration-700",
+            "mt-20 transition-all duration-700",
             showWarning
               ? "translate-y-0 opacity-100"
-              : "pointer-events-none translate-y-10 opacity-0",
+              : "translate-y-10 opacity-0",
           )}
         >
-          <div className="flex items-center gap-6 rounded-[2rem] bg-white px-8 py-7 shadow-[0_18px_50px_rgba(15,23,42,0.14)] ring-1 ring-amber-200/80 md:px-10 md:py-8">
-            <div className="flex h-20 w-20 shrink-0 items-center justify-center rounded-[1.35rem] bg-amber-50 text-amber-500 md:h-24 md:w-24">
-              <FaTriangleExclamation className="h-12 w-12 md:h-14 md:w-14" />
+          <div className="flex flex-col items-start gap-5 rounded-[1.6rem] bg-white px-6 py-6 shadow-[0_12px_35px_rgba(15,23,42,0.1)] ring-1 ring-amber-200/70 md:flex-row md:items-center md:px-8 md:py-7">
+            <div className="flex h-16 w-16 items-center justify-center rounded-[1rem] bg-amber-50 text-amber-500">
+              <FaTriangleExclamation className="h-8 w-8" />
             </div>
 
-            <div className="min-w-0 text-black">
-              <p className="font-sans text-[2rem] font-semibold tracking-tight md:text-[3rem]">
+            <div className="text-black">
+              <p className="font-sans text-[1.5rem] font-semibold tracking-tight md:text-[2rem]">
                 {copy.warningTitle}
               </p>
-              <p className="mt-2 font-body text-[1.3rem] leading-[1.24] text-black/88 md:text-[2rem]">
+              <p className="mt-1 text-[1rem] text-black/70 md:text-[1.15rem]">
                 {copy.warningBody}
               </p>
             </div>

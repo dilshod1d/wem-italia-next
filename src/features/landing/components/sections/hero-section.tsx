@@ -19,7 +19,7 @@ export function HeroSection() {
       nextVideoSrc={whyWemWorksSectionConfig.videoUrl}
       isScrolled={isScrolled}
       navTheme="dark"
-      videoClassName="object-[center_78%] grayscale-[20%] contrast-[110%]"
+      videoClassName="object-[center_58%] grayscale-[20%] contrast-[110%]"
     >
       <div className="relative flex h-full w-full items-center justify-center">
         {heroStoryConfig.segments.map((segment) => (

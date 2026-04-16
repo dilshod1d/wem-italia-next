@@ -131,7 +131,7 @@ export function WhyWemWorksSection() {
       indicatorLabel="Scroll Down"
       indicatorPersistent
       indicatorLabelClassName="normal-case text-[1.05rem] font-medium tracking-normal text-white/95"
-      videoClassName="object-[center_78%] scale-[1.01] brightness-[0.82] contrast-[1.05] saturate-[1.03]"
+      videoClassName="object-[center_58%] scale-[1.01] brightness-[0.82] contrast-[1.05] saturate-[1.03]"
       overlay={
         <>
           <div className="absolute inset-0 bg-gradient-to-r from-slate-950/55 via-slate-950/5 to-black/45" />

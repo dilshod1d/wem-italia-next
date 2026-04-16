@@ -38,7 +38,7 @@ export function useSectionPin({
       end: `+=${pinDistance}`,
       scrub: true,
       pin: pinTarget,
-      pinSpacing: false,
+      pinSpacing: true,
       onToggle: (self) => {
         section.style.zIndex = self.isActive ? "30" : "0";
       },

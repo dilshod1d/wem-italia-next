@@ -33,14 +33,6 @@ export interface FooterNavLink {
   readonly href: string;
 }
 
-export type FooterEnterpriseVariant = "ai" | "giovanni" | "agency";
-
-export interface FooterEnterpriseItem {
-  readonly id: string;
-  readonly variant: FooterEnterpriseVariant;
-  readonly title: string;
-  readonly subtitle: string;
-}
 
 export interface FooterSectionConfig {
   readonly ctaTitle: string;
@@ -50,5 +42,4 @@ export interface FooterSectionConfig {
   readonly socials: readonly FooterSocialLink[];
   readonly contactItems: readonly FooterContactItem[];
   readonly navLinks: readonly FooterNavLink[];
-  readonly enterpriseItems: readonly FooterEnterpriseItem[];
 }

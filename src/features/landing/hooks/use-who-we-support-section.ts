@@ -27,6 +27,7 @@ export function useWhoWeSupportSection(config: WhoWeSupportSectionConfig) {
       const activeStage = stages.find(
         (stage) => progress >= stage.start && progress < stage.end,
       );
+     
 
       if (activeStage && activeStage.key !== lastStageKey) {
         stateRef.current.lastStageKey = activeStage.key;
