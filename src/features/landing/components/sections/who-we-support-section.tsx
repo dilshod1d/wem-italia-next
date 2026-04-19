@@ -99,6 +99,7 @@ function AudienceCard({
 
 interface WhoWeSupportContentProps {
   activeStageKey: WhoWeSupportStageKey;
+  showHeading: boolean;
   compact?: boolean;
   forceFinal?: boolean;
   renderWarning?: boolean;
@@ -106,6 +107,7 @@ interface WhoWeSupportContentProps {
 
 function WhoWeSupportContent({
   activeStageKey,
+  showHeading,
   compact = false,
   forceFinal = false,
   renderWarning = true,
@@ -117,8 +119,23 @@ function WhoWeSupportContent({
   return (
     <>
       <div className="max-w-[85%]">
-        <p className="text-eyebrow text-black/28">{copy.eyebrow}</p>
-        <h2 className="heading-hero text-black">{copy.title}</h2>
+        <p
+          className={cx(
+            "text-eyebrow text-black/28 transition-all duration-700",
+            showHeading ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0",
+          )}
+        >
+          {copy.eyebrow}
+        </p>
+        <h2
+          className={cx(
+            "heading-hero text-black transition-all duration-700",
+            showHeading ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0",
+          )}
+          style={{ transitionDelay: showHeading ? "70ms" : "0ms" }}
+        >
+          {copy.title}
+        </h2>
       </div>
       <div
         className={cx(
@@ -194,7 +211,11 @@ export function WhoWeSupportSection({
         className="relative z-20 h-screen w-full overflow-hidden bg-white"
       >
         <div className="mx-auto mt-[10%] h-full px-6 sm:px-10 lg:px-16">
-          <WhoWeSupportContent activeStageKey={activeStageKey} compact />
+          <WhoWeSupportContent
+            activeStageKey={activeStageKey}
+            showHeading={isPinned}
+            compact
+          />
         </div>
 
         <ScrollIndicator
