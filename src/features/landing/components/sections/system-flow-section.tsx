@@ -52,11 +52,11 @@ function BenefitCard({
         transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)",
       }}
     >
-      <h3 className="font-sans text-[1.3rem] font-semibold uppercase tracking-tight md:text-[1.8rem]">
+      <h3 className="font-sans text-[1.6rem] font-semibold uppercase tracking-tight md:text-[2rem]">
         {title}
       </h3>
 
-      <p className="mt-4 max-w-3xl font-body text-[1.1rem] leading-[1.4] md:text-[1.4rem]">
+      <p className="max-w-3xl font-body text-[1.1rem] leading-[1.4] md:text-[1.4rem]">
         {body}
       </p>
     </article>
