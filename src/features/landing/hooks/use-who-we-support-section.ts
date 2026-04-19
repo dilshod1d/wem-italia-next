@@ -51,10 +51,15 @@ export function useWhoWeSupportSection(
 
     if (!section || !pinned) return;
 
+    const pinDistance =
+      window.matchMedia("(max-width: 639px)").matches
+        ? 1320
+        : CHAPTER_SCROLL_DISTANCE;
+
     const trigger = ScrollTrigger.create({
       trigger: section,
       start: "top top",
-      end: `+=${CHAPTER_SCROLL_DISTANCE}`,
+      end: `+=${pinDistance}`,
       scrub: true,
       pin: pinned,
       pinSpacing: true,

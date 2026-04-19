@@ -5,9 +5,9 @@ export const whoWeSupportSectionConfig = {
     { id: 1, key: "title", start: 0, end: 0.12 },
     { id: 2, key: "startups", start: 0.12, end: 0.28 },
     { id: 3, key: "professionals", start: 0.28, end: 0.44 },
-    { id: 4, key: "smes", start: 0.44, end: 0.58 },
-    { id: 5, key: "warning", start: 0.58, end: 0.76 },
-    { id: 6, key: "final", start: 0.76, end: Number.POSITIVE_INFINITY },
+    { id: 4, key: "smes", start: 0.44, end: 0.72 },
+    { id: 5, key: "warning", start: 0.72, end: 0.88 },
+    { id: 6, key: "final", start: 0.88, end: Number.POSITIVE_INFINITY },
   ],
   copy: {
     eyebrow: "Who We Support",

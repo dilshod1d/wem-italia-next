@@ -122,7 +122,7 @@ html::-webkit-scrollbar-thumb:hover {
 }
 
 @utility text-body {
-  @apply text-lg leading-7
+  @apply text-lg leading-7 
          md:text-xl md:leading-8
          lg:text-2xl lg:leading-9;
 }
