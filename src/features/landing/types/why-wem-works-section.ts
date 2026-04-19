@@ -1,3 +1,5 @@
+import type { HeroSupportCard } from "./hero-section";
+
 export type WhyWemWorksStageKey =
   | "intro"
   | "narrative"
@@ -5,11 +7,13 @@ export type WhyWemWorksStageKey =
   | "ai"
   | "proof";
 
+export type WhyWemWorksHandoffPhase = "copy" | "card" | "done";
+
 export interface WhyWemWorksStage {
   readonly id: number;
   readonly key: WhyWemWorksStageKey;
-  readonly start: number;
-  readonly end: number;
+  readonly startFrame: number;
+  readonly endFrame: number;
 }
 
 export interface WhyWemWorksInsightBlock {
@@ -32,9 +36,21 @@ export interface WhyWemWorksProofPoint {
   readonly icon: WhyWemWorksProofPointIcon;
 }
 
+export interface WhyWemWorksHandoff {
+  readonly cardAppearFrame: number;
+  readonly endFrame: number;
+  readonly eyebrow: string;
+  readonly titleLines: readonly string[];
+  readonly paragraphs: readonly string[];
+  readonly supportCard: HeroSupportCard;
+}
+
 export interface WhyWemWorksSectionConfig {
   readonly videoUrl: string;
+  readonly fps: number;
+  readonly totalFrames: number;
   readonly videoDuration: number;
+  readonly handoff: WhyWemWorksHandoff;
   readonly stages: readonly WhyWemWorksStage[];
   readonly introTitle: string;
   readonly title: string;

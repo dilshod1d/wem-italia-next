@@ -1,23 +1,21 @@
 import type { HeroSectionConfig } from "../types/hero-section";
 
-function fromFrameCode(seconds: number, frames: number) {
-  return seconds + frames / 50;
-}
-
 export const heroStoryConfig = {
   videoUrl:
     "https://res.cloudinary.com/dcderdzpp/video/upload/v1776096629/output_af6jf5.mp4",
-  videoDuration: 5.013,
+  fps: 30,
+  totalFrames: 150,
+  videoDuration: 5,
   eyebrows: {
     intro: { text: "Website - SEO - Social - Promo - AI" },
     enterprise: { text: "WEM ENTERPRISE" },
   },
   titles: {
     intro: {
-      lines: ["Forget the Stress", "of Managing the Web"],
+      lines: ["Forget the Stress of Managing the Web"],
     },
     ecosystem: {
-      lines: ["One Guide", "with an ecosystem behind you"],
+      lines: ["One Guide with an ecosystem behind you"],
     },
   },
   bodies: {
@@ -86,23 +84,23 @@ export const heroStoryConfig = {
     ecosystemAnchor: {
       copyClassName:
         "max-w-[35rem] -translate-y-10 md:-translate-y-12 lg:-translate-y-10",
-      bodyClassName: "max-w-[24rem]",
+      bodyClassName: "max-w-[28rem]",
     },
     ecosystemRaised: {
       copyClassName:
-        "max-w-[37rem] -translate-y-20 md:-translate-y-24 lg:-translate-y-24",
+        "max-w-[35rem] -translate-y-10 md:-translate-y-12 lg:-translate-y-10",
       bodyClassName: "max-w-[28rem]",
       cardWrapClassName: "mt-7 md:mt-8",
     },
     ecosystemCard: {
       copyClassName:
-        "max-w-[37rem] -translate-y-14 md:-translate-y-16 lg:-translate-y-14",
+        "max-w-[35rem] -translate-y-10 md:-translate-y-12 lg:-translate-y-10",
       bodyClassName: "max-w-[28rem]",
       cardWrapClassName: "mt-7 md:mt-8",
     },
     ecosystemCardLate: {
       copyClassName:
-        "max-w-[37rem] -translate-y-12 md:-translate-y-14 lg:-translate-y-12",
+        "max-w-[35rem] -translate-y-10 md:-translate-y-12 lg:-translate-y-10",
       bodyClassName: "max-w-[28rem]",
       cardWrapClassName: "mt-7 md:mt-8",
     },
@@ -110,16 +108,16 @@ export const heroStoryConfig = {
   stages: [
     {
       id: 1,
-      start: 0,
-      end: fromFrameCode(0, 25),
+      startFrame: 0,
+      endFrame: 25,
       eyebrowKey: "intro",
       titleKey: "intro",
       placementKey: "introLocked",
     },
     {
       id: 2,
-      start: fromFrameCode(0, 25),
-      end: fromFrameCode(1, 11),
+      startFrame: 25,
+      endFrame: 41,
       eyebrowKey: "intro",
       titleKey: "intro",
       bodyKey: "introLead",
@@ -127,8 +125,8 @@ export const heroStoryConfig = {
     },
     {
       id: 3,
-      start: fromFrameCode(1, 11),
-      end: fromFrameCode(1, 25),
+      startFrame: 41,
+      endFrame: 55,
       eyebrowKey: "intro",
       titleKey: "intro",
       bodyKey: "introFull",
@@ -136,52 +134,63 @@ export const heroStoryConfig = {
     },
     {
       id: 4,
-      start: fromFrameCode(1, 25),
-      end: fromFrameCode(2, 22),
+      startFrame: 55,
+      endFrame: 70,
+      placementKey: "blank",
+    },
+    {
+      id: 5,
+      startFrame: 70,
+      endFrame: 92,
       eyebrowKey: "enterprise",
       titleKey: "ecosystem",
       placementKey: "ecosystemAnchor",
     },
     {
-      id: 5,
-      start: fromFrameCode(2, 22),
-      end: fromFrameCode(3, 2),
-      titleKey: "ecosystem",
-      placementKey: "ecosystemRaised",
-    },
-    {
       id: 6,
-      start: fromFrameCode(3, 2),
-      end: fromFrameCode(3, 30),
+      startFrame: 92,
+      endFrame: 105,
+      eyebrowKey: "enterprise",
       titleKey: "ecosystem",
       bodyKey: "ecosystemLead",
       placementKey: "ecosystemRaised",
     },
     {
       id: 7,
-      start: fromFrameCode(3, 30),
-      end: fromFrameCode(4, 13),
+      startFrame: 105,
+      endFrame: 120,
+      eyebrowKey: "enterprise",
       titleKey: "ecosystem",
       bodyKey: "ecosystemFull",
+      placementKey: "ecosystemRaised",
+    },
+    {
+      id: 8,
+      startFrame: 120,
+      endFrame: 133,
+      eyebrowKey: "enterprise",
+      titleKey: "ecosystem",
+      bodyKey: "ecosystemSupport",
       supportCardKey: "giovanni",
       placementKey: "ecosystemCard",
     },
     {
-      id: 8,
-      start: fromFrameCode(4, 13),
-      end: fromFrameCode(4, 28),
+      id: 9,
+      startFrame: 133,
+      endFrame: 144,
+      eyebrowKey: "enterprise",
+      titleKey: "ecosystem",
+      bodyKey: "ecosystemSupport",
+      placementKey: "ecosystemCardLate",
+    },
+    {
+      id: 10,
+      startFrame: 144,
+      endFrame: Number.POSITIVE_INFINITY,
+      eyebrowKey: "enterprise",
       titleKey: "ecosystem",
       bodyKey: "ecosystemSupport",
       supportCardKey: "wem-ai",
-      placementKey: "ecosystemCard",
-    },
-    {
-      id: 9,
-      start: fromFrameCode(4, 28),
-      end: Number.POSITIVE_INFINITY,
-      titleKey: "ecosystem",
-      bodyKey: "ecosystemSupport",
-      supportCardKey: "wem-agency",
       placementKey: "ecosystemCardLate",
     },
   ],

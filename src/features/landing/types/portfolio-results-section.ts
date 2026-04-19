@@ -9,8 +9,8 @@ export type PortfolioResultsStageKey =
 export interface PortfolioResultsStage {
   readonly id: number;
   readonly key: PortfolioResultsStageKey;
-  readonly start: number;
-  readonly end: number;
+  readonly startFrame: number;
+  readonly endFrame: number;
 }
 
 export interface PortfolioResultsCopy {
@@ -41,6 +41,8 @@ export interface PortfolioResultsMetric {
 
 export interface PortfolioResultsSectionConfig {
   readonly videoUrl: string;
+  readonly fps: number;
+  readonly totalFrames: number;
   readonly videoDuration: number;
   readonly focusItemId: string;
   readonly stages: readonly PortfolioResultsStage[];

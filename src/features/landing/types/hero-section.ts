@@ -29,8 +29,8 @@ export interface HeroStagePlacement {
 
 export interface HeroStage {
   readonly id: number;
-  readonly start: number;
-  readonly end: number;
+  readonly startFrame: number;
+  readonly endFrame: number;
   readonly eyebrowKey?: string;
   readonly titleKey?: string;
   readonly bodyKey?: string;
@@ -40,6 +40,8 @@ export interface HeroStage {
 
 export interface HeroSectionConfig {
   readonly videoUrl: string;
+  readonly fps: number;
+  readonly totalFrames: number;
   readonly videoDuration: number;
   readonly eyebrows: Readonly<Record<string, HeroEyebrow>>;
   readonly titles: Readonly<Record<string, HeroTitle>>;

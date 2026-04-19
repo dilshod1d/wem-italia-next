@@ -9,8 +9,8 @@ export type SystemFlowStageKey =
 export interface SystemFlowStage {
   readonly id: number;
   readonly key: SystemFlowStageKey;
-  readonly start: number;
-  readonly end: number;
+  readonly startFrame: number;
+  readonly endFrame: number;
 }
 
 export interface SystemFlowCard {
@@ -24,6 +24,8 @@ export interface SystemFlowCard {
 
 export interface SystemFlowSectionConfig {
   readonly videoUrl: string;
+  readonly fps: number;
+  readonly totalFrames: number;
   readonly videoDuration: number;
   readonly stages: readonly SystemFlowStage[];
   readonly eyebrow: string;

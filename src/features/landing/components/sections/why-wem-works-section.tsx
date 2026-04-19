@@ -16,11 +16,12 @@ import type {
   WhyWemWorksStageKey,
 } from "../../types/why-wem-works-section";
 import { CinematicVideoSection } from "../cinematic-video-section";
+import { HeroSupportCard } from "../hero-support-card";
 
 const {
   videoUrl,
+  handoff,
   introTitle,
-  title,
   leadParagraph,
   resultParagraph,
   blocks,
@@ -116,7 +117,7 @@ function ProofPointCard({
 }
 
 export function WhyWemWorksSection() {
-  const { sectionRef, videoRef, activeStageKey, isScrolled } =
+  const { sectionRef, videoRef, activeStageKey, handoffPhase, isScrolled } =
     useWhyWemWorksVideo(whyWemWorksSectionConfig);
 
   return (
@@ -134,7 +135,7 @@ export function WhyWemWorksSection() {
       videoClassName="object-[center_58%] scale-[1.01] brightness-[0.82] contrast-[1.05] saturate-[1.03]"
       overlay={
         <>
-          <div className="absolute inset-0 bg-gradient-to-r from-slate-950/55 via-slate-950/5 to-black/45" />
+          <div className="absolute inset-0 bg-linear-to-r from-slate-950/55 via-slate-950/5 to-black/45" />
           <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/55 to-transparent" />
           <div className="absolute left-[42%] top-[12%] h-48 w-48 rounded-full bg-amber-300/15 blur-3xl" />
           <div className="absolute left-[10%] top-[20%] h-72 w-72 rounded-full bg-blue-300/8 blur-3xl" />
@@ -142,50 +143,94 @@ export function WhyWemWorksSection() {
       }
     >
       {(() => {
-        const showIntro = activeStageKey === "intro";
-        const showNarrative =
-          activeStageKey !== "intro" && activeStageKey !== "proof";
+        const showHandoff = handoffPhase !== "done";
+        const showSectionTitle =
+          handoffPhase === "done" && activeStageKey !== "proof";
+        const showNarrativeCopy =
+          handoffPhase === "done" &&
+          activeStageKey !== "intro" &&
+          activeStageKey !== "proof";
         const showSecondParagraph =
-          activeStageKey === "method" || activeStageKey === "ai";
-        const showProofGrid = activeStageKey === "proof";
+          handoffPhase === "done" &&
+          (activeStageKey === "method" || activeStageKey === "ai");
+        const showProofGrid =
+          handoffPhase === "done" && activeStageKey === "proof";
 
         return (
           <div className="relative h-full w-full">
             <div className="absolute inset-0 mx-auto max-w-[1600px] px-6 pb-24 pt-28 sm:px-10 lg:px-16">
               <div
                 className={cx(
-                  "absolute left-6 top-[24%] max-w-lg transition-all duration-1000 sm:left-10 lg:left-16",
-                  showIntro
-                    ? "translate-x-0 opacity-100"
-                    : "-translate-x-8 opacity-0",
+                  "absolute left-[10%] right-[6%] top-[25%] z-20 max-w-[40%] transition-all duration-700",
+                  showHandoff
+                    ? "translate-y-0 opacity-100"
+                    : "-translate-y-6 opacity-0",
+                )}
+                style={{ textShadow: "0 8px 30px rgba(0, 0, 0, 0.32)" }}
+              >
+                <div>
+                  <p className="mb-4 font-sans text-[0.65rem] uppercase tracking-[0.28em] text-white/60 md:text-[0.72rem]">
+                    {handoff.eyebrow}
+                  </p>
+                  <h2 className="font-sans text-[clamp(2rem,4vw,3.5rem)] font-semibold leading-[0.92] tracking-[-0.05em] text-white">
+                    {handoff.titleLines.map((line) => (
+                      <span key={line} className="block">
+                        {line}
+                      </span>
+                    ))}
+                  </h2>
+                  <div className="mt-5 max-w-[28rem] space-y-1.5 text-sm leading-6 text-white/84 md:text-base">
+                    {handoff.paragraphs.map((paragraph) => (
+                      <p key={paragraph}>{paragraph}</p>
+                    ))}
+                  </div>
+                </div>
+                <div
+                  className={cx(
+                    "mt-7 max-w-[34rem] transition-all duration-500 md:mt-8",
+                    handoffPhase === "card"
+                      ? "translate-y-0 opacity-100"
+                      : "translate-y-4 opacity-0",
+                  )}
+                >
+                  <HeroSupportCard
+                    card={handoff.supportCard}
+                    isActive={handoffPhase === "card"}
+                  />
+                </div>
+              </div>
+
+              <div
+                className={cx(
+                  "absolute z-10 transition-all duration-1000",
+                  showSectionTitle
+                    ? "opacity-100"
+                    : "pointer-events-none opacity-0",
+                  activeStageKey === "intro"
+                    ? "left-6 top-[24%] max-w-[40%] translate-x-0 sm:left-10 lg:left-16"
+                    : "right-6 top-[18%] max-w-[55%] translate-x-0 sm:right-10 lg:right-16",
                 )}
               >
-                <h3 className="font-sans text-3xl font-medium tracking-tight text-white/75 md:text-5xl">
+                <h3 className="font-sans text-5xl font-medium tracking-tight text-white/75 md:text-7xl">
                   {introTitle}
                 </h3>
               </div>
 
               <div
                 className={cx(
-                  "absolute left-6 right-6 top-[18%] grid gap-8 transition-all duration-1000 sm:left-10 sm:right-10 lg:left-16 lg:right-16 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)]",
-                  showNarrative
+                  "absolute right-6 top-[30%] max-w-[55%] transition-all duration-1000 sm:right-10 lg:right-16",
+                  showNarrativeCopy
                     ? "translate-x-0 opacity-100"
                     : "translate-x-12 opacity-0",
                 )}
               >
-                <div className="flex items-start">
-                  <h2 className="max-w-2xl font-sans text-5xl font-semibold tracking-tight text-white md:text-7xl lg:text-[5.5rem]">
-                    {title}
-                  </h2>
-                </div>
-
-                <div className="max-w-4xl justify-self-end pt-2 text-left lg:pt-6">
-                  <p className="font-body text-2xl leading-[1.28] text-white/94 md:text-[2rem]">
+                <div className="text-right">
+                  <p className="font-body text-[1.4rem] leading-[1.5] text-white/94 md:text-[1.9rem]">
                     {leadParagraph}
                   </p>
                   <p
                     className={cx(
-                      "mt-4 font-body text-xl leading-[1.32] text-white/90 transition-all duration-700 md:text-[1.9rem]",
+                      "font-body text-[1.4rem] leading-[1.5] text-white/90 transition-all duration-700 md:text-[1.9rem]",
                       showSecondParagraph
                         ? "translate-y-0 opacity-100"
                         : "translate-y-5 opacity-0",
@@ -196,8 +241,8 @@ export function WhyWemWorksSection() {
                 </div>
               </div>
 
-              <div className="absolute inset-x-6 bottom-[18%] sm:inset-x-10 lg:inset-x-16">
-                <div className="ml-auto flex w-full max-w-[880px] flex-col gap-5">
+              <div className="absolute inset-x-6 bottom-[12%] sm:inset-x-10 lg:inset-x-16">
+                <div className="ml-auto flex w-full max-w-[60%] flex-col gap-5">
                   {blocks.map((block, index) => (
                     <InsightBlock
                       key={block.stage}

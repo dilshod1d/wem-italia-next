@@ -117,18 +117,18 @@ function getPortfolioCardSizeClass(distanceFromFocus: number) {
 
 function getPortfolioCardImageHeightClass(distanceFromFocus: number) {
   if (distanceFromFocus === 0) {
-    return "h-[18.5rem] sm:h-[20.5rem] md:h-[24rem] lg:h-[27rem]";
+    return "h-[16.5rem] sm:h-[18.25rem] md:h-[21.5rem] lg:h-[24rem]";
   }
 
   if (distanceFromFocus === 1) {
-    return "h-[17.75rem] sm:h-[19.5rem] md:h-[22.75rem] lg:h-[25.5rem]";
+    return "h-[16rem] sm:h-[17.5rem] md:h-[20.5rem] lg:h-[23rem]";
   }
 
   if (distanceFromFocus === 2) {
-    return "h-[17rem] sm:h-[18.5rem] md:h-[21.5rem] lg:h-[24rem]";
+    return "h-[15.25rem] sm:h-[16.75rem] md:h-[19.5rem] lg:h-[22rem]";
   }
 
-  return "h-[16.25rem] sm:h-[17.75rem] md:h-[20rem] lg:h-[22.5rem]";
+  return "h-[14.5rem] sm:h-[16rem] md:h-[18.5rem] lg:h-[20.75rem]";
 }
 
 function getPortfolioCardFocusStateClass(
@@ -136,22 +136,22 @@ function getPortfolioCardFocusStateClass(
   focusMode: boolean,
 ) {
   if (!focusMode) {
-    return "scale-100 blur-0";
+    return "scale-100 opacity-100 blur-0";
   }
 
   if (distanceFromFocus === 0) {
-    return "scale-[1.02] blur-0";
+    return "scale-100 opacity-100 blur-0";
   }
 
   if (distanceFromFocus === 1) {
-    return "scale-[0.98] blur-0";
+    return "scale-100 opacity-100 blur-0";
   }
 
   if (distanceFromFocus === 2) {
-    return "scale-[0.94] blur-[0.4px]";
+    return "scale-100 opacity-95 blur-[0.4px]";
   }
 
-  return "scale-[0.9] blur-[1.2px]";
+  return "scale-100 opacity-85 blur-[1.2px]";
 }
 
 interface ProofMetricCardProps {
@@ -291,7 +291,7 @@ export function PortfolioResultsSection() {
 
           <div
             className={cx(
-              "absolute inset-x-0 bottom-[5%] transition-all duration-700",
+              "absolute inset-x-0 bottom-[8%] transition-all duration-700",
               showPortfolio
                 ? "translate-y-0 opacity-100"
                 : "pointer-events-none translate-y-12 opacity-0",

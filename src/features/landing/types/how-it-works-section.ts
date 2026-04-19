@@ -10,8 +10,8 @@ export type HowItWorksStageKey =
 export interface HowItWorksStage {
   readonly id: number;
   readonly key: HowItWorksStageKey;
-  readonly start: number;
-  readonly end: number;
+  readonly startFrame: number;
+  readonly endFrame: number;
 }
 
 export interface HowItWorksStep {
@@ -35,6 +35,8 @@ export interface HowItWorksCopy {
 
 export interface HowItWorksSectionConfig {
   readonly videoUrl: string;
+  readonly fps: number;
+  readonly totalFrames: number;
   readonly videoDuration: number;
   readonly stages: readonly HowItWorksStage[];
   readonly copy: HowItWorksCopy;

@@ -3,14 +3,36 @@ import type { WhyWemWorksSectionConfig } from "../types/why-wem-works-section";
 export const whyWemWorksSectionConfig = {
   videoUrl:
     "https://res.cloudinary.com/dcderdzpp/video/upload/v1776161487/v2_ic3fty.mp4",
-  // videoDuration: 4.28,
-  videoDuration: 5.013,
+  fps: 30,
+  totalFrames: 150,
+  videoDuration: 5,
+  handoff: {
+    cardAppearFrame: 11,
+    endFrame: 32,
+    eyebrow: "WEM ENTERPRISE",
+    titleLines: ["One Guide with an ecosystem behind you"],
+    paragraphs: [
+      "Supporting that is an ecosystem built and",
+      "validated on an international scale.",
+    ],
+    supportCard: {
+      tone: "purple",
+      icon: "wem-agency",
+      title: "WEM AGENCY",
+      description: "WEM specialists activated based on what is truly needed.",
+    },
+  },
   stages: [
-    { id: 1, key: "intro", start: 0, end: 1.02 },
-    { id: 2, key: "narrative", start: 1.02, end: 2.08 },
-    { id: 3, key: "method", start: 2.08, end: 3.2 },
-    { id: 4, key: "ai", start: 3.2, end: 4.05 },
-    { id: 5, key: "proof", start: 4.05, end: Number.POSITIVE_INFINITY },
+    { id: 1, key: "intro", startFrame: 0, endFrame: 48 },
+    { id: 2, key: "narrative", startFrame: 48, endFrame: 68 },
+    { id: 3, key: "method", startFrame: 68, endFrame: 110 },
+    { id: 4, key: "ai", startFrame: 110, endFrame: 125 },
+    {
+      id: 5,
+      key: "proof",
+      startFrame: 125,
+      endFrame: Number.POSITIVE_INFINITY,
+    },
   ],
   introTitle: "Why WEM Works",
   title: "Why WEM Works",

@@ -14,7 +14,7 @@ interface HowItWorksVideoState {
 }
 
 export function useHowItWorksVideo(config: HowItWorksSectionConfig) {
-  const { stages, videoDuration, videoUrl } = config;
+  const { fps, stages, totalFrames, videoDuration, videoUrl } = config;
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const stateRef = useRef<HowItWorksVideoState>({
     lastStageKey: stages[0]?.key ?? "intro",
@@ -33,6 +33,9 @@ export function useHowItWorksVideo(config: HowItWorksSectionConfig) {
     onUpdate: (progress) => {
       const video = videoRef.current;
       const currentTime = videoDuration * Math.min(Math.max(progress, 0), 1);
+      const currentFrame = Math.round(
+        Math.min(Math.max(currentTime * fps, 0), totalFrames),
+      );
 
       if (video && video.readyState >= 1) {
         video.currentTime = currentTime;
@@ -40,13 +43,14 @@ export function useHowItWorksVideo(config: HowItWorksSectionConfig) {
 
       const { lastStageKey } = stateRef.current;
       const activeStage = stages.find(
-        (stage) => currentTime >= stage.start && currentTime < stage.end,
+        (stage) =>
+          currentFrame >= stage.startFrame && currentFrame < stage.endFrame,
       );
 
       debugLogger.logProgress({
         progress,
         currentTime,
-        marker: activeStage?.key ?? lastStageKey,
+        marker: `${activeStage?.key ?? lastStageKey}@f${currentFrame}`,
       });
 
       if (activeStage && activeStage.key !== lastStageKey) {

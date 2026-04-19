@@ -228,24 +228,24 @@ export function FooterSection() {
                 <input
                   type="text"
                   placeholder="Name"
-                  className="h-12 rounded-[0.22rem] border border-white/18 bg-footer-surface px-4 font-body text-[0.95rem] text-white placeholder:text-white/35 outline-none transition-colors focus:border-brand-cyan"
+                  className="h-12 rounded-[0.22rem] border border-white/18 bg-footer-surface-alt px-4 font-body text-[0.95rem] text-white placeholder:text-white/35 outline-none transition-colors focus:border-brand-cyan"
                 />
                 <div className="grid gap-3 md:grid-cols-2">
                   <input
                     type="email"
                     placeholder="Email"
-                    className="h-12 rounded-[0.22rem] border border-white/18 bg-footer-surface px-4 font-body text-[0.95rem] text-white placeholder:text-white/35 outline-none transition-colors focus:border-brand-cyan"
+                    className="h-12 rounded-[0.22rem] border border-white/18 bg-footer-surface-alt px-4 font-body text-[0.95rem] text-white placeholder:text-white/35 outline-none transition-colors focus:border-brand-cyan"
                   />
                   <input
                     type="tel"
                     placeholder="Phone number"
-                    className="h-12 rounded-[0.22rem] border border-white/18 bg-footer-surface px-4 font-body text-[0.95rem] text-white placeholder:text-white/35 outline-none transition-colors focus:border-brand-cyan"
+                    className="h-12 rounded-[0.22rem] border border-white/18 bg-footer-surface-alt px-4 font-body text-[0.95rem] text-white placeholder:text-white/35 outline-none transition-colors focus:border-brand-cyan"
                   />
                 </div>
                 <textarea
                   placeholder="Write your message"
                   rows={5}
-                  className="rounded-[0.22rem] border border-white/18 bg-footer-surface px-4 py-3 font-body text-[0.95rem] text-white placeholder:text-white/35 outline-none transition-colors focus:border-brand-cyan"
+                  className="rounded-[0.22rem] border border-white/18 bg-footer-surface-alt px-4 py-3 font-body text-[0.95rem] text-white placeholder:text-white/35 outline-none transition-colors focus:border-brand-cyan"
                 />
                 <button
                   type="submit"
@@ -257,7 +257,7 @@ export function FooterSection() {
             </form>
           </div>
 
-          <div className="mt-14 rounded-[0.9rem] bg-footer-surface px-5 py-6 ring-1 ring-white/8 md:px-8 md:py-8">
+          <div className="mt-14 rounded-[0.9rem] bg-footer-surface-alt px-5 py-6 ring-1 ring-white/8 md:px-8 md:py-8">
             <div className="grid gap-8 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.8fr)_minmax(0,0.9fr)]">
               <div className="space-y-3">
                 {contactItems.map((item) => (

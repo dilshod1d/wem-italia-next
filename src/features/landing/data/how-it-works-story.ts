@@ -3,16 +3,17 @@ import type { HowItWorksSectionConfig } from "../types/how-it-works-section";
 export const howItWorksSectionConfig = {
   videoUrl:
     "https://res.cloudinary.com/dcderdzpp/video/upload/v1776167362/v4_cv51vo.mp4",
-  // videoDuration: 4.28,
-  videoDuration: 5.013,
+  fps: 30,
+  totalFrames: 150,
+  videoDuration: 5,
   stages: [
-    { id: 1, key: "intro", start: 0, end: 0 },
-    { id: 2, key: "headline", start: 0, end: 1.55 },
-    { id: 3, key: "context", start: 1.55, end: 1.95 },
-    { id: 4, key: "analysis", start: 1.95, end: 2.95 },
-    { id: 5, key: "direction", start: 2.95, end: 3.65 },
-    { id: 6, key: "build", start: 3.65, end: 4.3 },
-    { id: 7, key: "evolution", start: 4.3, end: Number.POSITIVE_INFINITY },
+    { id: 1, key: "intro", startFrame: 0, endFrame: 0 },
+    { id: 2, key: "headline", startFrame: 0, endFrame: 47 },
+    { id: 3, key: "context", startFrame: 47, endFrame: 59 },
+    { id: 4, key: "analysis", startFrame: 59, endFrame: 89 },
+    { id: 5, key: "direction", startFrame: 89, endFrame: 110 },
+    { id: 6, key: "build", startFrame: 110, endFrame: 129 },
+    { id: 7, key: "evolution", startFrame: 129, endFrame: Number.POSITIVE_INFINITY },
   ],
   copy: {
     initialHeadline: "A Clear Path",

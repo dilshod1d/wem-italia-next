@@ -3,16 +3,17 @@ import type { PortfolioResultsSectionConfig } from "../types/portfolio-results-s
 export const portfolioResultsSectionConfig = {
   videoUrl:
     "https://res.cloudinary.com/dcderdzpp/video/upload/v1776169273/v5_wlotyd.mp4",
-  // videoDuration: 4.28,
-  videoDuration: 5.013,
+  fps: 30,
+  totalFrames: 150,
+  videoDuration: 5,
   focusItemId: "architecture",
   stages: [
-    { id: 1, key: "intro", start: 0, end: 0.8 },
-    { id: 2, key: "headline", start: 0.8, end: 1.6 },
-    { id: 3, key: "narrative", start: 1.6, end: 2.4 },
-    { id: 4, key: "portfolio", start: 2.4, end: 3.0 },
-    { id: 5, key: "focus", start: 3.0, end: 3.6 },
-    { id: 6, key: "proof", start: 3.6, end: Number.POSITIVE_INFINITY },
+    { id: 1, key: "intro", startFrame: 0, endFrame: 24 },
+    { id: 2, key: "headline", startFrame: 24, endFrame: 48 },
+    { id: 3, key: "narrative", startFrame: 48, endFrame: 72 },
+    { id: 4, key: "portfolio", startFrame: 72, endFrame: 90 },
+    { id: 5, key: "focus", startFrame: 90, endFrame: 108 },
+    { id: 6, key: "proof", startFrame: 108, endFrame: Number.POSITIVE_INFINITY },
   ],
   copy: {
     eyebrow: "Real Results",

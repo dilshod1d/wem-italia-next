@@ -4,6 +4,7 @@ import { useRef, useState } from "react";
 import { useSectionPin } from "@/components/Chapter/useSectionPin";
 
 import type {
+  WhyWemWorksHandoffPhase,
   WhyWemWorksSectionConfig,
   WhyWemWorksStageKey,
 } from "../types/why-wem-works-section";
@@ -11,17 +12,21 @@ import { useVideoDebugLogger } from "./use-video-debug-logger";
 
 interface WhyWemWorksVideoState {
   lastStageKey: WhyWemWorksStageKey;
+  lastHandoffPhase: WhyWemWorksHandoffPhase;
 }
 
 export function useWhyWemWorksVideo(config: WhyWemWorksSectionConfig) {
-  const { stages, videoDuration, videoUrl } = config;
+  const { fps, handoff, stages, totalFrames, videoDuration, videoUrl } = config;
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const stateRef = useRef<WhyWemWorksVideoState>({
     lastStageKey: stages[0]?.key ?? "intro",
+    lastHandoffPhase: "copy",
   });
   const [activeStageKey, setActiveStageKey] = useState<WhyWemWorksStageKey>(
     stages[0]?.key ?? "intro",
   );
+  const [handoffPhase, setHandoffPhase] =
+    useState<WhyWemWorksHandoffPhase>("copy");
   const debugLogger = useVideoDebugLogger({
     label: "Why WEM Works",
     videoSrc: videoUrl,
@@ -33,25 +38,42 @@ export function useWhyWemWorksVideo(config: WhyWemWorksSectionConfig) {
     onUpdate: (progress) => {
       const video = videoRef.current;
       const currentTime = videoDuration * Math.min(Math.max(progress, 0), 1);
+      const currentFrame = Math.round(
+        Math.min(Math.max(currentTime * fps, 0), totalFrames),
+      );
 
       if (video && video.readyState >= 1) {
         video.currentTime = currentTime;
       }
 
-      const { lastStageKey } = stateRef.current;
+      const { lastHandoffPhase, lastStageKey } = stateRef.current;
+      let nextHandoffPhase: WhyWemWorksHandoffPhase = "done";
+
+      if (currentFrame < handoff.cardAppearFrame) {
+        nextHandoffPhase = "copy";
+      } else if (currentFrame < handoff.endFrame) {
+        nextHandoffPhase = "card";
+      }
+
       const activeStage = stages.find(
-        (stage) => currentTime >= stage.start && currentTime < stage.end,
+        (stage) =>
+          currentFrame >= stage.startFrame && currentFrame < stage.endFrame,
       );
 
       debugLogger.logProgress({
         progress,
         currentTime,
-        marker: activeStage?.key ?? lastStageKey,
+        marker: `${activeStage?.key ?? nextHandoffPhase ?? lastStageKey}@f${currentFrame}`,
       });
 
       if (activeStage && activeStage.key !== lastStageKey) {
         stateRef.current.lastStageKey = activeStage.key;
         setActiveStageKey(activeStage.key);
+      }
+
+      if (nextHandoffPhase !== lastHandoffPhase) {
+        stateRef.current.lastHandoffPhase = nextHandoffPhase;
+        setHandoffPhase(nextHandoffPhase);
       }
     },
   });
@@ -60,6 +82,7 @@ export function useWhyWemWorksVideo(config: WhyWemWorksSectionConfig) {
     sectionRef,
     videoRef,
     activeStageKey,
+    handoffPhase,
     isScrolled,
   };
 }

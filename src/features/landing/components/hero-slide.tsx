@@ -70,10 +70,7 @@ function KeyedSlot<T>({
   }
 
   return (
-    <div
-      key={slotKey}
-      className={cx("hero-slot-in", className)}
-    >
+    <div key={slotKey} className={cx("hero-slot-in", className)}>
       {render(value)}
     </div>
   );
@@ -81,7 +78,9 @@ function KeyedSlot<T>({
 
 export function HeroSlide({ stage, config }: HeroSlideProps) {
   const placement = config.placements[stage.placementKey];
-  const eyebrow = stage.eyebrowKey ? config.eyebrows[stage.eyebrowKey] : undefined;
+  const eyebrow = stage.eyebrowKey
+    ? config.eyebrows[stage.eyebrowKey]
+    : undefined;
   const title = stage.titleKey ? config.titles[stage.titleKey] : undefined;
   const body = stage.bodyKey ? config.bodies[stage.bodyKey] : undefined;
   const card = stage.supportCardKey
@@ -94,41 +93,41 @@ export function HeroSlide({ stage, config }: HeroSlideProps) {
 
   return (
     <div
-      className="absolute inset-0"
+      className="absolute left-[10%] top-[25%] right-[6%] z-20 max-w-[40%]"
       style={{ textShadow: "0 8px 30px rgba(0, 0, 0, 0.32)" }}
     >
-      <div className="mx-auto flex h-full w-full max-w-7xl items-center px-6 md:px-10">
-        <div
-          className={cx(
-            "w-full text-left transition-all duration-700",
-            showCopy ? "opacity-100" : "opacity-0",
-            placement.copyClassName,
-          )}
-          style={{ transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)" }}
-        >
-          <KeyedSlot
-            slotKey={stage.eyebrowKey}
-            value={eyebrow}
-            render={renderEyebrow}
-            className="mb-4 min-h-[1rem]"
-          />
+      <div
+        className={cx(
+          "w-full text-left transition-all duration-700",
+          showCopy ? "opacity-100" : "opacity-0",
+          placement.copyClassName,
+        )}
+        style={{ transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)" }}
+      >
+        <KeyedSlot
+          slotKey={stage.eyebrowKey}
+          value={eyebrow}
+          render={renderEyebrow}
+          className="mb-4 min-h-[1rem]"
+        />
+        <KeyedSlot
+          slotKey={stage.titleKey}
+          value={title}
+          render={renderTitle}
+        />
 
-          <KeyedSlot slotKey={stage.titleKey} value={title} render={renderTitle} />
-
-          <KeyedSlot
-            slotKey={stage.bodyKey}
-            value={body}
-            render={renderBody}
-            className={cx("mt-5", placement.bodyClassName)}
-          />
-
-          <KeyedSlot
-            slotKey={stage.supportCardKey}
-            value={card}
-            render={renderCard}
-            className={placement.cardWrapClassName ?? "mt-6"}
-          />
-        </div>
+        <KeyedSlot
+          slotKey={stage.bodyKey}
+          value={body}
+          render={renderBody}
+          className={cx("mt-5", placement.bodyClassName)}
+        />
+        <KeyedSlot
+          slotKey={stage.supportCardKey}
+          value={card}
+          render={renderCard}
+          className={placement.cardWrapClassName ?? "mt-6"}
+        />
       </div>
     </div>
   );

@@ -11,7 +11,7 @@ interface HeroVideoState {
 }
 
 export function useHeroSectionVideo(config: HeroSectionConfig) {
-  const { stages, videoDuration, videoUrl } = config;
+  const { fps, stages, totalFrames, videoDuration, videoUrl } = config;
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const stateRef = useRef<HeroVideoState>({
     lastStageId: stages[0]?.id ?? 0,
@@ -30,6 +30,9 @@ export function useHeroSectionVideo(config: HeroSectionConfig) {
     onUpdate: (progress) => {
       const video = videoRef.current;
       const currentTime = videoDuration * Math.min(Math.max(progress, 0), 1);
+      const currentFrame = Math.round(
+        Math.min(Math.max(currentTime * fps, 0), totalFrames),
+      );
 
       if (video && video.readyState >= 1) {
         video.currentTime = currentTime;
@@ -37,13 +40,14 @@ export function useHeroSectionVideo(config: HeroSectionConfig) {
 
       const { lastStageId } = stateRef.current;
       const activeStage = stages.find(
-        (stage) => currentTime >= stage.start && currentTime < stage.end,
+        (stage) =>
+          currentFrame >= stage.startFrame && currentFrame < stage.endFrame,
       );
 
       debugLogger.logProgress({
         progress,
         currentTime,
-        marker: activeStage?.id ?? lastStageId,
+        marker: `${activeStage?.id ?? lastStageId}@f${currentFrame}`,
       });
 
       if (activeStage && activeStage.id !== lastStageId) {
