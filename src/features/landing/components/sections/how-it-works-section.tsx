@@ -61,9 +61,7 @@ function HowItWorksStepCard({
   );
 }
 
-export function HowItWorksSection({
-  setLogoTheme,
-}: HowItWorksSectionProps) {
+export function HowItWorksSection({ setLogoTheme }: HowItWorksSectionProps) {
   const { sectionRef, videoRef, activeStageKey, isScrolled } =
     useHowItWorksVideo(howItWorksSectionConfig, {
       onEnter: () => setLogoTheme("dark"),
@@ -101,10 +99,10 @@ export function HowItWorksSection({
     >
       <div className="relative h-full w-full">
         <div className="absolute inset-0 mx-auto max-w-[1600px] px-6 py-24 sm:px-10 lg:px-16">
-          <div className="absolute left-6 top-[20%] max-w-[min(94vw,1520px)] text-black sm:left-10 lg:left-16">
+          <div className="absolute left-6 top-[20%] text-black sm:left-10 lg:left-16">
             <h2
               className={cx(
-                "font-sans text-[clamp(2rem,4vw,3.5rem)] font-semibold leading-[0.92] tracking-tight transition-all duration-700",
+                "heading-hero transition-all duration-700",
                 showHeading
                   ? "translate-y-0 opacity-100"
                   : "translate-y-8 opacity-0",
@@ -115,18 +113,15 @@ export function HowItWorksSection({
 
             <div
               className={cx(
-                "mt-10 max-w-[1400px] transition-all duration-700",
+                "text-body transition-all duration-700 text-black",
                 showHeading
                   ? "translate-y-0 opacity-100"
                   : "translate-y-6 opacity-0",
               )}
             >
-              <p className="font-body text-[1rem] font-medium tracking-tight text-black/90 md:text-[1.4rem]">
-                {copy.subtitle}
-              </p>
+              <p>{copy.subtitle} now moved here</p>
               <p
                 className={cx(
-                  "mt-3 max-w-[1450px] font-body text-[0.95rem] leading-[1.4] text-black/85 transition-all duration-700 md:text-[1.25rem]",
                   showDescription
                     ? "translate-y-0 opacity-100"
                     : "translate-y-5 opacity-0",
@@ -139,7 +134,7 @@ export function HowItWorksSection({
 
           <div
             className={cx(
-              "absolute left-10 right-10 bottom-[-12%] h-[27rem] sm:h-[31rem] lg:h-[34rem] overflow-hidden",
+              "absolute left-10 right-10 bottom-[-13%] h-[27rem] sm:h-[31rem] lg:h-[34rem] overflow-hidden",
               isFinal ? "animate-[wem-breathe_5.2s_ease-in-out_infinite]" : "",
             )}
           >

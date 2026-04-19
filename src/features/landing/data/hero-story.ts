@@ -69,38 +69,32 @@ export const heroStoryConfig = {
   },
   placements: {
     introLocked: {
-      copyClassName:
-        "max-w-full -translate-y-8 md:-translate-y-10 lg:-translate-y-12",
+      copyClassName: "max-w-full",
       bodyClassName: "w-full",
     },
     introOpenHand: {
-      copyClassName:
-        "w-full -translate-y-10 md:-translate-y-12 lg:-translate-y-10",
+      copyClassName: "w-full",
       bodyClassName: "w-full",
     },
     blank: {
-      copyClassName: "w-full -translate-y-8 md:-translate-y-10",
+      copyClassName: "w-full",
     },
     ecosystemAnchor: {
-      copyClassName:
-        "w-full -translate-y-10 md:-translate-y-12 lg:-translate-y-10",
+      copyClassName: "w-full",
       bodyClassName: "w-full",
     },
     ecosystemRaised: {
-      copyClassName:
-        "w-full -translate-y-10 md:-translate-y-12 lg:-translate-y-10",
+      copyClassName: "w-full",
       bodyClassName: "w-full",
       cardWrapClassName: "mt-7 md:mt-8",
     },
     ecosystemCard: {
-      copyClassName:
-        "w-full -translate-y-10 md:-translate-y-12 lg:-translate-y-10",
+      copyClassName: "w-full",
       bodyClassName: "w-full",
       cardWrapClassName: "mt-7 md:mt-8",
     },
     ecosystemCardLate: {
-      copyClassName:
-        "w-full -translate-y-10 md:-translate-y-12 lg:-translate-y-10",
+      copyClassName: "w-full",
       bodyClassName: "w-full",
       cardWrapClassName: "mt-7 md:mt-8",
     },

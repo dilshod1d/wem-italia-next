@@ -249,22 +249,15 @@ export function PortfolioResultsSection({
       }
     >
       <div className="relative h-full w-full">
-        <div className="absolute inset-0 mx-auto max-w-[1600px] px-6 py-24 sm:px-10 lg:px-16">
+        <div className="absolute inset-0 mx-auto px-6 py-24 sm:px-10 lg:px-16">
           <div
             className={cx(
-              "absolute left-6 max-w-[min(94vw,1480px)] text-black transition-all duration-700 sm:left-10 lg:left-16",
-              showProof
-                ? "top-[14%]"
-                : showDescription
-                  ? "top-[14%]"
-                  : showTitle
-                    ? "top-[22%]"
-                    : "top-[27%]",
+              "absolute left-6 top-[20%] text-black transition-all duration-700 sm:left-10 lg:left-16",
             )}
           >
             <p
               className={cx(
-                "font-body text-[1.55rem] font-light tracking-tight text-black/25 transition-all duration-700 md:text-[3.2rem]",
+                "text-eyebrow text-black/25 transition-all duration-700 ",
                 showTitle || showProof
                   ? "translate-y-0 opacity-100"
                   : "translate-y-8 opacity-0",
@@ -275,7 +268,7 @@ export function PortfolioResultsSection({
 
             <h2
               className={cx(
-                "mt-1 font-sans text-[clamp(2rem,4vw,3.5rem)] font-semibold leading-[0.92] tracking-tight transition-all duration-700",
+                "mt-1 heading-hero transition-all duration-700",
                 showTitle || showProof
                   ? "translate-y-0 opacity-100"
                   : "translate-y-8 opacity-0",
@@ -286,7 +279,7 @@ export function PortfolioResultsSection({
 
             <div
               className={cx(
-                "mt-4 max-w-[1300px] space-y-3 font-body text-[1.25rem] leading-[0.8] text-black/88 transition-all duration-700 md:text-[1.9rem]",
+                "text-body transition-all duration-700",
                 showDescription
                   ? "translate-y-0 opacity-100"
                   : "pointer-events-none translate-y-6 opacity-0",

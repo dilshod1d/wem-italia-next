@@ -168,7 +168,7 @@ export function WhyWemWorksSection({ setLogoTheme }: WhyWemWorksSectionProps) {
             <div className="absolute inset-0 mx-auto max-w-[1600px] px-6 pb-24 pt-28 sm:px-10 lg:px-16">
               <div
                 className={cx(
-                  "absolute left-[5%] right-[6%] top-[25%] z-20 max-w-[50%] transition-all duration-700",
+                  "absolute left-[5%] right-[6%] top-[20%] z-20 max-w-[55%] transition-all duration-700",
                   showHandoff
                     ? "translate-y-0 opacity-100"
                     : "-translate-y-6 opacity-0",
@@ -176,17 +176,17 @@ export function WhyWemWorksSection({ setLogoTheme }: WhyWemWorksSectionProps) {
                 style={{ textShadow: "0 8px 30px rgba(0, 0, 0, 0.32)" }}
               >
                 <div>
-                  <p className="mb-4 font-sans text-[0.65rem] uppercase tracking-[0.28em] text-white/60 md:text-[0.72rem]">
+                  <p className="text-eyebrow mb-4 text-white/60">
                     {handoff.eyebrow}
                   </p>
-                  <h2 className="font-sans text-[clamp(2rem,4vw,3.5rem)] font-semibold leading-[0.92] tracking-[-0.05em] text-white">
+                  <h2 className="heading-hero text-white">
                     {handoff.titleLines.map((line) => (
                       <span key={line} className="block">
                         {line}
                       </span>
                     ))}
                   </h2>
-                  <div className="mt-5 space-y-1.5 text-sm leading-6 text-white/84 md:text-base">
+                  <div className="mt-5 body-stack text-body text-white/84">
                     {handoff.paragraphs.map((paragraph) => (
                       <p key={paragraph}>{paragraph}</p>
                     ))}

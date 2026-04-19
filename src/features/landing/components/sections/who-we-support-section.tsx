@@ -116,16 +116,10 @@ function WhoWeSupportContent({
 
   return (
     <>
-      <div className="max-w-[720px]">
-        <p className="text-[1.2rem] font-light tracking-tight text-black/30 md:text-[1.6rem]">
-          {copy.eyebrow}
-        </p>
-
-        <h2 className="mt-3 font-sans text-[2.4rem] font-semibold leading-[1.05] tracking-tight text-black md:text-[3.2rem]">
-          {copy.title}
-        </h2>
+      <div className="max-w-[85%]">
+        <p className="text-eyebrow text-black/28">{copy.eyebrow}</p>
+        <h2 className="heading-hero text-black">{copy.title}</h2>
       </div>
-
       <div
         className={cx(
           "grid md:grid-cols-2 lg:grid-cols-3",
@@ -147,14 +141,8 @@ function WhoWeSupportContent({
 
       <div
         className={cx(
-          "overflow-hidden transition-[max-height,opacity,transform,margin] duration-[520ms]",
-          compact
-            ? showWarning
-              ? "mt-6 max-h-[220px] translate-y-0 opacity-100"
-              : "mt-0 max-h-0 translate-y-4 opacity-0"
-            : showWarning
-              ? "mt-12 max-h-[240px] translate-y-0 opacity-100"
-              : "mt-0 max-h-0 translate-y-6 opacity-0",
+          "absolute left-[5%] right-[5%] bottom-[10%] overflow-hidden transition-[opacity,transform] duration-520",
+          showWarning ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0",
         )}
         style={{ transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)" }}
       >
@@ -205,7 +193,7 @@ export function WhoWeSupportSection({
         ref={pinnedRef}
         className="relative z-20 h-screen w-full overflow-hidden bg-white"
       >
-        <div className="mx-auto h-full max-w-[1600px] px-6 py-24 sm:px-10 lg:px-16">
+        <div className="mx-auto mt-[10%] h-full px-6 sm:px-10 lg:px-16">
           <WhoWeSupportContent activeStageKey={activeStageKey} compact />
         </div>
 

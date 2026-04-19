@@ -63,9 +63,7 @@ function BenefitCard({
   );
 }
 
-export function SystemFlowSection({
-  setLogoTheme,
-}: SystemFlowSectionProps) {
+export function SystemFlowSection({ setLogoTheme }: SystemFlowSectionProps) {
   const { sectionRef, videoRef, activeStageKey, isScrolled } =
     useSystemFlowVideo(systemFlowSectionConfig, {
       onLogoThemeChange: setLogoTheme,
@@ -101,13 +99,13 @@ export function SystemFlowSection({
         <div className="absolute inset-0 mx-auto max-w-[1600px] px-6 py-24 sm:px-10 lg:px-16">
           <div
             className={cx(
-              "absolute left-6 top-[19%] max-w-[min(88vw,1250px)] text-black sm:left-10 lg:left-16",
+              "absolute left-6 top-[20%] max-w-[min(88vw,1250px)] text-black sm:left-10 lg:left-16",
               isFinal ? "animate-[wem-breathe_5.4s_ease-in-out_infinite]" : "",
             )}
           >
             <p
               className={cx(
-                "font-body text-[2rem] font-light tracking-tight text-black/28 transition-all duration-700 md:text-[3.2rem]",
+                "text-eyebrow text-black/28 transition-all duration-700",
                 showEyebrow
                   ? "translate-y-0 opacity-100"
                   : "translate-y-6 opacity-0",
@@ -118,7 +116,7 @@ export function SystemFlowSection({
 
             <h2
               className={cx(
-                "mt-4 whitespace-pre-line font-sans text-[clamp(2.4rem,5vw,4.5rem)] font-semibold leading-[0.92] tracking-tight transition-all duration-700",
+                "heading-hero mt-4 transition-all duration-700",
                 showTitle
                   ? "translate-y-0 opacity-100"
                   : "translate-y-8 opacity-0",
@@ -129,7 +127,7 @@ export function SystemFlowSection({
 
             <div
               className={cx(
-                "mt-6 max-w-[1200px] space-y-1 font-body text-[2rem] leading-none text-black/85 transition-all duration-700 md:text-[3rem]",
+                "body-stack text-body mt-6 text-black/85 transition-all duration-700",
                 showParagraphs
                   ? "translate-y-0 opacity-100"
                   : "translate-y-6 opacity-0",

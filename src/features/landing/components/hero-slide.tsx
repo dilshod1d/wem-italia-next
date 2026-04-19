@@ -21,16 +21,12 @@ function cx(...classes: Array<string | false | null | undefined>) {
 }
 
 function renderEyebrow(eyebrow: HeroEyebrow) {
-  return (
-    <p className="font-sans text-[0.65rem] uppercase tracking-[0.28em] text-white/60 md:text-[0.72rem]">
-      {eyebrow.text}
-    </p>
-  );
+  return <p className="text-eyebrow">{eyebrow.text}</p>;
 }
 
 function renderTitle(title: HeroTitle) {
   return (
-    <h1 className="font-sans text-[clamp(2rem,4vw,3.5rem)] font-semibold leading-[0.92] tracking-[-0.05em] text-white">
+    <h1 className="heading-hero text-white">
       {title.lines.map((line) => (
         <span key={line} className="block">
           {line}
@@ -42,7 +38,7 @@ function renderTitle(title: HeroTitle) {
 
 function renderBody(body: HeroBody) {
   return (
-    <div className="space-y-3 text-lg leading-7 text-white/85 md:text-xl md:leading-8 lg:text-2xl lg:leading-9">
+    <div className="body-stack text-body text-white/85">
       {body.paragraphs.map((paragraph) => (
         <p key={paragraph}>{paragraph}</p>
       ))}
@@ -93,7 +89,7 @@ export function HeroSlide({ stage, config }: HeroSlideProps) {
 
   return (
     <div
-      className="absolute left-[5%] top-[25%] z-20 w-[50%]"
+      className="absolute left-[5%] top-[20%] z-20 w-[55%]"
       style={{ textShadow: "0 8px 30px rgba(0, 0, 0, 0.32)" }}
     >
       <div
@@ -110,7 +106,6 @@ export function HeroSlide({ stage, config }: HeroSlideProps) {
           render={renderEyebrow}
           className="mb-4 min-h-[1rem]"
         />
-
         <KeyedSlot
           slotKey={stage.titleKey}
           value={title}
