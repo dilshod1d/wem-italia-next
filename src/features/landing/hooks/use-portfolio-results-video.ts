@@ -15,6 +15,10 @@ interface PortfolioResultsVideoState {
 
 export function usePortfolioResultsVideo(
   config: PortfolioResultsSectionConfig,
+  options: {
+    onEnter?: () => void;
+    onEnterBack?: () => void;
+  } = {},
 ) {
   const { fps, stages, totalFrames, videoDuration, videoUrl } = config;
   const videoRef = useRef<HTMLVideoElement | null>(null);
@@ -31,6 +35,8 @@ export function usePortfolioResultsVideo(
   });
 
   const { sectionRef, isScrolled } = useSectionPin({
+    onEnter: options.onEnter,
+    onEnterBack: options.onEnterBack,
     onUpdate: (progress) => {
       const video = videoRef.current;
       const currentTime = videoDuration * Math.min(Math.max(progress, 0), 1);

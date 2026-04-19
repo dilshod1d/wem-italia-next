@@ -12,6 +12,10 @@ function cx(...classes: Array<string | false | null | undefined>) {
   return classes.filter(Boolean).join(" ");
 }
 
+interface SystemFlowSectionProps {
+  setLogoTheme: (theme: "light" | "dark") => void;
+}
+
 interface BenefitCardProps {
   title: string;
   body: string;
@@ -59,9 +63,13 @@ function BenefitCard({
   );
 }
 
-export function SystemFlowSection() {
+export function SystemFlowSection({
+  setLogoTheme,
+}: SystemFlowSectionProps) {
   const { sectionRef, videoRef, activeStageKey, isScrolled } =
-    useSystemFlowVideo(systemFlowSectionConfig);
+    useSystemFlowVideo(systemFlowSectionConfig, {
+      onLogoThemeChange: setLogoTheme,
+    });
 
   const showTitle = activeStageKey !== "intro";
   const showEyebrow = showTitle;

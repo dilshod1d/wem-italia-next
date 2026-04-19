@@ -39,7 +39,7 @@ export function HeroSupportCard({ card, isActive }: HeroSupportCardProps) {
   return (
     <div
       className={[
-        "max-w-[100%] rounded-[1.75rem] px-5 py-4 text-white shadow-[0_30px_60px_rgba(0,0,0,0.35)]",
+        "rounded-[1.75rem] px-5 py-4 text-white shadow-[0_30px_60px_rgba(0,0,0,0.35)]",
         "transition-all duration-500",
         "translate-y-5 scale-[0.965] opacity-0",
         getToneClasses(card.tone),
@@ -52,9 +52,7 @@ export function HeroSupportCard({ card, isActive }: HeroSupportCardProps) {
           <p className="font-sans text-[2.4rem] font-semibold uppercase">
             {card.title}
           </p>
-          <p className="mt-2 max-w-[15rem] text-sm leading-5 text-white/90">
-            {card.description}
-          </p>
+          <p className="mt-2 text-2xl  text-white/90">{card.description}</p>
         </div>
         <div className="shrink-0">{getIcon(card)}</div>
       </div>

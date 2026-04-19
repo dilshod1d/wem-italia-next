@@ -6,9 +6,16 @@ import { useHeroSectionVideo } from "../../hooks/use-hero-section-video";
 import { HeroSlide } from "../hero-slide";
 import { CinematicVideoSection } from "../cinematic-video-section";
 
-export function HeroSection() {
+interface HeroSectionProps {
+  setLogoTheme: (theme: "light" | "dark") => void;
+}
+
+export function HeroSection({ setLogoTheme }: HeroSectionProps) {
   const { sectionRef, videoRef, activeStageId, isScrolled } =
-    useHeroSectionVideo(heroStoryConfig);
+    useHeroSectionVideo(heroStoryConfig, {
+      onEnter: () => setLogoTheme("light"),
+      onEnterBack: () => setLogoTheme("light"),
+    });
   const activeStage =
     heroStoryConfig.stages.find((stage) => stage.id === activeStageId) ??
     heroStoryConfig.stages[0];

@@ -15,6 +15,10 @@ function cx(...classes: Array<string | false | null | undefined>) {
   return classes.filter(Boolean).join(" ");
 }
 
+interface HowItWorksSectionProps {
+  setLogoTheme: (theme: "light" | "dark") => void;
+}
+
 interface HowItWorksStepCardProps {
   step: HowItWorksStep;
   visible: boolean;
@@ -57,9 +61,14 @@ function HowItWorksStepCard({
   );
 }
 
-export function HowItWorksSection() {
+export function HowItWorksSection({
+  setLogoTheme,
+}: HowItWorksSectionProps) {
   const { sectionRef, videoRef, activeStageKey, isScrolled } =
-    useHowItWorksVideo(howItWorksSectionConfig);
+    useHowItWorksVideo(howItWorksSectionConfig, {
+      onEnter: () => setLogoTheme("dark"),
+      onEnterBack: () => setLogoTheme("dark"),
+    });
 
   const showHeading = activeStageKey !== "intro";
   const showDescription =

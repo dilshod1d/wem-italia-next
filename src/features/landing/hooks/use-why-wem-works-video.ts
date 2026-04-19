@@ -15,7 +15,15 @@ interface WhyWemWorksVideoState {
   lastHandoffPhase: WhyWemWorksHandoffPhase;
 }
 
-export function useWhyWemWorksVideo(config: WhyWemWorksSectionConfig) {
+interface WhyWemWorksVideoOptions {
+  onEnter?: () => void;
+  onEnterBack?: () => void;
+}
+
+export function useWhyWemWorksVideo(
+  config: WhyWemWorksSectionConfig,
+  options: WhyWemWorksVideoOptions = {},
+) {
   const { fps, handoff, stages, totalFrames, videoDuration, videoUrl } = config;
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const stateRef = useRef<WhyWemWorksVideoState>({
@@ -35,6 +43,8 @@ export function useWhyWemWorksVideo(config: WhyWemWorksSectionConfig) {
   });
 
   const { sectionRef, isScrolled } = useSectionPin({
+    onEnter: options.onEnter,
+    onEnterBack: options.onEnterBack,
     onUpdate: (progress) => {
       const video = videoRef.current;
       const currentTime = videoDuration * Math.min(Math.max(progress, 0), 1);

@@ -11,13 +11,28 @@ import { useVideoDebugLogger } from "./use-video-debug-logger";
 
 interface SystemFlowVideoState {
   lastStageKey: SystemFlowStageKey;
+  lastLogoTheme: "light" | "dark";
 }
 
-export function useSystemFlowVideo(config: SystemFlowSectionConfig) {
+const LOGO_DARK_LEAD_FRAMES = 8;
+
+interface SystemFlowVideoOptions {
+  onEnter?: () => void;
+  onEnterBack?: () => void;
+  onLogoThemeChange?: (theme: "light" | "dark") => void;
+}
+
+export function useSystemFlowVideo(
+  config: SystemFlowSectionConfig,
+  options: SystemFlowVideoOptions = {},
+) {
   const { fps, stages, totalFrames, videoDuration, videoUrl } = config;
+  const titleStartFrame =
+    stages.find((stage) => stage.key === "title")?.startFrame ?? totalFrames;
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const stateRef = useRef<SystemFlowVideoState>({
     lastStageKey: stages[0]?.key ?? "intro",
+    lastLogoTheme: "light",
   });
   const [activeStageKey, setActiveStageKey] = useState<SystemFlowStageKey>(
     stages[0]?.key ?? "intro",
@@ -30,18 +45,24 @@ export function useSystemFlowVideo(config: SystemFlowSectionConfig) {
   });
 
   const { sectionRef, isScrolled } = useSectionPin({
+    onEnter: options.onEnter,
+    onEnterBack: options.onEnterBack,
     onUpdate: (progress) => {
       const video = videoRef.current;
       const currentTime = videoDuration * Math.min(Math.max(progress, 0), 1);
       const currentFrame = Math.round(
         Math.min(Math.max(currentTime * fps, 0), totalFrames),
       );
+      const nextLogoTheme =
+        currentFrame < Math.max(titleStartFrame - LOGO_DARK_LEAD_FRAMES, 0)
+          ? "light"
+          : "dark";
 
       if (video && video.readyState >= 1) {
         video.currentTime = currentTime;
       }
 
-      const { lastStageKey } = stateRef.current;
+      const { lastLogoTheme, lastStageKey } = stateRef.current;
       const activeStage = stages.find(
         (stage) =>
           currentFrame >= stage.startFrame && currentFrame < stage.endFrame,
@@ -56,6 +77,11 @@ export function useSystemFlowVideo(config: SystemFlowSectionConfig) {
       if (activeStage && activeStage.key !== lastStageKey) {
         stateRef.current.lastStageKey = activeStage.key;
         setActiveStageKey(activeStage.key);
+      }
+
+      if (nextLogoTheme !== lastLogoTheme) {
+        stateRef.current.lastLogoTheme = nextLogoTheme;
+        options.onLogoThemeChange?.(nextLogoTheme);
       }
     },
   });

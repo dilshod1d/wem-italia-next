@@ -2,17 +2,39 @@ import Image from "next/image";
 
 interface BrandMarkProps {
   className?: string;
+  theme?: "light" | "dark";
 }
 
-export function BrandMark({ className = "" }: BrandMarkProps) {
+function cx(...classes: Array<string | false | null | undefined>) {
+  return classes.filter(Boolean).join(" ");
+}
+
+export function BrandMark({
+  className = "",
+  theme = "light",
+}: BrandMarkProps) {
   return (
-    <div className={className}>
+    <div className={cx("relative h-[100px] w-[250px]", className)}>
       <Image
-        src="/logo.svg"
+        src="/logo-light.svg"
         alt="WEM Italia logo"
-        width={250}
-        height={100}
-        className="object-contain"
+        fill
+        sizes="250px"
+        className={cx(
+          "object-contain transition-opacity duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]",
+          theme === "light" ? "opacity-100" : "opacity-0",
+        )}
+        priority
+      />
+      <Image
+        src="/logo-dark.svg"
+        alt="WEM Italia logo"
+        fill
+        sizes="250px"
+        className={cx(
+          "object-contain transition-opacity duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]",
+          theme === "dark" ? "opacity-100" : "opacity-0",
+        )}
         priority
       />
     </div>

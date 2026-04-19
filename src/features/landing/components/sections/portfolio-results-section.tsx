@@ -17,6 +17,10 @@ function cx(...classes: Array<string | false | null | undefined>) {
   return classes.filter(Boolean).join(" ");
 }
 
+interface PortfolioResultsSectionProps {
+  setLogoTheme: (theme: "light" | "dark") => void;
+}
+
 interface PortfolioCardProps {
   item: PortfolioResultsItem;
   index: number;
@@ -197,9 +201,14 @@ function ProofMetricCard({ metric, visible, delayMs }: ProofMetricCardProps) {
   );
 }
 
-export function PortfolioResultsSection() {
+export function PortfolioResultsSection({
+  setLogoTheme,
+}: PortfolioResultsSectionProps) {
   const { sectionRef, videoRef, activeStageKey, isScrolled } =
-    usePortfolioResultsVideo(portfolioResultsSectionConfig);
+    usePortfolioResultsVideo(portfolioResultsSectionConfig, {
+      onEnter: () => setLogoTheme("dark"),
+      onEnterBack: () => setLogoTheme("dark"),
+    });
 
   const showTitle =
     activeStageKey === "headline" ||

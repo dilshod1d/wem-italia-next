@@ -7,7 +7,7 @@ export const whyWemWorksSectionConfig = {
   totalFrames: 150,
   videoDuration: 5,
   handoff: {
-    cardAppearFrame: 11,
+    cardAppearFrame: 5,
     endFrame: 32,
     eyebrow: "WEM ENTERPRISE",
     titleLines: ["One Guide with an ecosystem behind you"],

@@ -42,7 +42,7 @@ function renderTitle(title: HeroTitle) {
 
 function renderBody(body: HeroBody) {
   return (
-    <div className="space-y-1.5 text-sm leading-6 text-white/84 md:text-base">
+    <div className="space-y-3 text-lg leading-7 text-white/85 md:text-xl md:leading-8 lg:text-2xl lg:leading-9">
       {body.paragraphs.map((paragraph) => (
         <p key={paragraph}>{paragraph}</p>
       ))}
@@ -93,7 +93,7 @@ export function HeroSlide({ stage, config }: HeroSlideProps) {
 
   return (
     <div
-      className="absolute left-[10%] top-[25%] right-[6%] z-20 max-w-[40%]"
+      className="absolute left-[5%] top-[25%] z-20 w-[50%]"
       style={{ textShadow: "0 8px 30px rgba(0, 0, 0, 0.32)" }}
     >
       <div
@@ -110,12 +110,12 @@ export function HeroSlide({ stage, config }: HeroSlideProps) {
           render={renderEyebrow}
           className="mb-4 min-h-[1rem]"
         />
+
         <KeyedSlot
           slotKey={stage.titleKey}
           value={title}
           render={renderTitle}
         />
-
         <KeyedSlot
           slotKey={stage.bodyKey}
           value={body}

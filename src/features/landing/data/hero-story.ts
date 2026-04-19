@@ -70,38 +70,38 @@ export const heroStoryConfig = {
   placements: {
     introLocked: {
       copyClassName:
-        "max-w-[34rem] -translate-y-8 md:-translate-y-10 lg:-translate-y-12",
-      bodyClassName: "max-w-[22rem]",
+        "max-w-full -translate-y-8 md:-translate-y-10 lg:-translate-y-12",
+      bodyClassName: "w-full",
     },
     introOpenHand: {
       copyClassName:
-        "max-w-[34rem] -translate-y-10 md:-translate-y-12 lg:-translate-y-10",
-      bodyClassName: "max-w-[22rem]",
+        "w-full -translate-y-10 md:-translate-y-12 lg:-translate-y-10",
+      bodyClassName: "w-full",
     },
     blank: {
-      copyClassName: "max-w-[34rem] -translate-y-8 md:-translate-y-10",
+      copyClassName: "w-full -translate-y-8 md:-translate-y-10",
     },
     ecosystemAnchor: {
       copyClassName:
-        "max-w-[35rem] -translate-y-10 md:-translate-y-12 lg:-translate-y-10",
-      bodyClassName: "max-w-[28rem]",
+        "w-full -translate-y-10 md:-translate-y-12 lg:-translate-y-10",
+      bodyClassName: "w-full",
     },
     ecosystemRaised: {
       copyClassName:
-        "max-w-[35rem] -translate-y-10 md:-translate-y-12 lg:-translate-y-10",
-      bodyClassName: "max-w-[28rem]",
+        "w-full -translate-y-10 md:-translate-y-12 lg:-translate-y-10",
+      bodyClassName: "w-full",
       cardWrapClassName: "mt-7 md:mt-8",
     },
     ecosystemCard: {
       copyClassName:
-        "max-w-[35rem] -translate-y-10 md:-translate-y-12 lg:-translate-y-10",
-      bodyClassName: "max-w-[28rem]",
+        "w-full -translate-y-10 md:-translate-y-12 lg:-translate-y-10",
+      bodyClassName: "w-full",
       cardWrapClassName: "mt-7 md:mt-8",
     },
     ecosystemCardLate: {
       copyClassName:
-        "max-w-[35rem] -translate-y-10 md:-translate-y-12 lg:-translate-y-10",
-      bodyClassName: "max-w-[28rem]",
+        "w-full -translate-y-10 md:-translate-y-12 lg:-translate-y-10",
+      bodyClassName: "w-full",
       cardWrapClassName: "mt-7 md:mt-8",
     },
   },

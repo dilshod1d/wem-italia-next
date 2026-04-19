@@ -10,7 +10,15 @@ interface HeroVideoState {
   lastStageId: number;
 }
 
-export function useHeroSectionVideo(config: HeroSectionConfig) {
+interface HeroSectionVideoOptions {
+  onEnter?: () => void;
+  onEnterBack?: () => void;
+}
+
+export function useHeroSectionVideo(
+  config: HeroSectionConfig,
+  options: HeroSectionVideoOptions = {},
+) {
   const { fps, stages, totalFrames, videoDuration, videoUrl } = config;
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const stateRef = useRef<HeroVideoState>({
@@ -27,6 +35,8 @@ export function useHeroSectionVideo(config: HeroSectionConfig) {
   });
 
   const { sectionRef, isScrolled } = useSectionPin({
+    onEnter: options.onEnter,
+    onEnterBack: options.onEnterBack,
     onUpdate: (progress) => {
       const video = videoRef.current;
       const currentTime = videoDuration * Math.min(Math.max(progress, 0), 1);

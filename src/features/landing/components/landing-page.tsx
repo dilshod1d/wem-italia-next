@@ -1,3 +1,7 @@
+"use client";
+
+import { useState } from "react";
+
 import { HeroSection } from "./sections/hero-section";
 import { HowItWorksSection } from "./sections/how-it-works-section";
 import { LandingNavbar } from "./landing-navbar";
@@ -8,17 +12,19 @@ import { WhoWeSupportSection } from "./sections/who-we-support-section";
 import { WhyWemWorksSection } from "./sections/why-wem-works-section";
 
 export function LandingPage() {
+  const [logoTheme, setLogoTheme] = useState<"light" | "dark">("light");
+
   return (
     <>
-      <LandingNavbar />
+      <LandingNavbar logoTheme={logoTheme} />
       <main className="relative bg-background">
-        <HeroSection />
-        <WhyWemWorksSection />
-        <SystemFlowSection />
-        <HowItWorksSection />
-        <PortfolioResultsSection />
-        <WhoWeSupportSection />
-        <FooterSection />
+        <HeroSection setLogoTheme={setLogoTheme} />
+        <WhyWemWorksSection setLogoTheme={setLogoTheme} />
+        <SystemFlowSection setLogoTheme={setLogoTheme} />
+        <HowItWorksSection setLogoTheme={setLogoTheme} />
+        <PortfolioResultsSection setLogoTheme={setLogoTheme} />
+        <WhoWeSupportSection setLogoTheme={setLogoTheme} />
+        <FooterSection setLogoTheme={setLogoTheme} />
       </main>
     </>
   );

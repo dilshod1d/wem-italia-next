@@ -16,10 +16,20 @@ interface WhoWeSupportScrollState {
   lastStageKey: WhoWeSupportStageKey;
 }
 
-export function useWhoWeSupportSection(config: WhoWeSupportSectionConfig) {
+interface WhoWeSupportSectionOptions {
+  onEnter?: () => void;
+  onEnterBack?: () => void;
+}
+
+export function useWhoWeSupportSection(
+  config: WhoWeSupportSectionConfig,
+  options: WhoWeSupportSectionOptions = {},
+) {
   const { stages } = config;
   const sectionRef = useRef<HTMLElement | null>(null);
   const pinnedRef = useRef<HTMLDivElement | null>(null);
+  const enterRef = useRef(options.onEnter);
+  const enterBackRef = useRef(options.onEnterBack);
   const stateRef = useRef<WhoWeSupportScrollState>({
     lastStageKey: stages[0]?.key ?? "title",
   });
@@ -29,6 +39,11 @@ export function useWhoWeSupportSection(config: WhoWeSupportSectionConfig) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isPinned, setIsPinned] = useState(false);
   const scrolledRef = useRef(false);
+
+  useLayoutEffect(() => {
+    enterRef.current = options.onEnter;
+    enterBackRef.current = options.onEnterBack;
+  }, [options.onEnter, options.onEnterBack]);
 
   useLayoutEffect(() => {
     const section = sectionRef.current;
@@ -43,6 +58,12 @@ export function useWhoWeSupportSection(config: WhoWeSupportSectionConfig) {
       scrub: true,
       pin: pinned,
       pinSpacing: true,
+      onEnter: () => {
+        enterRef.current?.();
+      },
+      onEnterBack: () => {
+        enterBackRef.current?.();
+      },
       onToggle: (self) => {
         setIsPinned(self.isActive);
         section.style.zIndex = self.isActive ? "25" : "0";

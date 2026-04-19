@@ -39,6 +39,10 @@ function cx(...classes: Array<string | false | null | undefined>) {
   return classes.filter(Boolean).join(" ");
 }
 
+interface WhyWemWorksSectionProps {
+  setLogoTheme: (theme: "light" | "dark") => void;
+}
+
 interface InsightBlockProps {
   title: string;
   body: string;
@@ -116,9 +120,12 @@ function ProofPointCard({
   );
 }
 
-export function WhyWemWorksSection() {
+export function WhyWemWorksSection({ setLogoTheme }: WhyWemWorksSectionProps) {
   const { sectionRef, videoRef, activeStageKey, handoffPhase, isScrolled } =
-    useWhyWemWorksVideo(whyWemWorksSectionConfig);
+    useWhyWemWorksVideo(whyWemWorksSectionConfig, {
+      onEnter: () => setLogoTheme("light"),
+      onEnterBack: () => setLogoTheme("light"),
+    });
 
   return (
     <CinematicVideoSection
@@ -161,7 +168,7 @@ export function WhyWemWorksSection() {
             <div className="absolute inset-0 mx-auto max-w-[1600px] px-6 pb-24 pt-28 sm:px-10 lg:px-16">
               <div
                 className={cx(
-                  "absolute left-[10%] right-[6%] top-[25%] z-20 max-w-[40%] transition-all duration-700",
+                  "absolute left-[5%] right-[6%] top-[25%] z-20 max-w-[50%] transition-all duration-700",
                   showHandoff
                     ? "translate-y-0 opacity-100"
                     : "-translate-y-6 opacity-0",
@@ -179,7 +186,7 @@ export function WhyWemWorksSection() {
                       </span>
                     ))}
                   </h2>
-                  <div className="mt-5 max-w-[28rem] space-y-1.5 text-sm leading-6 text-white/84 md:text-base">
+                  <div className="mt-5 space-y-1.5 text-sm leading-6 text-white/84 md:text-base">
                     {handoff.paragraphs.map((paragraph) => (
                       <p key={paragraph}>{paragraph}</p>
                     ))}
@@ -187,7 +194,7 @@ export function WhyWemWorksSection() {
                 </div>
                 <div
                   className={cx(
-                    "mt-7 max-w-[34rem] transition-all duration-500 md:mt-8",
+                    "mt-7 transition-all duration-500 md:mt-8",
                     handoffPhase === "card"
                       ? "translate-y-0 opacity-100"
                       : "translate-y-4 opacity-0",

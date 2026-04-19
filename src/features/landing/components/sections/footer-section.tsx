@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useLayoutEffect, useRef, useState } from "react";
 import type { IconType } from "react-icons";
 import {
   FaEnvelope,
@@ -23,6 +23,10 @@ import type {
 import WemAI from "../icons/WemAI";
 import GiovanniIcon from "../icons/GiovanniIcon";
 import WemAgencyIcon from "../icons/WemAgencyIcon";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const socialIcons: Record<FooterSocialPlatform, IconType> = {
   facebook: FaFacebookF,
@@ -134,11 +138,42 @@ function FooterContactRow({ item }: { item: FooterContactItem }) {
   return content;
 }
 
-export function FooterSection() {
+interface FooterSectionProps {
+  setLogoTheme: (theme: "light" | "dark") => void;
+}
+
+export function FooterSection({ setLogoTheme }: FooterSectionProps) {
+  const footerRef = useRef<HTMLElement | null>(null);
   const [openFaqId, setOpenFaqId] = useState<string | null>(null);
+
+  useLayoutEffect(() => {
+    const footer = footerRef.current;
+
+    if (!footer) return;
+
+    const trigger = ScrollTrigger.create({
+      trigger: footer,
+      start: "top top",
+      end: "bottom bottom",
+      onEnter: () => {
+        setLogoTheme("light");
+      },
+      onEnterBack: () => {
+        setLogoTheme("light");
+      },
+      onLeaveBack: () => {
+        setLogoTheme("dark");
+      },
+    });
+
+    return () => {
+      trigger.kill();
+    };
+  }, [setLogoTheme]);
 
   return (
     <footer
+      ref={footerRef}
       id="footer"
       data-nav-theme="dark"
       className="relative z-30 overflow-visible bg-footer-bg px-6 pt-12 pb-10 text-white sm:px-10 lg:px-16"

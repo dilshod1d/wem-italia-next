@@ -13,7 +13,15 @@ interface HowItWorksVideoState {
   lastStageKey: HowItWorksStageKey;
 }
 
-export function useHowItWorksVideo(config: HowItWorksSectionConfig) {
+interface HowItWorksVideoOptions {
+  onEnter?: () => void;
+  onEnterBack?: () => void;
+}
+
+export function useHowItWorksVideo(
+  config: HowItWorksSectionConfig,
+  options: HowItWorksVideoOptions = {},
+) {
   const { fps, stages, totalFrames, videoDuration, videoUrl } = config;
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const stateRef = useRef<HowItWorksVideoState>({
@@ -30,6 +38,8 @@ export function useHowItWorksVideo(config: HowItWorksSectionConfig) {
   });
 
   const { sectionRef, isScrolled } = useSectionPin({
+    onEnter: options.onEnter,
+    onEnterBack: options.onEnterBack,
     onUpdate: (progress) => {
       const video = videoRef.current;
       const currentTime = videoDuration * Math.min(Math.max(progress, 0), 1);

@@ -21,7 +21,11 @@ function cx(...classes: Array<string | false | null | undefined>) {
   return classes.filter(Boolean).join(" ");
 }
 
-export function LandingNavbar() {
+interface LandingNavbarProps {
+  logoTheme: "light" | "dark";
+}
+
+export function LandingNavbar({ logoTheme }: LandingNavbarProps) {
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
@@ -48,7 +52,7 @@ export function LandingNavbar() {
     <>
       <header className="fixed inset-x-0 top-0 z-40">
         <div className="mx-auto flex max-w-[1600px] items-center justify-between px-6 py-6 sm:px-10 lg:px-16">
-          <BrandMark />
+          <BrandMark theme={logoTheme} />
           <button
             type="button"
             aria-label="Open navigation"
@@ -82,7 +86,10 @@ export function LandingNavbar() {
             onClick={(event) => event.stopPropagation()}
           >
             <div className="mx-auto flex w-full max-w-[1600px] items-center justify-between px-6 py-6 sm:px-10 lg:px-16">
-              <BrandMark className="scale-[0.82] origin-left sm:scale-100" />
+              <BrandMark
+                theme="light"
+                className="origin-left scale-[0.82] sm:scale-100"
+              />
 
               <button
                 type="button"

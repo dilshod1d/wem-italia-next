@@ -27,6 +27,10 @@ function cx(...classes: Array<string | false | null | undefined>) {
   return classes.filter(Boolean).join(" ");
 }
 
+interface WhoWeSupportSectionProps {
+  setLogoTheme: (theme: "light" | "dark") => void;
+}
+
 interface AudienceCardProps {
   card: WhoWeSupportCard;
   visible: boolean;
@@ -181,9 +185,14 @@ function WhoWeSupportContent({
   );
 }
 
-export function WhoWeSupportSection() {
+export function WhoWeSupportSection({
+  setLogoTheme,
+}: WhoWeSupportSectionProps) {
   const { sectionRef, pinnedRef, activeStageKey, isScrolled, isPinned } =
-    useWhoWeSupportSection(whoWeSupportSectionConfig);
+    useWhoWeSupportSection(whoWeSupportSectionConfig, {
+      onEnter: () => setLogoTheme("dark"),
+      onEnterBack: () => setLogoTheme("dark"),
+    });
 
   return (
     <section
