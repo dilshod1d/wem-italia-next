@@ -52,10 +52,14 @@ export function Chapter({
       id={sectionId}
       ref={sectionRef}
       data-nav-theme={navTheme}
-      className={cx("relative isolate", sectionClassName)}
+      // className={cx("relative isolate", sectionClassName)}
+      className={cx("relative", sectionClassName)}
       style={{ height: `${CHAPTER_SCROLL_DISTANCE}px` }}
     >
-      <div className="relative z-20 h-[100dvh] w-full overflow-hidden md:h-screen">
+      <div
+        className="relative z-20 h-screen w-full overflow-hidden"
+        /* className="relative z-20 h-[100dvh] w-full overflow-hidden md:h-screen" */
+      >
         {videoSrc ? (
           <video
             ref={videoRef}
