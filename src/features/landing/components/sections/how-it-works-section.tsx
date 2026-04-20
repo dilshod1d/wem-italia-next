@@ -94,7 +94,7 @@ export function HowItWorksSection({ setLogoTheme }: HowItWorksSectionProps) {
       indicatorLabelClassName="normal-case text-[1.05rem] font-medium tracking-normal text-sky-200/75"
       indicatorMouseClassName="border-sky-200/55"
       indicatorWheelClassName="bg-sky-200/80"
-      videoClassName="object-[center_86%] brightness-[1.02] contrast-[0.98] saturate-[0.96]"
+      videoClassName="object-center brightness-[1.02] contrast-[0.98] saturate-[0.96] md:object-[center_86%]"
       overlay={<div className="absolute inset-0 bg-white/[0.02]" />}
     >
       <div className="relative h-full w-full">

@@ -29,7 +29,7 @@ export function HeroSection({ setLogoTheme }: HeroSectionProps) {
       nextVideoSrc={whyWemWorksSectionConfig.videoUrl}
       isScrolled={isScrolled}
       navTheme="dark"
-      videoClassName="object-[center_58%] grayscale-[20%] contrast-[110%]"
+      videoClassName="object-center grayscale-[20%] contrast-[110%] md:object-[center_58%]"
     >
       <div className="relative flex h-full w-full items-center justify-center">
         <HeroSlide stage={activeStage} config={heroStoryConfig} />

@@ -92,7 +92,7 @@ export function SystemFlowSection({ setLogoTheme }: SystemFlowSectionProps) {
       indicatorLabelClassName="normal-case text-[1.05rem] font-medium tracking-normal text-sky-200/75"
       indicatorMouseClassName="border-sky-200/55"
       indicatorWheelClassName="bg-sky-200/80"
-      videoClassName="object-[68%_78%] brightness-[1.02] contrast-[0.98] saturate-[0.92] md:object-[72%_78%]"
+      videoClassName="object-center brightness-[1.02] contrast-[0.98] saturate-[0.92] md:object-[72%_78%]"
       overlay={<div className="absolute inset-0 bg-white/2" />}
     >
       <div className="relative h-full w-full">
