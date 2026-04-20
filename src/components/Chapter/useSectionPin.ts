@@ -46,6 +46,12 @@ export function useSectionPin({
 
     if (!section || !(pinTarget instanceof HTMLElement)) return;
 
+    let refreshFrame = 0;
+    const refresh = () => {
+      cancelAnimationFrame(refreshFrame);
+      refreshFrame = requestAnimationFrame(() => ScrollTrigger.refresh());
+    };
+
     const trigger = ScrollTrigger.create({
       trigger: section,
       start: "top top",
@@ -53,6 +59,8 @@ export function useSectionPin({
       scrub: true,
       pin: pinTarget,
       pinSpacing: true,
+      anticipatePin: 1,
+      invalidateOnRefresh: true,
       onEnter: () => {
         enterRef.current?.();
       },
@@ -61,6 +69,7 @@ export function useSectionPin({
       },
       onToggle: (self) => {
         section.style.zIndex = self.isActive ? "30" : "0";
+        pinTarget.style.zIndex = self.isActive ? "30" : "";
       },
       onUpdate: (self) => {
         updateRef.current?.(self.progress);
@@ -74,8 +83,14 @@ export function useSectionPin({
       },
     });
 
+    refresh();
+    window.visualViewport?.addEventListener("resize", refresh);
+
     return () => {
+      cancelAnimationFrame(refreshFrame);
+      window.visualViewport?.removeEventListener("resize", refresh);
       section.style.zIndex = "0";
+      pinTarget.style.zIndex = "";
       trigger.kill();
     };
   }, [pinDistance]);
