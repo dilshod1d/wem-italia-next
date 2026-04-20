@@ -274,7 +274,7 @@ function WhoWeSupportContent({
           className={cx(
             "relative overflow-hidden transition-[max-height,margin-top,opacity,transform] duration-520",
             showWarning
-              ? "-mt-24 max-h-[220px] -translate-y-2 opacity-100"
+              ? "-mt-22 max-h-[220px] -translate-y-2 opacity-100"
               : "pointer-events-none mt-0 max-h-0 translate-y-6 opacity-0",
           )}
           style={{
