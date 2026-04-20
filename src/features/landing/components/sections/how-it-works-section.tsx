@@ -35,7 +35,7 @@ function HowItWorksStepCard({
   return (
     <article
       className={cx(
-        "absolute w-full max-w-[800px]  rounded-[7rem] px-12 py-2.5 text-left shadow-[0_24px_65px_rgba(0,0,0,0.12)] transition-[opacity,transform,box-shadow] duration-700 md:px-16 md:py-3.5",
+        "absolute w-full max-w-[800px] rounded-[3rem] px-6 py-3 text-left shadow-[0_24px_65px_rgba(0,0,0,0.12)] transition-[opacity,transform,box-shadow] duration-700 sm:px-8 md:rounded-[7rem] md:px-16 md:py-3.5",
         step.toneClassName,
         step.positionClassName,
         step.zIndexClassName,
@@ -51,10 +51,10 @@ function HowItWorksStepCard({
         transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)",
       }}
     >
-      <h3 className="font-sans text-[1.95rem] font-semibold tracking-tight text-white md:text-[3.45rem]">
+      <h3 className="landing-title-lg text-white md:text-[3.45rem]">
         {step.title}
       </h3>
-      <p className="mt-2 font-body text-[0.9rem] leading-none text-white/96 md:text-[1.4rem]">
+      <p className="mt-2 font-body text-[0.82rem] leading-[1.2] text-white/96 sm:text-[0.92rem] md:text-[1.4rem] md:leading-none">
         {step.body}
       </p>
     </article>
@@ -98,7 +98,7 @@ export function HowItWorksSection({ setLogoTheme }: HowItWorksSectionProps) {
       overlay={<div className="absolute inset-0 bg-white/[0.02]" />}
     >
       <div className="relative h-full w-full">
-        <div className="absolute inset-0 mx-auto max-w-[1600px] px-6 py-24 sm:px-10 lg:px-16">
+        <div className="landing-shell">
           <div className="absolute left-6 top-[20%] text-black sm:left-10 lg:left-16">
             <h2
               className={cx(

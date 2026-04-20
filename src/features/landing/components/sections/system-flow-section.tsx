@@ -38,8 +38,8 @@ function BenefitCard({
   return (
     <article
       className={cx(
-        "absolute w-[calc(100%-2rem)] rounded-[3.2rem] px-6 py-5 text-white shadow-[0_28px_80px_rgba(0,0,0,0.08)] transition-[opacity,transform] duration-700",
-        " md:w-[480px] md:px-8 md:py-6",
+        "absolute w-[calc(100%-2rem)] rounded-[2.3rem] px-5 py-4 text-white shadow-[0_28px_80px_rgba(0,0,0,0.08)] transition-[opacity,transform] duration-700",
+        " md:w-[480px] md:rounded-[3.2rem] md:px-8 md:py-6",
         toneClassName,
         positionClassName,
         zIndexClassName,
@@ -52,11 +52,11 @@ function BenefitCard({
         transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)",
       }}
     >
-      <h3 className="font-sans text-[1.6rem] font-semibold uppercase tracking-tight md:text-[2rem]">
+      <h3 className="landing-title-md uppercase text-white md:text-[2rem]">
         {title}
       </h3>
 
-      <p className="max-w-3xl font-body text-[1.1rem] leading-[1.4] md:text-[1.4rem]">
+      <p className="landing-body-sm max-w-3xl text-white/96 md:text-[1.4rem]">
         {body}
       </p>
     </article>
@@ -96,7 +96,7 @@ export function SystemFlowSection({ setLogoTheme }: SystemFlowSectionProps) {
       overlay={<div className="absolute inset-0 bg-white/2" />}
     >
       <div className="relative h-full w-full">
-        <div className="absolute inset-0 mx-auto max-w-[1600px] px-6 py-24 sm:px-10 lg:px-16">
+        <div className="landing-shell">
           <div
             className={cx(
               "absolute left-6 top-[20%] max-w-[min(88vw,1250px)] text-black sm:left-10 lg:left-16",

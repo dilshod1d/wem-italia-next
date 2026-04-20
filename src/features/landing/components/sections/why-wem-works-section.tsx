@@ -61,23 +61,79 @@ function InsightBlock({
   return (
     <article
       className={cx(
-        "w-full rounded-[2.25rem] p-7 shadow-[0_30px_100px_rgba(0,0,0,0.28)] transition-all duration-700 md:p-10",
+        `
+        w-full
+        rounded-[1.25rem] p-4
+        sm:rounded-[1.75rem] sm:p-5
+        md:rounded-[2.25rem] md:p-10
+
+        shadow-[0_20px_60px_rgba(0,0,0,0.25)]
+        transition-all duration-700
+        `,
         toneClassName,
         className,
         visible
           ? "translate-y-0 opacity-100"
-          : "pointer-events-none translate-y-8 opacity-0",
+          : "pointer-events-none translate-y-4 sm:translate-y-6 md:translate-y-8 opacity-0",
       )}
     >
-      <h3 className="font-sans text-2xl font-semibold uppercase tracking-tight text-white md:text-[2.2rem]">
+      <h3
+        className="
+          landing-title-md uppercase text-white
+          text-[1.1rem] leading-snug
+          sm:text-[1.4rem]
+          md:text-[2.2rem]
+        "
+      >
         {title}
       </h3>
-      <p className="mt-4 max-w-4xl font-body text-lg leading-[1.45] text-white/92 md:text-[1.15rem]">
+
+      <p
+        className="
+          landing-body-sm
+          mt-2
+          text-white/92
+
+          text-[0.9rem] leading-6
+          max-w-[95%]
+
+          sm:mt-3 sm:text-[1rem] sm:max-w-[85%]
+          md:mt-4 md:text-[1.15rem] md:max-w-4xl
+        "
+      >
         {body}
       </p>
     </article>
   );
 }
+
+// function InsightBlock({
+//   title,
+//   body,
+//   toneClassName,
+//   visible,
+//   className,
+// }: InsightBlockProps) {
+//   return (
+//     <article
+//       className={cx(
+//         "w-full rounded-[1.75rem] p-5 shadow-[0_30px_100px_rgba(0,0,0,0.28)] transition-all duration-700 sm:p-6 md:rounded-[2.25rem] md:p-10",
+//         toneClassName,
+//         className,
+//         visible
+//           ? "translate-y-0 opacity-100"
+//           : "pointer-events-none translate-y-8 opacity-0",
+//       )}
+//     >
+//       <h3 className="landing-title-md uppercase text-white md:text-[2.2rem]">
+//         {title}
+//       </h3>
+//       <p className="landing-body-sm mt-3 max-w-4xl text-white/92 md:mt-4 md:text-[1.15rem]">
+//         {body}
+//       </p>
+//     </article>
+//   );
+// }
 
 interface ProofPointCardProps {
   title: string;
@@ -113,7 +169,7 @@ function ProofPointCard({
       <div className="mb-5 h-16 w-16 text-white md:h-20 md:w-20">
         <Icon className="h-full w-full" />
       </div>
-      <h3 className="font-sans text-2xl font-semibold uppercase leading-[1.08] tracking-tight md:text-[2.3rem]">
+      <h3 className="landing-title-md uppercase text-white md:text-[2.3rem]">
         {title}
       </h3>
     </article>
@@ -165,7 +221,7 @@ export function WhyWemWorksSection({ setLogoTheme }: WhyWemWorksSectionProps) {
 
         return (
           <div className="relative h-full w-full">
-            <div className="absolute inset-0 mx-auto max-w-[1600px] px-6 pb-24 pt-28 sm:px-10 lg:px-16">
+            <div className="landing-shell-tall">
               <div
                 className={cx(
                   "absolute left-[5%] right-[6%] top-[20%] z-20 max-w-[55%] transition-all duration-700",
@@ -213,31 +269,43 @@ export function WhyWemWorksSection({ setLogoTheme }: WhyWemWorksSectionProps) {
                   showSectionTitle
                     ? "opacity-100"
                     : "pointer-events-none opacity-0",
+
                   activeStageKey === "intro"
-                    ? "left-6 top-[24%] max-w-[40%] translate-x-0 sm:left-10 lg:left-16"
-                    : "right-6 top-[18%] max-w-[55%] translate-x-0 sm:right-10 lg:right-16",
+                    ? `
+        left-3 top-[16%] translate-x-0 max-w-[92%]
+        sm:left-6 sm:top-[20%]  sm:max-w-[75%]
+        lg:left-16 lg:top-[24%] lg:max-w-[60%]
+      `
+                    : `
+        right-3 top-[14%]  translate-x-0 max-w-[92%]
+        sm:right-6 sm:top-[16%]  sm:max-w-[75%]
+        lg:right-16 lg:top-[18%] lg:max-w-[60%]
+      `,
                 )}
               >
-                <h3 className="font-sans text-5xl font-medium tracking-tight text-white/75 md:text-7xl">
-                  {introTitle}
-                </h3>
+                <h3 className="heading-hero text-white/75">{introTitle}</h3>
               </div>
 
               <div
                 className={cx(
-                  "absolute right-6 top-[30%] max-w-[55%] transition-all duration-1000 sm:right-10 lg:right-16",
+                  `
+    absolute
+    right-3 top-[20%] max-w-[60%]
+    sm:right-6 sm:top-[22%] 
+    lg:right-16 lg:top-[30%] 
+    transition-all duration-1000
+    `,
                   showNarrativeCopy
                     ? "translate-x-0 opacity-100"
                     : "translate-x-12 opacity-0",
                 )}
               >
                 <div className="text-right">
-                  <p className="font-body text-[1.4rem] leading-[1.5] text-white/94 md:text-[1.9rem]">
-                    {leadParagraph}
-                  </p>
+                  <p className="text-body text-white/94">{leadParagraph}</p>
+
                   <p
                     className={cx(
-                      "font-body text-[1.4rem] leading-[1.5] text-white/90 transition-all duration-700 md:text-[1.9rem]",
+                      "text-body text-white/90 transition-all duration-700",
                       showSecondParagraph
                         ? "translate-y-0 opacity-100"
                         : "translate-y-5 opacity-0",
@@ -248,8 +316,8 @@ export function WhyWemWorksSection({ setLogoTheme }: WhyWemWorksSectionProps) {
                 </div>
               </div>
 
-              <div className="absolute inset-x-6 bottom-[12%] sm:inset-x-10 lg:inset-x-16">
-                <div className="ml-auto flex w-full max-w-[60%] flex-col gap-5">
+              <div className="absolute right-3  bottom-[5%] sm:bottom-[12%] lg:bottom-[7%] sm:right-6 lg:right-16 max-w-[60%]">
+                <div className="ml-auto flex w-full flex-col gap-5">
                   {blocks.map((block, index) => (
                     <InsightBlock
                       key={block.stage}
@@ -259,7 +327,12 @@ export function WhyWemWorksSection({ setLogoTheme }: WhyWemWorksSectionProps) {
                       visible={isStageVisible(activeStageKey, block.stage)}
                       className={cx(
                         block.offsetClassName,
-                        index !== 0 && "-mt-32",
+                        index !== 0 &&
+                          `
+    -mt-6
+    sm:-mt-10
+    lg:-mt-16
+  `,
                       )}
                     />
                   ))}

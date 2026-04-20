@@ -50,14 +50,14 @@ function AudienceCard({
 
   return (
     <article
-      className={cx(
-        "group rounded-[1.6rem] bg-white text-center shadow-[0_10px_30px_rgba(15,23,42,0.08)] ring-1 ring-slate-200/60 transition-all duration-[420ms] will-change-transform",
-        "motion-safe:hover:-translate-y-1.5 motion-safe:hover:scale-[1.012] motion-safe:hover:shadow-[0_18px_45px_rgba(15,23,42,0.12)]",
-        stackedMobile
-          ? "min-h-[176px] px-5 py-5"
-          : compact
-            ? "min-h-[248px] px-5 py-5 sm:min-h-[228px] sm:px-5 sm:py-5 md:min-h-[250px]"
-            : "min-h-[300px] px-6 py-7 md:min-h-[340px]",
+        className={cx(
+          "group rounded-[1.6rem] bg-white text-center shadow-[0_10px_30px_rgba(15,23,42,0.08)] ring-1 ring-slate-200/60 transition-all duration-[420ms] will-change-transform",
+          "motion-safe:hover:-translate-y-1.5 motion-safe:hover:scale-[1.012] motion-safe:hover:shadow-[0_18px_45px_rgba(15,23,42,0.12)]",
+          stackedMobile
+            ? "min-h-[168px] px-4 py-4.5"
+            : compact
+            ? "min-h-[232px] px-4.5 py-4.5 sm:min-h-[228px] sm:px-5 sm:py-5 md:min-h-[250px]"
+            : "min-h-[280px] px-5 py-6 md:min-h-[340px]",
         visible
           ? "translate-y-0 scale-100 opacity-100"
           : "translate-y-8 scale-[0.975] opacity-0",
@@ -84,9 +84,9 @@ function AudienceCard({
         className={cx(
             "font-sans font-semibold tracking-tight text-black",
             stackedMobile
-            ? "mt-3 text-[1.15rem]"
+            ? "mt-3 text-[1.05rem]"
             : compact
-              ? "mt-4 text-[1.28rem] sm:mt-4 sm:text-[1.35rem] md:text-[1.7rem]"
+              ? "mt-3.5 text-[1.18rem] sm:mt-4 sm:text-[1.35rem] md:text-[1.7rem]"
               : "mt-6 text-[1.6rem] md:text-[2rem]",
         )}
       >
@@ -97,9 +97,9 @@ function AudienceCard({
         className={cx(
             "font-body leading-[1.5] text-black/70",
             stackedMobile
-            ? "mt-2 text-[1rem]"
+            ? "mt-2 text-[0.94rem]"
             : compact
-              ? "mt-3 text-[1.08rem] sm:mt-3 sm:text-[1.18rem] md:text-[1.6rem]"
+              ? "mt-2.5 text-[1rem] sm:mt-3 sm:text-[1.18rem] md:text-[1.6rem]"
               : "mt-4 text-[1.6rem] md:text-[2rem]",
         )}
       >
@@ -351,7 +351,7 @@ export function WhoWeSupportSection({
         ref={pinnedRef}
         className="relative z-20 h-screen w-full overflow-hidden bg-white"
       >
-        <div className="mx-auto pt-[16%] h-full px-5 sm:pt-[20%] sm:px-8 lg:pt-[10%] lg:px-16">
+        <div className="mx-auto h-full px-5 pt-[14%] sm:px-8 sm:pt-[20%] lg:px-16 lg:pt-[10%]">
           <WhoWeSupportContent
             activeStageKey={activeStageKey}
             showHeading={isPinned}

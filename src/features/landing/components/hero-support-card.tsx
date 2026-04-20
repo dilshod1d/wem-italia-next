@@ -26,12 +26,12 @@ function getToneClasses(tone: HeroSupportCardTone) {
 function getIcon(card: HeroSupportCardData) {
   switch (card.icon) {
     case "wem-ai":
-      return <WemAI className="h-auto w-40" />;
+      return <WemAI className="h-auto w-28 sm:w-34 md:w-40" />;
     case "wem-agency":
-      return <WemAgencyIcon className="h-auto w-40" />;
+      return <WemAgencyIcon className="h-auto w-28 sm:w-34 md:w-40" />;
     case "giovanni":
     default:
-      return <GiovanniIcon className="h-auto w-40" />;
+      return <GiovanniIcon className="h-auto w-28 sm:w-34 md:w-40" />;
   }
 }
 
@@ -39,7 +39,7 @@ export function HeroSupportCard({ card, isActive }: HeroSupportCardProps) {
   return (
     <div
       className={[
-        "rounded-[1.75rem] px-5 py-4 text-white shadow-[0_30px_60px_rgba(0,0,0,0.35)]",
+        "rounded-[1.5rem] px-4 py-4 text-white shadow-[0_30px_60px_rgba(0,0,0,0.35)] sm:rounded-[1.75rem] sm:px-5",
         "transition-all duration-500",
         getToneClasses(card.tone),
         isActive
@@ -48,14 +48,16 @@ export function HeroSupportCard({ card, isActive }: HeroSupportCardProps) {
       ].join(" ")}
       style={{ transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)" }}
     >
-      <div className="flex items-center justify-between gap-4">
+      <div className="flex flex-col items-center gap-3 text-center sm:flex-row sm:items-center sm:justify-between sm:gap-4 sm:text-left">
         <div className="min-w-0">
-          <p className="font-sans text-[2.4rem] font-semibold uppercase">
+          <p className="font-sans text-[1.7rem] font-semibold uppercase sm:text-[2rem] md:text-[2.4rem]">
             {card.title}
           </p>
-          <p className="mt-2 text-2xl  text-white/90">{card.description}</p>
+          <p className="mt-1.5 font-body text-[0.95rem] leading-[1.35] text-white/90 sm:mt-2 sm:text-[1.15rem] md:text-2xl">
+            {card.description}
+          </p>
         </div>
-        <div className="shrink-0">{getIcon(card)}</div>
+        <div className="shrink-0 sm:self-auto">{getIcon(card)}</div>
       </div>
     </div>
   );

@@ -72,7 +72,7 @@ function PortfolioCard({
         }}
       >
         <div className="z-30 absolute left-0 top-0 flex h-10 w-[82%] items-center justify-center rounded-t-2xl rounded-br-2xl bg-inherit md:h-12">
-          <h3 className="px-3 text-center font-sans text-[0.95rem] font-semibold tracking-tight md:text-[1.35rem]">
+          <h3 className="px-3 text-center font-sans text-[0.82rem] font-semibold tracking-tight sm:text-[0.9rem] md:text-[1.35rem]">
             {item.title}
           </h3>
         </div>
@@ -94,7 +94,7 @@ function PortfolioCard({
         </div>
 
         <div className="absolute -bottom-12 left-0 flex h-14 w-[82%] items-center justify-center rounded-b-2xl rounded-r-2xl bg-inherit md:-bottom-14 md:h-16">
-          <p className="px-3 text-center font-sans text-[0.95rem] font-semibold tracking-tight md:text-[1.35rem]">
+          <p className="px-3 text-center font-sans text-[0.82rem] font-semibold tracking-tight sm:text-[0.9rem] md:text-[1.35rem]">
             {item.footerLabel}
           </p>
         </div>
@@ -179,21 +179,21 @@ function ProofMetricCard({ metric, visible, delayMs }: ProofMetricCardProps) {
         transitionTimingFunction: "cubic-bezier(0.16, 1.15, 0.3, 1)",
       }}
     >
-      <div className="px-6 pb-6 pt-7 text-center md:px-8 md:pb-8 md:pt-8">
-        <div className="font-sans text-[2.7rem] font-semibold leading-none tracking-tight text-black md:text-[4rem]">
+      <div className="px-5 pb-5 pt-6 text-center sm:px-6 md:px-8 md:pb-8 md:pt-8">
+        <div className="font-sans text-[2.15rem] font-semibold leading-none tracking-tight text-black sm:text-[2.4rem] md:text-[4rem]">
           {metric.value}
         </div>
       </div>
       <div
         className={cx(
-          "px-5 py-3 text-center font-sans text-[1.2rem] font-semibold tracking-tight md:px-6 md:text-[1.65rem]",
+          "px-4 py-2.5 text-center font-sans text-[0.96rem] font-semibold tracking-tight sm:px-5 sm:text-[1.05rem] md:px-6 md:py-3 md:text-[1.65rem]",
           metric.bandClassName,
         )}
       >
         {metric.label}
       </div>
-      <div className="px-6 pb-7 pt-6 text-center md:px-8 md:pb-8">
-        <p className="font-body text-[1.05rem] leading-[1.28] text-black/58 md:text-[1.55rem]">
+      <div className="px-5 pb-6 pt-5 text-center sm:px-6 md:px-8 md:pb-8 md:pt-6">
+        <p className="font-body text-[0.94rem] leading-[1.3] text-black/58 sm:text-[1rem] md:text-[1.55rem]">
           {metric.body}
         </p>
       </div>
@@ -249,7 +249,7 @@ export function PortfolioResultsSection({
       }
     >
       <div className="relative h-full w-full">
-        <div className="absolute inset-0 mx-auto px-6 py-24 sm:px-10 lg:px-16">
+        <div className="landing-shell">
           <div
             className={cx(
               "absolute left-6 top-[20%] text-black transition-all duration-700 sm:left-10 lg:left-16",
