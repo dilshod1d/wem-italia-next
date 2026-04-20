@@ -50,12 +50,12 @@ function AudienceCard({
 
   return (
     <article
-        className={cx(
-          "group rounded-[1.6rem] bg-white text-center shadow-[0_10px_30px_rgba(15,23,42,0.08)] ring-1 ring-slate-200/60 transition-all duration-[420ms] will-change-transform",
-          "motion-safe:hover:-translate-y-1.5 motion-safe:hover:scale-[1.012] motion-safe:hover:shadow-[0_18px_45px_rgba(15,23,42,0.12)]",
-          stackedMobile
-            ? "min-h-[168px] px-4 py-4.5"
-            : compact
+      className={cx(
+        "group rounded-[1.6rem] bg-white text-center shadow-[0_10px_30px_rgba(15,23,42,0.08)] ring-1 ring-slate-200/60 transition-all duration-[420ms] will-change-transform",
+        "motion-safe:hover:-translate-y-1.5 motion-safe:hover:scale-[1.012] motion-safe:hover:shadow-[0_18px_45px_rgba(15,23,42,0.12)]",
+        stackedMobile
+          ? "min-h-[168px] px-4 py-4.5"
+          : compact
             ? "min-h-[232px] px-4.5 py-4.5 sm:min-h-[228px] sm:px-5 sm:py-5 md:min-h-[250px]"
             : "min-h-[280px] px-5 py-6 md:min-h-[340px]",
         visible
@@ -82,8 +82,8 @@ function AudienceCard({
 
       <h3
         className={cx(
-            "font-sans font-semibold tracking-tight text-black",
-            stackedMobile
+          "font-sans font-semibold tracking-tight text-black",
+          stackedMobile
             ? "mt-3 text-[1.05rem]"
             : compact
               ? "mt-3.5 text-[1.18rem] sm:mt-4 sm:text-[1.35rem] md:text-[1.7rem]"
@@ -95,8 +95,8 @@ function AudienceCard({
 
       <p
         className={cx(
-            "font-body leading-[1.5] text-black/70",
-            stackedMobile
+          "font-body leading-[1.5] text-black/70",
+          stackedMobile
             ? "mt-2 text-[0.94rem]"
             : compact
               ? "mt-2.5 text-[1rem] sm:mt-3 sm:text-[1.18rem] md:text-[1.6rem]"
@@ -142,7 +142,7 @@ function WarningCard({
             ? "rounded-[1.6rem] shadow-[0_10px_30px_rgba(15,23,42,0.08)]"
             : mobile
               ? "rounded-[1.9rem] shadow-[0_22px_58px_rgba(15,23,42,0.22)]"
-            : "rounded-[1.6rem] shadow-[0_16px_38px_rgba(148,163,184,0.16)]",
+              : "rounded-[1.6rem] shadow-[0_16px_38px_rgba(148,163,184,0.16)]",
         )}
       >
         <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(135deg,rgba(248,250,252,0.9),rgba(255,255,255,0.98)_42%,rgba(255,247,237,0.52)_100%)]" />
@@ -154,7 +154,7 @@ function WarningCard({
               ? "flex min-h-[176px] flex-col items-center justify-center gap-4 px-5 py-5 text-center"
               : mobile
                 ? "flex flex-col items-center gap-5 px-6 py-7 text-center"
-              : "flex flex-col items-start gap-5 px-6 py-6 text-left md:flex-row md:items-center md:px-8 md:py-7",
+                : "flex flex-col items-start gap-5 px-6 py-6 text-left md:flex-row md:items-center md:px-8 md:py-7",
           )}
         >
           <div
@@ -163,7 +163,7 @@ function WarningCard({
                 ? "flex h-14 w-14 items-center justify-center text-amber-400"
                 : mobile
                   ? "flex h-28 w-28 items-center justify-center text-amber-400"
-                : "flex h-16 w-16 items-center justify-center rounded-[1rem] bg-white text-amber-500 shadow-[0_8px_18px_rgba(234,179,8,0.1)] ring-1 ring-amber-200/80",
+                  : "flex h-16 w-16 items-center justify-center rounded-[1rem] bg-white text-amber-500 shadow-[0_8px_18px_rgba(234,179,8,0.1)] ring-1 ring-amber-200/80",
             )}
           >
             <FaTriangleExclamation
@@ -172,7 +172,7 @@ function WarningCard({
                   ? "h-12 w-12 drop-shadow-[0_8px_18px_rgba(0,0,0,0.1)]"
                   : mobile
                     ? "h-24 w-24 drop-shadow-[0_10px_20px_rgba(0,0,0,0.12)]"
-                  : "h-8 w-8",
+                    : "h-8 w-8",
               )}
             />
           </div>
@@ -192,7 +192,7 @@ function WarningCard({
                   ? "text-[1rem] font-semibold leading-[1.35] tracking-tight text-black"
                   : mobile
                     ? "text-[1.55rem] font-semibold leading-[1.28] tracking-tight text-black"
-                  : "mt-1 text-[1rem] leading-[1.45] text-black/68 md:text-[1.15rem]",
+                    : "mt-1 text-[1rem] leading-[1.45] text-black/68 md:text-[1.15rem]",
               )}
             >
               {mobile ? warningSentence : copy.warningBody}
@@ -248,7 +248,7 @@ function WhoWeSupportContent({
               "relative overflow-hidden transition-[max-height,margin-top,opacity,transform] duration-500",
               forceFinal || isAudienceCardVisible(activeStageKey, card.stage)
                 ? cx(
-                    index === 0 ? "mt-0" : "-mt-20",
+                    index === 0 ? "mt-0" : "-mt-16",
                     "max-h-[220px] translate-y-0 opacity-100",
                   )
                 : "pointer-events-none mt-0 max-h-0 translate-y-6 opacity-0",
