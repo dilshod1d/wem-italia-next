@@ -240,7 +240,7 @@ export function PortfolioResultsSection({
       indicatorLabelClassName="normal-case text-[1.05rem] font-medium tracking-normal text-sky-200/75"
       indicatorMouseClassName="border-sky-200/55"
       indicatorWheelClassName="bg-sky-200/80"
-      videoClassName="object-center brightness-[1.02] contrast-[0.98] saturate-[0.94] md:object-[center_78%]"
+      videoClassName="brightness-[1.02] contrast-[0.98] saturate-[0.94] md:object-[center_78%]"
       overlay={
         <>
           <div className="absolute inset-0 bg-white/[0.02]" />
@@ -252,7 +252,7 @@ export function PortfolioResultsSection({
         <div className="landing-shell">
           <div
             className={cx(
-              "absolute z-20 left-[4%] top-[12%] w-screen sm:left-[5%] sm:top-[16%] sm:w-[75%] lg:left-[5%] lg:top-[20%] lg:w-[55%] text-black",
+              "landing-copy-panel text-black",
             )}
           >
             <p
@@ -320,7 +320,7 @@ export function PortfolioResultsSection({
 
           <div
             className={cx(
-              "absolute inset-x-0 bottom-[2%] transition-all duration-700",
+              "absolute bottom-[2%] left-[4%] right-[4%] transition-all duration-700 sm:left-[5%] sm:right-[5%]",
               showProof
                 ? "translate-y-0 opacity-100"
                 : "pointer-events-none translate-y-12 opacity-0",

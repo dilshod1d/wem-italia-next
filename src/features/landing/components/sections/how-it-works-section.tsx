@@ -94,12 +94,12 @@ export function HowItWorksSection({ setLogoTheme }: HowItWorksSectionProps) {
       indicatorLabelClassName="normal-case text-[1.05rem] font-medium tracking-normal text-sky-200/75"
       indicatorMouseClassName="border-sky-200/55"
       indicatorWheelClassName="bg-sky-200/80"
-      videoClassName="object-center brightness-[1.02] contrast-[0.98] saturate-[0.96] md:object-[center_86%]"
+      videoClassName="brightness-[1.02] contrast-[0.98] saturate-[0.96] md:object-[center_86%]"
       overlay={<div className="absolute inset-0 bg-white/[0.02]" />}
     >
       <div className="relative h-full w-full">
         <div className="landing-shell">
-          <div className="absolute z-20 left-[4%] top-[12%] w-screen sm:left-[5%] sm:top-[16%] sm:w-[75%] lg:left-[5%] lg:top-[20%] lg:w-[55%] text-black">
+          <div className="landing-copy-panel text-black">
             <h2
               className={cx(
                 "heading-hero transition-all duration-700",
@@ -134,7 +134,7 @@ export function HowItWorksSection({ setLogoTheme }: HowItWorksSectionProps) {
 
           <div
             className={cx(
-              "absolute left-10 right-10 bottom-[-13%] h-[27rem] sm:h-[31rem] lg:h-[34rem] overflow-hidden",
+              "absolute left-[4%] right-[4%] bottom-[-13%] h-[27rem] overflow-hidden sm:left-[5%] sm:right-[5%] sm:h-[31rem] lg:h-[34rem]",
               isFinal ? "animate-[wem-breathe_5.2s_ease-in-out_infinite]" : "",
             )}
           >

@@ -195,7 +195,7 @@ export function WhyWemWorksSection({ setLogoTheme }: WhyWemWorksSectionProps) {
       indicatorLabel="Scroll Down"
       indicatorPersistent
       indicatorLabelClassName="normal-case text-[1.05rem] font-medium tracking-normal text-white/95"
-      videoClassName="object-center scale-[1.01] brightness-[0.82] contrast-[1.05] saturate-[1.03] md:object-[center_58%]"
+      videoClassName="scale-[1.01] brightness-[0.82] contrast-[1.05] saturate-[1.03] md:object-[center_58%]"
       overlay={
         <>
           <div className="absolute inset-0 bg-linear-to-r from-slate-950/55 via-slate-950/5 to-black/45" />
@@ -224,8 +224,7 @@ export function WhyWemWorksSection({ setLogoTheme }: WhyWemWorksSectionProps) {
             <div className="landing-shell-tall">
               <div
                 className={cx(
-                  // "absolute left-[5%] right-[6%] top-[20%] z-20 max-w-[55%] transition-all duration-700",
-                        "absolute z-20 left-[4%] top-[12%] w-[65%] sm:left-[5%] sm:top-[16%] sm:w-[65%] lg:left-[5%] lg:top-[20%] lg:w-[55%]",
+                  "landing-copy-panel transition-all duration-700",
                   showHandoff
                     ? "translate-y-0 opacity-100"
                     : "-translate-y-6 opacity-0",
@@ -273,14 +272,14 @@ export function WhyWemWorksSection({ setLogoTheme }: WhyWemWorksSectionProps) {
 
                   activeStageKey === "intro"
                     ? `
-        left-3 top-[16%] translate-x-0 max-w-[92%]
-        sm:left-6 sm:top-[20%]  sm:max-w-[75%]
-        lg:left-16 lg:top-[24%] lg:max-w-[60%]
+        left-[4%] top-[16%] translate-x-0 w-[92%]
+        sm:left-[5%] sm:top-[20%] sm:w-[75%]
+        lg:left-[5%] lg:top-[24%] lg:w-[60%]
       `
                     : `
-        right-3 top-[14%]  translate-x-0 max-w-[92%]
-        sm:right-6 sm:top-[16%]  sm:max-w-[75%]
-        lg:right-16 lg:top-[18%] lg:max-w-[60%]
+        right-[4%] top-[14%] translate-x-0 w-[92%]
+        sm:right-[5%] sm:top-[16%] sm:w-[75%]
+        lg:right-[5%] lg:top-[18%] lg:w-[60%]
       `,
                 )}
               >
@@ -291,9 +290,9 @@ export function WhyWemWorksSection({ setLogoTheme }: WhyWemWorksSectionProps) {
                 className={cx(
                   `
     absolute
-    right-3 top-[20%] max-w-[60%]
-    sm:right-6 sm:top-[22%] 
-    lg:right-16 lg:top-[30%] 
+    right-[4%] top-[20%] w-[60%]
+    sm:right-[5%] sm:top-[22%] 
+    lg:right-[5%] lg:top-[30%] 
     transition-all duration-1000
     `,
                   showNarrativeCopy
@@ -317,7 +316,7 @@ export function WhyWemWorksSection({ setLogoTheme }: WhyWemWorksSectionProps) {
                 </div>
               </div>
 
-              <div className="absolute right-3  bottom-[5%] sm:bottom-[12%] lg:bottom-[7%] sm:right-6 lg:right-16 max-w-[60%]">
+              <div className="absolute right-[4%] bottom-[5%] w-[60%] sm:right-[5%] sm:bottom-[12%] lg:bottom-[7%]">
                 <div className="ml-auto flex w-full flex-col gap-5">
                   {blocks.map((block, index) => (
                     <InsightBlock
@@ -342,7 +341,7 @@ export function WhyWemWorksSection({ setLogoTheme }: WhyWemWorksSectionProps) {
 
               <div
                 className={cx(
-                  "absolute inset-x-6 inset-y-0 flex items-center justify-center py-28 transition-opacity duration-500 sm:inset-x-10 lg:inset-x-16 lg:justify-end",
+                  "absolute inset-y-0 left-[4%] right-[4%] flex items-center justify-center py-28 transition-opacity duration-500 sm:left-[5%] sm:right-[5%] lg:justify-end",
                   showProofGrid
                     ? "opacity-100"
                     : "pointer-events-none opacity-0",

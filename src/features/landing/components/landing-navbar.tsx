@@ -51,7 +51,7 @@ export function LandingNavbar({ logoTheme }: LandingNavbarProps) {
   return (
     <>
       <header className="fixed inset-x-0 top-0 z-40">
-        <div className="mx-auto flex max-w-[1600px] items-center justify-between px-4 sm:px-8 lg:px-16 ">
+        <div className="landing-frame flex items-center justify-between">
           <BrandMark theme={logoTheme} />
           <button
             type="button"
@@ -86,7 +86,7 @@ export function LandingNavbar({ logoTheme }: LandingNavbarProps) {
             className="relative flex h-full w-full flex-col overflow-hidden bg-black"
             onClick={(event) => event.stopPropagation()}
           >
-            <div className="mx-auto flex w-full max-w-[1600px] items-center justify-between px-4 sm:px-8 lg:px-16">
+            <div className="landing-frame flex items-center justify-between">
               <BrandMark theme="light" />
 
               <button

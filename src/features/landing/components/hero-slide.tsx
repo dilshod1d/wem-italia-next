@@ -89,16 +89,7 @@ export function HeroSlide({ stage, config }: HeroSlideProps) {
 
   return (
     <div
-      className="
-  absolute z-20
-
-  left-[4%] top-[12%] w-[65%]
-
-  sm:left-[5%] sm:top-[16%] sm:w-[65%]
-
-  lg:left-[5%] lg:top-[20%] lg:w-[55%]
-"
-      // className="absolute left-[5%] top-[20%] z-20 w-[55%]"
+      className="landing-copy-panel"
       style={{ textShadow: "0 8px 30px rgba(0, 0, 0, 0.32)" }}
     >
       <div

@@ -92,15 +92,14 @@ export function SystemFlowSection({ setLogoTheme }: SystemFlowSectionProps) {
       indicatorLabelClassName="normal-case text-[1.05rem] font-medium tracking-normal text-sky-200/75"
       indicatorMouseClassName="border-sky-200/55"
       indicatorWheelClassName="bg-sky-200/80"
-      videoClassName="object-center brightness-[1.02] contrast-[0.98] saturate-[0.92] md:object-[72%_78%]"
+      videoClassName="brightness-[1.02] contrast-[0.98] saturate-[0.92] md:object-[72%_78%]"
       overlay={<div className="absolute inset-0 bg-white/2" />}
     >
       <div className="relative h-full w-full">
         <div className="landing-shell">
           <div
             className={cx(
-              "absolute z-20 left-[4%] top-[12%] w-screen sm:left-[5%] sm:top-[16%] sm:w-[75%] lg:left-[5%] lg:top-[20%] lg:w-[55%] text-black",
-              // "absolute left-6 top-[20%] max-w-[min(88vw,1250px)] text-black sm:left-10 lg:left-16",
+              "landing-copy-panel text-black",
               isFinal ? "animate-[wem-breathe_5.4s_ease-in-out_infinite]" : "",
             )}
           >

@@ -217,7 +217,7 @@ function WhoWeSupportContent({
 
   return (
     <>
-      <div className="max-w-full sm:max-w-[90%] lg:max-w-[85%]">
+      <div className="w-full sm:w-[90%] lg:w-[85%]">
         <p
           className={cx(
             "text-eyebrow text-black/28 transition-all duration-700",
@@ -350,9 +350,8 @@ export function WhoWeSupportSection({
       <div
         ref={pinnedRef}
         className="relative z-20 h-screen w-full overflow-hidden bg-white"
-        // className="relative z-20 h-[100dvh] w-full overflow-hidden bg-white md:h-screen"
       >
-        <div className="mx-auto h-full px-5 pt-[14%] sm:px-8 sm:pt-[20%] lg:px-16 lg:pt-[10%]">
+        <div className="landing-frame h-full pt-[14%] sm:pt-[20%] lg:pt-[10%]">
           <WhoWeSupportContent
             activeStageKey={activeStageKey}
             showHeading={isPinned}
