@@ -224,7 +224,8 @@ export function WhyWemWorksSection({ setLogoTheme }: WhyWemWorksSectionProps) {
             <div className="landing-shell-tall">
               <div
                 className={cx(
-                  "absolute left-[5%] right-[6%] top-[20%] z-20 max-w-[55%] transition-all duration-700",
+                  // "absolute left-[5%] right-[6%] top-[20%] z-20 max-w-[55%] transition-all duration-700",
+                        "absolute z-20 left-[4%] top-[12%] w-[65%] sm:left-[5%] sm:top-[16%] sm:w-[65%] lg:left-[5%] lg:top-[20%] lg:w-[55%]",
                   showHandoff
                     ? "translate-y-0 opacity-100"
                     : "-translate-y-6 opacity-0",

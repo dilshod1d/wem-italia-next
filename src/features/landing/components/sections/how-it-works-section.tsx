@@ -99,7 +99,7 @@ export function HowItWorksSection({ setLogoTheme }: HowItWorksSectionProps) {
     >
       <div className="relative h-full w-full">
         <div className="landing-shell">
-          <div className="absolute left-6 top-[20%] text-black sm:left-10 lg:left-16">
+          <div className="absolute z-20 left-[4%] top-[12%] w-screen sm:left-[5%] sm:top-[16%] sm:w-[75%] lg:left-[5%] lg:top-[20%] lg:w-[55%] text-black">
             <h2
               className={cx(
                 "heading-hero transition-all duration-700",

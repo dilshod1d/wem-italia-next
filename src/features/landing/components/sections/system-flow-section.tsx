@@ -99,7 +99,8 @@ export function SystemFlowSection({ setLogoTheme }: SystemFlowSectionProps) {
         <div className="landing-shell">
           <div
             className={cx(
-              "absolute left-6 top-[20%] max-w-[min(88vw,1250px)] text-black sm:left-10 lg:left-16",
+              "absolute z-20 left-[4%] top-[12%] w-screen sm:left-[5%] sm:top-[16%] sm:w-[75%] lg:left-[5%] lg:top-[20%] lg:w-[55%] text-black",
+              // "absolute left-6 top-[20%] max-w-[min(88vw,1250px)] text-black sm:left-10 lg:left-16",
               isFinal ? "animate-[wem-breathe_5.4s_ease-in-out_infinite]" : "",
             )}
           >

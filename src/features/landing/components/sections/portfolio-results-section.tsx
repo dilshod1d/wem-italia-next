@@ -252,7 +252,7 @@ export function PortfolioResultsSection({
         <div className="landing-shell">
           <div
             className={cx(
-              "absolute left-6 top-[20%] text-black transition-all duration-700 sm:left-10 lg:left-16",
+              "absolute z-20 left-[4%] top-[12%] w-screen sm:left-[5%] sm:top-[16%] sm:w-[75%] lg:left-[5%] lg:top-[20%] lg:w-[55%] text-black",
             )}
           >
             <p
