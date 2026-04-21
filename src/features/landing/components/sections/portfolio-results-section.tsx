@@ -246,7 +246,7 @@ export function PortfolioResultsSection({
     >
       <div className="relative h-full w-full">
         <div className="landing-shell">
-          <div className={cx("landing-copy-panel text-black")}>
+          <div className={cx("landing-copy-panel-alt text-black")}>
             <p
               className={cx(
                 "text-eyebrow text-black/25 transition-all duration-700 ",
@@ -271,11 +271,14 @@ export function PortfolioResultsSection({
 
             <div
               className={cx(
-                "text-body transition-all duration-700",
+                "text-body transition-all duration-1000",
                 showDescription
                   ? "translate-y-0 opacity-100"
                   : "pointer-events-none translate-y-6 opacity-0",
               )}
+              style={{
+                transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)",
+              }}
             >
               {copy.descriptionLines.map((line) => (
                 <p key={line}>{line}</p>

@@ -99,7 +99,7 @@ export function SystemFlowSection({ setLogoTheme }: SystemFlowSectionProps) {
         <div className="landing-shell">
           <div
             className={cx(
-              "landing-copy-panel text-black",
+              "landing-copy-panel-alt text-black",
               isFinal ? "animate-[wem-breathe_5.4s_ease-in-out_infinite]" : "",
             )}
           >
@@ -127,11 +127,14 @@ export function SystemFlowSection({ setLogoTheme }: SystemFlowSectionProps) {
 
             <div
               className={cx(
-                "body-stack text-body mt-6 text-black/85 transition-all duration-700",
+                "body-stack text-body mt-6 text-black/85 transition-all duration-1000",
                 showParagraphs
                   ? "translate-y-0 opacity-100"
                   : "translate-y-6 opacity-0",
               )}
+              style={{
+                transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)",
+              }}
             >
               {paragraphs.map((paragraph) => (
                 <p key={paragraph}>{paragraph}</p>

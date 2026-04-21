@@ -176,6 +176,12 @@ html::-webkit-scrollbar-thumb:hover {
          lg:left-[5%] lg:top-[20%] lg:w-[55%];
 }
 
+@utility landing-copy-panel-alt {
+    @apply absolute left-[4%] top-[12%] z-20 w-full
+         sm:left-[5%] sm:top-[16%]
+         lg:left-[5%] lg:top-[20%];
+}
+
 @utility landing-title-lg {
   @apply font-sans font-semibold text-[1.35rem] leading-[1.05]
          sm:text-[1.65rem] md:text-[2.15rem];

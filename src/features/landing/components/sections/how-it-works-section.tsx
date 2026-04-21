@@ -99,7 +99,7 @@ export function HowItWorksSection({ setLogoTheme }: HowItWorksSectionProps) {
     >
       <div className="relative h-full w-full">
         <div className="landing-shell">
-          <div className="landing-copy-panel text-black">
+          <div className="landing-copy-panel-alt text-black">
             <h2
               className={cx(
                 "heading-hero transition-all duration-700",
@@ -113,19 +113,26 @@ export function HowItWorksSection({ setLogoTheme }: HowItWorksSectionProps) {
 
             <div
               className={cx(
-                "text-body transition-all duration-700 text-black",
+                "text-body text-black transition-all duration-1000",
                 showHeading
                   ? "translate-y-0 opacity-100"
                   : "translate-y-6 opacity-0",
               )}
+              style={{
+                transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)",
+              }}
             >
-              <p>{copy.subtitle} now moved here</p>
+              <p>{copy.subtitle}</p>
               <p
                 className={cx(
+                  "transition-all duration-700",
                   showDescription
                     ? "translate-y-0 opacity-100"
                     : "translate-y-5 opacity-0",
                 )}
+                style={{
+                  transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)",
+                }}
               >
                 {copy.description}
               </p>

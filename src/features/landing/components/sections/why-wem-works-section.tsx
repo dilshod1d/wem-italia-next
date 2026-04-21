@@ -277,7 +277,7 @@ export function WhyWemWorksSection({ setLogoTheme }: WhyWemWorksSectionProps) {
         lg:left-[5%] lg:top-[24%] lg:w-[60%]
       `
                     : `
-        right-[4%] top-[14%] translate-x-0 w-[92%]
+        right-[4%] top-[14%] translate-x-0 w-[92%] text-right
         sm:right-[5%] sm:top-[16%] sm:w-[75%]
         lg:right-[5%] lg:top-[18%] lg:w-[60%]
       `,
@@ -299,6 +299,9 @@ export function WhyWemWorksSection({ setLogoTheme }: WhyWemWorksSectionProps) {
                     ? "translate-x-0 opacity-100"
                     : "translate-x-12 opacity-0",
                 )}
+                style={{
+                  transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)",
+                }}
               >
                 <div className="text-right">
                   <p className="text-body text-white/94">{leadParagraph}</p>
@@ -310,6 +313,9 @@ export function WhyWemWorksSection({ setLogoTheme }: WhyWemWorksSectionProps) {
                         ? "translate-y-0 opacity-100"
                         : "translate-y-5 opacity-0",
                     )}
+                    style={{
+                      transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)",
+                    }}
                   >
                     {resultParagraph}
                   </p>

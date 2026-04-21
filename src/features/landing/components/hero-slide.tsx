@@ -39,11 +39,9 @@ function renderTitle(title: HeroTitle) {
 
 function renderBodyItems(items: readonly HeroBodyItem[]) {
   return (
-    <div className="body-stack text-body text-white/85">
+    <div className="hero-slot-in body-stack text-body text-white/85">
       {items.map((item) => (
-        <p key={item.key} className="hero-slot-in">
-          {item.text}
-        </p>
+        <p key={item.key}>{item.text}</p>
       ))}
     </div>
   );
