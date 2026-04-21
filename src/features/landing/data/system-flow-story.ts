@@ -12,7 +12,12 @@ export const systemFlowSectionConfig = {
     { id: 3, key: "body", startFrame: 95, endFrame: 104 },
     { id: 4, key: "step", startFrame: 104, endFrame: 122 },
     { id: 5, key: "budget", startFrame: 122, endFrame: 125 },
-    { id: 6, key: "support", startFrame: 125, endFrame: Number.POSITIVE_INFINITY },
+    {
+      id: 6,
+      key: "support",
+      startFrame: 125,
+      endFrame: Number.POSITIVE_INFINITY,
+    },
   ],
   eyebrow: "How It Works",
   title: "Pay Per Step.\nNo Constraints - No Subscriptions",
@@ -27,7 +32,7 @@ export const systemFlowSectionConfig = {
       body: "Each phase is defined and approved in advance.",
       toneClassName: "bg-brand-green",
       placementClassName:
-        "left-6 bottom-[25%] max-w-[720px] md:left-10 lg:left-16 lg:bottom-[20%]",
+        "left-0 top-0 w-[min(92vw,40rem)] sm:w-[min(58vw,54rem)] md:w-[min(58vw,64rem)]",
       zIndexClassName: "z-10",
     },
     {
@@ -36,7 +41,7 @@ export const systemFlowSectionConfig = {
       body: "Budget management is tied to results and approved at every step.",
       toneClassName: "bg-brand-red",
       placementClassName:
-        "left-[34%] bottom-[15%] max-w-[860px] lg:left-[31%] lg:bottom-[13%]",
+        "left-[7%] top-[5.25rem] w-[min(92vw,42rem)] sm:left-[18%] sm:top-[6rem] sm:w-[min(60vw,64rem)] md:left-[22%] md:top-[6.5rem] md:w-[min(60vw,70rem)]",
       zIndexClassName: "z-20",
     },
     {
@@ -45,7 +50,7 @@ export const systemFlowSectionConfig = {
       body: "You invest in WEM specialists and tools only when they are truly needed.",
       toneClassName: "bg-brand-blue",
       placementClassName:
-        "left-[10%] bottom-[7%] max-w-[760px] lg:left-[8%] lg:bottom-[6%]",
+        "left-[4%] top-[10rem] w-[min(92vw,44rem)] sm:left-[8%] sm:top-[11.25rem] sm:w-[min(62vw,68rem)] md:left-[8%] md:top-[13rem] md:w-[min(62vw,74rem)]",
       zIndexClassName: "z-30",
     },
   ],

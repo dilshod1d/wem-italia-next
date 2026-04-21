@@ -152,7 +152,7 @@ export function HowItWorksSection({ setLogoTheme }: HowItWorksSectionProps) {
 
           <div
             className={cx(
-              "pointer-events-none absolute left-0 right-0 bottom-[-14%] z-30 h-[27rem] overflow-hidden sm:bottom-[-16%] sm:h-[31rem] lg:bottom-[-18%] lg:h-[34rem]",
+              "pointer-events-none absolute left-0 right-0 bottom-[-10%] z-30 h-[27rem] overflow-hidden sm:bottom-[-12%] sm:h-[31rem] lg:bottom-[-14%] lg:h-[34rem]",
               isFinal ? "animate-[wem-breathe_5.2s_ease-in-out_infinite]" : "",
             )}
           >

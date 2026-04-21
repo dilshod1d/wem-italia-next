@@ -38,8 +38,10 @@ function BenefitCard({
   return (
     <article
       className={cx(
-        "absolute w-[calc(100%-2rem)] rounded-[2.3rem] px-5 py-4 text-white shadow-[0_28px_80px_rgba(0,0,0,0.08)] transition-[opacity,transform] duration-700",
-        "md:w-[480px] md:rounded-[3.2rem] md:px-8 md:py-6",
+        "absolute min-h-[8.8rem] w-[min(90vw,38rem)] rounded-[2.65rem] px-6 py-6 text-white shadow-[0_28px_80px_rgba(0,0,0,0.08)] transition-[opacity,transform] duration-700",
+        "sm:min-h-[10.5rem] sm:px-8 sm:py-7",
+        "md:min-h-[13.2rem] md:rounded-[4.25rem] md:px-12 md:py-9",
+        "lg:min-h-[14.6rem] lg:px-16 lg:py-10",
         toneClassName,
         placementClassName,
         zIndexClassName,
@@ -52,11 +54,11 @@ function BenefitCard({
         transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)",
       }}
     >
-      <h3 className="landing-title-md uppercase text-white md:text-[2rem]">
+      <h3 className="font-sans text-[clamp(1.7rem,3.4vw,4rem)] font-semibold leading-[1.02] tracking-tight text-white uppercase">
         {title}
       </h3>
 
-      <p className="landing-body-sm max-w-3xl text-white/96 md:text-[1.4rem]">
+      <p className="mt-2 max-w-[45rem] font-body text-[clamp(1.2rem,2.1vw,2.25rem)] leading-[1.26] text-white/96 md:mt-3">
         {body}
       </p>
     </article>
@@ -140,21 +142,23 @@ export function SystemFlowSection({ setLogoTheme }: SystemFlowSectionProps) {
                 <p key={paragraph}>{paragraph}</p>
               ))}
             </div>
-          </div>
 
-          <div className="pointer-events-none absolute inset-0 z-30">
-            {cards.map((card, index) => (
-              <BenefitCard
-                key={card.stage}
-                title={card.title}
-                body={card.body}
-                toneClassName={card.toneClassName}
-                placementClassName={card.placementClassName}
-                zIndexClassName={card.zIndexClassName}
-                visible={isCardVisible(activeStageKey, card.stage)}
-                delayMs={index * 140}
-              />
-            ))}
+            <div className="pointer-events-none relative z-30 mt-4 h-[16.5rem] sm:mt-5 sm:h-[19.75rem] md:mt-6 md:h-[23.5rem] lg:h-[24.75rem]">
+              <div className="relative h-full w-full origin-top-left scale-[0.8] transform-gpu">
+                {cards.map((card, index) => (
+                  <BenefitCard
+                    key={card.stage}
+                    title={card.title}
+                    body={card.body}
+                    toneClassName={card.toneClassName}
+                    placementClassName={card.placementClassName}
+                    zIndexClassName={card.zIndexClassName}
+                    visible={isCardVisible(activeStageKey, card.stage)}
+                    delayMs={index * 140}
+                  />
+                ))}
+              </div>
+            </div>
           </div>
         </div>
       </div>

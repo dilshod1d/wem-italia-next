@@ -351,7 +351,7 @@ export function WhoWeSupportSection({
     >
       <div
         ref={pinnedRef}
-        className="relative z-20 h-screen w-full overflow-hidden bg-white"
+        className="relative z-20 h-screen w-full overflow-hidden bg-white mb-12"
       >
         <div className="landing-frame h-full pt-[12%] sm:pt-[17%] lg:pt-[8%]">
           <WhoWeSupportContent
