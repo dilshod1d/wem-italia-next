@@ -26,7 +26,7 @@ export const systemFlowSectionConfig = {
       title: "CLEAR STEPS",
       body: "Each phase is defined and approved in advance.",
       toneClassName: "bg-brand-green",
-      positionClassName:
+      placementClassName:
         "left-6 bottom-[25%] max-w-[720px] md:left-10 lg:left-16 lg:bottom-[20%]",
       zIndexClassName: "z-10",
     },
@@ -35,7 +35,7 @@ export const systemFlowSectionConfig = {
       title: "TRANSPARENT BUDGET",
       body: "Budget management is tied to results and approved at every step.",
       toneClassName: "bg-brand-red",
-      positionClassName:
+      placementClassName:
         "left-[34%] bottom-[15%] max-w-[860px] lg:left-[31%] lg:bottom-[13%]",
       zIndexClassName: "z-20",
     },
@@ -44,7 +44,7 @@ export const systemFlowSectionConfig = {
       title: "WEM SUPPORT",
       body: "You invest in WEM specialists and tools only when they are truly needed.",
       toneClassName: "bg-brand-blue",
-      positionClassName:
+      placementClassName:
         "left-[10%] bottom-[7%] max-w-[760px] lg:left-[8%] lg:bottom-[6%]",
       zIndexClassName: "z-30",
     },

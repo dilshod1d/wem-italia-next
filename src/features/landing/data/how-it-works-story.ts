@@ -29,7 +29,7 @@ export const howItWorksSectionConfig = {
       title: "Step 1: ANALYSIS",
       body: "I understand the starting point, the goals, and the priorities.",
       toneClassName: "bg-brand-blue text-white",
-      positionClassName:
+      placementClassName:
         "left-4 right-4 top-0 md:left-8 md:right-8 lg:left-[13rem] lg:right-auto lg:w-[min(78vw,78rem)]",
       zIndexClassName: "z-[1]",
     },
@@ -38,7 +38,7 @@ export const howItWorksSectionConfig = {
       title: "Step 2: DIRECTION",
       body: "We define where to intervene first and what is needed.",
       toneClassName: "bg-brand-green text-white",
-      positionClassName:
+      placementClassName:
         "left-6 right-4 top-[6.25rem] md:left-14 md:right-6 lg:left-[21rem] lg:right-auto lg:w-[min(76vw,82rem)]",
       zIndexClassName: "z-[2]",
     },
@@ -47,7 +47,7 @@ export const howItWorksSectionConfig = {
       title: "Step 3: BUILD",
       body: "We build what makes the most sense for the project.",
       toneClassName: "bg-brand-red text-white",
-      positionClassName:
+      placementClassName:
         "left-8 right-4 top-[12.5rem] md:left-20 md:right-6 lg:left-[29rem] lg:right-auto lg:w-[min(74vw,82rem)]",
       zIndexClassName: "z-[3]",
     },
@@ -56,7 +56,7 @@ export const howItWorksSectionConfig = {
       title: "Step 4: EVOLUTION",
       body: "We optimize and grow what works",
       toneClassName: "bg-brand-purple text-white",
-      positionClassName:
+      placementClassName:
         "left-10 right-4 top-[18.75rem] md:left-24 md:right-6 lg:left-[37rem] lg:right-auto lg:w-[min(72vw,84rem)]",
       zIndexClassName: "z-[4]",
     },

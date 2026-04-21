@@ -20,7 +20,7 @@ interface BenefitCardProps {
   title: string;
   body: string;
   toneClassName: string;
-  positionClassName: string;
+  placementClassName: string;
   zIndexClassName: string;
   visible: boolean;
   delayMs: number;
@@ -30,7 +30,7 @@ function BenefitCard({
   title,
   body,
   toneClassName,
-  positionClassName,
+  placementClassName,
   zIndexClassName,
   visible,
   delayMs,
@@ -39,9 +39,9 @@ function BenefitCard({
     <article
       className={cx(
         "absolute w-[calc(100%-2rem)] rounded-[2.3rem] px-5 py-4 text-white shadow-[0_28px_80px_rgba(0,0,0,0.08)] transition-[opacity,transform] duration-700",
-        " md:w-[480px] md:rounded-[3.2rem] md:px-8 md:py-6",
+        "md:w-[480px] md:rounded-[3.2rem] md:px-8 md:py-6",
         toneClassName,
-        positionClassName,
+        placementClassName,
         zIndexClassName,
         visible
           ? "translate-y-0 scale-100 opacity-100"
@@ -142,14 +142,14 @@ export function SystemFlowSection({ setLogoTheme }: SystemFlowSectionProps) {
             </div>
           </div>
 
-          <div className="absolute inset-x-0 inset-y-0">
+          <div className="pointer-events-none absolute inset-0 z-30">
             {cards.map((card, index) => (
               <BenefitCard
                 key={card.stage}
                 title={card.title}
                 body={card.body}
                 toneClassName={card.toneClassName}
-                positionClassName={card.positionClassName}
+                placementClassName={card.placementClassName}
                 zIndexClassName={card.zIndexClassName}
                 visible={isCardVisible(activeStageKey, card.stage)}
                 delayMs={index * 140}

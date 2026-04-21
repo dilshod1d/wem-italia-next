@@ -353,7 +353,7 @@ export function WhyWemWorksSection({ setLogoTheme }: WhyWemWorksSectionProps) {
                     : "pointer-events-none opacity-0",
                 )}
               >
-                <div className="grid w-[min(94vw,74vh)] grid-cols-2 gap-4 sm:w-[min(84vw,72vh)] sm:gap-5 md:w-[min(62vw,72vh)] lg:w-[min(52vw,72vh)] xl:w-[min(47vw,74vh)]">
+                <div className="grid w-[min(96vw,81vh)] grid-cols-2 gap-4 sm:w-[min(90vw,79vh)] sm:gap-5 md:w-[min(68vw,79vh)] lg:w-[min(57vw,79vh)] xl:w-[min(52vw,81vh)]">
                   {proofPoints.map((item, index) => (
                     <ProofPointCard
                       key={item.title}

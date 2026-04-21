@@ -312,8 +312,10 @@ function WhoWeSupportContent({
 
       <div
         className={cx(
-          "hidden overflow-hidden transition-opacity duration-520 md:absolute md:left-[5%] md:right-[5%] md:bottom-[12%] md:block lg:bottom-[14%]",
-          showWarning ? "opacity-100" : "opacity-0",
+          "hidden overflow-hidden transition-[max-height,margin-top,opacity,transform] duration-520 md:block",
+          showWarning
+            ? "mt-8 max-h-[220px] translate-y-0 opacity-100"
+            : "pointer-events-none mt-0 max-h-0 translate-y-6 opacity-0",
         )}
         style={{ transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)" }}
       >

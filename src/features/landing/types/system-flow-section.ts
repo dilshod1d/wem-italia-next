@@ -18,7 +18,7 @@ export interface SystemFlowCard {
   readonly title: string;
   readonly body: string;
   readonly toneClassName: string;
-  readonly positionClassName: string;
+  readonly placementClassName: string;
   readonly zIndexClassName: string;
 }
 

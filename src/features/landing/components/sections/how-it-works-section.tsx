@@ -37,7 +37,7 @@ function HowItWorksStepCard({
       className={cx(
         "absolute w-full max-w-[800px] rounded-[3rem] px-6 py-3 text-left shadow-[0_24px_65px_rgba(0,0,0,0.12)] transition-[opacity,transform,box-shadow] duration-700 sm:px-8 md:rounded-[7rem] md:px-16 md:py-3.5",
         step.toneClassName,
-        step.positionClassName,
+        step.placementClassName,
         step.zIndexClassName,
         highlighted
           ? "shadow-[0_22px_70px_rgba(0,0,0,0.16),0_0_0_1px_rgba(255,255,255,0.08)]"
@@ -152,19 +152,21 @@ export function HowItWorksSection({ setLogoTheme }: HowItWorksSectionProps) {
 
           <div
             className={cx(
-              "absolute left-[4%] right-[4%] bottom-[-8%] h-[27rem] overflow-hidden sm:left-[5%] sm:right-[5%] sm:h-[31rem] lg:h-[34rem]",
+              "pointer-events-none absolute left-0 right-0 bottom-[-14%] z-30 h-[27rem] overflow-hidden sm:bottom-[-16%] sm:h-[31rem] lg:bottom-[-18%] lg:h-[34rem]",
               isFinal ? "animate-[wem-breathe_5.2s_ease-in-out_infinite]" : "",
             )}
           >
-            {steps.map((step, index) => (
-              <HowItWorksStepCard
-                key={step.stage}
-                step={step}
-                visible={isStepVisible(activeStageKey, step.stage)}
-                delayMs={index * 120}
-                highlighted={isFinal}
-              />
-            ))}
+            <div className="relative h-full w-full translate-x-[6vw] sm:translate-x-[7vw] lg:translate-x-[8vw]">
+              {steps.map((step, index) => (
+                <HowItWorksStepCard
+                  key={step.stage}
+                  step={step}
+                  visible={isStepVisible(activeStageKey, step.stage)}
+                  delayMs={index * 120}
+                  highlighted={isFinal}
+                />
+              ))}
+            </div>
           </div>
         </div>
       </div>

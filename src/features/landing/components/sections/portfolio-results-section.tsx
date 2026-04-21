@@ -214,10 +214,7 @@ export function PortfolioResultsSection({
     activeStageKey === "narrative" ||
     activeStageKey === "portfolio" ||
     activeStageKey === "focus";
-  const showDescription =
-    activeStageKey === "narrative" ||
-    activeStageKey === "portfolio" ||
-    activeStageKey === "focus";
+  const showDescription = activeStageKey === "narrative";
   const showPortfolio =
     activeStageKey === "portfolio" || activeStageKey === "focus";
   const showProof = activeStageKey === "proof";
