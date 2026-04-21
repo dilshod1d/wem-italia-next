@@ -18,33 +18,43 @@ export const heroStoryConfig = {
       lines: ["One Guide with an ecosystem behind you"],
     },
   },
-  bodies: {
-    introLead: {
-      paragraphs: ["I handle everything needed to help you grow online."],
+  bodyItems: [
+    {
+      key: "intro-growth",
+      text: "I handle everything needed to help you grow online.",
+      fromFrame: 25,
+      toFrame: 55,
+      order: 1,
     },
-    introFull: {
-      paragraphs: [
-        "I handle everything needed to help you grow online.",
-        "You stay focused on your business.",
-      ],
+    {
+      key: "intro-focus",
+      text: "You stay focused on your business.",
+      fromFrame: 41,
+      toFrame: 55,
+      order: 2,
     },
-    ecosystemLead: {
-      paragraphs: ["No constant handoffs between different people."],
+    {
+      key: "ecosystem-no-handoffs",
+      text: "No constant handoffs between different people.",
+      fromFrame: 92,
+      toFrame: 120,
+      order: 1,
     },
-    ecosystemFull: {
-      paragraphs: [
-        "No constant handoffs between different people.",
-        "You have one point of contact who keeps Vision,",
-        "Strategy, Operations, and Creativity together.",
-      ],
+    {
+      key: "ecosystem-support-1",
+      text: "Supporting that is an ecosystem built and",
+      fromFrame: 120,
+      toFrame: Number.POSITIVE_INFINITY,
+      order: 1,
     },
-    ecosystemSupport: {
-      paragraphs: [
-        "Supporting that is an ecosystem built and",
-        "validated on an international scale.",
-      ],
+    {
+      key: "ecosystem-support-2",
+      text: "validated on an international scale.",
+      fromFrame: 120,
+      toFrame: Number.POSITIVE_INFINITY,
+      order: 2,
     },
-  },
+  ],
   supportCards: {
     giovanni: {
       tone: "blue",
@@ -114,7 +124,6 @@ export const heroStoryConfig = {
       endFrame: 41,
       eyebrowKey: "intro",
       titleKey: "intro",
-      bodyKey: "introLead",
       placementKey: "introLocked",
     },
     {
@@ -123,7 +132,6 @@ export const heroStoryConfig = {
       endFrame: 55,
       eyebrowKey: "intro",
       titleKey: "intro",
-      bodyKey: "introFull",
       placementKey: "introOpenHand",
     },
     {
@@ -146,7 +154,6 @@ export const heroStoryConfig = {
       endFrame: 105,
       eyebrowKey: "enterprise",
       titleKey: "ecosystem",
-      bodyKey: "ecosystemLead",
       placementKey: "ecosystemRaised",
     },
     {
@@ -155,7 +162,6 @@ export const heroStoryConfig = {
       endFrame: 120,
       eyebrowKey: "enterprise",
       titleKey: "ecosystem",
-      bodyKey: "ecosystemFull",
       placementKey: "ecosystemRaised",
     },
     {
@@ -164,7 +170,6 @@ export const heroStoryConfig = {
       endFrame: 133,
       eyebrowKey: "enterprise",
       titleKey: "ecosystem",
-      bodyKey: "ecosystemSupport",
       supportCardKey: "giovanni",
       placementKey: "ecosystemCard",
     },
@@ -174,7 +179,6 @@ export const heroStoryConfig = {
       endFrame: 144,
       eyebrowKey: "enterprise",
       titleKey: "ecosystem",
-      bodyKey: "ecosystemSupport",
       placementKey: "ecosystemCardLate",
     },
     {
@@ -183,7 +187,6 @@ export const heroStoryConfig = {
       endFrame: Number.POSITIVE_INFINITY,
       eyebrowKey: "enterprise",
       titleKey: "ecosystem",
-      bodyKey: "ecosystemSupport",
       supportCardKey: "wem-ai",
       placementKey: "ecosystemCardLate",
     },

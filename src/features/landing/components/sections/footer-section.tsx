@@ -21,8 +21,8 @@ import type {
   FooterSocialPlatform,
 } from "../../types/footer-section";
 import WemAI from "../icons/WemAI";
-import GiovanniIcon from "../icons/GiovanniIcon";
-import WemAgencyIcon from "../icons/WemAgencyIcon";
+import GiovanniIcon from "../icons/Giovannilogo";
+import WemAgencyIcon from "../icons/WemAgencyLogo";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 

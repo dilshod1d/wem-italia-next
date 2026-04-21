@@ -2,7 +2,7 @@
 
 import type { ReactNode } from "react";
 import type {
-  HeroBody,
+  HeroBodyItem,
   HeroEyebrow,
   HeroSectionConfig,
   HeroStage,
@@ -13,6 +13,7 @@ import { HeroSupportCard as HeroSupportCardBlock } from "./hero-support-card";
 
 interface HeroSlideProps {
   stage: HeroStage;
+  visibleBodyItems: readonly HeroBodyItem[];
   config: HeroSectionConfig;
 }
 
@@ -36,11 +37,13 @@ function renderTitle(title: HeroTitle) {
   );
 }
 
-function renderBody(body: HeroBody) {
+function renderBodyItems(items: readonly HeroBodyItem[]) {
   return (
     <div className="body-stack text-body text-white/85">
-      {body.paragraphs.map((paragraph) => (
-        <p key={paragraph}>{paragraph}</p>
+      {items.map((item) => (
+        <p key={item.key} className="hero-slot-in">
+          {item.text}
+        </p>
       ))}
     </div>
   );
@@ -72,19 +75,25 @@ function KeyedSlot<T>({
   );
 }
 
-export function HeroSlide({ stage, config }: HeroSlideProps) {
+export function HeroSlide({
+  stage,
+  visibleBodyItems,
+  config,
+}: HeroSlideProps) {
   const placement = config.placements[stage.placementKey];
   const eyebrow = stage.eyebrowKey
     ? config.eyebrows[stage.eyebrowKey]
     : undefined;
   const title = stage.titleKey ? config.titles[stage.titleKey] : undefined;
-  const body = stage.bodyKey ? config.bodies[stage.bodyKey] : undefined;
   const card = stage.supportCardKey
     ? config.supportCards[stage.supportCardKey]
     : undefined;
 
   const showCopy = Boolean(
-    stage.eyebrowKey || stage.titleKey || stage.bodyKey || stage.supportCardKey,
+    stage.eyebrowKey ||
+      stage.titleKey ||
+      visibleBodyItems.length > 0 ||
+      stage.supportCardKey,
   );
 
   return (
@@ -111,12 +120,11 @@ export function HeroSlide({ stage, config }: HeroSlideProps) {
           value={title}
           render={renderTitle}
         />
-        <KeyedSlot
-          slotKey={stage.bodyKey}
-          value={body}
-          render={renderBody}
-          className={cx("mt-5", placement.bodyClassName)}
-        />
+        {visibleBodyItems.length > 0 ? (
+          <div className={cx("mt-5", placement.bodyClassName)}>
+            {renderBodyItems(visibleBodyItems)}
+          </div>
+        ) : null}
         <KeyedSlot
           slotKey={stage.supportCardKey}
           value={card}

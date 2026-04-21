@@ -10,15 +10,19 @@ export interface HeroTitle {
   readonly lines: readonly string[];
 }
 
-export interface HeroBody {
-  readonly paragraphs: readonly string[];
-}
-
 export interface HeroSupportCard {
   readonly title: string;
   readonly description: string;
   readonly tone: HeroSupportCardTone;
   readonly icon: HeroSupportCardIcon;
+}
+
+export interface HeroBodyItem {
+  readonly key: string;
+  readonly text: string;
+  readonly fromFrame: number;
+  readonly toFrame: number;
+  readonly order: number;
 }
 
 export interface HeroStagePlacement {
@@ -33,7 +37,6 @@ export interface HeroStage {
   readonly endFrame: number;
   readonly eyebrowKey?: string;
   readonly titleKey?: string;
-  readonly bodyKey?: string;
   readonly supportCardKey?: string;
   readonly placementKey: string;
 }
@@ -45,7 +48,7 @@ export interface HeroSectionConfig {
   readonly videoDuration: number;
   readonly eyebrows: Readonly<Record<string, HeroEyebrow>>;
   readonly titles: Readonly<Record<string, HeroTitle>>;
-  readonly bodies: Readonly<Record<string, HeroBody>>;
+  readonly bodyItems: readonly HeroBodyItem[];
   readonly supportCards: Readonly<Record<string, HeroSupportCard>>;
   readonly placements: Readonly<Record<string, HeroStagePlacement>>;
   readonly stages: readonly HeroStage[];

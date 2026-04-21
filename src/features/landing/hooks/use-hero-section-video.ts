@@ -3,11 +3,12 @@
 import { useRef, useState } from "react";
 import { useSectionPin } from "@/components/Chapter/useSectionPin";
 
-import type { HeroSectionConfig } from "../types/hero-section";
+import type { HeroBodyItem, HeroSectionConfig } from "../types/hero-section";
 import { useVideoDebugLogger } from "./use-video-debug-logger";
 
 interface HeroVideoState {
   lastStageId: number;
+  lastBodySignature: string;
 }
 
 interface HeroSectionVideoOptions {
@@ -23,10 +24,14 @@ export function useHeroSectionVideo(
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const stateRef = useRef<HeroVideoState>({
     lastStageId: stages[0]?.id ?? 0,
+    lastBodySignature: "",
   });
   const [activeStageId, setActiveStageId] = useState<number>(
     stages[0]?.id ?? 0,
   );
+  const [visibleBodyItems, setVisibleBodyItems] = useState<
+    readonly HeroBodyItem[]
+  >([]);
   const debugLogger = useVideoDebugLogger({
     label: "Hero",
     videoSrc: videoUrl,
@@ -49,6 +54,15 @@ export function useHeroSectionVideo(
       }
 
       const { lastStageId } = stateRef.current;
+      const visibleBodies = config.bodyItems
+        .filter(
+          (item) =>
+            currentFrame >= item.fromFrame && currentFrame < item.toFrame,
+        )
+        .sort((a, b) => a.order - b.order);
+      const nextBodySignature = visibleBodies
+        .map((item) => item.key)
+        .join("|");
       const activeStage = stages.find(
         (stage) =>
           currentFrame >= stage.startFrame && currentFrame < stage.endFrame,
@@ -64,6 +78,11 @@ export function useHeroSectionVideo(
         stateRef.current.lastStageId = activeStage.id;
         setActiveStageId(activeStage.id);
       }
+
+      if (nextBodySignature !== stateRef.current.lastBodySignature) {
+        stateRef.current.lastBodySignature = nextBodySignature;
+        setVisibleBodyItems(visibleBodies);
+      }
     },
   });
 
@@ -71,6 +90,7 @@ export function useHeroSectionVideo(
     sectionRef,
     videoRef,
     activeStageId,
+    visibleBodyItems,
     isScrolled,
   };
 }

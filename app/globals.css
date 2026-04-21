@@ -18,6 +18,7 @@
   --color-brand-blue: #1d83ff;
   --color-brand-green: #6dbd45;
   --color-brand-red: #ed2d32;
+  --color-wemai-red: #f53d08;
   --color-brand-red-alt: #e13e46;
   --color-brand-purple: #6d3cdb;
   --color-brand-yellow: #eaba2b;
@@ -111,9 +112,34 @@ html::-webkit-scrollbar-thumb:hover {
   animation: hero-slot-in 520ms cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
-@utility heading-hero {
+/* @utility heading-hero {
   @apply font-sans font-semibold leading-[0.92] tracking-[-0.05em]
          text-[2.25rem] sm:text-[2.9rem] md:text-5xl lg:text-6xl xl:text-7xl;
+} */
+
+@utility heading-hero {
+  @apply font-sans font-semibold
+
+         /* Line height (mobile → desktop tighter) */
+         leading-[1.15]
+         sm:leading-[1.08]
+         md:leading-[1.02]
+         lg:leading-[0.96]
+         xl:leading-[0.92]
+
+         /* Letter spacing (readability → density) */
+         tracking-[0.025em]
+         sm:tracking-[0.015em]
+         md:tracking-[-0.01em]
+         lg:tracking-[-0.02em]
+         xl:tracking-[-0.03em]
+
+         /* Font size */
+         text-[2.25rem]
+         sm:text-[2.9rem]
+         md:text-5xl
+         lg:text-6xl
+         xl:text-7xl;
 }
 
 @utility text-eyebrow {

@@ -11,7 +11,7 @@ interface HeroSectionProps {
 }
 
 export function HeroSection({ setLogoTheme }: HeroSectionProps) {
-  const { sectionRef, videoRef, activeStageId, isScrolled } =
+  const { sectionRef, videoRef, activeStageId, visibleBodyItems, isScrolled } =
     useHeroSectionVideo(heroStoryConfig, {
       onEnter: () => setLogoTheme("light"),
       onEnterBack: () => setLogoTheme("light"),
@@ -32,7 +32,11 @@ export function HeroSection({ setLogoTheme }: HeroSectionProps) {
       videoClassName="grayscale-[20%] contrast-[110%] md:object-[center_58%]"
     >
       <div className="relative flex h-full w-full items-center justify-center">
-        <HeroSlide stage={activeStage} config={heroStoryConfig} />
+        <HeroSlide
+          stage={activeStage}
+          visibleBodyItems={visibleBodyItems}
+          config={heroStoryConfig}
+        />
       </div>
     </CinematicVideoSection>
   );

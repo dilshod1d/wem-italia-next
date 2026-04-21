@@ -41,7 +41,7 @@ function PortfolioCard({
   const sizeClassName = getPortfolioCardSizeClass(distanceFromFocus);
   const imageHeightClassName =
     getPortfolioCardImageHeightClass(distanceFromFocus);
-  const cardZIndex = focusMode ? Math.max(10, 30 - distanceFromFocus) : 10;
+
   const focusStateClassName = getPortfolioCardFocusStateClass(
     distanceFromFocus,
     focusMode,
@@ -50,13 +50,12 @@ function PortfolioCard({
   return (
     <article
       className={cx(
-        "group relative shrink-0 transition-[opacity,transform,filter] duration-700",
+        "group relative shrink-0 transition-[opacity,transform,filter] duration-700 z-30",
         visible
           ? "translate-x-0 opacity-100"
           : "pointer-events-none translate-x-20 opacity-0",
         focusStateClassName,
       )}
-      style={{ zIndex: cardZIndex }}
       aria-hidden={!visible}
     >
       <div
@@ -71,7 +70,7 @@ function PortfolioCard({
           transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)",
         }}
       >
-        <div className="z-30 absolute left-0 top-0 flex h-10 w-[82%] items-center justify-center rounded-t-2xl rounded-br-2xl bg-inherit md:h-12">
+        <div className="z-31 absolute left-0 top-0 flex h-10 w-[82%] items-center justify-center rounded-t-2xl rounded-br-2xl bg-inherit md:h-12">
           <h3 className="px-3 text-center font-sans text-[0.82rem] font-semibold tracking-tight sm:text-[0.9rem] md:text-[1.35rem]">
             {item.title}
           </h3>
@@ -215,10 +214,7 @@ export function PortfolioResultsSection({
     activeStageKey === "narrative" ||
     activeStageKey === "portfolio" ||
     activeStageKey === "focus";
-  const showDescription =
-    activeStageKey === "narrative" ||
-    activeStageKey === "portfolio" ||
-    activeStageKey === "focus";
+  const showDescription = activeStageKey === "narrative";
   const showPortfolio =
     activeStageKey === "portfolio" || activeStageKey === "focus";
   const showProof = activeStageKey === "proof";
@@ -250,11 +246,7 @@ export function PortfolioResultsSection({
     >
       <div className="relative h-full w-full">
         <div className="landing-shell">
-          <div
-            className={cx(
-              "landing-copy-panel text-black",
-            )}
-          >
+          <div className={cx("landing-copy-panel text-black")}>
             <p
               className={cx(
                 "text-eyebrow text-black/25 transition-all duration-700 ",
@@ -293,7 +285,7 @@ export function PortfolioResultsSection({
 
           <div
             className={cx(
-              "absolute inset-x-0 bottom-[8%] transition-all duration-700",
+              "absolute inset-x-0 bottom-[8%] z-10 transition-all duration-700",
               showPortfolio
                 ? "translate-y-0 opacity-100"
                 : "pointer-events-none translate-y-12 opacity-0",

@@ -1,10 +1,10 @@
 import GiovanniIcon from "./icons/GiovanniIcon";
-import WemAI from "./icons/WemAI";
 import WemAgencyIcon from "./icons/WemAgencyIcon";
 import type {
   HeroSupportCard as HeroSupportCardData,
   HeroSupportCardTone,
 } from "../types/hero-section";
+import WemAIIcon from "./icons/WemAIIcon";
 
 interface HeroSupportCardProps {
   card: HeroSupportCardData;
@@ -14,9 +14,9 @@ interface HeroSupportCardProps {
 function getToneClasses(tone: HeroSupportCardTone) {
   switch (tone) {
     case "orange":
-      return "bg-gradient-to-r from-brand-red-alt via-brand-red-alt to-brand-red";
+      return "bg-gradient-to-l from-wemai-red via-brand-red-alt to-brand-red";
     case "purple":
-      return "bg-gradient-to-r from-brand-purple via-brand-purple to-portfolio-blue";
+      return "bg-gradient-to-l from-brand-purple via-brand-purple to-portfolio-blue";
     case "blue":
     default:
       return "bg-gradient-to-r from-brand-blue via-accent-gradient-start to-brand-cyan";
@@ -26,7 +26,7 @@ function getToneClasses(tone: HeroSupportCardTone) {
 function getIcon(card: HeroSupportCardData) {
   switch (card.icon) {
     case "wem-ai":
-      return <WemAI className="h-auto w-28 sm:w-34 md:w-40" />;
+      return <WemAIIcon className="h-auto w-28 sm:w-34 md:w-40" />;
     case "wem-agency":
       return <WemAgencyIcon className="h-auto w-28 sm:w-34 md:w-40" />;
     case "giovanni":
