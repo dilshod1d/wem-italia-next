@@ -16,6 +16,7 @@ export const howItWorksSectionConfig = {
     { id: 7, key: "evolution", startFrame: 129, endFrame: Number.POSITIVE_INFINITY },
   ],
   copy: {
+    eyebrow: "Clear Process",
     initialHeadline: "A Clear Path",
     expandedHeadline: "A Clear Path, from the Right Starting Point",
     subtitle: "No Standard Solutions",

@@ -171,15 +171,15 @@ html::-webkit-scrollbar-thumb:hover {
 }
 
 @utility landing-copy-panel {
-  @apply absolute left-[4%] top-[12%] z-20 w-[92%]
-         sm:left-[5%] sm:top-[16%] sm:w-[75%]
-         lg:left-[5%] lg:top-[20%] lg:w-[55%];
+  @apply absolute left-[4%] top-[10%] z-20 w-[92%]
+         sm:left-[5%] sm:top-[14%] sm:w-[75%]
+         lg:left-[5%] lg:top-[17%] lg:w-[55%];
 }
 
 @utility landing-copy-panel-alt {
-    @apply absolute left-[4%] top-[12%] z-20 w-full
-         sm:left-[5%] sm:top-[16%]
-         lg:left-[5%] lg:top-[20%];
+  @apply absolute left-[4%] top-[10%] z-20 w-full
+         sm:left-[5%] sm:top-[14%]
+         lg:left-[5%] lg:top-[17%];
 }
 
 @utility landing-title-lg {

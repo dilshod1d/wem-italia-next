@@ -214,7 +214,10 @@ export function PortfolioResultsSection({
     activeStageKey === "narrative" ||
     activeStageKey === "portfolio" ||
     activeStageKey === "focus";
-  const showDescription = activeStageKey === "narrative";
+  const showDescription =
+    activeStageKey === "narrative" ||
+    activeStageKey === "portfolio" ||
+    activeStageKey === "focus";
   const showPortfolio =
     activeStageKey === "portfolio" || activeStageKey === "focus";
   const showProof = activeStageKey === "proof";
@@ -288,7 +291,7 @@ export function PortfolioResultsSection({
 
           <div
             className={cx(
-              "absolute inset-x-0 bottom-[8%] z-10 transition-all duration-700",
+              "absolute inset-x-0 bottom-[13%] z-10 transition-all duration-700",
               showPortfolio
                 ? "translate-y-0 opacity-100"
                 : "pointer-events-none translate-y-12 opacity-0",
@@ -315,7 +318,7 @@ export function PortfolioResultsSection({
 
           <div
             className={cx(
-              "absolute bottom-[2%] left-[4%] right-[4%] transition-all duration-700 sm:left-[5%] sm:right-[5%]",
+              "absolute bottom-[6%] left-[4%] right-[4%] transition-all duration-700 sm:left-[5%] sm:right-[5%]",
               showProof
                 ? "translate-y-0 opacity-100"
                 : "pointer-events-none translate-y-12 opacity-0",

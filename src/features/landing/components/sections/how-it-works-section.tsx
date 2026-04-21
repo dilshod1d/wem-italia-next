@@ -100,9 +100,20 @@ export function HowItWorksSection({ setLogoTheme }: HowItWorksSectionProps) {
       <div className="relative h-full w-full">
         <div className="landing-shell">
           <div className="landing-copy-panel-alt text-black">
+            <p
+              className={cx(
+                "text-eyebrow text-black/28 transition-all duration-700",
+                showHeading
+                  ? "translate-y-0 opacity-100"
+                  : "translate-y-8 opacity-0",
+              )}
+            >
+              {copy.eyebrow}
+            </p>
+
             <h2
               className={cx(
-                "heading-hero transition-all duration-700",
+                "mt-4 heading-hero transition-all duration-700",
                 showHeading
                   ? "translate-y-0 opacity-100"
                   : "translate-y-8 opacity-0",
@@ -141,7 +152,7 @@ export function HowItWorksSection({ setLogoTheme }: HowItWorksSectionProps) {
 
           <div
             className={cx(
-              "absolute left-[4%] right-[4%] bottom-[-13%] h-[27rem] overflow-hidden sm:left-[5%] sm:right-[5%] sm:h-[31rem] lg:h-[34rem]",
+              "absolute left-[4%] right-[4%] bottom-[-8%] h-[27rem] overflow-hidden sm:left-[5%] sm:right-[5%] sm:h-[31rem] lg:h-[34rem]",
               isFinal ? "animate-[wem-breathe_5.2s_ease-in-out_infinite]" : "",
             )}
           >

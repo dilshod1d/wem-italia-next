@@ -155,7 +155,7 @@ function ProofPointCard({
   return (
     <article
       className={cx(
-        "flex aspect-square flex-col items-center justify-center rounded-[2rem] p-6 text-center text-white shadow-[0_28px_90px_rgba(0,0,0,0.3)] transition-[opacity,transform] duration-700 will-change-transform",
+        "flex aspect-square flex-col items-center justify-center rounded-[1.65rem] p-5 text-center text-white shadow-[0_24px_78px_rgba(0,0,0,0.28)] transition-[opacity,transform] duration-700 will-change-transform sm:rounded-[1.9rem] md:rounded-[2rem] md:p-6",
         color,
         visible
           ? "translate-y-0 scale-100 rotate-0 opacity-100"
@@ -166,10 +166,10 @@ function ProofPointCard({
         transitionTimingFunction: "cubic-bezier(0.16, 1.2, 0.3, 1)",
       }}
     >
-      <div className="mb-5 h-16 w-16 text-white md:h-20 md:w-20">
+      <div className="mb-4 h-12 w-12 text-white sm:h-14 sm:w-14 md:h-[4.5rem] md:w-[4.5rem]">
         <Icon className="h-full w-full" />
       </div>
-      <h3 className="landing-title-md uppercase text-white md:text-[2.3rem]">
+      <h3 className="landing-title-md uppercase text-white md:text-[2.05rem]">
         {title}
       </h3>
     </article>
@@ -272,14 +272,14 @@ export function WhyWemWorksSection({ setLogoTheme }: WhyWemWorksSectionProps) {
 
                   activeStageKey === "intro"
                     ? `
-        left-[4%] top-[16%] translate-x-0 w-[92%]
-        sm:left-[5%] sm:top-[20%] sm:w-[75%]
-        lg:left-[5%] lg:top-[24%] lg:w-[60%]
+        left-[4%] top-[14%] translate-x-0 w-[92%]
+        sm:left-[5%] sm:top-[18%] sm:w-[75%]
+        lg:left-[5%] lg:top-[21%] lg:w-[60%]
       `
                     : `
-        right-[4%] top-[14%] translate-x-0 w-[92%] text-right
-        sm:right-[5%] sm:top-[16%] sm:w-[75%]
-        lg:right-[5%] lg:top-[18%] lg:w-[60%]
+        right-[4%] top-[12%] translate-x-0 w-[92%] text-right
+        sm:right-[5%] sm:top-[14%] sm:w-[75%]
+        lg:right-[5%] lg:top-[15%] lg:w-[60%]
       `,
                 )}
               >
@@ -291,8 +291,8 @@ export function WhyWemWorksSection({ setLogoTheme }: WhyWemWorksSectionProps) {
                   `
     absolute
     right-[4%] top-[20%] w-[60%]
-    sm:right-[5%] sm:top-[22%] 
-    lg:right-[5%] lg:top-[30%] 
+    sm:right-[5%] sm:top-[20%]
+    lg:right-[5%] lg:top-[27%]
     transition-all duration-1000
     `,
                   showNarrativeCopy
@@ -322,7 +322,7 @@ export function WhyWemWorksSection({ setLogoTheme }: WhyWemWorksSectionProps) {
                 </div>
               </div>
 
-              <div className="absolute right-[4%] bottom-[5%] w-[60%] sm:right-[5%] sm:bottom-[12%] lg:bottom-[7%]">
+              <div className="absolute right-[4%] bottom-[9%] w-[60%] sm:right-[5%] sm:bottom-[16%] lg:bottom-[11%]">
                 <div className="ml-auto flex w-full flex-col gap-5">
                   {blocks.map((block, index) => (
                     <InsightBlock
@@ -353,7 +353,7 @@ export function WhyWemWorksSection({ setLogoTheme }: WhyWemWorksSectionProps) {
                     : "pointer-events-none opacity-0",
                 )}
               >
-                <div className="grid w-full max-w-[640px] grid-cols-2 gap-5 md:gap-8">
+                <div className="grid w-[min(94vw,74vh)] grid-cols-2 gap-4 sm:w-[min(84vw,72vh)] sm:gap-5 md:w-[min(62vw,72vh)] lg:w-[min(52vw,72vh)] xl:w-[min(47vw,74vh)]">
                   {proofPoints.map((item, index) => (
                     <ProofPointCard
                       key={item.title}

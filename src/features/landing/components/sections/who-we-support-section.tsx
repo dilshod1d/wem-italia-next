@@ -240,7 +240,7 @@ function WhoWeSupportContent({
           {copy.title}
         </h2>
       </div>
-      <div className="mt-8 sm:hidden">
+      <div className="mt-6 sm:hidden">
         {cards.map((card, index) => (
           <div
             key={`mobile-${card.stage}`}
@@ -290,7 +290,7 @@ function WhoWeSupportContent({
         className={cx(
           "hidden md:grid md:grid-cols-2 lg:grid-cols-3 transition-[opacity,transform] duration-500",
           compact
-            ? "mt-8 gap-4 sm:mt-10 sm:gap-5 lg:gap-8"
+            ? "mt-6 gap-4 sm:mt-8 sm:gap-5 lg:gap-8"
             : "mt-16 gap-10 lg:gap-12",
           showWarning
             ? "pointer-events-none -translate-y-3 opacity-0 sm:pointer-events-auto sm:translate-y-0 sm:opacity-100"
@@ -312,7 +312,7 @@ function WhoWeSupportContent({
 
       <div
         className={cx(
-          "hidden overflow-hidden transition-opacity duration-520 md:absolute md:left-[5%] md:right-[5%] md:bottom-[8%] md:block lg:bottom-[10%]",
+          "hidden overflow-hidden transition-opacity duration-520 md:absolute md:left-[5%] md:right-[5%] md:bottom-[12%] md:block lg:bottom-[14%]",
           showWarning ? "opacity-100" : "opacity-0",
         )}
         style={{ transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)" }}
@@ -351,7 +351,7 @@ export function WhoWeSupportSection({
         ref={pinnedRef}
         className="relative z-20 h-screen w-full overflow-hidden bg-white"
       >
-        <div className="landing-frame h-full pt-[14%] sm:pt-[20%] lg:pt-[10%]">
+        <div className="landing-frame h-full pt-[12%] sm:pt-[17%] lg:pt-[8%]">
           <WhoWeSupportContent
             activeStageKey={activeStageKey}
             showHeading={isPinned}
