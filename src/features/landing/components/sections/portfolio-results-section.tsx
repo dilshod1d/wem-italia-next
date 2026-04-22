@@ -1,11 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import {
-  useEffect,
-  useRef,
-  type PointerEvent,
-} from "react";
+import { useEffect, useRef, useState, type PointerEvent } from "react";
 
 import { portfolioResultsSectionConfig } from "../../data/portfolio-results-story";
 import { usePortfolioResultsVideo } from "../../hooks/use-portfolio-results-video";
@@ -21,6 +17,7 @@ const PORTFOLIO_TRACK_START_FRAME = 72;
 const PORTFOLIO_TRACK_CENTER_FRAME = 108;
 const PORTFOLIO_POINTER_MAX_PAN = 460;
 const PORTFOLIO_START_ITEM_ANCHOR = 0.3;
+const PORTFOLIO_SETTLE_DELAY_MS = 180;
 
 interface PortfolioTrackMotionState {
   scrollOffset: number;
@@ -29,6 +26,9 @@ interface PortfolioTrackMotionState {
   targetWheelOffset: number;
   currentWheelOffset: number;
   frameId: number;
+  settleTimer: number | null;
+  activeIndex: number;
+  onActiveIndexChange: (index: number) => void;
 }
 
 function cx(...classes: Array<string | false | null | undefined>) {
@@ -45,6 +45,7 @@ interface PortfolioCardProps {
   visible: boolean;
   distanceFromFocus: number;
   focusMode: boolean;
+  active: boolean;
   delayMs: number;
 }
 
@@ -54,6 +55,7 @@ function PortfolioCard({
   visible,
   distanceFromFocus,
   focusMode,
+  active,
   delayMs,
 }: PortfolioCardProps) {
   const sizeClassName = getPortfolioCardSizeClass(distanceFromFocus);
@@ -68,7 +70,8 @@ function PortfolioCard({
   return (
     <article
       className={cx(
-        "group relative shrink-0 transition-[opacity,transform,filter] duration-700 z-30",
+        "group relative shrink-0 transition-[opacity,transform,filter] duration-700 cursor-pointer",
+        active ? "z-40" : "z-30",
         visible
           ? "translate-x-0 opacity-100"
           : "pointer-events-none translate-x-20 opacity-0",
@@ -78,7 +81,10 @@ function PortfolioCard({
     >
       <div
         className={cx(
-          "relative rounded-xl rounded-bl-none p-2.5 text-white shadow-[0_14px_38px_rgba(0,0,0,0.14)] transition-[width,filter,transform,box-shadow] duration-500 md:rounded-2xl md:rounded-bl-none md:p-4 motion-safe:hover:-translate-y-1.5 motion-safe:hover:shadow-[0_24px_58px_rgba(0,0,0,0.2)]",
+          "relative rounded-xl rounded-bl-none p-2.5 text-white shadow-[0_14px_38px_rgba(0,0,0,0.14)] transition-[width,filter,transform,box-shadow] duration-500 md:rounded-2xl md:rounded-bl-none md:p-4 motion-safe:hover:-translate-y-1.5",
+          active
+            ? "shadow-[0_30px_72px_rgba(0,0,0,0.24)] ring-2 ring-white/65 motion-safe:hover:shadow-[0_36px_82px_rgba(0,0,0,0.28)]"
+            : "motion-safe:hover:shadow-[0_24px_58px_rgba(0,0,0,0.2)]",
           sizeClassName,
           item.wrapperClassName,
           item.shellClassName,
@@ -106,7 +112,12 @@ function PortfolioCard({
             width={300}
             height={400}
             priority={index < 3}
-            className="h-full w-full object-cover object-top transition-[transform,filter] duration-500 motion-safe:group-hover:scale-[1.025] motion-safe:group-hover:brightness-[1.03]"
+            className={cx(
+              "h-full w-full object-cover object-top transition-[transform,filter] duration-700",
+              active
+                ? "brightness-[1.04] contrast-[1.03] motion-safe:group-hover:scale-[1.045] motion-safe:group-hover:-translate-y-1"
+                : "motion-safe:group-hover:scale-[1.035] motion-safe:group-hover:-translate-y-0.5 motion-safe:group-hover:brightness-[1.03]",
+            )}
           />
         </div>
 
@@ -157,22 +168,22 @@ function getPortfolioCardFocusStateClass(
   focusMode: boolean,
 ) {
   if (!focusMode) {
-    return "scale-100 opacity-100 blur-0";
+    return "scale-[0.985] opacity-95 blur-0";
   }
 
   if (distanceFromFocus === 0) {
-    return "scale-100 opacity-100 blur-0";
+    return "scale-[1.04] opacity-100 blur-0";
   }
 
   if (distanceFromFocus === 1) {
-    return "scale-100 opacity-100 blur-0";
+    return "scale-[0.99] opacity-95 blur-0";
   }
 
   if (distanceFromFocus === 2) {
-    return "scale-100 opacity-95 blur-0";
+    return "scale-[0.965] opacity-90 blur-0";
   }
 
-  return "scale-100 opacity-85 blur-0";
+  return "scale-[0.94] opacity-80 blur-0";
 }
 
 interface ProofMetricCardProps {
@@ -221,6 +232,7 @@ function ProofMetricCard({ metric, visible, delayMs }: ProofMetricCardProps) {
 export function PortfolioResultsSection({
   setLogoTheme,
 }: PortfolioResultsSectionProps) {
+  const [activePortfolioIndex, setActivePortfolioIndex] = useState(0);
   const portfolioInteractionRef = useRef<HTMLDivElement | null>(null);
   const portfolioViewportRef = useRef<HTMLDivElement | null>(null);
   const portfolioTrackRef = useRef<HTMLDivElement | null>(null);
@@ -231,6 +243,9 @@ export function PortfolioResultsSection({
     targetWheelOffset: 0,
     currentWheelOffset: 0,
     frameId: 0,
+    settleTimer: null,
+    activeIndex: 0,
+    onActiveIndexChange: setActivePortfolioIndex,
   });
   const { sectionRef, videoRef, activeStageKey, isScrolled } =
     usePortfolioResultsVideo(portfolioResultsSectionConfig, {
@@ -251,6 +266,9 @@ export function PortfolioResultsSection({
 
     return () => {
       cancelAnimationFrame(motionState.frameId);
+      if (motionState.settleTimer !== null) {
+        window.clearTimeout(motionState.settleTimer);
+      }
     };
   }, []);
 
@@ -298,9 +316,9 @@ export function PortfolioResultsSection({
     (item) => item.id === focusItemId,
   );
   const isFocusStage = activeStageKey === "focus";
-  const handlePortfolioPointerMove = (
-    event: PointerEvent<HTMLDivElement>,
-  ) => {
+  const visualFocusIndex =
+    isFocusStage && focusIndex !== -1 ? focusIndex : activePortfolioIndex;
+  const handlePortfolioPointerMove = (event: PointerEvent<HTMLDivElement>) => {
     if (event.pointerType === "touch") return;
 
     updatePortfolioPointerPosition(
@@ -384,15 +402,20 @@ export function PortfolioResultsSection({
           <div
             ref={portfolioInteractionRef}
             className={cx(
-              "absolute inset-x-0 bottom-[13%] z-10 overscroll-x-contain transition-all duration-700",
+              "absolute inset-x-0 bottom-[2%] z-10 overscroll-x-contain transition-[opacity,transform] duration-[900ms] md:bottom-[1%]",
               showPortfolio
-                ? "translate-y-0 opacity-100"
-                : "pointer-events-none translate-y-12 opacity-0",
+                ? "translate-y-0 scale-100 opacity-100"
+                : activeStageKey === "proof"
+                  ? "pointer-events-none translate-y-10 scale-[0.97] opacity-0"
+                  : "pointer-events-none translate-y-12 scale-[0.98] opacity-0",
             )}
             onPointerMove={handlePortfolioPointerMove}
             onPointerLeave={handlePortfolioPointerLeave}
           >
-            <div ref={portfolioViewportRef} className="overflow-visible">
+            <div
+              ref={portfolioViewportRef}
+              className="overflow-visible pb-16 pt-2 [mask-image:linear-gradient(90deg,transparent,black_8%,black_92%,transparent)] [mask-repeat:no-repeat] [mask-size:100%_100%] md:pb-20"
+            >
               <div
                 ref={portfolioTrackRef}
                 className="relative left-1/2 flex w-max items-center justify-center gap-0 will-change-transform"
@@ -406,9 +429,12 @@ export function PortfolioResultsSection({
                     item={item}
                     index={index}
                     visible={showPortfolio}
-                    focusMode={isFocusStage}
+                    focusMode={showPortfolio}
+                    active={index === visualFocusIndex}
                     distanceFromFocus={
-                      focusIndex === -1 ? 0 : Math.abs(index - focusIndex)
+                      visualFocusIndex === -1
+                        ? 0
+                        : Math.abs(index - visualFocusIndex)
                     }
                     delayMs={index * 85}
                   />
@@ -419,10 +445,10 @@ export function PortfolioResultsSection({
 
           <div
             className={cx(
-              "absolute bottom-[6%] left-[4%] right-[4%] transition-all duration-700 sm:left-[5%] sm:right-[5%]",
+              "absolute bottom-[6%] left-[4%] right-[4%] transition-[opacity,transform] duration-[900ms] sm:left-[5%] sm:right-[5%]",
               showProof
-                ? "translate-y-0 opacity-100"
-                : "pointer-events-none translate-y-12 opacity-0",
+                ? "translate-y-0 scale-100 opacity-100"
+                : "pointer-events-none translate-y-16 scale-[0.96] opacity-0",
             )}
           >
             <div className="grid gap-5 lg:grid-cols-4">
@@ -528,6 +554,38 @@ function updatePortfolioWheelPosition(
     bounds.max - baseOffset,
   );
 
+  if (motionState.settleTimer !== null) {
+    window.clearTimeout(motionState.settleTimer);
+  }
+
+  motionState.settleTimer = window.setTimeout(() => {
+    settlePortfolioTrackToNearestItem(track, viewport, motionState);
+  }, PORTFOLIO_SETTLE_DELAY_MS);
+
+  animatePortfolioTrackMotion(track, viewport, motionState);
+}
+
+function settlePortfolioTrackToNearestItem(
+  track: HTMLDivElement,
+  viewport: HTMLDivElement,
+  motionState: PortfolioTrackMotionState,
+) {
+  const targetX = getNearestPortfolioItemOffset(
+    track,
+    motionState.scrollOffset +
+      motionState.currentPointerOffset +
+      motionState.currentWheelOffset,
+  );
+  const bounds = getPortfolioTrackPanBounds(track, viewport);
+  const baseOffset =
+    motionState.scrollOffset + motionState.currentPointerOffset;
+
+  motionState.targetWheelOffset = clamp(
+    targetX - baseOffset,
+    bounds.min - baseOffset,
+    bounds.max - baseOffset,
+  );
+
   animatePortfolioTrackMotion(track, viewport, motionState);
 }
 
@@ -576,6 +634,7 @@ function applyPortfolioTrackTransform(
   );
 
   track.style.transform = `translate3d(calc(-50% + ${x.toFixed(2)}px), 0, 0)`;
+  updatePortfolioActiveIndex(track, viewport, motionState, x);
 }
 
 function getPortfolioTrackOverflow(
@@ -625,6 +684,70 @@ function getPortfolioItemAnchorOffset(
   const viewportAnchorOffset = (anchor - 0.5) * viewport.clientWidth;
 
   return track.offsetWidth / 2 - itemCenter + viewportAnchorOffset;
+}
+
+function getPortfolioItemCenterOffsetByIndex(
+  track: HTMLDivElement,
+  index: number,
+) {
+  const item = track.children.item(index);
+
+  if (!(item instanceof HTMLElement)) return 0;
+
+  const itemCenter = item.offsetLeft + item.offsetWidth / 2;
+
+  return track.offsetWidth / 2 - itemCenter;
+}
+
+function getNearestPortfolioItemOffset(
+  track: HTMLDivElement,
+  currentOffset: number,
+) {
+  let nearestOffset = 0;
+  let nearestDistance = Number.POSITIVE_INFINITY;
+
+  Array.from(track.children).forEach((item, index) => {
+    if (!(item instanceof HTMLElement)) return;
+
+    const itemOffset = getPortfolioItemCenterOffsetByIndex(track, index);
+    const distance = Math.abs(itemOffset - currentOffset);
+
+    if (distance < nearestDistance) {
+      nearestDistance = distance;
+      nearestOffset = itemOffset;
+    }
+  });
+
+  return nearestOffset;
+}
+
+function updatePortfolioActiveIndex(
+  track: HTMLDivElement,
+  viewport: HTMLDivElement | null,
+  motionState: PortfolioTrackMotionState,
+  currentOffset: number,
+) {
+  if (!viewport) return;
+
+  let nearestIndex = motionState.activeIndex;
+  let nearestDistance = Number.POSITIVE_INFINITY;
+
+  Array.from(track.children).forEach((item, index) => {
+    if (!(item instanceof HTMLElement)) return;
+
+    const itemOffset = getPortfolioItemCenterOffsetByIndex(track, index);
+    const distance = Math.abs(itemOffset - currentOffset);
+
+    if (distance < nearestDistance) {
+      nearestDistance = distance;
+      nearestIndex = index;
+    }
+  });
+
+  if (nearestIndex !== motionState.activeIndex) {
+    motionState.activeIndex = nearestIndex;
+    motionState.onActiveIndexChange(nearestIndex);
+  }
 }
 
 function clamp(value: number, min: number, max: number) {
