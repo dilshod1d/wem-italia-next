@@ -18,6 +18,8 @@ const PORTFOLIO_TRACK_CENTER_FRAME = 108;
 const PORTFOLIO_POINTER_MAX_PAN = 460;
 const PORTFOLIO_START_ITEM_ANCHOR = 0.3;
 const PORTFOLIO_SETTLE_DELAY_MS = 180;
+const METRIC_COUNT_DURATION_MS = 1600;
+const metricNumberFormatter = new Intl.NumberFormat("en-US");
 
 interface PortfolioTrackMotionState {
   scrollOffset: number;
@@ -192,6 +194,106 @@ interface ProofMetricCardProps {
   delayMs: number;
 }
 
+interface ParsedMetricValue {
+  prefix: string;
+  target: number;
+  suffix: string;
+}
+
+function AnimatedMetricValue({
+  value,
+  visible,
+  delayMs,
+}: {
+  value: string;
+  visible: boolean;
+  delayMs: number;
+}) {
+  const [displayValue, setDisplayValue] = useState(() =>
+    formatMetricValue(parseMetricValue(value), 0),
+  );
+
+  useEffect(() => {
+    const parsed = parseMetricValue(value);
+    let animationFrame = 0;
+    let startTimer = 0;
+
+    if (!visible) {
+      startTimer = window.setTimeout(() => {
+        setDisplayValue(formatMetricValue(parsed, 0));
+      }, 0);
+
+      return () => {
+        window.clearTimeout(startTimer);
+      };
+    }
+
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      startTimer = window.setTimeout(() => {
+        setDisplayValue(value);
+      }, delayMs);
+
+      return () => {
+        window.clearTimeout(startTimer);
+      };
+    }
+
+    startTimer = window.setTimeout(() => {
+      const startedAt = performance.now();
+
+      const tick = (now: number) => {
+        const progress = clamp(
+          (now - startedAt) / METRIC_COUNT_DURATION_MS,
+          0,
+          1,
+        );
+        // Ease-out: quick confidence up front, then a smooth intentional settle.
+        const easedProgress = 1 - Math.pow(1 - progress, 4);
+
+        setDisplayValue(
+          formatMetricValue(parsed, parsed.target * easedProgress),
+        );
+
+        if (progress < 1) {
+          animationFrame = requestAnimationFrame(tick);
+          return;
+        }
+
+        setDisplayValue(value);
+      };
+
+      animationFrame = requestAnimationFrame(tick);
+    }, delayMs);
+
+    return () => {
+      window.clearTimeout(startTimer);
+      cancelAnimationFrame(animationFrame);
+    };
+  }, [delayMs, value, visible]);
+
+  return <span aria-label={value}>{displayValue}</span>;
+}
+
+function parseMetricValue(value: string): ParsedMetricValue {
+  const match = value.match(/^([^0-9-]*)([\d,]+)(.*)$/);
+
+  if (!match) {
+    return { prefix: "", target: 0, suffix: "" };
+  }
+
+  return {
+    prefix: match[1],
+    target: Number(match[2].replaceAll(",", "")),
+    suffix: match[3],
+  };
+}
+
+function formatMetricValue(metric: ParsedMetricValue, value: number) {
+  return `${metric.prefix}${metricNumberFormatter.format(Math.round(value))}${
+    metric.suffix
+  }`;
+}
+
 function ProofMetricCard({ metric, visible, delayMs }: ProofMetricCardProps) {
   return (
     <article
@@ -249,7 +351,11 @@ function ProofMetricCard({ metric, visible, delayMs }: ProofMetricCardProps) {
 
         <div className="flex flex-1 items-center justify-center py-6 md:py-8">
           <div className="font-sans text-[2.25rem] font-semibold leading-none tracking-tight text-black tabular-nums sm:text-[2.75rem] md:text-[4.4rem]">
-          {metric.value}
+            <AnimatedMetricValue
+              value={metric.value}
+              visible={visible}
+              delayMs={delayMs + 160}
+            />
           </div>
         </div>
 
