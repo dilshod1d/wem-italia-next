@@ -20,6 +20,7 @@ const { videoUrl, copy, portfolioItems, metrics, focusItemId } =
 const PORTFOLIO_TRACK_START_FRAME = 72;
 const PORTFOLIO_TRACK_CENTER_FRAME = 108;
 const PORTFOLIO_POINTER_MAX_PAN = 460;
+const PORTFOLIO_START_ITEM_ANCHOR = 0.3;
 
 interface PortfolioTrackMotionState {
   scrollOffset: number;
@@ -465,7 +466,12 @@ function updatePortfolioTrackScrollPosition(
     1,
   );
   const easedProgress = progress * progress * (3 - 2 * progress);
-  const startOffset = clamp(window.innerWidth * 0.22, 130, 330);
+  const startOffset = getPortfolioItemAnchorOffset(
+    track,
+    viewport,
+    "first",
+    PORTFOLIO_START_ITEM_ANCHOR,
+  );
   motionState.scrollOffset = startOffset * (1 - easedProgress);
 
   applyPortfolioTrackTransform(track, viewport, motionState);
@@ -486,8 +492,11 @@ function updatePortfolioPointerPosition(
     motionState.targetPointerOffset = 0;
   } else {
     const rect = viewport.getBoundingClientRect();
-    const overflow = getPortfolioTrackOverflow(track, viewport);
-    const maxPan = Math.min(overflow, PORTFOLIO_POINTER_MAX_PAN);
+    const bounds = getPortfolioTrackPanBounds(track, viewport);
+    const maxPan = Math.min(
+      Math.max(Math.abs(bounds.min), Math.abs(bounds.max)),
+      PORTFOLIO_POINTER_MAX_PAN,
+    );
     const cursorProgress = clamp((clientX - rect.left) / rect.width, 0, 1);
     const direction = (0.5 - cursorProgress) * 2;
 
@@ -509,14 +518,14 @@ function updatePortfolioWheelPosition(
     return;
   }
 
-  const overflow = getPortfolioTrackOverflow(track, viewport);
+  const bounds = getPortfolioTrackPanBounds(track, viewport);
   const baseOffset =
     motionState.scrollOffset + motionState.currentPointerOffset;
 
   motionState.targetWheelOffset = clamp(
     motionState.targetWheelOffset - delta * 0.75,
-    -overflow - baseOffset,
-    overflow - baseOffset,
+    bounds.min - baseOffset,
+    bounds.max - baseOffset,
   );
 
   animatePortfolioTrackMotion(track, viewport, motionState);
@@ -557,13 +566,13 @@ function applyPortfolioTrackTransform(
   viewport: HTMLDivElement | null,
   motionState: PortfolioTrackMotionState,
 ) {
-  const overflow = getPortfolioTrackOverflow(track, viewport);
+  const bounds = getPortfolioTrackPanBounds(track, viewport);
   const x = clamp(
     motionState.scrollOffset +
       motionState.currentPointerOffset +
       motionState.currentWheelOffset,
-    -overflow,
-    overflow,
+    bounds.min,
+    bounds.max,
   );
 
   track.style.transform = `translate3d(calc(-50% + ${x.toFixed(2)}px), 0, 0)`;
@@ -576,6 +585,46 @@ function getPortfolioTrackOverflow(
   if (!viewport) return 0;
 
   return Math.max((track.offsetWidth - viewport.clientWidth) / 2, 0);
+}
+
+function getPortfolioTrackPanBounds(
+  track: HTMLDivElement,
+  viewport: HTMLDivElement | null,
+) {
+  const overflow = getPortfolioTrackOverflow(track, viewport);
+
+  return {
+    min: Math.min(
+      -overflow,
+      getPortfolioItemAnchorOffset(track, viewport, "last", 0.7),
+    ),
+    max: Math.max(
+      overflow,
+      getPortfolioItemAnchorOffset(
+        track,
+        viewport,
+        "first",
+        PORTFOLIO_START_ITEM_ANCHOR,
+      ),
+    ),
+  };
+}
+
+function getPortfolioItemAnchorOffset(
+  track: HTMLDivElement,
+  viewport: HTMLDivElement | null,
+  position: "first" | "last",
+  anchor: number,
+) {
+  const item =
+    position === "first" ? track.firstElementChild : track.lastElementChild;
+
+  if (!(item instanceof HTMLElement) || !viewport) return 0;
+
+  const itemCenter = item.offsetLeft + item.offsetWidth / 2;
+  const viewportAnchorOffset = (anchor - 0.5) * viewport.clientWidth;
+
+  return track.offsetWidth / 2 - itemCenter + viewportAnchorOffset;
 }
 
 function clamp(value: number, min: number, max: number) {
