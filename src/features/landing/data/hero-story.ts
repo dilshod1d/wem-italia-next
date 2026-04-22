@@ -166,7 +166,7 @@ export const heroStoryConfig = {
     },
     {
       id: 8,
-      startFrame: 120,
+      startFrame: 100,
       endFrame: 133,
       eyebrowKey: "enterprise",
       titleKey: "ecosystem",

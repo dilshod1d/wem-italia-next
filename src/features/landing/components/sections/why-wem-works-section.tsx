@@ -272,14 +272,14 @@ export function WhyWemWorksSection({ setLogoTheme }: WhyWemWorksSectionProps) {
 
                   activeStageKey === "intro"
                     ? `
-        left-[4%] top-[14%] translate-x-0 w-[92%]
-        sm:left-[5%] sm:top-[18%] sm:w-[75%]
-        lg:left-[5%] lg:top-[21%] lg:w-[60%]
+        left-[4%] top-[13%] translate-x-0 w-[92%]
+        sm:left-[5%] sm:top-[17%] sm:w-[75%]
+        lg:left-[5%] lg:top-[17%] lg:w-[60%]
       `
                     : `
-        right-[4%] top-[12%] translate-x-0 w-[92%] text-right
-        sm:right-[5%] sm:top-[14%] sm:w-[75%]
-        lg:right-[5%] lg:top-[15%] lg:w-[60%]
+        right-[4%] top-[11%] translate-x-0 w-[92%] text-right
+        sm:right-[5%] sm:top-[13%] sm:w-[75%]
+        lg:right-[5%] lg:top-[11%] lg:w-[60%]
       `,
                 )}
               >
@@ -290,9 +290,9 @@ export function WhyWemWorksSection({ setLogoTheme }: WhyWemWorksSectionProps) {
                 className={cx(
                   `
     absolute
-    right-[4%] top-[20%] w-[60%]
-    sm:right-[5%] sm:top-[20%]
-    lg:right-[5%] lg:top-[27%]
+    right-[4%] top-[19%] w-[60%]
+    sm:right-[5%] sm:top-[19%]
+    lg:right-[5%] lg:top-[23%]
     transition-all duration-1000
     `,
                   showNarrativeCopy

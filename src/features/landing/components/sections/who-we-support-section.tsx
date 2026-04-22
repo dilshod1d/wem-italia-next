@@ -353,7 +353,7 @@ export function WhoWeSupportSection({
         ref={pinnedRef}
         className="relative z-20 h-screen w-full overflow-hidden bg-white mb-12"
       >
-        <div className="landing-frame h-full pt-[12%] sm:pt-[17%] lg:pt-[8%]">
+        <div className="landing-frame h-full pt-[13%] sm:pt-[18%] lg:pt-[7%]">
           <WhoWeSupportContent
             activeStageKey={activeStageKey}
             showHeading={isPinned}

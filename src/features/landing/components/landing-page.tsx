@@ -4,6 +4,7 @@ import { useState } from "react";
 
 import { HeroSection } from "./sections/hero-section";
 import { HowItWorksSection } from "./sections/how-it-works-section";
+import { CustomCursor } from "./custom-cursor";
 import { LandingNavbar } from "./landing-navbar";
 import { FooterSection } from "./sections/footer-section";
 import { PortfolioResultsSection } from "./sections/portfolio-results-section";
@@ -16,6 +17,7 @@ export function LandingPage() {
 
   return (
     <>
+      <CustomCursor theme={logoTheme} />
       <LandingNavbar logoTheme={logoTheme} />
       <main className="relative bg-background">
         <HeroSection setLogoTheme={setLogoTheme} />
