@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { useRef } from "react";
 
 import { portfolioResultsSectionConfig } from "../../data/portfolio-results-story";
 import { usePortfolioResultsVideo } from "../../hooks/use-portfolio-results-video";
@@ -12,6 +13,8 @@ import { CinematicVideoSection } from "../cinematic-video-section";
 
 const { videoUrl, copy, portfolioItems, metrics, focusItemId } =
   portfolioResultsSectionConfig;
+const PORTFOLIO_TRACK_START_FRAME = 72;
+const PORTFOLIO_TRACK_CENTER_FRAME = 90;
 
 function cx(...classes: Array<string | false | null | undefined>) {
   return classes.filter(Boolean).join(" ");
@@ -203,10 +206,14 @@ function ProofMetricCard({ metric, visible, delayMs }: ProofMetricCardProps) {
 export function PortfolioResultsSection({
   setLogoTheme,
 }: PortfolioResultsSectionProps) {
+  const portfolioTrackRef = useRef<HTMLDivElement | null>(null);
   const { sectionRef, videoRef, activeStageKey, isScrolled } =
     usePortfolioResultsVideo(portfolioResultsSectionConfig, {
       onEnter: () => setLogoTheme("dark"),
       onEnterBack: () => setLogoTheme("dark"),
+      onProgress: ({ currentFrame }) => {
+        updatePortfolioTrackPosition(portfolioTrackRef.current, currentFrame);
+      },
     });
 
   const showTitle =
@@ -295,7 +302,13 @@ export function PortfolioResultsSection({
             )}
           >
             <div className="overflow-visible">
-              <div className="relative left-1/2 flex w-max -translate-x-1/2 items-center justify-center gap-0 transition-transform duration-700">
+              <div
+                ref={portfolioTrackRef}
+                className="relative left-1/2 flex w-max items-center justify-center gap-0 will-change-transform"
+                style={{
+                  transform: "translate3d(calc(-50% + 0px), 0, 0)",
+                }}
+              >
                 {portfolioItems.map((item, index) => (
                   <PortfolioCard
                     key={item.id}
@@ -340,4 +353,32 @@ export function PortfolioResultsSection({
       </div>
     </CinematicVideoSection>
   );
+}
+
+function updatePortfolioTrackPosition(
+  track: HTMLDivElement | null,
+  currentFrame: number,
+) {
+  if (!track) return;
+
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    track.style.transform = "translate3d(calc(-50% + 0px), 0, 0)";
+    return;
+  }
+
+  const progress = clamp(
+    (currentFrame - PORTFOLIO_TRACK_START_FRAME) /
+      (PORTFOLIO_TRACK_CENTER_FRAME - PORTFOLIO_TRACK_START_FRAME),
+    0,
+    1,
+  );
+  const easedProgress = 1 - Math.pow(1 - progress, 3);
+  const startOffset = clamp(window.innerWidth * 0.22, 130, 330);
+  const x = startOffset * (1 - easedProgress);
+
+  track.style.transform = `translate3d(calc(-50% + ${x.toFixed(2)}px), 0, 0)`;
+}
+
+function clamp(value: number, min: number, max: number) {
+  return Math.min(Math.max(value, min), max);
 }

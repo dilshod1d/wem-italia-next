@@ -18,6 +18,11 @@ export function usePortfolioResultsVideo(
   options: {
     onEnter?: () => void;
     onEnterBack?: () => void;
+    onProgress?: (state: {
+      progress: number;
+      currentFrame: number;
+      currentTime: number;
+    }) => void;
   } = {},
 ) {
   const { fps, stages, totalFrames, videoDuration, videoUrl } = config;
@@ -58,6 +63,12 @@ export function usePortfolioResultsVideo(
         progress,
         currentTime,
         marker: `${activeStage?.key ?? lastStageKey}@f${currentFrame}`,
+      });
+
+      options.onProgress?.({
+        progress,
+        currentFrame,
+        currentTime,
       });
 
       if (activeStage && activeStage.key !== lastStageKey) {

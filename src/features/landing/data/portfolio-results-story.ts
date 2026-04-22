@@ -13,7 +13,12 @@ export const portfolioResultsSectionConfig = {
     { id: 3, key: "narrative", startFrame: 48, endFrame: 72 },
     { id: 4, key: "portfolio", startFrame: 72, endFrame: 90 },
     { id: 5, key: "focus", startFrame: 90, endFrame: 108 },
-    { id: 6, key: "proof", startFrame: 108, endFrame: Number.POSITIVE_INFINITY },
+    {
+      id: 6,
+      key: "proof",
+      startFrame: 108,
+      endFrame: Number.POSITIVE_INFINITY,
+    },
   ],
   copy: {
     eyebrow: "Real Results",
@@ -26,6 +31,16 @@ export const portfolioResultsSectionConfig = {
     proofCta: "Click and read the case studies ->",
   },
   portfolioItems: [
+    {
+      id: "dublicate-replaced-later-2",
+      title: "Beauty",
+      imageSrc: "/portfolio/beauty.png",
+      imageAlt: "Portfolio beauty website preview",
+      footerLabel: "Branding",
+      wrapperClassName: "bg-brand-purple",
+      shellClassName:
+        "shadow-[0_28px_70px_rgba(109,60,219,0.24)] ring-1 ring-brand-purple/18",
+    },
     {
       id: "wellness",
       title: "Wellness",
@@ -88,6 +103,16 @@ export const portfolioResultsSectionConfig = {
     },
     {
       id: "beauty",
+      title: "Beauty",
+      imageSrc: "/portfolio/beauty.png",
+      imageAlt: "Portfolio beauty website preview",
+      footerLabel: "Branding",
+      wrapperClassName: "bg-brand-purple",
+      shellClassName:
+        "shadow-[0_28px_70px_rgba(109,60,219,0.24)] ring-1 ring-brand-purple/18",
+    },
+    {
+      id: "dublicate-replaced-later",
       title: "Beauty",
       imageSrc: "/portfolio/beauty.png",
       imageAlt: "Portfolio beauty website preview",
