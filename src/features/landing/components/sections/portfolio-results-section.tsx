@@ -168,22 +168,22 @@ function getPortfolioCardFocusStateClass(
   focusMode: boolean,
 ) {
   if (!focusMode) {
-    return "scale-[0.985] opacity-95 blur-0";
+    return "opacity-95 blur-0";
   }
 
   if (distanceFromFocus === 0) {
-    return "scale-[1.04] opacity-100 blur-0";
+    return "opacity-100 blur-0";
   }
 
   if (distanceFromFocus === 1) {
-    return "scale-[0.99] opacity-95 blur-0";
+    return "opacity-95 blur-0";
   }
 
   if (distanceFromFocus === 2) {
-    return "scale-[0.965] opacity-90 blur-0";
+    return "opacity-90 blur-0";
   }
 
-  return "scale-[0.94] opacity-80 blur-0";
+  return "opacity-80 blur-0";
 }
 
 interface ProofMetricCardProps {
@@ -680,10 +680,13 @@ function getPortfolioItemAnchorOffset(
 
   if (!(item instanceof HTMLElement) || !viewport) return 0;
 
-  const itemCenter = item.offsetLeft + item.offsetWidth / 2;
+  const itemAnchor =
+    position === "first"
+      ? item.offsetLeft
+      : item.offsetLeft + item.offsetWidth;
   const viewportAnchorOffset = (anchor - 0.5) * viewport.clientWidth;
 
-  return track.offsetWidth / 2 - itemCenter + viewportAnchorOffset;
+  return track.offsetWidth / 2 - itemAnchor + viewportAnchorOffset;
 }
 
 function getPortfolioItemCenterOffsetByIndex(
