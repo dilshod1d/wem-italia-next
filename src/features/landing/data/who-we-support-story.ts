@@ -2,12 +2,12 @@ import type { WhoWeSupportSectionConfig } from "../types/who-we-support-section"
 
 export const whoWeSupportSectionConfig = {
   stages: [
-    { id: 1, key: "title", start: 0, end: 0.12 },
-    { id: 2, key: "startups", start: 0.12, end: 0.28 },
-    { id: 3, key: "professionals", start: 0.28, end: 0.44 },
-    { id: 4, key: "smes", start: 0.44, end: 0.72 },
-    { id: 5, key: "warning", start: 0.72, end: 0.88 },
-    { id: 6, key: "final", start: 0.88, end: Number.POSITIVE_INFINITY },
+    { id: 1, key: "title", start: 0, end: 0.08 },
+    { id: 2, key: "startups", start: 0.08, end: 0.2 },
+    { id: 3, key: "professionals", start: 0.2, end: 0.32 },
+    { id: 4, key: "smes", start: 0.32, end: 0.46 },
+    { id: 5, key: "warning", start: 0.46, end: 0.66 },
+    { id: 6, key: "final", start: 0.66, end: Number.POSITIVE_INFINITY },
   ],
   copy: {
     eyebrow: "Who We Support",

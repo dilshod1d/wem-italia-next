@@ -3,7 +3,6 @@
 import { useLayoutEffect, useRef, useState } from "react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { gsap } from "gsap";
-import { CHAPTER_SCROLL_DISTANCE } from "@/components/Chapter/useSectionPin";
 
 import type {
   WhoWeSupportSectionConfig,
@@ -11,6 +10,9 @@ import type {
 } from "../types/who-we-support-section";
 
 gsap.registerPlugin(ScrollTrigger);
+
+const WHO_WE_SUPPORT_SCROLL_DISTANCE = 2200;
+const WHO_WE_SUPPORT_MOBILE_SCROLL_DISTANCE = 1080;
 
 interface WhoWeSupportScrollState {
   lastStageKey: WhoWeSupportStageKey;
@@ -51,10 +53,9 @@ export function useWhoWeSupportSection(
 
     if (!section || !pinned) return;
 
-    const pinDistance =
-      window.matchMedia("(max-width: 639px)").matches
-        ? 1320
-        : CHAPTER_SCROLL_DISTANCE;
+    const pinDistance = window.matchMedia("(max-width: 639px)").matches
+      ? WHO_WE_SUPPORT_MOBILE_SCROLL_DISTANCE
+      : WHO_WE_SUPPORT_SCROLL_DISTANCE;
 
     const trigger = ScrollTrigger.create({
       trigger: section,
