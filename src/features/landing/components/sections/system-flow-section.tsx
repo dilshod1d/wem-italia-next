@@ -38,10 +38,10 @@ function BenefitCard({
   return (
     <article
       className={cx(
-        "absolute min-h-[8.8rem] w-[min(90vw,38rem)] rounded-[2.65rem] px-6 py-6 text-white shadow-[0_28px_80px_rgba(0,0,0,0.08)] transition-[opacity,transform] duration-700",
-        "sm:min-h-[10.5rem] sm:px-8 sm:py-7",
-        "md:min-h-[13.2rem] md:rounded-[4.25rem] md:px-12 md:py-9",
-        "lg:min-h-[14.6rem] lg:px-16 lg:py-10",
+        "absolute min-h-[7.93rem] w-[min(81.2vw,34.3rem)] rounded-[2.35rem] px-[1.35rem] py-[1.35rem] text-white shadow-[0_28px_80px_rgba(0,0,0,0.08)] transition-[opacity,transform] duration-700",
+        "sm:min-h-[9.5rem] sm:px-[1.8rem] sm:py-[1.58rem]",
+        "md:min-h-[11.9rem] md:rounded-[3.85rem] md:px-[2.7rem] md:py-[2.03rem]",
+        "lg:min-h-[13.2rem] lg:px-[3.6rem] lg:py-[2.25rem]",
         toneClassName,
         placementClassName,
         zIndexClassName,
@@ -54,11 +54,11 @@ function BenefitCard({
         transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)",
       }}
     >
-      <h3 className="font-sans text-[clamp(1.7rem,3.4vw,4rem)] font-semibold leading-[1.02] tracking-tight text-white uppercase">
+      <h3 className="font-sans text-[clamp(1.53rem,3.07vw,3.6rem)] font-semibold leading-[1.02] tracking-tight text-white uppercase">
         {title}
       </h3>
 
-      <p className="mt-2 max-w-[45rem] font-body text-[clamp(1.2rem,2.1vw,2.25rem)] leading-[1.26] text-white/96 md:mt-3">
+      <p className="mt-[0.45rem] max-w-[40.6rem] font-body text-[clamp(1.08rem,1.9vw,2.03rem)] leading-[1.26] text-white/96 md:mt-[0.675rem]">
         {body}
       </p>
     </article>
