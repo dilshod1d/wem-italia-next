@@ -162,10 +162,10 @@ function getPortfolioCardFocusStateClass(
   }
 
   if (distanceFromFocus === 2) {
-    return "scale-100 opacity-95 blur-[0.4px]";
+    return "scale-100 opacity-95 blur-0";
   }
 
-  return "scale-100 opacity-85 blur-[1.2px]";
+  return "scale-100 opacity-85 blur-0";
 }
 
 interface ProofMetricCardProps {
