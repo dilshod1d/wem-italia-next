@@ -260,7 +260,7 @@ export function PortfolioResultsSection({
 
             <h2
               className={cx(
-                "mt-1 heading-hero transition-all duration-700",
+                "heading-hero transition-all duration-700",
                 showTitle || showProof
                   ? "translate-y-0 opacity-100"
                   : "translate-y-8 opacity-0",

@@ -118,7 +118,7 @@ export function SystemFlowSection({ setLogoTheme }: SystemFlowSectionProps) {
 
             <h2
               className={cx(
-                "heading-hero mt-4 transition-all duration-700",
+                "heading-hero transition-all duration-700",
                 showTitle
                   ? "translate-y-0 opacity-100"
                   : "translate-y-8 opacity-0",

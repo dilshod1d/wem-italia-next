@@ -113,7 +113,7 @@ export function HowItWorksSection({ setLogoTheme }: HowItWorksSectionProps) {
 
             <h2
               className={cx(
-                "mt-4 heading-hero transition-all duration-700",
+                "heading-hero transition-all duration-700",
                 showHeading
                   ? "translate-y-0 opacity-100"
                   : "translate-y-8 opacity-0",
@@ -152,11 +152,11 @@ export function HowItWorksSection({ setLogoTheme }: HowItWorksSectionProps) {
 
           <div
             className={cx(
-              "pointer-events-none absolute left-0 right-0 bottom-[-10%] z-30 h-[27rem] overflow-hidden sm:bottom-[-12%] sm:h-[31rem] lg:bottom-[-14%] lg:h-[34rem]",
+              "pointer-events-none absolute left-0 right-0 bottom-[-%] z-30 h-[27rem] overflow-hidden sm:bottom-[-12%] sm:h-[31rem] lg:bottom-[-17%] lg:h-[34rem]",
               isFinal ? "animate-[wem-breathe_5.2s_ease-in-out_infinite]" : "",
             )}
           >
-            <div className="relative h-full w-full translate-x-[6vw] sm:translate-x-[7vw] lg:translate-x-[8vw]">
+            <div className="relative h-full w-full translate-x-[6vw] sm:translate-x-[7vw] lg:translate-x-[7vw]">
               {steps.map((step, index) => (
                 <HowItWorksStepCard
                   key={step.stage}

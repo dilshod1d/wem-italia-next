@@ -232,7 +232,7 @@ export function WhyWemWorksSection({ setLogoTheme }: WhyWemWorksSectionProps) {
                 style={{ textShadow: "0 8px 30px rgba(0, 0, 0, 0.32)" }}
               >
                 <div>
-                  <p className="text-eyebrow mb-4 text-white/60">
+                  <p className="text-eyebrow text-white/60">
                     {handoff.eyebrow}
                   </p>
                   <h2 className="heading-hero text-white">

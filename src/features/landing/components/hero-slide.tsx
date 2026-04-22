@@ -73,11 +73,7 @@ function KeyedSlot<T>({
   );
 }
 
-export function HeroSlide({
-  stage,
-  visibleBodyItems,
-  config,
-}: HeroSlideProps) {
+export function HeroSlide({ stage, visibleBodyItems, config }: HeroSlideProps) {
   const placement = config.placements[stage.placementKey];
   const eyebrow = stage.eyebrowKey
     ? config.eyebrows[stage.eyebrowKey]
@@ -89,9 +85,9 @@ export function HeroSlide({
 
   const showCopy = Boolean(
     stage.eyebrowKey ||
-      stage.titleKey ||
-      visibleBodyItems.length > 0 ||
-      stage.supportCardKey,
+    stage.titleKey ||
+    visibleBodyItems.length > 0 ||
+    stage.supportCardKey,
   );
 
   return (
@@ -111,7 +107,7 @@ export function HeroSlide({
           slotKey={stage.eyebrowKey}
           value={eyebrow}
           render={renderEyebrow}
-          className="mb-4 min-h-[1rem]"
+          className="min-h-[1rem]"
         />
         <KeyedSlot
           slotKey={stage.titleKey}
