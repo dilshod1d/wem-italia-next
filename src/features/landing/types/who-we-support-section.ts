@@ -20,6 +20,7 @@ export interface WhoWeSupportCard {
     WhoWeSupportStageKey,
     "startups" | "professionals" | "smes"
   >;
+  readonly tag: string;
   readonly title: string;
   readonly body: string;
   readonly icon: WhoWeSupportCardIcon;

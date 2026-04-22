@@ -11,8 +11,8 @@ import type {
 
 gsap.registerPlugin(ScrollTrigger);
 
-const WHO_WE_SUPPORT_SCROLL_DISTANCE = 2200;
-const WHO_WE_SUPPORT_MOBILE_SCROLL_DISTANCE = 1080;
+const WHO_WE_SUPPORT_SCROLL_DISTANCE = 500;
+const WHO_WE_SUPPORT_MOBILE_SCROLL_DISTANCE = 720;
 
 interface WhoWeSupportScrollState {
   lastStageKey: WhoWeSupportStageKey;

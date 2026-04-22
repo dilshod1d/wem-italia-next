@@ -21,6 +21,31 @@ const whoWeSupportIcons: Record<WhoWeSupportCardIcon, IconType> = {
   sme: StoreIcon,
 };
 
+const audienceCardAccents: Record<
+  WhoWeSupportCard["stage"],
+  {
+    readonly glow: string;
+    readonly icon: string;
+    readonly tag: string;
+  }
+> = {
+  startups: {
+    glow: "bg-brand-green/15",
+    icon: "bg-brand-green/10 text-brand-green ring-brand-green/20",
+    tag: "text-brand-green",
+  },
+  professionals: {
+    glow: "bg-brand-blue/15",
+    icon: "bg-brand-blue/10 text-brand-blue ring-brand-blue/20",
+    tag: "text-brand-blue",
+  },
+  smes: {
+    glow: "bg-brand-purple/15",
+    icon: "bg-brand-purple/10 text-brand-purple ring-brand-purple/20",
+    tag: "text-brand-purple",
+  },
+};
+
 const { copy, cards } = whoWeSupportSectionConfig;
 
 function cx(...classes: Array<string | false | null | undefined>) {
@@ -33,6 +58,7 @@ interface WhoWeSupportSectionProps {
 
 interface AudienceCardProps {
   card: WhoWeSupportCard;
+  index: number;
   visible: boolean;
   delayMs: number;
   compact?: boolean;
@@ -41,25 +67,30 @@ interface AudienceCardProps {
 
 function AudienceCard({
   card,
+  index,
   visible,
   delayMs,
   compact = false,
   stackedMobile = false,
 }: AudienceCardProps) {
   const Icon = whoWeSupportIcons[card.icon];
+  const accent = audienceCardAccents[card.stage];
 
   return (
     <article
       className={cx(
-        "group rounded-[1.6rem] bg-white text-center shadow-[0_10px_30px_rgba(15,23,42,0.08)] ring-1 ring-slate-200/60 transition-all duration-[420ms] will-change-transform",
-        "motion-safe:hover:-translate-y-1.5 motion-safe:hover:scale-[1.012] motion-safe:hover:shadow-[0_18px_45px_rgba(15,23,42,0.12)]",
+        "group relative isolate overflow-hidden rounded-[1.6rem] border border-slate-200/70 bg-white text-center shadow-[0_10px_30px_rgba(15,23,42,0.08)] ring-1 ring-white/70 transition-[border-color,box-shadow,opacity,transform] duration-[520ms] will-change-transform",
+        "motion-safe:hover:-translate-y-1.5 motion-safe:hover:scale-[1.012] motion-safe:hover:border-slate-300/80 motion-safe:hover:shadow-[0_22px_54px_rgba(15,23,42,0.14)]",
         stackedMobile
           ? "min-h-[168px] px-4 py-4.5"
           : compact
             ? "min-h-[232px] px-4.5 py-4.5 sm:min-h-[228px] sm:px-5 sm:py-5 md:min-h-[250px]"
             : "min-h-[280px] px-5 py-6 md:min-h-[340px]",
         visible
-          ? "translate-y-0 scale-100 opacity-100"
+          ? cx(
+              "translate-y-0 scale-100 opacity-100",
+              stackedMobile && getAudienceCardDeckClass(index),
+            )
           : "translate-y-8 scale-[0.975] opacity-0",
       )}
       style={{
@@ -67,9 +98,18 @@ function AudienceCard({
         transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)",
       }}
     >
+      <span
+        aria-hidden="true"
+        className={cx(
+          "pointer-events-none absolute -right-12 -top-16 h-36 w-36 rounded-full opacity-0 blur-3xl transition-opacity duration-500 group-hover:opacity-100",
+          accent.glow,
+        )}
+      />
+
       <div
         className={cx(
-          "mx-auto flex items-center justify-center rounded-[1.2rem] bg-slate-50 text-slate-700 transition group-hover:bg-slate-100",
+          "mx-auto flex items-center justify-center rounded-[1.2rem] ring-1 transition-transform duration-500 group-hover:scale-[1.04]",
+          accent.icon,
           stackedMobile
             ? "h-14 w-14"
             : compact
@@ -80,13 +120,23 @@ function AudienceCard({
         <Icon />
       </div>
 
+      <p
+        className={cx(
+          "mt-3 font-sans text-[0.66rem] font-semibold uppercase tracking-[0.24em]",
+          "sm:text-[0.72rem] md:text-[0.78rem]",
+          accent.tag,
+        )}
+      >
+        {card.tag}
+      </p>
+
       <h3
         className={cx(
           "font-sans font-semibold tracking-tight text-black",
           stackedMobile
-            ? "mt-3 text-[1.05rem]"
+            ? "mt-1.5 text-[1.05rem]"
             : compact
-              ? "mt-3.5 text-[1.18rem] sm:mt-4 sm:text-[1.35rem] md:text-[1.7rem]"
+              ? "mt-2 text-[1.18rem] sm:text-[1.35rem] md:text-[1.7rem]"
               : "mt-6 text-[1.6rem] md:text-[2rem]",
         )}
       >
@@ -130,22 +180,15 @@ function WarningCard({
     <div className="relative rounded-[1.6rem]">
       <div
         className={cx(
-          "pointer-events-none absolute inset-3 rounded-[1.35rem] bg-slate-200/60 blur-2xl opacity-60",
-          mobile ? "hidden" : "block",
-        )}
-      />
-
-      <div
-        className={cx(
-          "relative overflow-hidden border border-slate-200/80 bg-white",
+          "relative overflow-hidden border border-brand-yellow/45 bg-white",
           stackedMobile
-            ? "rounded-[1.6rem] shadow-[0_10px_30px_rgba(15,23,42,0.08)]"
+            ? "rounded-[1.6rem] shadow-[0_14px_38px_rgba(15,23,42,0.12)]"
             : mobile
-              ? "rounded-[1.9rem] shadow-[0_22px_58px_rgba(15,23,42,0.22)]"
-              : "rounded-[1.6rem] shadow-[0_16px_38px_rgba(148,163,184,0.16)]",
+              ? "rounded-[1.9rem] shadow-[0_24px_64px_rgba(15,23,42,0.22)]"
+              : "rounded-[1.6rem] shadow-[0_20px_48px_rgba(234,186,43,0.16)]",
         )}
       >
-        <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(135deg,rgba(248,250,252,0.9),rgba(255,255,255,0.98)_42%,rgba(255,247,237,0.52)_100%)]" />
+        <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(135deg,rgba(255,255,255,0.98),rgba(255,255,255,0.96)_48%,rgba(234,186,43,0.12)_100%)]" />
 
         <div
           className={cx(
@@ -160,10 +203,10 @@ function WarningCard({
           <div
             className={cx(
               stackedMobile
-                ? "flex h-14 w-14 items-center justify-center text-amber-400"
+                ? "flex h-14 w-14 items-center justify-center rounded-[1.1rem] bg-brand-yellow/12 text-brand-yellow ring-1 ring-brand-yellow/30"
                 : mobile
-                  ? "flex h-28 w-28 items-center justify-center text-amber-400"
-                  : "flex h-16 w-16 items-center justify-center rounded-[1rem] bg-white text-amber-500 shadow-[0_8px_18px_rgba(234,179,8,0.1)] ring-1 ring-amber-200/80",
+                  ? "flex h-28 w-28 items-center justify-center rounded-[1.6rem] bg-brand-yellow/12 text-brand-yellow ring-1 ring-brand-yellow/30"
+                  : "flex h-16 w-16 items-center justify-center rounded-[1rem] bg-brand-yellow/10 text-brand-yellow shadow-[0_8px_18px_rgba(234,186,43,0.14)] ring-1 ring-brand-yellow/30",
             )}
           >
             <FaTriangleExclamation
@@ -240,7 +283,7 @@ function WhoWeSupportContent({
           {copy.title}
         </h2>
       </div>
-      <div className="mt-6 sm:hidden">
+      <div className="mt-5 sm:hidden">
         {cards.map((card, index) => (
           <div
             key={`mobile-${card.stage}`}
@@ -260,6 +303,7 @@ function WhoWeSupportContent({
           >
             <AudienceCard
               card={card}
+              index={index}
               compact={compact}
               stackedMobile
               visible={
@@ -274,7 +318,7 @@ function WhoWeSupportContent({
           className={cx(
             "relative overflow-hidden transition-[max-height,margin-top,opacity,transform] duration-520",
             showWarning
-              ? "-mt-22 max-h-[220px] -translate-y-2 opacity-100"
+              ? "-mt-14 max-h-[220px] -translate-y-2 opacity-100"
               : "pointer-events-none mt-0 max-h-0 translate-y-6 opacity-0",
           )}
           style={{
@@ -292,15 +336,14 @@ function WhoWeSupportContent({
           compact
             ? "mt-6 gap-4 sm:mt-8 sm:gap-5 lg:gap-8"
             : "mt-16 gap-10 lg:gap-12",
-          showWarning
-            ? "pointer-events-none -translate-y-3 opacity-0 sm:pointer-events-auto sm:translate-y-0 sm:opacity-100"
-            : "translate-y-0 opacity-100",
+          "translate-y-0 opacity-100",
         )}
       >
         {cards.map((card, index) => (
           <AudienceCard
             key={card.stage}
             card={card}
+            index={index}
             compact={compact}
             visible={
               forceFinal || isAudienceCardVisible(activeStageKey, card.stage)
@@ -312,16 +355,16 @@ function WhoWeSupportContent({
 
       <div
         className={cx(
-          "hidden overflow-hidden transition-[max-height,margin-top,opacity,transform] duration-520 md:block",
+          "pointer-events-none absolute bottom-[5%] left-1/2 z-30 hidden w-[min(68%,760px)] -translate-x-1/2 transition-[opacity,transform] duration-520 md:block",
           showWarning
-            ? "mt-8 max-h-[220px] translate-y-0 opacity-100"
-            : "pointer-events-none mt-0 max-h-0 translate-y-6 opacity-0",
+            ? "translate-y-0 opacity-100"
+            : "translate-y-6 opacity-0",
         )}
         style={{ transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)" }}
       >
         <div
           className={cx(
-            "relative rounded-[1.6rem] transition-transform duration-520",
+            "pointer-events-auto relative rounded-[1.6rem] transition-transform duration-520",
             showWarning ? "translate-y-0" : "translate-y-6",
           )}
           style={{ transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)" }}
@@ -353,7 +396,7 @@ export function WhoWeSupportSection({
         ref={pinnedRef}
         className="relative z-20 h-screen w-full overflow-hidden bg-white mb-12"
       >
-        <div className="landing-frame h-full pt-[13%] sm:pt-[18%] lg:pt-[7%]">
+        <div className="landing-frame relative h-full pt-[13%] sm:pt-[18%] lg:pt-[7%]">
           <WhoWeSupportContent
             activeStageKey={activeStageKey}
             showHeading={isPinned}
@@ -411,4 +454,11 @@ function isAudienceCardVisible(
     activeStage === "warning" ||
     activeStage === "final"
   );
+}
+
+function getAudienceCardDeckClass(index: number) {
+  if (index === 0) return "-rotate-[1.2deg]";
+  if (index === 1) return "rotate-[0.9deg] translate-x-1";
+
+  return "-rotate-[0.35deg] -translate-x-0.5";
 }
