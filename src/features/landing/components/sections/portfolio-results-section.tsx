@@ -1,7 +1,11 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useRef, type PointerEvent } from "react";
+import {
+  useEffect,
+  useRef,
+  type PointerEvent,
+} from "react";
 
 import { portfolioResultsSectionConfig } from "../../data/portfolio-results-story";
 import { usePortfolioResultsVideo } from "../../hooks/use-portfolio-results-video";
@@ -21,6 +25,8 @@ interface PortfolioTrackMotionState {
   scrollOffset: number;
   targetPointerOffset: number;
   currentPointerOffset: number;
+  targetWheelOffset: number;
+  currentWheelOffset: number;
   frameId: number;
 }
 
@@ -214,12 +220,15 @@ function ProofMetricCard({ metric, visible, delayMs }: ProofMetricCardProps) {
 export function PortfolioResultsSection({
   setLogoTheme,
 }: PortfolioResultsSectionProps) {
+  const portfolioInteractionRef = useRef<HTMLDivElement | null>(null);
   const portfolioViewportRef = useRef<HTMLDivElement | null>(null);
   const portfolioTrackRef = useRef<HTMLDivElement | null>(null);
   const portfolioMotionRef = useRef<PortfolioTrackMotionState>({
     scrollOffset: 0,
     targetPointerOffset: 0,
     currentPointerOffset: 0,
+    targetWheelOffset: 0,
+    currentWheelOffset: 0,
     frameId: 0,
   });
   const { sectionRef, videoRef, activeStageKey, isScrolled } =
@@ -241,6 +250,37 @@ export function PortfolioResultsSection({
 
     return () => {
       cancelAnimationFrame(motionState.frameId);
+    };
+  }, []);
+
+  useEffect(() => {
+    const interaction = portfolioInteractionRef.current;
+    if (!interaction) return;
+
+    const handleWheel = (event: WheelEvent) => {
+      const isHorizontalIntent =
+        Math.abs(event.deltaX) > Math.abs(event.deltaY);
+      const delta = isHorizontalIntent
+        ? event.deltaX
+        : event.shiftKey
+          ? event.deltaY
+          : 0;
+
+      if (delta === 0) return;
+
+      event.preventDefault();
+      updatePortfolioWheelPosition(
+        portfolioTrackRef.current,
+        portfolioViewportRef.current,
+        portfolioMotionRef.current,
+        delta,
+      );
+    };
+
+    interaction.addEventListener("wheel", handleWheel, { passive: false });
+
+    return () => {
+      interaction.removeEventListener("wheel", handleWheel);
     };
   }, []);
 
@@ -277,7 +317,6 @@ export function PortfolioResultsSection({
       null,
     );
   };
-
   return (
     <CinematicVideoSection
       sectionId="results"
@@ -342,8 +381,9 @@ export function PortfolioResultsSection({
           </div>
 
           <div
+            ref={portfolioInteractionRef}
             className={cx(
-              "absolute inset-x-0 bottom-[13%] z-10 transition-all duration-700",
+              "absolute inset-x-0 bottom-[13%] z-10 overscroll-x-contain transition-all duration-700",
               showPortfolio
                 ? "translate-y-0 opacity-100"
                 : "pointer-events-none translate-y-12 opacity-0",
@@ -454,10 +494,35 @@ function updatePortfolioPointerPosition(
     motionState.targetPointerOffset = direction * maxPan;
   }
 
-  animatePortfolioPointerPan(track, viewport, motionState);
+  animatePortfolioTrackMotion(track, viewport, motionState);
 }
 
-function animatePortfolioPointerPan(
+function updatePortfolioWheelPosition(
+  track: HTMLDivElement | null,
+  viewport: HTMLDivElement | null,
+  motionState: PortfolioTrackMotionState,
+  delta: number,
+) {
+  if (!track || !viewport) return;
+
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    return;
+  }
+
+  const overflow = getPortfolioTrackOverflow(track, viewport);
+  const baseOffset =
+    motionState.scrollOffset + motionState.currentPointerOffset;
+
+  motionState.targetWheelOffset = clamp(
+    motionState.targetWheelOffset - delta * 0.75,
+    -overflow - baseOffset,
+    overflow - baseOffset,
+  );
+
+  animatePortfolioTrackMotion(track, viewport, motionState);
+}
+
+function animatePortfolioTrackMotion(
   track: HTMLDivElement,
   viewport: HTMLDivElement | null,
   motionState: PortfolioTrackMotionState,
@@ -465,18 +530,22 @@ function animatePortfolioPointerPan(
   cancelAnimationFrame(motionState.frameId);
 
   const tick = () => {
-    const delta =
+    const pointerDelta =
       motionState.targetPointerOffset - motionState.currentPointerOffset;
+    const wheelDelta =
+      motionState.targetWheelOffset - motionState.currentWheelOffset;
 
-    motionState.currentPointerOffset += delta * 0.12;
+    motionState.currentPointerOffset += pointerDelta * 0.12;
+    motionState.currentWheelOffset += wheelDelta * 0.18;
     applyPortfolioTrackTransform(track, viewport, motionState);
 
-    if (Math.abs(delta) > 0.35) {
+    if (Math.abs(pointerDelta) > 0.35 || Math.abs(wheelDelta) > 0.35) {
       motionState.frameId = requestAnimationFrame(tick);
       return;
     }
 
     motionState.currentPointerOffset = motionState.targetPointerOffset;
+    motionState.currentWheelOffset = motionState.targetWheelOffset;
     applyPortfolioTrackTransform(track, viewport, motionState);
   };
 
@@ -490,7 +559,9 @@ function applyPortfolioTrackTransform(
 ) {
   const overflow = getPortfolioTrackOverflow(track, viewport);
   const x = clamp(
-    motionState.scrollOffset + motionState.currentPointerOffset,
+    motionState.scrollOffset +
+      motionState.currentPointerOffset +
+      motionState.currentWheelOffset,
     -overflow,
     overflow,
   );
