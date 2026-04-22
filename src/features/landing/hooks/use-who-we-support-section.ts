@@ -73,6 +73,7 @@ export function useWhoWeSupportSection(
       onToggle: (self) => {
         setIsPinned(self.isActive);
         section.style.zIndex = self.isActive ? "25" : "0";
+        pinned.style.zIndex = self.isActive ? "45" : "";
       },
       onUpdate: (self) => {
         const progress = self.progress;
@@ -96,6 +97,7 @@ export function useWhoWeSupportSection(
 
     return () => {
       section.style.zIndex = "0";
+      pinned.style.zIndex = "";
       trigger.kill();
     };
   }, [stages]);
