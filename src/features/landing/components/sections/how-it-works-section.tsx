@@ -35,7 +35,7 @@ function HowItWorksStepCard({
   return (
     <article
       className={cx(
-        "absolute w-full max-w-[800px] rounded-[3rem] px-6 py-3 text-left shadow-[0_24px_65px_rgba(0,0,0,0.12)] transition-[opacity,transform,box-shadow] duration-700 sm:px-8 md:rounded-[7rem] md:px-16 md:py-3.5",
+        "absolute w-full max-w-[800px] rounded-[3rem] px-3 py-3 text-left shadow-[0_24px_65px_rgba(0,0,0,0.12)] transition-[opacity,transform,box-shadow] duration-700 sm:px-8 md:rounded-[7rem] md:px-10 md:py-3.5",
         step.toneClassName,
         step.placementClassName,
         step.zIndexClassName,

@@ -8,20 +8,20 @@ export const heroStoryConfig = {
   videoDuration: 5,
   eyebrows: {
     intro: { text: "Website - SEO - Social - Promo - AI" },
-    enterprise: { text: "WEM ENTERPRISE" },
+    enterprise: { text: "WEM Enterprise" },
   },
   titles: {
     intro: {
-      lines: ["Forget the Stress of Managing the Web"],
+      lines: ["Forget the Stress of Managing Your Online Presence."],
     },
     ecosystem: {
-      lines: ["One Guide with an ecosystem behind you"],
+      lines: ["One Guide. An Entire Ecosystem Behind You."],
     },
   },
   bodyItems: [
     {
       key: "intro-growth",
-      text: "I handle everything needed to help you grow online.",
+      text: "I take care of everything you need to grow online.",
       fromFrame: 25,
       toFrame: 55,
       order: 1,
@@ -35,31 +35,31 @@ export const heroStoryConfig = {
     },
     {
       key: "ecosystem-no-handoffs",
-      text: "No constant handoffs between different people.",
+      text: "No more constant handoffs between different roles.",
       fromFrame: 92,
-      toFrame: 120,
+      toFrame: 133,
       order: 1,
     },
     {
-      key: "ecosystem-support-1",
-      text: "Supporting that is an ecosystem built and",
-      fromFrame: 120,
-      toFrame: Number.POSITIVE_INFINITY,
-      order: 1,
-    },
-    {
-      key: "ecosystem-support-2",
-      text: "validated on an international scale.",
-      fromFrame: 120,
-      toFrame: Number.POSITIVE_INFINITY,
+      key: "ecosystem-single-contact",
+      text: "You have a single point of contact managing Vision, Strategy, Execution, and Growth.",
+      fromFrame: 105,
+      toFrame: 133,
       order: 2,
+    },
+    {
+      key: "ecosystem-scale",
+      text: "Supporting this, an ecosystem built and validated at an international scale.",
+      fromFrame: 133,
+      toFrame: Number.POSITIVE_INFINITY,
+      order: 1,
     },
   ],
   supportCards: {
     giovanni: {
       tone: "blue",
       icon: "giovanni",
-      title: "I'M GIOVANNI COLANGELO",
+      title: "ME, GIOVANNI COLANGELO",
       description:
         "I coordinate Direction, Priorities, Strategy, and Development.",
     },
@@ -68,12 +68,12 @@ export const heroStoryConfig = {
       icon: "wem-ai",
       title: "WEM AI",
       description:
-        "The WEM architecture that optimizes, simplifies, and reduces costs.",
+        "The WEM Architecture that Optimizes, Simplifies, and Reduces costs.",
     },
     "wem-agency": {
       tone: "purple",
       icon: "wem-agency",
-      title: "WEM AGENCY",
+      title: "WEM Agency",
       description: "WEM specialists activated based on what is truly needed.",
     },
   },

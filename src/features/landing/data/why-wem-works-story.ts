@@ -9,16 +9,15 @@ export const whyWemWorksSectionConfig = {
   handoff: {
     cardAppearFrame: 5,
     endFrame: 32,
-    eyebrow: "WEM ENTERPRISE",
-    titleLines: ["One Guide with an ecosystem behind you"],
+    eyebrow: "WEM Enterprise",
+    titleLines: ["One Guide. An Entire Ecosystem Behind You."],
     paragraphs: [
-      "Supporting that is an ecosystem built and",
-      "validated on an international scale.",
+      "Supporting this, an ecosystem built and validated at an international scale.",
     ],
     supportCard: {
       tone: "purple",
       icon: "wem-agency",
-      title: "WEM AGENCY",
+      title: "WEM Agency",
       description: "WEM specialists activated based on what is truly needed.",
     },
   },
