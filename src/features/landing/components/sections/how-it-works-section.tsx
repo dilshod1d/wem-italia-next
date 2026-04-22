@@ -76,10 +76,6 @@ export function HowItWorksSection({ setLogoTheme }: HowItWorksSectionProps) {
     activeStageKey === "build" ||
     activeStageKey === "evolution";
   const isFinal = activeStageKey === "evolution";
-  const headline =
-    activeStageKey === "headline"
-      ? copy.initialHeadline
-      : copy.expandedHeadline;
 
   return (
     <CinematicVideoSection
@@ -119,7 +115,7 @@ export function HowItWorksSection({ setLogoTheme }: HowItWorksSectionProps) {
                   : "translate-y-8 opacity-0",
               )}
             >
-              {headline}
+              {copy.initialHeadline}
             </h2>
 
             <div

@@ -28,7 +28,6 @@ export function BrandMark({ className = "", theme = "light" }: BrandMarkProps) {
             "object-contain transition-opacity duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]",
             theme === "light" ? "opacity-100" : "opacity-0",
           )}
-          priority
         />
         <Image
           src="/logo-dark.svg"
@@ -39,7 +38,6 @@ export function BrandMark({ className = "", theme = "light" }: BrandMarkProps) {
             "object-contain transition-opacity duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]",
             theme === "dark" ? "opacity-100" : "opacity-0",
           )}
-          priority
         />
       </div>
     </Link>

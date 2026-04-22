@@ -17,8 +17,7 @@ export const howItWorksSectionConfig = {
   ],
   copy: {
     eyebrow: "Clear Process",
-    initialHeadline: "A Clear Path",
-    expandedHeadline: "A Clear Path, from the Right Starting Point",
+    initialHeadline: "A Clear Path, from the Right Starting Point",
     subtitle: "No Standard Solutions",
     description:
       "We start from your real context, define direction and strategy, and build growth.",

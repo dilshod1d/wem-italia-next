@@ -29,7 +29,6 @@ export interface HowItWorksStep {
 export interface HowItWorksCopy {
   readonly eyebrow: string;
   readonly initialHeadline: string;
-  readonly expandedHeadline: string;
   readonly subtitle: string;
   readonly description: string;
 }
