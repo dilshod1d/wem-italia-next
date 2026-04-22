@@ -18,7 +18,7 @@ import { CinematicVideoSection } from "../cinematic-video-section";
 const { videoUrl, copy, portfolioItems, metrics, focusItemId } =
   portfolioResultsSectionConfig;
 const PORTFOLIO_TRACK_START_FRAME = 72;
-const PORTFOLIO_TRACK_CENTER_FRAME = 90;
+const PORTFOLIO_TRACK_CENTER_FRAME = 108;
 const PORTFOLIO_POINTER_MAX_PAN = 460;
 
 interface PortfolioTrackMotionState {
@@ -464,7 +464,7 @@ function updatePortfolioTrackScrollPosition(
     0,
     1,
   );
-  const easedProgress = 1 - Math.pow(1 - progress, 3);
+  const easedProgress = progress * progress * (3 - 2 * progress);
   const startOffset = clamp(window.innerWidth * 0.22, 130, 330);
   motionState.scrollOffset = startOffset * (1 - easedProgress);
 
