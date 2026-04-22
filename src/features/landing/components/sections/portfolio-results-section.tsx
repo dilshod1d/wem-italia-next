@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useRef } from "react";
+import { useEffect, useRef, type PointerEvent } from "react";
 
 import { portfolioResultsSectionConfig } from "../../data/portfolio-results-story";
 import { usePortfolioResultsVideo } from "../../hooks/use-portfolio-results-video";
@@ -15,6 +15,14 @@ const { videoUrl, copy, portfolioItems, metrics, focusItemId } =
   portfolioResultsSectionConfig;
 const PORTFOLIO_TRACK_START_FRAME = 72;
 const PORTFOLIO_TRACK_CENTER_FRAME = 90;
+const PORTFOLIO_POINTER_MAX_PAN = 460;
+
+interface PortfolioTrackMotionState {
+  scrollOffset: number;
+  targetPointerOffset: number;
+  currentPointerOffset: number;
+  frameId: number;
+}
 
 function cx(...classes: Array<string | false | null | undefined>) {
   return classes.filter(Boolean).join(" ");
@@ -206,15 +214,35 @@ function ProofMetricCard({ metric, visible, delayMs }: ProofMetricCardProps) {
 export function PortfolioResultsSection({
   setLogoTheme,
 }: PortfolioResultsSectionProps) {
+  const portfolioViewportRef = useRef<HTMLDivElement | null>(null);
   const portfolioTrackRef = useRef<HTMLDivElement | null>(null);
+  const portfolioMotionRef = useRef<PortfolioTrackMotionState>({
+    scrollOffset: 0,
+    targetPointerOffset: 0,
+    currentPointerOffset: 0,
+    frameId: 0,
+  });
   const { sectionRef, videoRef, activeStageKey, isScrolled } =
     usePortfolioResultsVideo(portfolioResultsSectionConfig, {
       onEnter: () => setLogoTheme("dark"),
       onEnterBack: () => setLogoTheme("dark"),
       onProgress: ({ currentFrame }) => {
-        updatePortfolioTrackPosition(portfolioTrackRef.current, currentFrame);
+        updatePortfolioTrackScrollPosition(
+          portfolioTrackRef.current,
+          portfolioViewportRef.current,
+          portfolioMotionRef.current,
+          currentFrame,
+        );
       },
     });
+
+  useEffect(() => {
+    const motionState = portfolioMotionRef.current;
+
+    return () => {
+      cancelAnimationFrame(motionState.frameId);
+    };
+  }, []);
 
   const showTitle =
     activeStageKey === "headline" ||
@@ -229,6 +257,26 @@ export function PortfolioResultsSection({
     (item) => item.id === focusItemId,
   );
   const isFocusStage = activeStageKey === "focus";
+  const handlePortfolioPointerMove = (
+    event: PointerEvent<HTMLDivElement>,
+  ) => {
+    if (event.pointerType === "touch") return;
+
+    updatePortfolioPointerPosition(
+      portfolioTrackRef.current,
+      portfolioViewportRef.current,
+      portfolioMotionRef.current,
+      event.clientX,
+    );
+  };
+  const handlePortfolioPointerLeave = () => {
+    updatePortfolioPointerPosition(
+      portfolioTrackRef.current,
+      portfolioViewportRef.current,
+      portfolioMotionRef.current,
+      null,
+    );
+  };
 
   return (
     <CinematicVideoSection
@@ -300,8 +348,10 @@ export function PortfolioResultsSection({
                 ? "translate-y-0 opacity-100"
                 : "pointer-events-none translate-y-12 opacity-0",
             )}
+            onPointerMove={handlePortfolioPointerMove}
+            onPointerLeave={handlePortfolioPointerLeave}
           >
-            <div className="overflow-visible">
+            <div ref={portfolioViewportRef} className="overflow-visible">
               <div
                 ref={portfolioTrackRef}
                 className="relative left-1/2 flex w-max items-center justify-center gap-0 will-change-transform"
@@ -355,8 +405,10 @@ export function PortfolioResultsSection({
   );
 }
 
-function updatePortfolioTrackPosition(
+function updatePortfolioTrackScrollPosition(
   track: HTMLDivElement | null,
+  viewport: HTMLDivElement | null,
+  motionState: PortfolioTrackMotionState,
   currentFrame: number,
 ) {
   if (!track) return;
@@ -374,9 +426,85 @@ function updatePortfolioTrackPosition(
   );
   const easedProgress = 1 - Math.pow(1 - progress, 3);
   const startOffset = clamp(window.innerWidth * 0.22, 130, 330);
-  const x = startOffset * (1 - easedProgress);
+  motionState.scrollOffset = startOffset * (1 - easedProgress);
+
+  applyPortfolioTrackTransform(track, viewport, motionState);
+}
+
+function updatePortfolioPointerPosition(
+  track: HTMLDivElement | null,
+  viewport: HTMLDivElement | null,
+  motionState: PortfolioTrackMotionState,
+  clientX: number | null,
+) {
+  if (!track || !viewport) return;
+
+  if (
+    clientX === null ||
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches
+  ) {
+    motionState.targetPointerOffset = 0;
+  } else {
+    const rect = viewport.getBoundingClientRect();
+    const overflow = getPortfolioTrackOverflow(track, viewport);
+    const maxPan = Math.min(overflow, PORTFOLIO_POINTER_MAX_PAN);
+    const cursorProgress = clamp((clientX - rect.left) / rect.width, 0, 1);
+    const direction = (0.5 - cursorProgress) * 2;
+
+    motionState.targetPointerOffset = direction * maxPan;
+  }
+
+  animatePortfolioPointerPan(track, viewport, motionState);
+}
+
+function animatePortfolioPointerPan(
+  track: HTMLDivElement,
+  viewport: HTMLDivElement | null,
+  motionState: PortfolioTrackMotionState,
+) {
+  cancelAnimationFrame(motionState.frameId);
+
+  const tick = () => {
+    const delta =
+      motionState.targetPointerOffset - motionState.currentPointerOffset;
+
+    motionState.currentPointerOffset += delta * 0.12;
+    applyPortfolioTrackTransform(track, viewport, motionState);
+
+    if (Math.abs(delta) > 0.35) {
+      motionState.frameId = requestAnimationFrame(tick);
+      return;
+    }
+
+    motionState.currentPointerOffset = motionState.targetPointerOffset;
+    applyPortfolioTrackTransform(track, viewport, motionState);
+  };
+
+  motionState.frameId = requestAnimationFrame(tick);
+}
+
+function applyPortfolioTrackTransform(
+  track: HTMLDivElement,
+  viewport: HTMLDivElement | null,
+  motionState: PortfolioTrackMotionState,
+) {
+  const overflow = getPortfolioTrackOverflow(track, viewport);
+  const x = clamp(
+    motionState.scrollOffset + motionState.currentPointerOffset,
+    -overflow,
+    overflow,
+  );
 
   track.style.transform = `translate3d(calc(-50% + ${x.toFixed(2)}px), 0, 0)`;
+}
+
+function getPortfolioTrackOverflow(
+  track: HTMLDivElement,
+  viewport: HTMLDivElement | null,
+) {
+  if (!viewport) return 0;
+
+  return Math.max((track.offsetWidth - viewport.clientWidth) / 2, 0);
 }
 
 function clamp(value: number, min: number, max: number) {
