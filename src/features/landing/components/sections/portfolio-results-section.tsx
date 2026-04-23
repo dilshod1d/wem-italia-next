@@ -487,13 +487,7 @@ export function PortfolioResultsSection({
       indicatorLabelClassName="normal-case text-[1.05rem] font-medium tracking-normal text-sky-200/75"
       indicatorMouseClassName="border-sky-200/55"
       indicatorWheelClassName="bg-sky-200/80"
-      videoClassName="brightness-[1.02] contrast-[0.98] saturate-[0.94] md:object-[center_78%]"
-      overlay={
-        <>
-          <div className="absolute inset-0 bg-white/[0.02]" />
-          <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-white/20 to-transparent" />
-        </>
-      }
+      videoClassName="md:object-[center_78%]"
     >
       <div className="relative h-full w-full">
         <div className="landing-shell">
@@ -830,9 +824,7 @@ function getPortfolioItemAnchorOffset(
   if (!(item instanceof HTMLElement) || !viewport) return 0;
 
   const itemAnchor =
-    position === "first"
-      ? item.offsetLeft
-      : item.offsetLeft + item.offsetWidth;
+    position === "first" ? item.offsetLeft : item.offsetLeft + item.offsetWidth;
   const viewportAnchorOffset = (anchor - 0.5) * viewport.clientWidth;
 
   return track.offsetWidth / 2 - itemAnchor + viewportAnchorOffset;

@@ -198,15 +198,7 @@ export function WhyWemWorksSection({ setLogoTheme }: WhyWemWorksSectionProps) {
       indicatorLabel="Scroll Down"
       indicatorPersistent
       indicatorLabelClassName="normal-case text-[1.05rem] font-medium tracking-normal text-white/95"
-      videoClassName="scale-[1.01] brightness-[0.82] contrast-[1.05] saturate-[1.03] md:object-[center_58%]"
-      overlay={
-        <>
-          <div className="absolute inset-0 bg-linear-to-r from-slate-950/55 via-slate-950/5 to-black/45" />
-          <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/55 to-transparent" />
-          <div className="absolute left-[42%] top-[12%] h-48 w-48 rounded-full bg-amber-300/15 blur-3xl" />
-          <div className="absolute left-[10%] top-[20%] h-72 w-72 rounded-full bg-blue-300/8 blur-3xl" />
-        </>
-      }
+      videoClassName="md:object-[center_58%]"
     >
       {(() => {
         const showHandoff = handoffPhase !== "done";

@@ -17,7 +17,6 @@ interface CinematicVideoSectionProps {
   indicatorLabelClassName?: string;
   indicatorMouseClassName?: string;
   indicatorWheelClassName?: string;
-  overlay?: ReactNode;
   sectionClassName?: string;
   videoClassName?: string;
 }
@@ -40,7 +39,6 @@ export function CinematicVideoSection({
   indicatorLabelClassName,
   indicatorMouseClassName,
   indicatorWheelClassName,
-  overlay,
   sectionClassName,
   videoClassName,
 }: CinematicVideoSectionProps) {
@@ -58,11 +56,6 @@ export function CinematicVideoSection({
       indicatorLabelClassName={indicatorLabelClassName}
       indicatorMouseClassName={indicatorMouseClassName}
       indicatorWheelClassName={indicatorWheelClassName}
-      overlay={
-        overlay ?? (
-          <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/60" />
-        )
-      }
       sectionClassName={cx("relative", sectionClassName)}
       videoClassName={videoClassName}
     >
