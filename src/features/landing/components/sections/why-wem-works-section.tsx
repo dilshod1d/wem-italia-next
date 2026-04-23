@@ -110,34 +110,6 @@ function InsightBlock({
   );
 }
 
-// function InsightBlock({
-//   title,
-//   body,
-//   toneClassName,
-//   visible,
-//   className,
-// }: InsightBlockProps) {
-//   return (
-//     <article
-//       className={cx(
-//         "w-full rounded-[1.75rem] p-5 shadow-[0_30px_100px_rgba(0,0,0,0.28)] transition-all duration-700 sm:p-6 md:rounded-[2.25rem] md:p-10",
-//         toneClassName,
-//         className,
-//         visible
-//           ? "translate-y-0 opacity-100"
-//           : "pointer-events-none translate-y-8 opacity-0",
-//       )}
-//     >
-//       <h3 className="landing-title-md uppercase text-white md:text-[2.2rem]">
-//         {title}
-//       </h3>
-//       <p className="landing-body-sm mt-3 max-w-4xl text-white/92 md:mt-4 md:text-[1.15rem]">
-//         {body}
-//       </p>
-//     </article>
-//   );
-// }
-
 interface ProofPointCardProps {
   title: string;
   color: string;
@@ -158,7 +130,7 @@ function ProofPointCard({
   return (
     <article
       className={cx(
-        "flex aspect-square flex-col items-center justify-center rounded-[1.65rem] p-5 text-center text-white shadow-[0_24px_78px_rgba(0,0,0,0.28)] transition-[opacity,transform] duration-700 will-change-transform sm:rounded-[1.9rem] md:rounded-[2rem] md:p-6 2xl:rounded-[2.35rem] 2xl:p-8",
+        "flex min-h-0 flex-col items-center justify-center rounded-[1.65rem] p-5 text-center text-white shadow-[0_24px_78px_rgba(0,0,0,0.28)] transition-[opacity,transform] duration-700 will-change-transform sm:rounded-[1.9rem] md:rounded-[2rem] md:p-6 2xl:rounded-[2.35rem] 2xl:p-8",
         color,
         visible
           ? "translate-y-0 scale-100 rotate-0 opacity-100"
@@ -345,13 +317,13 @@ export function WhyWemWorksSection({ setLogoTheme }: WhyWemWorksSectionProps) {
 
               <div
                 className={cx(
-                  "absolute inset-y-0 left-[4%] right-[4%] flex items-center justify-center py-28 transition-opacity duration-500 sm:left-[5%] sm:right-[5%] lg:justify-end",
+                  "absolute inset-0 flex items-center justify-center px-[4%] pb-20 pt-landing-copy-base transition-opacity duration-500 sm:px-[5%] sm:pb-24 sm:pt-landing-copy-sm lg:justify-end lg:pb-24 lg:pt-landing-copy-lg 2xl:pb-28 2xl:pt-landing-copy-wide",
                   showProofGrid
                     ? "opacity-100"
                     : "pointer-events-none opacity-0",
                 )}
               >
-                <div className="grid w-[min(96vw,81vh)] grid-cols-2 gap-4 sm:w-[min(90vw,79vh)] sm:gap-5 md:w-[min(68vw,79vh)] lg:w-[min(57vw,79vh)] xl:w-[min(52vw,81vh)] 2xl:w-[min(49vw,84vh)]">
+                <div className="grid h-full max-h-[22rem] w-full max-w-[22rem] grid-cols-2 grid-rows-2 gap-4 sm:max-h-[27rem] sm:max-w-[27rem] sm:gap-5 md:max-h-[31rem] md:max-w-[31rem] lg:max-h-[34rem] lg:max-w-[34rem] xl:max-h-[37rem] xl:max-w-[37rem] 2xl:max-h-[40rem] 2xl:max-w-[40rem]">
                   {proofPoints.map((item, index) => (
                     <ProofPointCard
                       key={item.title}
