@@ -142,26 +142,28 @@ html::-webkit-scrollbar-thumb:hover {
 @utility heading-hero {
   @apply font-sans font-bold
 
-       leading-[1.15]
-         sm:leading-[1.08]
-         md:leading-[1.02]
-         lg:leading-[0.96]
-         xl:leading-[1.07]
+     
+       leading-[1.14]
+       sm:leading-[1.07]
+       md:leading-[1.01]
+       lg:leading-[0.95]
+       xl:leading-[1.03]
+       2xl:leading-[1.02]
 
-        
-         tracking-[0.025em]
-         sm:tracking-[0.015em]
-         md:tracking-[-0.01em]
-         lg:tracking-[-0.02em]
-         xl:tracking-[0em]
+    
+       tracking-[0.022em]
+       sm:tracking-[0.012em]
+       md:tracking-[-0.008em]
+       lg:tracking-[-0.018em]
+       xl:tracking-[-0.005em]
+       2xl:tracking-[-0.01em]
 
-        
-         text-[2rem]
-         sm:text-[2.6rem]
-         md:text-4xl
-         lg:text-5xl
-         xl:text-6xl
-         2xl:text-[4.75rem];
+       text-[1.9rem]
+       sm:text-[2.4rem]
+       md:text-[2.9rem]   
+       lg:text-[3.4rem]   
+       xl:text-[3.9rem]   
+       2xl:text-[4.25rem];
 }
 
 @utility text-eyebrow {
