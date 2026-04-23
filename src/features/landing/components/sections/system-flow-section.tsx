@@ -100,7 +100,7 @@ export function SystemFlowSection({ setLogoTheme }: SystemFlowSectionProps) {
       overlay={<div className="absolute inset-0 bg-white/2" />}
     >
       <div className="relative h-full w-full">
-        <div className="landing-frame relative h-full pb-[5vh] pt-[5.5rem] sm:pt-[6.5rem] lg:pb-[5.5vh] lg:pt-[8vh] 2xl:pb-[6vh] 2xl:pt-[8.5vh]">
+        <div className="landing-frame landing-copy-start relative h-full pb-[5vh] lg:pb-[5.5vh] 2xl:pb-[6vh]">
           <div
             className={cx(
               "landing-copy-panel-alt flex h-full flex-col text-black",

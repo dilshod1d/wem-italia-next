@@ -23,6 +23,12 @@
   --color-brand-purple: #6d3cdb;
   --color-brand-yellow: #eaba2b;
   --color-portfolio-blue: #3179f6;
+  --spacing-landing-copy-base: 4rem;
+  --spacing-landing-copy-sm: 4.75rem;
+  --spacing-landing-copy-lg: 6.5rem;
+  --spacing-landing-copy-wide: 7rem;
+  --spacing-landing-copy-body-lg: 12rem;
+  --spacing-landing-copy-body-wide: 13rem;
   --font-sans: var(--font-poppins);
   --font-body: var(--font-poppins);
 }
@@ -188,27 +194,32 @@ html::-webkit-scrollbar-thumb:hover {
 }
 
 @utility landing-shell {
-  @apply relative mx-auto h-full w-full max-w-[1680px] px-[4%] pb-20 pt-[5.5rem]
-         sm:px-[5%] sm:pb-24 sm:pt-[6.5rem]
-         lg:px-[5%] lg:pb-24 lg:pt-[6.75rem]
-         2xl:max-w-[1760px] 2xl:pb-28 2xl:pt-[7.5rem];
+  @apply relative mx-auto h-full w-full max-w-[1680px] px-[4%] pb-20 pt-landing-copy-base
+         sm:px-[5%] sm:pb-24 sm:pt-landing-copy-sm
+         lg:px-[5%] lg:pb-24 lg:pt-landing-copy-lg
+         2xl:max-w-[1760px] 2xl:pb-28 2xl:pt-landing-copy-wide;
 }
 
 @utility landing-shell-tall {
-  @apply relative mx-auto h-full w-full max-w-[1680px] px-[4%] pb-20 pt-[5.5rem]
-         sm:px-[5%] sm:pb-24 sm:pt-[6.5rem]
-         lg:px-[5%] lg:pb-24 lg:pt-[6.75rem]
-         2xl:max-w-[1760px] 2xl:pb-28 2xl:pt-[7.5rem];
+  @apply relative mx-auto h-full w-full max-w-[1680px] px-[4%] pb-20 pt-landing-copy-base
+         sm:px-[5%] sm:pb-24 sm:pt-landing-copy-sm
+         lg:px-[5%] lg:pb-24 lg:pt-landing-copy-lg
+         2xl:max-w-[1760px] 2xl:pb-28 2xl:pt-landing-copy-wide;
 }
 
 @utility landing-copy-panel {
-  @apply absolute left-[4%] top-[9%] z-20 w-[92%]
-         sm:left-[5%] sm:top-[13%] sm:w-[75%]
-         lg:left-[5%] lg:top-[13%] lg:w-[55%];
+  @apply absolute left-[4%] top-landing-copy-base z-20 w-[92%]
+         sm:left-[5%] sm:top-landing-copy-sm sm:w-[75%]
+         lg:left-[5%] lg:top-landing-copy-lg lg:w-[55%]
+         2xl:top-landing-copy-wide;
 }
 
 @utility landing-copy-panel-alt {
   @apply relative z-20 w-full;
+}
+
+@utility landing-copy-start {
+  @apply pt-landing-copy-base sm:pt-landing-copy-sm lg:pt-landing-copy-lg 2xl:pt-landing-copy-wide;
 }
 
 @utility landing-title-lg {
