@@ -38,11 +38,12 @@ function BenefitCard({
   return (
     <article
       className={cx(
-        "absolute min-h-[7.93rem] w-[min(81.2vw,34.3rem)] rounded-[2.35rem] px-[1.35rem] py-[1.35rem] text-white shadow-[0_28px_80px_rgba(0,0,0,0.08)] transition-[opacity,transform] duration-700",
-        "sm:min-h-[9.5rem] sm:px-[1.8rem] sm:py-[1.58rem]",
-        "md:min-h-[11.9rem] md:rounded-[3.85rem] md:px-[2.7rem] md:py-[2.03rem]",
-        "lg:min-h-[13.2rem] lg:px-[3.6rem] lg:py-[2.25rem]",
-        "2xl:min-h-[14.6rem] 2xl:rounded-[4.25rem] 2xl:px-[4.2rem] 2xl:py-[2.7rem]",
+        "absolute flex min-h-[7.93rem] flex-col rounded-[2.35rem] px-[1.35rem] py-[1.55rem] text-white shadow-[0_28px_80px_rgba(0,0,0,0.08)] transition-[opacity,transform] duration-700",
+        "sm:min-h-[9.5rem] sm:px-[1.8rem] sm:py-[1.85rem]",
+        "md:min-h-[11.9rem] md:rounded-[3.85rem] md:px-[2.7rem] md:py-[2.3rem]",
+        "lg:min-h-0 lg:justify-center lg:overflow-hidden lg:rounded-[2.75rem] lg:px-8 lg:py-6",
+        "xl:min-h-0 xl:rounded-[3.1rem] xl:px-10 xl:py-7",
+        "2xl:min-h-0 2xl:rounded-[3.45rem] 2xl:px-12 2xl:py-8",
         toneClassName,
         placementClassName,
         zIndexClassName,
@@ -55,11 +56,11 @@ function BenefitCard({
         transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)",
       }}
     >
-      <h3 className="font-sans text-[clamp(1.53rem,3.07vw,3.95rem)] font-semibold leading-[1.02] tracking-tight text-white uppercase">
+      <h3 className="font-sans text-[1.53rem] font-semibold uppercase leading-[1.02] tracking-tight text-white sm:text-[2rem] md:text-[2.7rem] lg:whitespace-nowrap lg:text-[2.05rem] xl:text-[2.3rem] 2xl:text-[2.55rem]">
         {title}
       </h3>
 
-      <p className="mt-[0.45rem] max-w-[40.6rem] font-body text-[clamp(1.08rem,1.9vw,2.22rem)] leading-[1.26] text-white/96 md:mt-[0.675rem] 2xl:max-w-[47rem]">
+      <p className="mt-[0.45rem] max-w-[40.6rem] font-body text-[1.08rem] leading-[1.26] text-white/96 sm:text-[1.25rem] md:mt-[0.675rem] md:text-[1.8rem] lg:mt-2 lg:max-w-[94%] lg:text-[1rem] lg:leading-[1.2] xl:text-[1.12rem] 2xl:text-[1.26rem]">
         {body}
       </p>
     </article>
@@ -99,53 +100,53 @@ export function SystemFlowSection({ setLogoTheme }: SystemFlowSectionProps) {
       overlay={<div className="absolute inset-0 bg-white/2" />}
     >
       <div className="relative h-full w-full">
-        <div className="landing-shell">
+        <div className="landing-frame relative h-full pb-[5vh] pt-[5.5rem] sm:pt-[6.5rem] lg:pb-[5.5vh] lg:pt-[8vh] 2xl:pb-[6vh] 2xl:pt-[8.5vh]">
           <div
             className={cx(
-              "landing-copy-panel-alt text-black",
+              "landing-copy-panel-alt flex h-full flex-col text-black",
               isFinal ? "animate-[wem-breathe_5.4s_ease-in-out_infinite]" : "",
             )}
           >
-            <p
-              className={cx(
-                "text-eyebrow text-black/28 transition-all duration-700",
-                showEyebrow
-                  ? "translate-y-0 opacity-100"
-                  : "translate-y-6 opacity-0",
-              )}
-            >
-              {eyebrow}
-            </p>
-
-            <h2
-              className={cx(
-                "heading-hero transition-all duration-700",
-                showTitle
-                  ? "translate-y-0 opacity-100"
-                  : "translate-y-8 opacity-0",
-              )}
-            >
-              {title}
-            </h2>
-
-            <div
-              className={cx(
-                "body-stack text-body mt-6 text-black/85 transition-all duration-1000",
-                showParagraphs
-                  ? "translate-y-0 opacity-100"
-                  : "translate-y-6 opacity-0",
-              )}
-              style={{
-                transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)",
-              }}
-            >
-              {paragraphs.map((paragraph) => (
-                <p key={paragraph}>{paragraph}</p>
-              ))}
+            <div className="shrink-0">
+              <p
+                className={cx(
+                  "text-eyebrow text-black/28 transition-all duration-700",
+                  showEyebrow
+                    ? "translate-y-0 opacity-100"
+                    : "translate-y-6 opacity-0",
+                )}
+              >
+                {eyebrow}
+              </p>
+              <h2
+                className={cx(
+                  "heading-hero transition-all duration-700",
+                  showTitle
+                    ? "translate-y-0 opacity-100"
+                    : "translate-y-8 opacity-0",
+                )}
+              >
+                {title}
+              </h2>
+              <div
+                className={cx(
+                  "body-stack text-body mt-6 text-black/85 transition-all duration-1000",
+                  showParagraphs
+                    ? "translate-y-0 opacity-100"
+                    : "translate-y-6 opacity-0",
+                )}
+                style={{
+                  transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)",
+                }}
+              >
+                {paragraphs.map((paragraph) => (
+                  <p key={paragraph}>{paragraph}</p>
+                ))}
+              </div>
             </div>
 
-            <div className="pointer-events-none relative z-30 mt-4 h-[16.5rem] sm:mt-5 sm:h-[19.75rem] md:mt-6 md:h-[23.5rem] lg:h-[24.75rem] 2xl:h-[29rem]">
-              <div className="relative h-full w-full origin-top-left scale-[0.8] transform-gpu 2xl:scale-[0.88]">
+            <div className="pointer-events-none relative z-30 mt-4 h-[16.5rem] sm:mt-5 sm:h-[19.75rem] md:mt-6 md:h-[23.5rem] lg:mt-[2vh] lg:h-auto lg:min-h-0 lg:flex-1 lg:w-[70%] xl:mt-[2.4vh] xl:w-[72%] 2xl:w-[74%]">
+              <div className="relative h-full w-full">
                 {cards.map((card, index) => (
                   <BenefitCard
                     key={card.stage}
