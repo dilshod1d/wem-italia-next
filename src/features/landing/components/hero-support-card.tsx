@@ -26,12 +26,12 @@ function getToneClasses(tone: HeroSupportCardTone) {
 function getIcon(card: HeroSupportCardData) {
   switch (card.icon) {
     case "wem-ai":
-      return <WemAIIcon className="h-auto w-28 sm:w-34 md:w-40" />;
+      return <WemAIIcon className="h-auto w-28 sm:w-34 md:w-40 2xl:w-48" />;
     case "wem-agency":
-      return <WemAgencyIcon className="h-auto w-28 sm:w-34 md:w-40" />;
+      return <WemAgencyIcon className="h-auto w-28 sm:w-34 md:w-40 2xl:w-48" />;
     case "giovanni":
     default:
-      return <GiovanniIcon className="h-auto w-28 sm:w-34 md:w-40" />;
+      return <GiovanniIcon className="h-auto w-28 sm:w-34 md:w-40 2xl:w-48" />;
   }
 }
 
@@ -39,7 +39,7 @@ export function HeroSupportCard({ card, isActive }: HeroSupportCardProps) {
   return (
     <div
       className={[
-        "rounded-[1.5rem] px-4 py-4 text-white shadow-[0_30px_60px_rgba(0,0,0,0.35)] sm:rounded-[1.75rem] sm:px-5",
+        "rounded-[1.5rem] px-4 py-4 text-white shadow-[0_30px_60px_rgba(0,0,0,0.35)] sm:rounded-[1.75rem] sm:px-5 2xl:rounded-[2rem] 2xl:px-7 2xl:py-6",
         "transition-all duration-500",
         getToneClasses(card.tone),
         isActive
@@ -50,10 +50,10 @@ export function HeroSupportCard({ card, isActive }: HeroSupportCardProps) {
     >
       <div className="flex flex-col items-center gap-3 text-center sm:flex-row sm:items-center sm:justify-between sm:gap-4 sm:text-left">
         <div className="min-w-0">
-          <p className="font-sans text-[1.7rem] font-semibold uppercase sm:text-[2rem] md:text-[2.4rem]">
+          <p className="font-sans text-[1.7rem] font-semibold uppercase sm:text-[2rem] md:text-[2.4rem] 2xl:text-[2.9rem]">
             {card.title}
           </p>
-          <p className="mt-1.5 font-body text-[0.95rem] leading-[1.35] text-white/90 sm:mt-2 sm:text-[1.15rem] md:text-2xl">
+          <p className="mt-1.5 font-body text-[0.95rem] leading-[1.35] text-white/90 sm:mt-2 sm:text-[1.15rem] md:text-2xl 2xl:text-[1.6rem]">
             {card.description}
           </p>
         </div>

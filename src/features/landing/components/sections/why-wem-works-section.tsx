@@ -66,6 +66,7 @@ function InsightBlock({
         rounded-[1.25rem] p-4
         sm:rounded-[1.75rem] sm:p-5
         md:rounded-[2.25rem] md:p-10
+        2xl:rounded-[2.5rem] 2xl:p-12
 
         shadow-[0_20px_60px_rgba(0,0,0,0.25)]
         transition-all duration-700
@@ -83,6 +84,7 @@ function InsightBlock({
           text-[1.1rem] leading-snug
           sm:text-[1.4rem]
           md:text-[2.2rem]
+          2xl:text-[2.75rem]
         "
       >
         {title}
@@ -99,6 +101,7 @@ function InsightBlock({
 
           sm:mt-3 sm:text-[1rem] sm:max-w-[85%]
           md:mt-4 md:text-[1.15rem] md:max-w-4xl
+          2xl:text-[1.35rem]
         "
       >
         {body}
@@ -155,7 +158,7 @@ function ProofPointCard({
   return (
     <article
       className={cx(
-        "flex aspect-square flex-col items-center justify-center rounded-[1.65rem] p-5 text-center text-white shadow-[0_24px_78px_rgba(0,0,0,0.28)] transition-[opacity,transform] duration-700 will-change-transform sm:rounded-[1.9rem] md:rounded-[2rem] md:p-6",
+        "flex aspect-square flex-col items-center justify-center rounded-[1.65rem] p-5 text-center text-white shadow-[0_24px_78px_rgba(0,0,0,0.28)] transition-[opacity,transform] duration-700 will-change-transform sm:rounded-[1.9rem] md:rounded-[2rem] md:p-6 2xl:rounded-[2.35rem] 2xl:p-8",
         color,
         visible
           ? "translate-y-0 scale-100 rotate-0 opacity-100"
@@ -166,10 +169,10 @@ function ProofPointCard({
         transitionTimingFunction: "cubic-bezier(0.16, 1.2, 0.3, 1)",
       }}
     >
-      <div className="mb-4 h-12 w-12 text-white sm:h-14 sm:w-14 md:h-[4.5rem] md:w-[4.5rem]">
+      <div className="mb-4 h-12 w-12 text-white sm:h-14 sm:w-14 md:h-[4.5rem] md:w-[4.5rem] 2xl:mb-5 2xl:h-[5.25rem] 2xl:w-[5.25rem]">
         <Icon className="h-full w-full" />
       </div>
-      <h3 className="landing-title-md uppercase text-white md:text-[2.05rem]">
+      <h3 className="landing-title-md uppercase text-white md:text-[2.05rem] 2xl:text-[2.45rem]">
         {title}
       </h3>
     </article>
@@ -353,7 +356,7 @@ export function WhyWemWorksSection({ setLogoTheme }: WhyWemWorksSectionProps) {
                     : "pointer-events-none opacity-0",
                 )}
               >
-                <div className="grid w-[min(96vw,81vh)] grid-cols-2 gap-4 sm:w-[min(90vw,79vh)] sm:gap-5 md:w-[min(68vw,79vh)] lg:w-[min(57vw,79vh)] xl:w-[min(52vw,81vh)]">
+                <div className="grid w-[min(96vw,81vh)] grid-cols-2 gap-4 sm:w-[min(90vw,79vh)] sm:gap-5 md:w-[min(68vw,79vh)] lg:w-[min(57vw,79vh)] xl:w-[min(52vw,81vh)] 2xl:w-[min(49vw,84vh)]">
                   {proofPoints.map((item, index) => (
                     <ProofPointCard
                       key={item.title}

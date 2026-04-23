@@ -31,7 +31,7 @@ export function HeroSection({ setLogoTheme }: HeroSectionProps) {
       navTheme="dark"
       videoClassName="grayscale-[20%] contrast-[110%] md:object-[center_58%]"
     >
-      <div className="relative flex h-full w-full items-center justify-center">
+      <div className="landing-stage flex items-center justify-center">
         <HeroSlide
           stage={activeStage}
           visibleBodyItems={visibleBodyItems}

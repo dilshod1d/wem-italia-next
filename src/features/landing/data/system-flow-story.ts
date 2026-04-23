@@ -32,7 +32,7 @@ export const systemFlowSectionConfig = {
       body: "Each phase is defined and approved in advance.",
       toneClassName: "bg-brand-green",
       placementClassName:
-        "left-0 top-0 w-[min(92vw,40rem)] sm:w-[min(58vw,54rem)] md:w-[min(58vw,64rem)]",
+        "left-0 top-0 w-[min(92vw,40rem)] sm:w-[min(58vw,54rem)] md:w-[min(58vw,64rem)] 2xl:w-[min(58vw,72rem)]",
       zIndexClassName: "z-10",
     },
     {
@@ -41,7 +41,7 @@ export const systemFlowSectionConfig = {
       body: "Budget management is tied to results and approved at every step.",
       toneClassName: "bg-brand-red",
       placementClassName:
-        "left-[7%] top-[5.25rem] w-[min(92vw,42rem)] sm:left-[18%] sm:top-[6rem] sm:w-[min(60vw,64rem)] md:left-[22%] md:top-[6.5rem] md:w-[min(60vw,70rem)]",
+        "left-[7%] top-[5.25rem] w-[min(92vw,42rem)] sm:left-[18%] sm:top-[6rem] sm:w-[min(60vw,64rem)] md:left-[22%] md:top-[6.5rem] md:w-[min(60vw,70rem)] 2xl:w-[min(60vw,78rem)]",
       zIndexClassName: "z-20",
     },
     {
@@ -50,7 +50,7 @@ export const systemFlowSectionConfig = {
       body: "You invest in WEM specialists and tools only when they are truly needed.",
       toneClassName: "bg-brand-blue",
       placementClassName:
-        "left-[4%] top-[10rem] w-[min(92vw,44rem)] sm:left-[8%] sm:top-[11.25rem] sm:w-[min(62vw,68rem)] md:left-[8%] md:top-[13rem] md:w-[min(62vw,74rem)]",
+        "left-[4%] top-[10rem] w-[min(92vw,44rem)] sm:left-[8%] sm:top-[11.25rem] sm:w-[min(62vw,68rem)] md:left-[8%] md:top-[13rem] md:w-[min(62vw,74rem)] 2xl:w-[min(62vw,82rem)]",
       zIndexClassName: "z-30",
     },
   ],

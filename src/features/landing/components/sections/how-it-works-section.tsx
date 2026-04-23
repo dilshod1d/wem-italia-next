@@ -35,7 +35,7 @@ function HowItWorksStepCard({
   return (
     <article
       className={cx(
-        "absolute w-full max-w-[800px] rounded-[3rem] px-3 py-3 text-left shadow-[0_24px_65px_rgba(0,0,0,0.12)] transition-[opacity,transform,box-shadow] duration-700 sm:px-8 md:rounded-[7rem] md:px-10 md:py-3.5",
+        "absolute w-full max-w-[800px] rounded-[3rem] px-3 py-3 text-left shadow-[0_24px_65px_rgba(0,0,0,0.12)] transition-[opacity,transform,box-shadow] duration-700 sm:px-8 md:rounded-[7rem] md:px-10 md:py-3.5 xl:max-w-[900px] 2xl:max-w-[1080px] 2xl:px-14 2xl:py-5",
         step.toneClassName,
         step.placementClassName,
         step.zIndexClassName,
@@ -51,10 +51,10 @@ function HowItWorksStepCard({
         transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)",
       }}
     >
-      <h3 className="landing-title-lg text-white md:text-[3.45rem]">
+      <h3 className="landing-title-lg text-white md:text-[3.45rem] 2xl:text-[4.2rem]">
         {step.title}
       </h3>
-      <p className="mt-2 font-body text-[0.82rem] leading-[1.2] text-white/96 sm:text-[0.92rem] md:text-[1.4rem] md:leading-none">
+      <p className="mt-2 font-body text-[0.82rem] leading-[1.2] text-white/96 sm:text-[0.92rem] md:text-[1.4rem] md:leading-none 2xl:text-[1.7rem]">
         {step.body}
       </p>
     </article>
@@ -148,7 +148,7 @@ export function HowItWorksSection({ setLogoTheme }: HowItWorksSectionProps) {
 
           <div
             className={cx(
-              "pointer-events-none absolute left-0 right-0 bottom-[-%] z-30 h-[27rem] overflow-hidden sm:bottom-[-12%] sm:h-[31rem] lg:bottom-[-17%] lg:h-[34rem]",
+              "pointer-events-none absolute left-0 right-0 bottom-[-%] z-30 h-[27rem] overflow-hidden sm:bottom-[-12%] sm:h-[31rem] lg:bottom-[-17%] lg:h-[34rem] 2xl:h-[38rem]",
               isFinal ? "animate-[wem-breathe_5.2s_ease-in-out_infinite]" : "",
             )}
           >

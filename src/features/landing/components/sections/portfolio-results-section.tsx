@@ -83,7 +83,7 @@ function PortfolioCard({
     >
       <div
         className={cx(
-          "relative rounded-xl rounded-bl-none p-2.5 text-white shadow-[0_14px_38px_rgba(0,0,0,0.14)] transition-[width,filter,transform,box-shadow] duration-500 md:rounded-2xl md:rounded-bl-none md:p-4 motion-safe:hover:-translate-y-1.5",
+          "relative rounded-xl rounded-bl-none p-2.5 text-white shadow-[0_14px_38px_rgba(0,0,0,0.14)] transition-[width,filter,transform,box-shadow] duration-500 md:rounded-2xl md:rounded-bl-none md:p-4 2xl:p-5 motion-safe:hover:-translate-y-1.5",
           active
             ? "shadow-[0_30px_72px_rgba(0,0,0,0.24)] ring-2 ring-white/65 motion-safe:hover:shadow-[0_36px_82px_rgba(0,0,0,0.28)]"
             : "motion-safe:hover:shadow-[0_24px_58px_rgba(0,0,0,0.2)]",
@@ -96,8 +96,8 @@ function PortfolioCard({
           transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)",
         }}
       >
-        <div className="z-31 absolute left-0 top-0 flex h-10 w-[82%] items-center justify-center rounded-t-2xl rounded-br-2xl bg-inherit md:h-12">
-          <h3 className="px-3 text-center font-sans text-[0.82rem] font-semibold tracking-tight sm:text-[0.9rem] md:text-[1.35rem]">
+        <div className="z-31 absolute left-0 top-0 flex h-10 w-[82%] items-center justify-center rounded-t-2xl rounded-br-2xl bg-inherit md:h-12 2xl:h-14">
+          <h3 className="px-3 text-center font-sans text-[0.82rem] font-semibold tracking-tight sm:text-[0.9rem] md:text-[1.35rem] 2xl:text-[1.55rem]">
             {item.title}
           </h3>
         </div>
@@ -123,8 +123,8 @@ function PortfolioCard({
           />
         </div>
 
-        <div className="absolute -bottom-12 left-0 flex h-14 w-[82%] items-center justify-center rounded-b-2xl rounded-r-2xl bg-inherit md:-bottom-14 md:h-16">
-          <p className="px-3 text-center font-sans text-[0.82rem] font-semibold tracking-tight sm:text-[0.9rem] md:text-[1.35rem]">
+        <div className="absolute -bottom-12 left-0 flex h-14 w-[82%] items-center justify-center rounded-b-2xl rounded-r-2xl bg-inherit md:-bottom-14 md:h-16 2xl:-bottom-16 2xl:h-[4.5rem]">
+          <p className="px-3 text-center font-sans text-[0.82rem] font-semibold tracking-tight sm:text-[0.9rem] md:text-[1.35rem] 2xl:text-[1.55rem]">
             {item.footerLabel}
           </p>
         </div>
@@ -135,34 +135,34 @@ function PortfolioCard({
 
 function getPortfolioCardSizeClass(distanceFromFocus: number) {
   if (distanceFromFocus === 0) {
-    return "w-[11.1rem] sm:w-[12.6rem] md:w-[15rem] lg:w-[16.8rem]";
+    return "w-[11.1rem] sm:w-[12.6rem] md:w-[15rem] lg:w-[16.8rem] 2xl:w-[19rem]";
   }
 
   if (distanceFromFocus === 1) {
-    return "w-[10.2rem] sm:w-[11.6rem] md:w-[13.8rem] lg:w-[15.5rem]";
+    return "w-[10.2rem] sm:w-[11.6rem] md:w-[13.8rem] lg:w-[15.5rem] 2xl:w-[17.6rem]";
   }
 
   if (distanceFromFocus === 2) {
-    return "w-[9.5rem] sm:w-[10.8rem] md:w-[12.8rem] lg:w-[14.3rem]";
+    return "w-[9.5rem] sm:w-[10.8rem] md:w-[12.8rem] lg:w-[14.3rem] 2xl:w-[16.2rem]";
   }
 
-  return "w-[8.7rem] sm:w-[9.9rem] md:w-[11.8rem] lg:w-[13.2rem]";
+  return "w-[8.7rem] sm:w-[9.9rem] md:w-[11.8rem] lg:w-[13.2rem] 2xl:w-[15rem]";
 }
 
 function getPortfolioCardImageHeightClass(distanceFromFocus: number) {
   if (distanceFromFocus === 0) {
-    return "h-[16.5rem] sm:h-[18.25rem] md:h-[21.5rem] lg:h-[24rem]";
+    return "h-[16.5rem] sm:h-[18.25rem] md:h-[21.5rem] lg:h-[24rem] 2xl:h-[27.5rem]";
   }
 
   if (distanceFromFocus === 1) {
-    return "h-[16rem] sm:h-[17.5rem] md:h-[20.5rem] lg:h-[23rem]";
+    return "h-[16rem] sm:h-[17.5rem] md:h-[20.5rem] lg:h-[23rem] 2xl:h-[26.3rem]";
   }
 
   if (distanceFromFocus === 2) {
-    return "h-[15.25rem] sm:h-[16.75rem] md:h-[19.5rem] lg:h-[22rem]";
+    return "h-[15.25rem] sm:h-[16.75rem] md:h-[19.5rem] lg:h-[22rem] 2xl:h-[25rem]";
   }
 
-  return "h-[14.5rem] sm:h-[16rem] md:h-[18.5rem] lg:h-[20.75rem]";
+  return "h-[14.5rem] sm:h-[16rem] md:h-[18.5rem] lg:h-[20.75rem] 2xl:h-[23.8rem]";
 }
 
 function getPortfolioCardFocusStateClass(
@@ -298,7 +298,7 @@ function ProofMetricCard({ metric, visible, delayMs }: ProofMetricCardProps) {
   return (
     <article
       className={cx(
-        "group relative flex min-h-[12.5rem] overflow-hidden rounded-[1.7rem] border bg-white/94 p-5 shadow-[0_20px_55px_rgba(0,0,0,0.07)] backdrop-blur-sm transition-[opacity,transform,box-shadow] duration-700 sm:min-h-[13.5rem] sm:p-6 md:min-h-[17rem] md:p-7 motion-safe:hover:-translate-y-1 motion-safe:hover:shadow-[0_28px_72px_rgba(0,0,0,0.11)]",
+        "group relative flex min-h-[12.5rem] overflow-hidden rounded-[1.7rem] border bg-white/94 p-5 shadow-[0_20px_55px_rgba(0,0,0,0.07)] backdrop-blur-sm transition-[opacity,transform,box-shadow] duration-700 sm:min-h-[13.5rem] sm:p-6 md:min-h-[17rem] md:p-7 2xl:min-h-[19rem] 2xl:p-8 motion-safe:hover:-translate-y-1 motion-safe:hover:shadow-[0_28px_72px_rgba(0,0,0,0.11)]",
         metric.borderClassName,
         visible
           ? "translate-y-0 scale-100 opacity-100"
@@ -325,7 +325,7 @@ function ProofMetricCard({ metric, visible, delayMs }: ProofMetricCardProps) {
         <div className="flex items-start justify-between gap-4">
           <span
             className={cx(
-              "rounded-full px-3 py-1.5 font-sans text-[0.72rem] font-semibold uppercase tracking-[0.14em] shadow-[0_10px_24px_rgba(0,0,0,0.08)] sm:text-[0.78rem] md:px-4 md:py-2 md:text-[0.86rem]",
+              "rounded-full px-3 py-1.5 font-sans text-[0.72rem] font-semibold uppercase tracking-[0.14em] shadow-[0_10px_24px_rgba(0,0,0,0.08)] sm:text-[0.78rem] md:px-4 md:py-2 md:text-[0.86rem] 2xl:text-[0.98rem]",
               metric.bandClassName,
             )}
           >
@@ -349,8 +349,8 @@ function ProofMetricCard({ metric, visible, delayMs }: ProofMetricCardProps) {
           </span>
         </div>
 
-        <div className="flex flex-1 items-center justify-center py-6 md:py-8">
-          <div className="font-sans text-[2.25rem] font-semibold leading-none tracking-tight text-black tabular-nums sm:text-[2.75rem] md:text-[4.4rem]">
+        <div className="flex flex-1 items-center justify-center py-6 md:py-8 2xl:py-10">
+          <div className="font-sans text-[2.25rem] font-semibold leading-none tracking-tight text-black tabular-nums sm:text-[2.75rem] md:text-[4.4rem] 2xl:text-[5.2rem]">
             <AnimatedMetricValue
               value={metric.value}
               visible={visible}
@@ -359,7 +359,7 @@ function ProofMetricCard({ metric, visible, delayMs }: ProofMetricCardProps) {
           </div>
         </div>
 
-        <p className="border-t border-black/8 pt-4 text-center font-body text-[0.98rem] font-medium leading-[1.28] text-black/70 sm:text-[1.05rem] md:pt-5 md:text-[1.42rem]">
+        <p className="border-t border-black/8 pt-4 text-center font-body text-[0.98rem] font-medium leading-[1.28] text-black/70 sm:text-[1.05rem] md:pt-5 md:text-[1.42rem] 2xl:text-[1.62rem]">
           {metric.body}
         </p>
       </div>

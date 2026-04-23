@@ -42,6 +42,7 @@ function BenefitCard({
         "sm:min-h-[9.5rem] sm:px-[1.8rem] sm:py-[1.58rem]",
         "md:min-h-[11.9rem] md:rounded-[3.85rem] md:px-[2.7rem] md:py-[2.03rem]",
         "lg:min-h-[13.2rem] lg:px-[3.6rem] lg:py-[2.25rem]",
+        "2xl:min-h-[14.6rem] 2xl:rounded-[4.25rem] 2xl:px-[4.2rem] 2xl:py-[2.7rem]",
         toneClassName,
         placementClassName,
         zIndexClassName,
@@ -54,11 +55,11 @@ function BenefitCard({
         transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)",
       }}
     >
-      <h3 className="font-sans text-[clamp(1.53rem,3.07vw,3.6rem)] font-semibold leading-[1.02] tracking-tight text-white uppercase">
+      <h3 className="font-sans text-[clamp(1.53rem,3.07vw,3.95rem)] font-semibold leading-[1.02] tracking-tight text-white uppercase">
         {title}
       </h3>
 
-      <p className="mt-[0.45rem] max-w-[40.6rem] font-body text-[clamp(1.08rem,1.9vw,2.03rem)] leading-[1.26] text-white/96 md:mt-[0.675rem]">
+      <p className="mt-[0.45rem] max-w-[40.6rem] font-body text-[clamp(1.08rem,1.9vw,2.22rem)] leading-[1.26] text-white/96 md:mt-[0.675rem] 2xl:max-w-[47rem]">
         {body}
       </p>
     </article>
@@ -143,8 +144,8 @@ export function SystemFlowSection({ setLogoTheme }: SystemFlowSectionProps) {
               ))}
             </div>
 
-            <div className="pointer-events-none relative z-30 mt-4 h-[16.5rem] sm:mt-5 sm:h-[19.75rem] md:mt-6 md:h-[23.5rem] lg:h-[24.75rem]">
-              <div className="relative h-full w-full origin-top-left scale-[0.8] transform-gpu">
+            <div className="pointer-events-none relative z-30 mt-4 h-[16.5rem] sm:mt-5 sm:h-[19.75rem] md:mt-6 md:h-[23.5rem] lg:h-[24.75rem] 2xl:h-[29rem]">
+              <div className="relative h-full w-full origin-top-left scale-[0.8] transform-gpu 2xl:scale-[0.88]">
                 {cards.map((card, index) => (
                   <BenefitCard
                     key={card.stage}
