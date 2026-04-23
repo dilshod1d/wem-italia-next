@@ -35,7 +35,7 @@ function HowItWorksStepCard({
   return (
     <article
       className={cx(
-        "absolute w-full max-w-[800px] rounded-[3rem] px-3 py-3 text-left shadow-[0_24px_65px_rgba(0,0,0,0.12)] transition-[opacity,transform,box-shadow] duration-700 sm:px-8 md:rounded-[7rem] md:px-10 md:py-3.5 xl:max-w-[900px] 2xl:max-w-[1080px] 2xl:px-14 2xl:py-5",
+        "absolute w-full max-w-[800px] rounded-[3rem] px-3 py-3 text-left shadow-[0_24px_65px_rgba(0,0,0,0.12)] transition-[opacity,transform,box-shadow] duration-700 sm:px-8 md:rounded-[7rem] md:px-10 md:py-3.5 lg:flex lg:h-[25%] lg:max-w-none lg:flex-col lg:justify-center xl:px-12 xl:py-4 2xl:px-14 2xl:py-5",
         step.toneClassName,
         step.placementClassName,
         step.zIndexClassName,
@@ -51,10 +51,10 @@ function HowItWorksStepCard({
         transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)",
       }}
     >
-      <h3 className="landing-title-lg text-white md:text-[3.45rem] 2xl:text-[4.2rem]">
+      <h3 className="landing-title-lg text-white md:text-[3.1rem] xl:text-[3.45rem] 2xl:text-[4.05rem]">
         {step.title}
       </h3>
-      <p className="mt-2 font-body text-[0.82rem] leading-[1.2] text-white/96 sm:text-[0.92rem] md:text-[1.4rem] md:leading-none 2xl:text-[1.7rem]">
+      <p className="mt-1.5 font-body text-[0.82rem] leading-[1.2] text-white/96 sm:text-[0.92rem] md:text-[1.28rem] md:leading-[1.08] xl:text-[1.4rem] 2xl:text-[1.68rem]">
         {step.body}
       </p>
     </article>
@@ -148,11 +148,11 @@ export function HowItWorksSection({ setLogoTheme }: HowItWorksSectionProps) {
 
           <div
             className={cx(
-              "pointer-events-none absolute left-0 right-0 bottom-[-%] z-30 h-[27rem] overflow-hidden sm:bottom-[-12%] sm:h-[31rem] lg:bottom-[-17%] lg:h-[34rem] 2xl:h-[38rem]",
+              "pointer-events-none absolute bottom-[4%] left-[4%] right-[4%] z-30 h-[24rem] overflow-visible sm:h-[28rem] lg:left-auto lg:right-0 lg:top-[41%] lg:bottom-[7%] lg:h-auto lg:w-[86%] xl:top-[40%] 2xl:top-[39%] 2xl:w-[88%]",
               isFinal ? "animate-[wem-breathe_5.2s_ease-in-out_infinite]" : "",
             )}
           >
-            <div className="relative h-full w-full translate-x-[6vw] sm:translate-x-[7vw] lg:translate-x-[7vw]">
+            <div className="relative h-full w-full">
               {steps.map((step, index) => (
                 <HowItWorksStepCard
                   key={step.stage}
