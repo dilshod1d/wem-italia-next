@@ -510,6 +510,7 @@ export function PortfolioResultsHybridSection({
       activeStageKey === "proof");
   const showDescription = isVideoActive && activeStageKey === "narrative";
   const showProof = isRailPinned && showRailProof;
+  const showRailPortfolioCopy = isRailPinned && !showRailProof;
   const showSharedPortfolio =
     (isVideoActive &&
       (activeStageKey === "portfolio" ||
@@ -647,6 +648,18 @@ export function PortfolioResultsHybridSection({
           className="relative z-20 h-screen w-full overflow-hidden bg-white"
         >
           <div className="landing-shell">
+            <div
+              className={cx(
+                "landing-copy-panel-alt text-black transition-[opacity,transform] duration-[900ms]",
+                showRailPortfolioCopy
+                  ? "translate-y-0 opacity-100"
+                  : "pointer-events-none -translate-y-6 opacity-0",
+              )}
+            >
+              <p className="text-eyebrow text-black/25">{copy.eyebrow}</p>
+              <h2 className="heading-hero">{copy.title}</h2>
+            </div>
+
             <div
               className={cx(
                 "absolute inset-x-0 top-0 h-full transition-[opacity,transform] duration-[900ms]",
