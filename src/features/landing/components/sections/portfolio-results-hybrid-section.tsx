@@ -23,6 +23,7 @@ const PORTFOLIO_RAIL_SCROLL_PER_PIXEL = 1.35;
 const PORTFOLIO_RAIL_MIN_SCROLL_DISTANCE = 1000;
 const PORTFOLIO_RAIL_MAX_SCROLL_DISTANCE = 2400;
 const PORTFOLIO_RAIL_PROOF_HOLD_DISTANCE = 260;
+const RAIL_METRIC_REVEAL_THRESHOLDS = [0.08, 0.2, 0.32, 0.46];
 const METRIC_COUNT_DURATION_MS = 1600;
 const metricNumberFormatter = new Intl.NumberFormat("en-US");
 
@@ -388,10 +389,12 @@ export function PortfolioResultsHybridSection({
 }: PortfolioResultsHybridSectionProps) {
   const [activePortfolioIndex, setActivePortfolioIndex] = useState(0);
   const [showRailProof, setShowRailProof] = useState(false);
+  const [visibleRailMetricCount, setVisibleRailMetricCount] = useState(0);
   const portfolioInteractionRef = useRef<HTMLDivElement | null>(null);
   const portfolioViewportRef = useRef<HTMLDivElement | null>(null);
   const portfolioTrackRef = useRef<HTMLDivElement | null>(null);
   const railProofVisibleRef = useRef(false);
+  const visibleRailMetricCountRef = useRef(0);
   const focusIndex = portfolioItems.findIndex((item) => item.id === focusItemId);
   const portfolioMotionRef = useRef<PortfolioTrackMotionState>({
     scrollOffset: 0,
@@ -449,6 +452,18 @@ export function PortfolioResultsHybridSection({
       if (nextShowRailProof !== railProofVisibleRef.current) {
         railProofVisibleRef.current = nextShowRailProof;
         setShowRailProof(nextShowRailProof);
+      }
+
+      const nextVisibleRailMetricCount = nextShowRailProof
+        ? getVisibleRailMetricCount(
+            progress,
+            portfolioMotionRef.current.railGeometry,
+          )
+        : 0;
+
+      if (nextVisibleRailMetricCount !== visibleRailMetricCountRef.current) {
+        visibleRailMetricCountRef.current = nextVisibleRailMetricCount;
+        setVisibleRailMetricCount(nextVisibleRailMetricCount);
       }
     },
     getScrollDistance: () =>
@@ -681,8 +696,8 @@ export function PortfolioResultsHybridSection({
                     <ProofMetricCard
                       key={`rail-${metric.value}`}
                       metric={metric}
-                      visible={showRailProof}
-                      delayMs={index * 110}
+                      visible={showRailProof && index < visibleRailMetricCount}
+                      delayMs={index * 70}
                     />
                   ))}
                 </div>
@@ -1070,6 +1085,25 @@ function getPortfolioRailTravelDistance(railTravel: number) {
     Math.round(railTravel * PORTFOLIO_RAIL_SCROLL_PER_PIXEL),
     PORTFOLIO_RAIL_MIN_SCROLL_DISTANCE,
     maxTravelDistance,
+  );
+}
+
+function getVisibleRailMetricCount(
+  progress: number,
+  railGeometry: PortfolioRailGeometry | null,
+) {
+  if (!railGeometry || progress < railGeometry.travelPortion) return 0;
+
+  const proofRange = Math.max(1 - railGeometry.travelPortion, 0.001);
+  const proofProgress = clamp(
+    (progress - railGeometry.travelPortion) / proofRange,
+    0,
+    1,
+  );
+
+  return RAIL_METRIC_REVEAL_THRESHOLDS.reduce(
+    (count, threshold) => (proofProgress >= threshold ? count + 1 : count),
+    0,
   );
 }
 
