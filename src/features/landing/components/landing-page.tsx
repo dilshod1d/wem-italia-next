@@ -7,7 +7,7 @@ import { HowItWorksSection } from "./sections/how-it-works-section";
 import { CustomCursor } from "./custom-cursor";
 import { LandingNavbar } from "./landing-navbar";
 import { FooterSection } from "./sections/footer-section";
-import { PortfolioResultsSection } from "./sections/portfolio-results-section";
+import { PortfolioResultsHybridSection } from "./sections/portfolio-results-hybrid-section";
 import { SystemFlowSection } from "./sections/system-flow-section";
 import { WhoWeSupportSection } from "./sections/who-we-support-section";
 import { WhyWemWorksSection } from "./sections/why-wem-works-section";
@@ -24,7 +24,7 @@ export function LandingPage() {
         <WhyWemWorksSection setLogoTheme={setLogoTheme} />
         <SystemFlowSection setLogoTheme={setLogoTheme} />
         <HowItWorksSection setLogoTheme={setLogoTheme} />
-        <PortfolioResultsSection setLogoTheme={setLogoTheme} />
+        <PortfolioResultsHybridSection setLogoTheme={setLogoTheme} />
         <WhoWeSupportSection setLogoTheme={setLogoTheme} />
         <FooterSection setLogoTheme={setLogoTheme} />
       </main>
