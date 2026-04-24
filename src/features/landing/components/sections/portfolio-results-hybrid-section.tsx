@@ -510,7 +510,7 @@ export function PortfolioResultsHybridSection({
       activeStageKey === "proof");
   const showDescription = isVideoActive && activeStageKey === "narrative";
   const showProof = isRailPinned && showRailProof;
-  const showRailPortfolioCopy = isRailPinned && !showRailProof;
+  const showRailPortfolioCopy = !showRailProof;
   const showSharedPortfolio =
     (isVideoActive &&
       (activeStageKey === "portfolio" ||
