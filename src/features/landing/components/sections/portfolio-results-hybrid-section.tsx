@@ -659,21 +659,23 @@ export function PortfolioResultsHybridSection({
               <p className="text-eyebrow text-black/25">{copy.eyebrow}</p>
               <h2 className="heading-hero">{copy.title}</h2>
             </div>
+          </div>
 
-            <div
-              className={cx(
-                "absolute inset-x-0 top-0 h-full transition-[opacity,transform] duration-[900ms]",
-                showRailProof
-                  ? "translate-y-0 opacity-100"
-                  : "pointer-events-none translate-y-10 opacity-0",
-              )}
-            >
+          <div
+            className={cx(
+              "absolute inset-0 transition-[opacity,transform] duration-[900ms]",
+              showRailProof
+                ? "translate-y-0 opacity-100"
+                : "pointer-events-none translate-y-10 opacity-0",
+            )}
+          >
+            <div className="landing-shell flex h-full flex-col justify-between">
               <div className="landing-copy-panel-alt text-black">
                 <p className="text-eyebrow text-black/25">{copy.eyebrow}</p>
                 <h2 className="heading-hero">{copy.proofTitle}</h2>
               </div>
 
-              <div className="absolute bottom-[6%] left-[4%] right-[4%] sm:left-[5%] sm:right-[5%]">
+              <div>
                 <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 lg:gap-5">
                   {metrics.map((metric, index) => (
                     <ProofMetricCard
