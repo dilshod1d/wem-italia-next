@@ -45,25 +45,35 @@ export function usePortfolioResultsRail(
     if (!section || !pinned) return;
 
     let refreshFrame = 0;
+    const getDistance = () =>
+      Math.max(
+        Math.round(
+          distanceRef.current?.() ??
+            PORTFOLIO_RESULTS_RAIL_FALLBACK_SCROLL_DISTANCE,
+        ),
+        PORTFOLIO_RESULTS_RAIL_FALLBACK_SCROLL_DISTANCE,
+      );
+    const syncSectionHeight = () => {
+      const distance = getDistance();
+
+      section.style.height = `${distance}px`;
+
+      return distance;
+    };
     const refresh = () => {
       cancelAnimationFrame(refreshFrame);
       refreshFrame = requestAnimationFrame(() => ScrollTrigger.refresh());
     };
 
+    syncSectionHeight();
+
     const trigger = ScrollTrigger.create({
       trigger: section,
       start: "top top",
-      end: () =>
-        `+=${Math.max(
-          Math.round(
-            distanceRef.current?.() ??
-              PORTFOLIO_RESULTS_RAIL_FALLBACK_SCROLL_DISTANCE,
-          ),
-          PORTFOLIO_RESULTS_RAIL_FALLBACK_SCROLL_DISTANCE,
-        )}`,
+      end: () => `+=${syncSectionHeight()}`,
       scrub: true,
       pin: pinned,
-      pinSpacing: true,
+      pinSpacing: false,
       invalidateOnRefresh: true,
       onEnter: () => {
         enterRef.current?.();
@@ -87,6 +97,7 @@ export function usePortfolioResultsRail(
     return () => {
       cancelAnimationFrame(refreshFrame);
       window.removeEventListener("resize", refresh);
+      section.style.height = "";
       section.style.zIndex = "0";
       pinned.style.zIndex = "";
       trigger.kill();

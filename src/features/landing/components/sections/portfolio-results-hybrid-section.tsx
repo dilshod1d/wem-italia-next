@@ -19,10 +19,10 @@ const PORTFOLIO_TRACK_CENTER_FRAME = 108;
 const PORTFOLIO_POINTER_MAX_PAN = 460;
 const PORTFOLIO_START_ITEM_ANCHOR = 0.3;
 const PORTFOLIO_SETTLE_DELAY_MS = 180;
-const PORTFOLIO_RESULTS_RAIL_TRAVEL_PORTION = 0.72;
 const PORTFOLIO_RAIL_SCROLL_PER_PIXEL = 1.35;
 const PORTFOLIO_RAIL_MIN_SCROLL_DISTANCE = 1000;
 const PORTFOLIO_RAIL_MAX_SCROLL_DISTANCE = 2400;
+const PORTFOLIO_RAIL_PROOF_HOLD_DISTANCE = 260;
 const METRIC_COUNT_DURATION_MS = 1600;
 const metricNumberFormatter = new Intl.NumberFormat("en-US");
 
@@ -31,6 +31,8 @@ interface PortfolioRailGeometry {
   endOffset: number;
   minBound: number;
   maxBound: number;
+  scrollDistance: number;
+  travelPortion: number;
 }
 
 interface PortfolioTrackMotionState {
@@ -793,7 +795,7 @@ function updatePortfolioTrackRailPosition(
   motionState.railGeometry = railGeometry;
 
   const railTravelProgress = clamp(
-    progress / PORTFOLIO_RESULTS_RAIL_TRAVEL_PORTION,
+    progress / railGeometry.travelPortion,
     0,
     1,
   );
@@ -988,18 +990,13 @@ function getPortfolioRailScrollDistance(
   viewport: HTMLDivElement | null,
   focusIndex: number,
 ) {
-  if (!track) return PORTFOLIO_RAIL_MIN_SCROLL_DISTANCE;
+  if (!track) return getPortfolioRailTotalDistance(0);
 
   const railGeometry = measurePortfolioRailGeometry(track, viewport, focusIndex);
-  const railTravel = railGeometry
-    ? Math.abs(railGeometry.endOffset - railGeometry.startOffset)
-    : getPortfolioTrackOverflow(track, viewport);
 
-  return clamp(
-    Math.round(railTravel * PORTFOLIO_RAIL_SCROLL_PER_PIXEL),
-    PORTFOLIO_RAIL_MIN_SCROLL_DISTANCE,
-    PORTFOLIO_RAIL_MAX_SCROLL_DISTANCE,
-  );
+  if (railGeometry) return railGeometry.scrollDistance;
+
+  return getPortfolioRailTotalDistance(getPortfolioTrackOverflow(track, viewport));
 }
 
 function measurePortfolioRailGeometry(
@@ -1019,6 +1016,9 @@ function measurePortfolioRailGeometry(
   );
   const endOffset = getPortfolioTerminalOffset(track, viewport);
   const overflow = getPortfolioTrackOverflow(track, viewport);
+  const railTravel = Math.abs(endOffset - startOffset);
+  const travelDistance = getPortfolioRailTravelDistance(railTravel);
+  const scrollDistance = travelDistance + PORTFOLIO_RAIL_PROOF_HOLD_DISTANCE;
 
   return {
     startOffset,
@@ -1033,7 +1033,29 @@ function measurePortfolioRailGeometry(
         PORTFOLIO_START_ITEM_ANCHOR,
       ),
     ),
+    scrollDistance,
+    travelPortion: travelDistance / scrollDistance,
   };
+}
+
+function getPortfolioRailTotalDistance(railTravel: number) {
+  return (
+    getPortfolioRailTravelDistance(railTravel) +
+    PORTFOLIO_RAIL_PROOF_HOLD_DISTANCE
+  );
+}
+
+function getPortfolioRailTravelDistance(railTravel: number) {
+  const maxTravelDistance = Math.max(
+    PORTFOLIO_RAIL_MIN_SCROLL_DISTANCE,
+    PORTFOLIO_RAIL_MAX_SCROLL_DISTANCE - PORTFOLIO_RAIL_PROOF_HOLD_DISTANCE,
+  );
+
+  return clamp(
+    Math.round(railTravel * PORTFOLIO_RAIL_SCROLL_PER_PIXEL),
+    PORTFOLIO_RAIL_MIN_SCROLL_DISTANCE,
+    maxTravelDistance,
+  );
 }
 
 function getPortfolioTrackOverflow(
