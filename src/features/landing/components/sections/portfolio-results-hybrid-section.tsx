@@ -20,8 +20,18 @@ const PORTFOLIO_POINTER_MAX_PAN = 460;
 const PORTFOLIO_START_ITEM_ANCHOR = 0.3;
 const PORTFOLIO_SETTLE_DELAY_MS = 180;
 const PORTFOLIO_RESULTS_RAIL_TRAVEL_PORTION = 0.72;
+const PORTFOLIO_RAIL_SCROLL_PER_PIXEL = 1.35;
+const PORTFOLIO_RAIL_MIN_SCROLL_DISTANCE = 1000;
+const PORTFOLIO_RAIL_MAX_SCROLL_DISTANCE = 2400;
 const METRIC_COUNT_DURATION_MS = 1600;
 const metricNumberFormatter = new Intl.NumberFormat("en-US");
+
+interface PortfolioRailGeometry {
+  startOffset: number;
+  endOffset: number;
+  minBound: number;
+  maxBound: number;
+}
 
 interface PortfolioTrackMotionState {
   scrollOffset: number;
@@ -32,6 +42,8 @@ interface PortfolioTrackMotionState {
   frameId: number;
   settleTimer: number | null;
   activeIndex: number;
+  isRailOwner: boolean;
+  railGeometry: PortfolioRailGeometry | null;
   onActiveIndexChange: (index: number) => void;
 }
 
@@ -388,6 +400,8 @@ export function PortfolioResultsHybridSection({
     frameId: 0,
     settleTimer: null,
     activeIndex: 0,
+    isRailOwner: false,
+    railGeometry: null,
     onActiveIndexChange: setActivePortfolioIndex,
   });
   const {
@@ -413,8 +427,14 @@ export function PortfolioResultsHybridSection({
     pinnedRef: railPinnedRef,
     isPinned: isRailPinned,
   } = usePortfolioResultsRail({
-    onEnter: () => setLogoTheme("dark"),
-    onEnterBack: () => setLogoTheme("dark"),
+    onEnter: () => {
+      setLogoTheme("dark");
+      resetPortfolioRailMotion(portfolioMotionRef.current);
+    },
+    onEnterBack: () => {
+      setLogoTheme("dark");
+      resetPortfolioRailMotion(portfolioMotionRef.current);
+    },
     onProgress: (progress) => {
       const nextShowRailProof = updatePortfolioTrackRailPosition(
         portfolioTrackRef.current,
@@ -429,6 +449,12 @@ export function PortfolioResultsHybridSection({
         setShowRailProof(nextShowRailProof);
       }
     },
+    getScrollDistance: () =>
+      getPortfolioRailScrollDistance(
+        portfolioTrackRef.current,
+        portfolioViewportRef.current,
+        focusIndex,
+      ),
   });
 
   useEffect(() => {
@@ -716,6 +742,8 @@ function updatePortfolioTrackScrollPosition(
   currentFrame: number,
 ) {
   if (!track) return;
+  motionState.isRailOwner = false;
+  motionState.railGeometry = null;
 
   if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
     track.style.transform = "translate3d(calc(-50% + 0px), 0, 0)";
@@ -748,32 +776,37 @@ function updatePortfolioTrackRailPosition(
   focusIndex: number,
 ) {
   if (!track) return false;
+  stopPortfolioInteractionAnimation(motionState);
+  motionState.isRailOwner = true;
 
   if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
     track.style.transform = "translate3d(calc(-50% + 0px), 0, 0)";
     return progress >= 1;
   }
 
-  const normalizedFocusIndex =
-    focusIndex >= 0 ? focusIndex : Math.floor(track.children.length / 2);
+  const railGeometry =
+    motionState.railGeometry ??
+    measurePortfolioRailGeometry(track, viewport, focusIndex);
+
+  if (!railGeometry) return false;
+
+  motionState.railGeometry = railGeometry;
+
   const railTravelProgress = clamp(
     progress / PORTFOLIO_RESULTS_RAIL_TRAVEL_PORTION,
     0,
     1,
   );
   const easedProgress = 1 - Math.pow(1 - railTravelProgress, 3);
-  const startOffset = getPortfolioItemCenterOffsetByIndex(
-    track,
-    normalizedFocusIndex,
-  );
-  const endOffset = getPortfolioTerminalOffset(track, viewport);
 
   motionState.scrollOffset =
-    startOffset + (endOffset - startOffset) * easedProgress;
-  const reachedTerminal = Math.abs(motionState.scrollOffset - endOffset) <= 0.5;
+    railGeometry.startOffset +
+    (railGeometry.endOffset - railGeometry.startOffset) * easedProgress;
+  const reachedTerminal =
+    Math.abs(motionState.scrollOffset - railGeometry.endOffset) <= 0.5;
 
   if (reachedTerminal) {
-    motionState.scrollOffset = endOffset;
+    motionState.scrollOffset = railGeometry.endOffset;
     motionState.targetPointerOffset = 0;
     motionState.currentPointerOffset = 0;
     motionState.targetWheelOffset = 0;
@@ -799,7 +832,7 @@ function updatePortfolioPointerPosition(
     motionState.targetPointerOffset = 0;
   } else {
     const rect = viewport.getBoundingClientRect();
-    const bounds = getPortfolioTrackPanBounds(track, viewport);
+    const bounds = getPortfolioMotionBounds(track, viewport, motionState);
     const maxPan = Math.min(
       Math.max(Math.abs(bounds.min), Math.abs(bounds.max)),
       PORTFOLIO_POINTER_MAX_PAN,
@@ -825,7 +858,7 @@ function updatePortfolioWheelPosition(
     return;
   }
 
-  const bounds = getPortfolioTrackPanBounds(track, viewport);
+  const bounds = getPortfolioMotionBounds(track, viewport, motionState);
   const baseOffset =
     motionState.scrollOffset + motionState.currentPointerOffset;
 
@@ -857,7 +890,7 @@ function settlePortfolioTrackToNearestItem(
       motionState.currentPointerOffset +
       motionState.currentWheelOffset,
   );
-  const bounds = getPortfolioTrackPanBounds(track, viewport);
+  const bounds = getPortfolioMotionBounds(track, viewport, motionState);
   const baseOffset =
     motionState.scrollOffset + motionState.currentPointerOffset;
 
@@ -868,6 +901,23 @@ function settlePortfolioTrackToNearestItem(
   );
 
   animatePortfolioTrackMotion(track, viewport, motionState);
+}
+
+function stopPortfolioInteractionAnimation(
+  motionState: PortfolioTrackMotionState,
+) {
+  cancelAnimationFrame(motionState.frameId);
+  motionState.frameId = 0;
+
+  if (motionState.settleTimer !== null) {
+    window.clearTimeout(motionState.settleTimer);
+    motionState.settleTimer = null;
+  }
+}
+
+function resetPortfolioRailMotion(motionState: PortfolioTrackMotionState) {
+  stopPortfolioInteractionAnimation(motionState);
+  motionState.railGeometry = null;
 }
 
 function animatePortfolioTrackMotion(
@@ -905,7 +955,7 @@ function applyPortfolioTrackTransform(
   viewport: HTMLDivElement | null,
   motionState: PortfolioTrackMotionState,
 ) {
-  const bounds = getPortfolioTrackPanBounds(track, viewport);
+  const bounds = getPortfolioMotionBounds(track, viewport, motionState);
   const x = clamp(
     motionState.scrollOffset +
       motionState.currentPointerOffset +
@@ -916,6 +966,74 @@ function applyPortfolioTrackTransform(
 
   track.style.transform = `translate3d(calc(-50% + ${x.toFixed(2)}px), 0, 0)`;
   updatePortfolioActiveIndex(track, viewport, motionState, x);
+}
+
+function getPortfolioMotionBounds(
+  track: HTMLDivElement,
+  viewport: HTMLDivElement | null,
+  motionState: PortfolioTrackMotionState,
+) {
+  if (motionState.isRailOwner && motionState.railGeometry) {
+    return {
+      min: motionState.railGeometry.minBound,
+      max: motionState.railGeometry.maxBound,
+    };
+  }
+
+  return getPortfolioTrackPanBounds(track, viewport);
+}
+
+function getPortfolioRailScrollDistance(
+  track: HTMLDivElement | null,
+  viewport: HTMLDivElement | null,
+  focusIndex: number,
+) {
+  if (!track) return PORTFOLIO_RAIL_MIN_SCROLL_DISTANCE;
+
+  const railGeometry = measurePortfolioRailGeometry(track, viewport, focusIndex);
+  const railTravel = railGeometry
+    ? Math.abs(railGeometry.endOffset - railGeometry.startOffset)
+    : getPortfolioTrackOverflow(track, viewport);
+
+  return clamp(
+    Math.round(railTravel * PORTFOLIO_RAIL_SCROLL_PER_PIXEL),
+    PORTFOLIO_RAIL_MIN_SCROLL_DISTANCE,
+    PORTFOLIO_RAIL_MAX_SCROLL_DISTANCE,
+  );
+}
+
+function measurePortfolioRailGeometry(
+  track: HTMLDivElement,
+  viewport: HTMLDivElement | null,
+  focusIndex: number,
+): PortfolioRailGeometry | null {
+  if (!viewport || viewport.clientWidth === 0 || track.children.length === 0) {
+    return null;
+  }
+
+  const normalizedFocusIndex =
+    focusIndex >= 0 ? focusIndex : Math.floor(track.children.length / 2);
+  const startOffset = getPortfolioItemCenterOffsetByIndex(
+    track,
+    normalizedFocusIndex,
+  );
+  const endOffset = getPortfolioTerminalOffset(track, viewport);
+  const overflow = getPortfolioTrackOverflow(track, viewport);
+
+  return {
+    startOffset,
+    endOffset,
+    minBound: Math.min(-overflow, endOffset),
+    maxBound: Math.max(
+      overflow,
+      getPortfolioItemAnchorOffset(
+        track,
+        viewport,
+        "first",
+        PORTFOLIO_START_ITEM_ANCHOR,
+      ),
+    ),
+  };
 }
 
 function getPortfolioTrackOverflow(

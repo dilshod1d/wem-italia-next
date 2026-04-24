@@ -6,12 +6,13 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const PORTFOLIO_RESULTS_RAIL_SCROLL_DISTANCE = 900;
+const PORTFOLIO_RESULTS_RAIL_FALLBACK_SCROLL_DISTANCE = 900;
 
 interface UsePortfolioResultsRailOptions {
   onEnter?: () => void;
   onEnterBack?: () => void;
   onProgress?: (progress: number) => void;
+  getScrollDistance?: () => number;
 }
 
 export function usePortfolioResultsRail(
@@ -22,13 +23,20 @@ export function usePortfolioResultsRail(
   const enterRef = useRef(options.onEnter);
   const enterBackRef = useRef(options.onEnterBack);
   const progressRef = useRef(options.onProgress);
+  const distanceRef = useRef(options.getScrollDistance);
   const [isPinned, setIsPinned] = useState(false);
 
   useLayoutEffect(() => {
     enterRef.current = options.onEnter;
     enterBackRef.current = options.onEnterBack;
     progressRef.current = options.onProgress;
-  }, [options.onEnter, options.onEnterBack, options.onProgress]);
+    distanceRef.current = options.getScrollDistance;
+  }, [
+    options.onEnter,
+    options.onEnterBack,
+    options.onProgress,
+    options.getScrollDistance,
+  ]);
 
   useLayoutEffect(() => {
     const section = sectionRef.current;
@@ -36,13 +44,27 @@ export function usePortfolioResultsRail(
 
     if (!section || !pinned) return;
 
+    let refreshFrame = 0;
+    const refresh = () => {
+      cancelAnimationFrame(refreshFrame);
+      refreshFrame = requestAnimationFrame(() => ScrollTrigger.refresh());
+    };
+
     const trigger = ScrollTrigger.create({
       trigger: section,
       start: "top top",
-      end: `+=${PORTFOLIO_RESULTS_RAIL_SCROLL_DISTANCE}`,
+      end: () =>
+        `+=${Math.max(
+          Math.round(
+            distanceRef.current?.() ??
+              PORTFOLIO_RESULTS_RAIL_FALLBACK_SCROLL_DISTANCE,
+          ),
+          PORTFOLIO_RESULTS_RAIL_FALLBACK_SCROLL_DISTANCE,
+        )}`,
       scrub: true,
       pin: pinned,
       pinSpacing: true,
+      invalidateOnRefresh: true,
       onEnter: () => {
         enterRef.current?.();
       },
@@ -59,7 +81,12 @@ export function usePortfolioResultsRail(
       },
     });
 
+    refresh();
+    window.addEventListener("resize", refresh);
+
     return () => {
+      cancelAnimationFrame(refreshFrame);
+      window.removeEventListener("resize", refresh);
       section.style.zIndex = "0";
       pinned.style.zIndex = "";
       trigger.kill();
