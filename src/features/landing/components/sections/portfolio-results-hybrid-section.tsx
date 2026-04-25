@@ -372,10 +372,12 @@ export function PortfolioResultsHybridSection({
 }: PortfolioResultsHybridSectionProps) {
   const [activePortfolioIndex, setActivePortfolioIndex] = useState(0);
   const [isFlowPortfolioActive, setIsFlowPortfolioActive] = useState(false);
+  const [areMetricsVisible, setAreMetricsVisible] = useState(false);
   const portfolioInteractionRef = useRef<HTMLDivElement | null>(null);
   const portfolioViewportRef = useRef<HTMLDivElement | null>(null);
   const portfolioTrackRef = useRef<HTMLDivElement | null>(null);
   const flowPortfolioSectionRef = useRef<HTMLElement | null>(null);
+  const metricsGridRef = useRef<HTMLDivElement | null>(null);
   const focusIndex = portfolioItems.findIndex((item) => item.id === focusItemId);
   const portfolioMotionRef = useRef<PortfolioTrackMotionState>({
     scrollOffset: 0,
@@ -469,6 +471,32 @@ export function PortfolioResultsHybridSection({
       observer.disconnect();
     };
   }, []);
+
+  useEffect(() => {
+    if (areMetricsVisible) return;
+
+    const grid = metricsGridRef.current;
+    if (!grid) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) return;
+
+        setAreMetricsVisible(true);
+        observer.disconnect();
+      },
+      {
+        rootMargin: "0px 0px -12% 0px",
+        threshold: 0.18,
+      },
+    );
+
+    observer.observe(grid);
+
+    return () => {
+      observer.disconnect();
+    };
+  }, [areMetricsVisible]);
 
   const showTitle =
     isVideoActive &&
@@ -641,12 +669,15 @@ export function PortfolioResultsHybridSection({
             <h2 className="heading-hero">{copy.proofTitle}</h2>
           </div>
 
-          <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4 lg:gap-5">
+          <div
+            ref={metricsGridRef}
+            className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4 lg:gap-5"
+          >
             {metrics.map((metric, index) => (
               <ProofMetricCard
                 key={`flow-${metric.value}`}
                 metric={metric}
-                visible
+                visible={areMetricsVisible}
                 delayMs={index * 110}
               />
             ))}
