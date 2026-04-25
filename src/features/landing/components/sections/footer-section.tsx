@@ -144,12 +144,22 @@ interface FooterSectionProps {
 
 export function FooterSection({ setLogoTheme }: FooterSectionProps) {
   const footerRef = useRef<HTMLElement | null>(null);
+  const footerCtaRef = useRef<HTMLDivElement | null>(null);
+  const footerFaqHeadingRef = useRef<HTMLDivElement | null>(null);
+  const footerFaqListRef = useRef<HTMLDivElement | null>(null);
+  const footerTalkRef = useRef<HTMLDivElement | null>(null);
+  const footerPanelRef = useRef<HTMLDivElement | null>(null);
   const [openFaqId, setOpenFaqId] = useState<string | null>(null);
 
   useLayoutEffect(() => {
     const footer = footerRef.current;
+    const cta = footerCtaRef.current;
+    const faqHeading = footerFaqHeadingRef.current;
+    const faqList = footerFaqListRef.current;
+    const talk = footerTalkRef.current;
+    const panel = footerPanelRef.current;
 
-    if (!footer) return;
+    if (!footer || !cta || !faqHeading || !faqList || !talk || !panel) return;
 
     const trigger = ScrollTrigger.create({
       trigger: footer,
@@ -166,7 +176,76 @@ export function FooterSection({ setLogoTheme }: FooterSectionProps) {
       },
     });
 
+    const ctx = gsap.context(() => {
+      gsap.set([cta, faqHeading, faqList, talk, panel], {
+        autoAlpha: 0,
+        y: 50,
+        scale: 0.985,
+      });
+
+      gsap
+        .timeline({
+          scrollTrigger: {
+            trigger: footer,
+            start: "top 82%",
+            once: true,
+          },
+        })
+        .to(cta, {
+          autoAlpha: 1,
+          y: 0,
+          scale: 1,
+          duration: 0.65,
+          ease: "power3.out",
+        })
+        .to(
+          faqHeading,
+          {
+            autoAlpha: 1,
+            y: 0,
+            scale: 1,
+            duration: 0.58,
+            ease: "power3.out",
+          },
+          "-=0.2",
+        )
+        .to(
+          faqList,
+          {
+            autoAlpha: 1,
+            y: 0,
+            scale: 1,
+            duration: 0.62,
+            ease: "power3.out",
+          },
+          "-=0.22",
+        )
+        .to(
+          talk,
+          {
+            autoAlpha: 1,
+            y: 0,
+            scale: 1,
+            duration: 0.62,
+            ease: "power3.out",
+          },
+          "-=0.18",
+        )
+        .to(
+          panel,
+          {
+            autoAlpha: 1,
+            y: 0,
+            scale: 1,
+            duration: 0.62,
+            ease: "power3.out",
+          },
+          "-=0.2",
+        );
+    }, footer);
+
     return () => {
+      ctx.revert();
       trigger.kill();
     };
   }, [setLogoTheme]);
@@ -179,7 +258,10 @@ export function FooterSection({ setLogoTheme }: FooterSectionProps) {
       className="relative z-30 overflow-visible bg-footer-bg pb-10 pt-44 text-white sm:pt-48 md:pt-52 lg:pt-44"
     >
       <div className="landing-frame relative">
-        <div className="absolute -top-[18rem] left-[4%] right-[4%] rounded-[1rem] bg-gradient-to-r from-footer-cta-start to-brand-cyan px-5 py-6 text-center shadow-[0_26px_70px_rgba(26,119,254,0.26)] ring-1 ring-white/18 sm:-top-[20rem] sm:left-[5%] sm:right-[5%] sm:px-6 sm:py-7 md:-top-[22rem] md:px-10 md:py-8 lg:-top-[21rem] lg:rounded-[1.1rem] lg:px-12">
+        <div
+          ref={footerCtaRef}
+          className="absolute -top-[18rem] left-[4%] right-[4%] rounded-[1rem] bg-gradient-to-r from-footer-cta-start to-brand-cyan px-5 py-6 text-center shadow-[0_26px_70px_rgba(26,119,254,0.26)] ring-1 ring-white/18 sm:-top-[20rem] sm:left-[5%] sm:right-[5%] sm:px-6 sm:py-7 md:-top-[22rem] md:px-10 md:py-8 lg:-top-[21rem] lg:rounded-[1.1rem] lg:px-12"
+        >
           <h2 className="mx-auto max-w-4xl font-sans text-[1.55rem] font-semibold leading-[1.08] tracking-tight text-white sm:text-[2rem] md:text-[2.5rem] lg:text-[3rem]">
             {ctaTitle}
           </h2>
@@ -205,13 +287,19 @@ export function FooterSection({ setLogoTheme }: FooterSectionProps) {
         </div>
 
         <div className="w-full">
-          <div className="text-center">
+          <div
+            ref={footerFaqHeadingRef}
+            className="text-center"
+          >
             <h3 className="font-sans text-[2rem] font-semibold tracking-tight text-white sm:text-[2.3rem] md:text-[3rem] lg:text-[4rem]">
               FAQ
             </h3>
           </div>
 
-          <div className="mt-6 sm:mt-8">
+          <div
+            ref={footerFaqListRef}
+            className="mt-6 sm:mt-8"
+          >
             {faqItems.map((item) => (
               <FooterFaqRow
                 key={item.id}
@@ -226,7 +314,10 @@ export function FooterSection({ setLogoTheme }: FooterSectionProps) {
             ))}
           </div>
 
-          <div className="mt-12 grid gap-10 lg:mt-14 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.45fr)] lg:items-start">
+          <div
+            ref={footerTalkRef}
+            className="mt-12 grid gap-10 lg:mt-14 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.45fr)] lg:items-start"
+          >
             <div className="text-center lg:text-left">
               <div className="leading-none">
                 <span className="block font-sans text-[2.8rem] font-semibold tracking-tight text-white sm:text-[3.4rem] md:text-[4.25rem] lg:text-[5rem]">
@@ -292,7 +383,10 @@ export function FooterSection({ setLogoTheme }: FooterSectionProps) {
             </form>
           </div>
 
-          <div className="mt-12 rounded-[0.9rem] bg-footer-surface-alt px-4 py-5 ring-1 ring-white/8 sm:px-5 sm:py-6 md:px-8 md:py-8 lg:mt-14">
+          <div
+            ref={footerPanelRef}
+            className="mt-12 rounded-[0.9rem] bg-footer-surface-alt px-4 py-5 ring-1 ring-white/8 sm:px-5 sm:py-6 md:px-8 md:py-8 lg:mt-14"
+          >
             <div className="grid gap-8 md:grid-cols-2 xl:grid-cols-[minmax(0,1.1fr)_minmax(0,0.8fr)_minmax(0,0.9fr)]">
               <div className="space-y-3 md:col-span-2 xl:col-span-1">
                 {contactItems.map((item) => (

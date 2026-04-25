@@ -1,7 +1,10 @@
 "use client";
 
+import { useLayoutEffect, useRef } from "react";
 import type { IconType } from "react-icons";
 import { FaTriangleExclamation } from "react-icons/fa6";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 import { whoWeSupportSectionConfig } from "../../data/who-we-support-story";
 import type {
@@ -11,6 +14,8 @@ import type {
 import OfficeWorkerIcon from "../icons/OfficeWorkerIcon";
 import StoreIcon from "../icons/StoreIcon";
 import RocketIcon from "../icons/RocketIcon";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const whoWeSupportIcons: Record<WhoWeSupportCardIcon, IconType> = {
   startup: RocketIcon,
@@ -52,8 +57,6 @@ function cx(...classes: Array<string | false | null | undefined>) {
 interface AudienceCardProps {
   card: WhoWeSupportCard;
   index: number;
-  visible: boolean;
-  delayMs: number;
   compact?: boolean;
   stackedMobile?: boolean;
 }
@@ -61,8 +64,6 @@ interface AudienceCardProps {
 function AudienceCard({
   card,
   index,
-  visible,
-  delayMs,
   compact = false,
   stackedMobile = false,
 }: AudienceCardProps) {
@@ -71,25 +72,17 @@ function AudienceCard({
 
   return (
     <article
+      data-audience-card
       className={cx(
-        "group relative isolate overflow-hidden rounded-[1.6rem] border border-slate-200/70 bg-white text-center shadow-[0_10px_30px_rgba(15,23,42,0.08)] ring-1 ring-white/70 transition-[border-color,box-shadow,opacity,transform] duration-[520ms] will-change-transform",
+        "group relative isolate overflow-hidden rounded-[1.6rem] border border-slate-200/70 bg-white text-center shadow-[0_10px_30px_rgba(15,23,42,0.08)] ring-1 ring-white/70 transition-[border-color,box-shadow,transform] duration-300 will-change-transform",
         "motion-safe:hover:-translate-y-1.5 motion-safe:hover:scale-[1.012] motion-safe:hover:border-slate-300/80 motion-safe:hover:shadow-[0_22px_54px_rgba(15,23,42,0.14)]",
         stackedMobile
           ? "min-h-[168px] px-4 py-4.5"
           : compact
             ? "min-h-[232px] px-4.5 py-4.5 sm:min-h-[228px] sm:px-5 sm:py-5 md:min-h-[250px]"
             : "min-h-[280px] px-5 py-6 md:min-h-[340px]",
-        visible
-          ? cx(
-              "translate-y-0 scale-100 opacity-100",
-              stackedMobile && getAudienceCardDeckClass(index),
-            )
-          : "translate-y-8 scale-[0.975] opacity-0",
+        stackedMobile && getAudienceCardDeckClass(index),
       )}
-      style={{
-        transitionDelay: visible ? `${delayMs}ms` : "0ms",
-        transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)",
-      }}
     >
       <span
         aria-hidden="true"
@@ -233,32 +226,110 @@ function WarningCard({
 }
 
 export function WhoWeSupportSection() {
+  const sectionRef = useRef<HTMLElement | null>(null);
+  const headingRef = useRef<HTMLDivElement | null>(null);
+  const cardsGridRef = useRef<HTMLDivElement | null>(null);
+  const warningRef = useRef<HTMLDivElement | null>(null);
+
+  useLayoutEffect(() => {
+    const section = sectionRef.current;
+    const heading = headingRef.current;
+    const grid = cardsGridRef.current;
+    const warning = warningRef.current;
+
+    if (!section || !heading || !grid || !warning) return;
+
+    const ctx = gsap.context(() => {
+      const cards = Array.from(
+        grid.querySelectorAll<HTMLElement>("[data-audience-card]"),
+      );
+      const revealTargets = [heading, warning, ...cards];
+
+      gsap.set(revealTargets, {
+        autoAlpha: 0,
+        y: 46,
+        scale: 0.985,
+      });
+
+      gsap
+        .timeline({
+          scrollTrigger: {
+            trigger: section,
+            start: "top 74%",
+            once: true,
+          },
+        })
+        .to(heading, {
+          autoAlpha: 1,
+          y: 0,
+          scale: 1,
+          duration: 0.7,
+          ease: "power3.out",
+        })
+        .to(
+          cards,
+          {
+            autoAlpha: 1,
+            y: 0,
+            scale: 1,
+            duration: 0.75,
+            ease: "power3.out",
+            stagger: 0.12,
+          },
+          "-=0.22",
+        )
+        .to(
+          warning,
+          {
+            autoAlpha: 1,
+            y: 0,
+            scale: 1,
+            duration: 0.65,
+            ease: "power3.out",
+          },
+          "-=0.18",
+        );
+    }, section);
+
+    return () => {
+      ctx.revert();
+    };
+  }, []);
+
   return (
     <section
       id="who-we-support"
+      ref={sectionRef}
       data-nav-theme="light"
       className="relative bg-white pb-44 pt-3 sm:pb-48 sm:pt-4 lg:pb-52 lg:pt-5 2xl:pb-56 2xl:pt-6"
     >
       <div className="landing-frame">
-        <div className="w-full sm:w-[90%] lg:w-[85%]">
+        <div
+          ref={headingRef}
+          className="w-full sm:w-[90%] lg:w-[85%]"
+        >
           <p className="text-eyebrow text-black/28">{copy.eyebrow}</p>
           <h2 className="heading-hero text-black">{copy.title}</h2>
         </div>
 
-        <div className="mt-8 grid gap-5 md:grid-cols-2 lg:grid-cols-3 lg:gap-8">
+        <div
+          ref={cardsGridRef}
+          className="mt-8 grid gap-5 md:grid-cols-2 lg:grid-cols-3 lg:gap-8"
+        >
           {cards.map((card, index) => (
             <AudienceCard
               key={card.stage}
               card={card}
               index={index}
               compact
-              visible
-              delayMs={index * 70}
             />
           ))}
         </div>
 
-        <div className="mx-auto mt-8 w-full max-w-[760px] sm:mt-10">
+        <div
+          ref={warningRef}
+          className="mx-auto mt-8 w-full max-w-[760px] sm:mt-10"
+        >
           <WarningCard />
         </div>
       </div>

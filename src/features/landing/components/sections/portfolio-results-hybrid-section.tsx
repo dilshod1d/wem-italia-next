@@ -1,7 +1,15 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useRef, useState, type PointerEvent } from "react";
+import {
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+  type PointerEvent,
+} from "react";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 import { portfolioResultsSectionConfig } from "../../data/portfolio-results-story";
 import { usePortfolioResultsHybridVideo } from "../../hooks/use-portfolio-results-hybrid-video";
@@ -10,6 +18,8 @@ import type {
   PortfolioResultsMetric,
 } from "../../types/portfolio-results-section";
 import { CinematicVideoSection } from "../cinematic-video-section";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const { videoUrl, copy, portfolioItems, metrics, focusItemId } =
   portfolioResultsSectionConfig;
@@ -297,17 +307,11 @@ function formatMetricValue(metric: ParsedMetricValue, value: number) {
 function ProofMetricCard({ metric, visible, delayMs }: ProofMetricCardProps) {
   return (
     <article
+      data-metric-card
       className={cx(
-        "group relative flex min-h-[12.5rem] overflow-hidden rounded-[1.7rem] border bg-white/94 p-5 shadow-[0_20px_55px_rgba(0,0,0,0.07)] backdrop-blur-sm transition-[opacity,transform,box-shadow] duration-700 sm:min-h-[13.5rem] sm:p-6 md:min-h-[17rem] md:p-7 2xl:min-h-[19rem] 2xl:p-8 motion-safe:hover:-translate-y-1 motion-safe:hover:shadow-[0_28px_72px_rgba(0,0,0,0.11)]",
+        "group relative flex min-h-[12.5rem] overflow-hidden rounded-[1.7rem] border bg-white/94 p-5 shadow-[0_20px_55px_rgba(0,0,0,0.07)] backdrop-blur-sm transition-[box-shadow,transform] duration-300 sm:min-h-[13.5rem] sm:p-6 md:min-h-[17rem] md:p-7 2xl:min-h-[19rem] 2xl:p-8 motion-safe:hover:-translate-y-1 motion-safe:hover:shadow-[0_28px_72px_rgba(0,0,0,0.11)]",
         metric.borderClassName,
-        visible
-          ? "translate-y-0 scale-100 opacity-100"
-          : "pointer-events-none translate-y-12 scale-[0.94] opacity-0",
       )}
-      style={{
-        transitionDelay: visible ? `${delayMs}ms` : "0ms",
-        transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)",
-      }}
     >
       <div
         aria-hidden
@@ -377,7 +381,10 @@ export function PortfolioResultsHybridSection({
   const portfolioViewportRef = useRef<HTMLDivElement | null>(null);
   const portfolioTrackRef = useRef<HTMLDivElement | null>(null);
   const flowPortfolioSectionRef = useRef<HTMLElement | null>(null);
+  const metricsSectionRef = useRef<HTMLElement | null>(null);
+  const metricsHeadingRef = useRef<HTMLDivElement | null>(null);
   const metricsGridRef = useRef<HTMLDivElement | null>(null);
+  const metricsCtaRef = useRef<HTMLDivElement | null>(null);
   const focusIndex = portfolioItems.findIndex((item) => item.id === focusItemId);
   const portfolioMotionRef = useRef<PortfolioTrackMotionState>({
     scrollOffset: 0,
@@ -472,31 +479,71 @@ export function PortfolioResultsHybridSection({
     };
   }, []);
 
-  useEffect(() => {
-    if (areMetricsVisible) return;
-
+  useLayoutEffect(() => {
+    const section = metricsSectionRef.current;
+    const heading = metricsHeadingRef.current;
     const grid = metricsGridRef.current;
-    if (!grid) return;
+    const cta = metricsCtaRef.current;
 
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (!entry.isIntersecting) return;
+    if (!section || !heading || !grid || !cta) return;
 
-        setAreMetricsVisible(true);
-        observer.disconnect();
-      },
-      {
-        rootMargin: "0px 0px -12% 0px",
-        threshold: 0.18,
-      },
-    );
+    const ctx = gsap.context(() => {
+      const cards = Array.from(
+        grid.querySelectorAll<HTMLElement>("[data-metric-card]"),
+      );
+      const revealTargets = [heading, cta, ...cards];
 
-    observer.observe(grid);
+      gsap.set(revealTargets, {
+        autoAlpha: 0,
+        y: 48,
+        scale: 0.985,
+      });
+
+      gsap
+        .timeline({
+          scrollTrigger: {
+            trigger: section,
+            start: "top 72%",
+            once: true,
+          },
+        })
+        .to(heading, {
+          autoAlpha: 1,
+          y: 0,
+          scale: 1,
+          duration: 0.7,
+          ease: "power3.out",
+        })
+        .call(() => setAreMetricsVisible(true), [], "-=0.08")
+        .to(
+          cards,
+          {
+            autoAlpha: 1,
+            y: 0,
+            scale: 1,
+            duration: 0.7,
+            ease: "power3.out",
+            stagger: 0.12,
+          },
+          "-=0.22",
+        )
+        .to(
+          cta,
+          {
+            autoAlpha: 1,
+            y: 0,
+            scale: 1,
+            duration: 0.5,
+            ease: "power3.out",
+          },
+          "-=0.28",
+        );
+    }, section);
 
     return () => {
-      observer.disconnect();
+      ctx.revert();
     };
-  }, [areMetricsVisible]);
+  }, []);
 
   const showTitle =
     isVideoActive &&
@@ -660,11 +707,15 @@ export function PortfolioResultsHybridSection({
       </section>
 
       <section
+        ref={metricsSectionRef}
         data-nav-theme="light"
         className="relative bg-white py-3 sm:py-4 lg:py-5 2xl:py-6"
       >
         <div className="landing-frame">
-          <div className="text-black">
+          <div
+            ref={metricsHeadingRef}
+            className="text-black"
+          >
             <p className="text-eyebrow text-black/25">{copy.eyebrow}</p>
             <h2 className="heading-hero">{copy.proofTitle}</h2>
           </div>
@@ -683,7 +734,10 @@ export function PortfolioResultsHybridSection({
             ))}
           </div>
 
-          <div className="mt-8 flex justify-center md:mt-10">
+          <div
+            ref={metricsCtaRef}
+            className="mt-8 flex justify-center md:mt-10"
+          >
             <a
               href="#footer"
               className="group/cta inline-flex items-center gap-3 rounded-full border border-black/12 bg-white/82 px-6 py-3 font-body text-[1.05rem] font-medium tracking-tight text-black/86 shadow-[0_16px_40px_rgba(0,0,0,0.07)] backdrop-blur-sm transition-[transform,box-shadow,border-color] duration-300 hover:-translate-y-0.5 hover:border-black/22 hover:shadow-[0_22px_54px_rgba(0,0,0,0.1)] md:px-8 md:py-3.5 md:text-[1.35rem]"
