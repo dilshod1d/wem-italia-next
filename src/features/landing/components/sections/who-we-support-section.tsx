@@ -4,13 +4,10 @@ import type { IconType } from "react-icons";
 import { FaTriangleExclamation } from "react-icons/fa6";
 
 import { whoWeSupportSectionConfig } from "../../data/who-we-support-story";
-import { useWhoWeSupportSection } from "../../hooks/use-who-we-support-section";
 import type {
   WhoWeSupportCard,
   WhoWeSupportCardIcon,
-  WhoWeSupportStageKey,
 } from "../../types/who-we-support-section";
-import { ScrollIndicator } from "../scroll-indicator";
 import OfficeWorkerIcon from "../icons/OfficeWorkerIcon";
 import StoreIcon from "../icons/StoreIcon";
 import RocketIcon from "../icons/RocketIcon";
@@ -50,10 +47,6 @@ const { copy, cards } = whoWeSupportSectionConfig;
 
 function cx(...classes: Array<string | false | null | undefined>) {
   return classes.filter(Boolean).join(" ");
-}
-
-interface WhoWeSupportSectionProps {
-  setLogoTheme: (theme: "light" | "dark") => void;
 }
 
 interface AudienceCardProps {
@@ -159,14 +152,6 @@ function AudienceCard({
   );
 }
 
-interface WhoWeSupportContentProps {
-  activeStageKey: WhoWeSupportStageKey;
-  showHeading: boolean;
-  compact?: boolean;
-  forceFinal?: boolean;
-  renderWarning?: boolean;
-}
-
 function WarningCard({
   mobile = false,
   stackedMobile = false,
@@ -247,212 +232,37 @@ function WarningCard({
   );
 }
 
-function WhoWeSupportContent({
-  activeStageKey,
-  showHeading,
-  compact = false,
-  forceFinal = false,
-  renderWarning = true,
-}: WhoWeSupportContentProps) {
-  const showWarning =
-    renderWarning &&
-    (forceFinal || activeStageKey === "warning" || activeStageKey === "final");
-
-  return (
-    <>
-      <div className="w-full sm:w-[90%] lg:w-[85%]">
-        <p
-          className={cx(
-            "text-eyebrow text-black/28 transition-all duration-700",
-            showHeading
-              ? "translate-y-0 opacity-100"
-              : "translate-y-8 opacity-0",
-          )}
-        >
-          {copy.eyebrow}
-        </p>
-        <h2
-          className={cx(
-            "heading-hero text-black transition-all duration-700",
-            showHeading
-              ? "translate-y-0 opacity-100"
-              : "translate-y-8 opacity-0",
-          )}
-          style={{ transitionDelay: showHeading ? "70ms" : "0ms" }}
-        >
-          {copy.title}
-        </h2>
-      </div>
-      <div className="mt-5 sm:hidden">
-        {cards.map((card, index) => (
-          <div
-            key={`mobile-${card.stage}`}
-            className={cx(
-              "relative overflow-hidden transition-[max-height,margin-top,opacity,transform] duration-500",
-              forceFinal || isAudienceCardVisible(activeStageKey, card.stage)
-                ? cx(
-                    index === 0 ? "mt-0" : "-mt-16",
-                    "max-h-[220px] translate-y-0 opacity-100",
-                  )
-                : "pointer-events-none mt-0 max-h-0 translate-y-6 opacity-0",
-            )}
-            style={{
-              zIndex: index + 1,
-              transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)",
-            }}
-          >
-            <AudienceCard
-              card={card}
-              index={index}
-              compact={compact}
-              stackedMobile
-              visible={
-                forceFinal || isAudienceCardVisible(activeStageKey, card.stage)
-              }
-              delayMs={index * 70}
-            />
-          </div>
-        ))}
-
-        <div
-          className={cx(
-            "relative overflow-hidden transition-[max-height,margin-top,opacity,transform] duration-520",
-            showWarning
-              ? "-mt-14 max-h-[220px] -translate-y-2 opacity-100"
-              : "pointer-events-none mt-0 max-h-0 translate-y-6 opacity-0",
-          )}
-          style={{
-            zIndex: cards.length + 1,
-            transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)",
-          }}
-        >
-          <WarningCard mobile stackedMobile />
-        </div>
-      </div>
-
-      <div
-        className={cx(
-          "hidden md:grid md:grid-cols-2 lg:grid-cols-3 transition-[opacity,transform] duration-500",
-          compact
-            ? "mt-6 gap-4 sm:mt-8 sm:gap-5 lg:gap-8"
-            : "mt-16 gap-10 lg:gap-12",
-          "translate-y-0 opacity-100",
-        )}
-      >
-        {cards.map((card, index) => (
-          <AudienceCard
-            key={card.stage}
-            card={card}
-            index={index}
-            compact={compact}
-            visible={
-              forceFinal || isAudienceCardVisible(activeStageKey, card.stage)
-            }
-            delayMs={index * 70}
-          />
-        ))}
-      </div>
-
-      <div
-        className={cx(
-          "pointer-events-none absolute bottom-[5%] left-1/2 z-30 hidden w-[min(68%,760px)] -translate-x-1/2 transition-[opacity,transform] duration-520 md:block",
-          showWarning
-            ? "translate-y-0 opacity-100"
-            : "translate-y-6 opacity-0",
-        )}
-        style={{ transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)" }}
-      >
-        <div
-          className={cx(
-            "pointer-events-auto relative rounded-[1.6rem] transition-transform duration-520",
-            showWarning ? "translate-y-0" : "translate-y-6",
-          )}
-          style={{ transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)" }}
-        >
-          <WarningCard />
-        </div>
-      </div>
-    </>
-  );
-}
-
-export function WhoWeSupportSection({
-  setLogoTheme,
-}: WhoWeSupportSectionProps) {
-  const { sectionRef, pinnedRef, activeStageKey, isScrolled, isPinned } =
-    useWhoWeSupportSection(whoWeSupportSectionConfig, {
-      onEnter: () => setLogoTheme("dark"),
-      onEnterBack: () => setLogoTheme("dark"),
-    });
-
+export function WhoWeSupportSection() {
   return (
     <section
       id="who-we-support"
-      ref={sectionRef}
       data-nav-theme="light"
-      className="relative bg-white"
+      className="relative bg-white pb-72 pt-20 sm:pb-80 sm:pt-24 lg:pb-88 lg:pt-28 2xl:pt-32"
     >
-      <div
-        ref={pinnedRef}
-        className="relative z-20 h-screen w-full overflow-hidden bg-white"
-      >
-        <div className="landing-frame landing-copy-start relative h-full">
-          <WhoWeSupportContent
-            activeStageKey={activeStageKey}
-            showHeading={isPinned}
-            compact
-          />
+      <div className="landing-frame">
+        <div className="w-full sm:w-[90%] lg:w-[85%]">
+          <p className="text-eyebrow text-black/28">{copy.eyebrow}</p>
+          <h2 className="heading-hero text-black">{copy.title}</h2>
         </div>
 
-        <ScrollIndicator
-          hidden={isScrolled}
-          label="Scroll Down"
-          labelClassName="normal-case text-[1rem] font-medium text-sky-200/70"
-          mouseClassName="border-sky-200/50"
-          wheelClassName="bg-sky-200/70"
-        />
+        <div className="mt-8 grid gap-5 md:grid-cols-2 lg:grid-cols-3 lg:gap-8">
+          {cards.map((card, index) => (
+            <AudienceCard
+              key={card.stage}
+              card={card}
+              index={index}
+              compact
+              visible
+              delayMs={index * 70}
+            />
+          ))}
+        </div>
+
+        <div className="mx-auto mt-8 w-full max-w-[760px] sm:mt-10">
+          <WarningCard />
+        </div>
       </div>
-
-      <div
-        aria-hidden={isPinned}
-        className={cx(
-          "relative z-10 bg-white pb-24 transition-[opacity,transform] duration-500 sm:pb-24 lg:pb-32",
-          isPinned
-            ? "pointer-events-none -translate-y-2 opacity-0"
-            : "-translate-y-10 opacity-100",
-        )}
-      ></div>
     </section>
-  );
-}
-
-function isAudienceCardVisible(
-  activeStage: WhoWeSupportStageKey,
-  cardStage: WhoWeSupportStageKey,
-) {
-  if (cardStage === "startups") {
-    return (
-      activeStage === "startups" ||
-      activeStage === "professionals" ||
-      activeStage === "smes" ||
-      activeStage === "warning" ||
-      activeStage === "final"
-    );
-  }
-
-  if (cardStage === "professionals") {
-    return (
-      activeStage === "professionals" ||
-      activeStage === "smes" ||
-      activeStage === "warning" ||
-      activeStage === "final"
-    );
-  }
-
-  return (
-    activeStage === "smes" ||
-    activeStage === "warning" ||
-    activeStage === "final"
   );
 }
 

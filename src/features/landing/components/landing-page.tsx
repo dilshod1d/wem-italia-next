@@ -25,7 +25,7 @@ export function LandingPage() {
         <SystemFlowSection setLogoTheme={setLogoTheme} />
         <HowItWorksSection setLogoTheme={setLogoTheme} />
         <PortfolioResultsHybridSection setLogoTheme={setLogoTheme} />
-        <WhoWeSupportSection setLogoTheme={setLogoTheme} />
+        <WhoWeSupportSection />
         <FooterSection setLogoTheme={setLogoTheme} />
       </main>
     </>

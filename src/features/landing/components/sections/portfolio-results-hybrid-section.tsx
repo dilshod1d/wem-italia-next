@@ -5,7 +5,6 @@ import { useEffect, useRef, useState, type PointerEvent } from "react";
 
 import { portfolioResultsSectionConfig } from "../../data/portfolio-results-story";
 import { usePortfolioResultsHybridVideo } from "../../hooks/use-portfolio-results-hybrid-video";
-import { usePortfolioResultsRail } from "../../hooks/use-portfolio-results-rail";
 import type {
   PortfolioResultsItem,
   PortfolioResultsMetric,
@@ -19,22 +18,8 @@ const PORTFOLIO_TRACK_CENTER_FRAME = 108;
 const PORTFOLIO_POINTER_MAX_PAN = 460;
 const PORTFOLIO_START_ITEM_ANCHOR = 0.9;
 const PORTFOLIO_SETTLE_DELAY_MS = 180;
-const PORTFOLIO_RAIL_SCROLL_PER_PIXEL = 1.35;
-const PORTFOLIO_RAIL_MIN_SCROLL_DISTANCE = 1000;
-const PORTFOLIO_RAIL_MAX_SCROLL_DISTANCE = 2400;
-const PORTFOLIO_RAIL_PROOF_HOLD_DISTANCE = 260;
-const RAIL_METRIC_REVEAL_THRESHOLDS = [0.08, 0.2, 0.32, 0.46];
 const METRIC_COUNT_DURATION_MS = 1600;
 const metricNumberFormatter = new Intl.NumberFormat("en-US");
-
-interface PortfolioRailGeometry {
-  startOffset: number;
-  endOffset: number;
-  minBound: number;
-  maxBound: number;
-  scrollDistance: number;
-  travelPortion: number;
-}
 
 interface PortfolioTrackMotionState {
   scrollOffset: number;
@@ -45,8 +30,6 @@ interface PortfolioTrackMotionState {
   frameId: number;
   settleTimer: number | null;
   activeIndex: number;
-  isRailOwner: boolean;
-  railGeometry: PortfolioRailGeometry | null;
   onActiveIndexChange: (index: number) => void;
 }
 
@@ -98,15 +81,15 @@ function PortfolioCard({
       )}
       aria-hidden={!visible}
     >
-        <div
-          className={cx(
-            "relative rounded-xl rounded-bl-none p-2.5 text-white shadow-[0_14px_38px_rgba(0,0,0,0.14)] transition-[width,filter,transform,box-shadow] duration-500 md:rounded-2xl md:rounded-bl-none md:p-4 2xl:p-5 motion-safe:hover:-translate-y-1.5",
-            active
-              ? "shadow-[0_30px_72px_rgba(0,0,0,0.24)] ring-2 ring-white/65 motion-safe:hover:shadow-[0_36px_82px_rgba(0,0,0,0.28)]"
-              : "motion-safe:hover:shadow-[0_24px_58px_rgba(0,0,0,0.2)]",
-            sizeClassName,
-            item.wrapperClassName,
-            item.shellClassName,
+      <div
+        className={cx(
+          "relative rounded-xl rounded-bl-none p-2.5 text-white shadow-[0_14px_38px_rgba(0,0,0,0.14)] transition-[width,filter,transform,box-shadow] duration-500 md:rounded-2xl md:rounded-bl-none md:p-4 2xl:p-5 motion-safe:hover:-translate-y-1.5",
+          active
+            ? "shadow-[0_30px_72px_rgba(0,0,0,0.24)] ring-2 ring-white/65 motion-safe:hover:shadow-[0_36px_82px_rgba(0,0,0,0.28)]"
+            : "motion-safe:hover:shadow-[0_24px_58px_rgba(0,0,0,0.2)]",
+          sizeClassName,
+          item.wrapperClassName,
+          item.shellClassName,
         )}
         style={{
           transitionDelay: visible ? `${delayMs}ms` : "0ms",
@@ -388,13 +371,11 @@ export function PortfolioResultsHybridSection({
   setLogoTheme,
 }: PortfolioResultsHybridSectionProps) {
   const [activePortfolioIndex, setActivePortfolioIndex] = useState(0);
-  const [showRailProof, setShowRailProof] = useState(false);
-  const [visibleRailMetricCount, setVisibleRailMetricCount] = useState(0);
+  const [isFlowPortfolioActive, setIsFlowPortfolioActive] = useState(false);
   const portfolioInteractionRef = useRef<HTMLDivElement | null>(null);
   const portfolioViewportRef = useRef<HTMLDivElement | null>(null);
   const portfolioTrackRef = useRef<HTMLDivElement | null>(null);
-  const railProofVisibleRef = useRef(false);
-  const visibleRailMetricCountRef = useRef(0);
+  const flowPortfolioSectionRef = useRef<HTMLElement | null>(null);
   const focusIndex = portfolioItems.findIndex((item) => item.id === focusItemId);
   const portfolioMotionRef = useRef<PortfolioTrackMotionState>({
     scrollOffset: 0,
@@ -405,8 +386,6 @@ export function PortfolioResultsHybridSection({
     frameId: 0,
     settleTimer: null,
     activeIndex: 0,
-    isRailOwner: false,
-    railGeometry: null,
     onActiveIndexChange: setActivePortfolioIndex,
   });
   const {
@@ -426,52 +405,6 @@ export function PortfolioResultsHybridSection({
         currentFrame,
       );
     },
-  });
-  const {
-    sectionRef: railSectionRef,
-    pinnedRef: railPinnedRef,
-    isPinned: isRailPinned,
-  } = usePortfolioResultsRail({
-    onEnter: () => {
-      setLogoTheme("dark");
-      resetPortfolioRailMotion(portfolioMotionRef.current);
-    },
-    onEnterBack: () => {
-      setLogoTheme("dark");
-      resetPortfolioRailMotion(portfolioMotionRef.current);
-    },
-    onProgress: (progress) => {
-      const nextShowRailProof = updatePortfolioTrackRailPosition(
-        portfolioTrackRef.current,
-        portfolioViewportRef.current,
-        portfolioMotionRef.current,
-        progress,
-        focusIndex,
-      );
-
-      if (nextShowRailProof !== railProofVisibleRef.current) {
-        railProofVisibleRef.current = nextShowRailProof;
-        setShowRailProof(nextShowRailProof);
-      }
-
-      const nextVisibleRailMetricCount = nextShowRailProof
-        ? getVisibleRailMetricCount(
-            progress,
-            portfolioMotionRef.current.railGeometry,
-          )
-        : 0;
-
-      if (nextVisibleRailMetricCount !== visibleRailMetricCountRef.current) {
-        visibleRailMetricCountRef.current = nextVisibleRailMetricCount;
-        setVisibleRailMetricCount(nextVisibleRailMetricCount);
-      }
-    },
-    getScrollDistance: () =>
-      getPortfolioRailScrollDistance(
-        portfolioTrackRef.current,
-        portfolioViewportRef.current,
-        focusIndex,
-      ),
   });
 
   useEffect(() => {
@@ -516,6 +449,27 @@ export function PortfolioResultsHybridSection({
     };
   }, []);
 
+  useEffect(() => {
+    const section = flowPortfolioSectionRef.current;
+    if (!section) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsFlowPortfolioActive(entry.isIntersecting);
+      },
+      {
+        rootMargin: "0px 0px -18% 0px",
+        threshold: 0.01,
+      },
+    );
+
+    observer.observe(section);
+
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
+
   const showTitle =
     isVideoActive &&
     (activeStageKey === "headline" ||
@@ -524,14 +478,13 @@ export function PortfolioResultsHybridSection({
       activeStageKey === "focus" ||
       activeStageKey === "proof");
   const showDescription = isVideoActive && activeStageKey === "narrative";
-  const showProof = isRailPinned && showRailProof;
-  const showRailPortfolioCopy = !showRailProof;
-  const showSharedPortfolio =
-    (isVideoActive &&
-      (activeStageKey === "portfolio" ||
-        activeStageKey === "focus" ||
-        activeStageKey === "proof")) ||
-    (isRailPinned && !showRailProof);
+  const showVideoPortfolio =
+    isVideoActive &&
+    (activeStageKey === "portfolio" ||
+      activeStageKey === "focus" ||
+      activeStageKey === "proof");
+  const showSharedPortfolio = showVideoPortfolio || isFlowPortfolioActive;
+  const useFixedPortfolio = showVideoPortfolio;
   const isVideoFocusStage =
     isVideoActive &&
     (activeStageKey === "focus" || activeStageKey === "proof");
@@ -579,7 +532,7 @@ export function PortfolioResultsHybridSection({
               <p
                 className={cx(
                   "text-eyebrow text-black/25 transition-all duration-700 ",
-                  showTitle || showProof
+                  showTitle
                     ? "translate-y-0 opacity-100"
                     : "translate-y-8 opacity-0",
                 )}
@@ -590,12 +543,12 @@ export function PortfolioResultsHybridSection({
               <h2
                 className={cx(
                   "heading-hero transition-all duration-700",
-                  showTitle || showProof
+                  showTitle
                     ? "translate-y-0 opacity-100"
                     : "translate-y-8 opacity-0",
                 )}
               >
-                {showProof ? copy.proofTitle : copy.title}
+                {copy.title}
               </h2>
 
               <div
@@ -614,107 +567,63 @@ export function PortfolioResultsHybridSection({
                 ))}
               </div>
             </div>
-
-            <div
-              className={cx(
-                "absolute bottom-[6%] left-[4%] right-[4%] transition-[opacity,transform] duration-[900ms] sm:left-[5%] sm:right-[5%]",
-                showProof
-                  ? "translate-y-0 scale-100 opacity-100"
-                  : "pointer-events-none translate-y-16 scale-[0.96] opacity-0",
-              )}
-            >
-              <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 lg:gap-5">
-                {metrics.map((metric, index) => (
-                  <ProofMetricCard
-                    key={metric.value}
-                    metric={metric}
-                    visible={showProof}
-                    delayMs={index * 110}
-                  />
-                ))}
-              </div>
-
-              <div className="mt-8 flex justify-center md:mt-10">
-                <a
-                  href="#footer"
-                  className="group/cta inline-flex items-center gap-3 rounded-full border border-black/12 bg-white/82 px-6 py-3 font-body text-[1.05rem] font-medium tracking-tight text-black/86 shadow-[0_16px_40px_rgba(0,0,0,0.07)] backdrop-blur-sm transition-[transform,box-shadow,border-color] duration-300 hover:-translate-y-0.5 hover:border-black/22 hover:shadow-[0_22px_54px_rgba(0,0,0,0.1)] md:px-8 md:py-3.5 md:text-[1.35rem]"
-                >
-                  <span>{copy.proofCta.replace(/\s*->$/, "")}</span>
-                  <span
-                    aria-hidden
-                    className="transition-transform duration-300 group-hover/cta:translate-x-1"
-                  >
-                    -&gt;
-                  </span>
-                </a>
-              </div>
-            </div>
           </div>
         </div>
       </CinematicVideoSection>
 
       <section
-        ref={railSectionRef}
+        ref={flowPortfolioSectionRef}
         data-nav-theme="light"
-        className="relative bg-white"
+        className="relative min-h-screen bg-white py-20 sm:py-24 lg:py-28 2xl:py-32"
       >
-        <div
-          ref={railPinnedRef}
-          className="relative z-20 h-screen w-full overflow-hidden bg-white"
-        >
-          <div className="landing-shell">
-            <div
-              className={cx(
-                "landing-copy-panel-alt text-black transition-[opacity,transform] duration-[900ms]",
-                showRailPortfolioCopy
-                  ? "translate-y-0 opacity-100"
-                  : "pointer-events-none -translate-y-6 opacity-0",
-              )}
-            >
-              <p className="text-eyebrow text-black/25">{copy.eyebrow}</p>
-              <h2 className="heading-hero">{copy.title}</h2>
-            </div>
+        <div className="landing-frame">
+          <div className="max-w-[70rem] text-black">
+            <p className="text-eyebrow text-black/25">{copy.eyebrow}</p>
+            <h2 className="heading-hero">{copy.title}</h2>
           </div>
 
-          <div
-            className={cx(
-              "absolute inset-0 transition-[opacity,transform] duration-[900ms]",
-              showRailProof
-                ? "translate-y-0 opacity-100"
-                : "pointer-events-none translate-y-10 opacity-0",
-            )}
-          >
-            <div className="landing-shell flex h-full flex-col justify-between">
-              <div className="landing-copy-panel-alt text-black">
-                <p className="text-eyebrow text-black/25">{copy.eyebrow}</p>
-                <h2 className="heading-hero">{copy.proofTitle}</h2>
-              </div>
-
-              <div>
-                <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 lg:gap-5">
-                  {metrics.map((metric, index) => (
-                    <ProofMetricCard
-                      key={`rail-${metric.value}`}
-                      metric={metric}
-                      visible={showRailProof && index < visibleRailMetricCount}
-                      delayMs={index * 70}
+          <div className="relative mt-8 min-h-[30rem] sm:min-h-[34rem] md:min-h-[38rem] lg:min-h-[40rem] 2xl:min-h-[44rem]">
+            <div
+              ref={portfolioInteractionRef}
+              className={cx(
+                "z-[32] overscroll-x-contain transition-[opacity,transform] duration-[900ms]",
+                useFixedPortfolio
+                  ? "fixed inset-x-0 bottom-[2%] md:bottom-[1%]"
+                  : "relative left-1/2 w-screen -translate-x-1/2",
+                showSharedPortfolio
+                  ? "pointer-events-auto translate-y-0 scale-100 opacity-100"
+                  : "pointer-events-none translate-y-12 scale-[0.98] opacity-0",
+              )}
+              onPointerMove={handlePortfolioPointerMove}
+              onPointerLeave={handlePortfolioPointerLeave}
+            >
+              <div
+                ref={portfolioViewportRef}
+                className="overflow-visible pb-16 pt-2 [mask-image:linear-gradient(90deg,transparent,black_8%,black_92%,transparent)] [mask-repeat:no-repeat] [mask-size:100%_100%] md:pb-20"
+              >
+                <div
+                  ref={portfolioTrackRef}
+                  className="relative left-1/2 flex w-max items-center justify-center gap-0 will-change-transform"
+                  style={{
+                    transform: "translate3d(calc(-50% + 0px), 0, 0)",
+                  }}
+                >
+                  {portfolioItems.map((item, index) => (
+                    <PortfolioCard
+                      key={item.id}
+                      item={item}
+                      index={index}
+                      visible={showSharedPortfolio}
+                      focusMode={showSharedPortfolio}
+                      active={index === visualFocusIndex}
+                      distanceFromFocus={
+                        visualFocusIndex === -1
+                          ? 0
+                          : Math.abs(index - visualFocusIndex)
+                      }
+                      delayMs={index * 85}
                     />
                   ))}
-                </div>
-
-                <div className="mt-8 flex justify-center md:mt-10">
-                  <a
-                    href="#footer"
-                    className="group/cta inline-flex items-center gap-3 rounded-full border border-black/12 bg-white/82 px-6 py-3 font-body text-[1.05rem] font-medium tracking-tight text-black/86 shadow-[0_16px_40px_rgba(0,0,0,0.07)] backdrop-blur-sm transition-[transform,box-shadow,border-color] duration-300 hover:-translate-y-0.5 hover:border-black/22 hover:shadow-[0_22px_54px_rgba(0,0,0,0.1)] md:px-8 md:py-3.5 md:text-[1.35rem]"
-                  >
-                    <span>{copy.proofCta.replace(/\s*->$/, "")}</span>
-                    <span
-                      aria-hidden
-                      className="transition-transform duration-300 group-hover/cta:translate-x-1"
-                    >
-                      -&gt;
-                    </span>
-                  </a>
                 </div>
               </div>
             </div>
@@ -722,47 +631,43 @@ export function PortfolioResultsHybridSection({
         </div>
       </section>
 
-      <div
-        ref={portfolioInteractionRef}
-        className={cx(
-          "fixed inset-x-0 bottom-[2%] z-[32] overscroll-x-contain transition-[opacity,transform] duration-[900ms] md:bottom-[1%]",
-          showSharedPortfolio
-            ? "pointer-events-auto translate-y-0 scale-100 opacity-100"
-            : "pointer-events-none translate-y-12 scale-[0.98] opacity-0",
-        )}
-        onPointerMove={handlePortfolioPointerMove}
-        onPointerLeave={handlePortfolioPointerLeave}
+      <section
+        data-nav-theme="light"
+        className="relative bg-white py-20 sm:py-24 lg:py-28 2xl:py-32"
       >
-        <div
-          ref={portfolioViewportRef}
-          className="overflow-visible pb-16 pt-2 [mask-image:linear-gradient(90deg,transparent,black_8%,black_92%,transparent)] [mask-repeat:no-repeat] [mask-size:100%_100%] md:pb-20"
-        >
-          <div
-            ref={portfolioTrackRef}
-            className="relative left-1/2 flex w-max items-center justify-center gap-0 will-change-transform"
-            style={{
-              transform: "translate3d(calc(-50% + 0px), 0, 0)",
-            }}
-          >
-            {portfolioItems.map((item, index) => (
-              <PortfolioCard
-                key={item.id}
-                item={item}
-                index={index}
-                visible={showSharedPortfolio}
-                focusMode={showSharedPortfolio}
-                active={index === visualFocusIndex}
-                distanceFromFocus={
-                  visualFocusIndex === -1
-                    ? 0
-                    : Math.abs(index - visualFocusIndex)
-                }
-                delayMs={index * 85}
+        <div className="landing-frame">
+          <div className="text-black">
+            <p className="text-eyebrow text-black/25">{copy.eyebrow}</p>
+            <h2 className="heading-hero">{copy.proofTitle}</h2>
+          </div>
+
+          <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4 lg:gap-5">
+            {metrics.map((metric, index) => (
+              <ProofMetricCard
+                key={`flow-${metric.value}`}
+                metric={metric}
+                visible
+                delayMs={index * 110}
               />
             ))}
           </div>
+
+          <div className="mt-8 flex justify-center md:mt-10">
+            <a
+              href="#footer"
+              className="group/cta inline-flex items-center gap-3 rounded-full border border-black/12 bg-white/82 px-6 py-3 font-body text-[1.05rem] font-medium tracking-tight text-black/86 shadow-[0_16px_40px_rgba(0,0,0,0.07)] backdrop-blur-sm transition-[transform,box-shadow,border-color] duration-300 hover:-translate-y-0.5 hover:border-black/22 hover:shadow-[0_22px_54px_rgba(0,0,0,0.1)] md:px-8 md:py-3.5 md:text-[1.35rem]"
+            >
+              <span>{copy.proofCta.replace(/\s*->$/, "")}</span>
+              <span
+                aria-hidden
+                className="transition-transform duration-300 group-hover/cta:translate-x-1"
+              >
+                -&gt;
+              </span>
+            </a>
+          </div>
         </div>
-      </div>
+      </section>
     </>
   );
 }
@@ -774,8 +679,6 @@ function updatePortfolioTrackScrollPosition(
   currentFrame: number,
 ) {
   if (!track) return;
-  motionState.isRailOwner = false;
-  motionState.railGeometry = null;
 
   if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
     track.style.transform = "translate3d(calc(-50% + 0px), 0, 0)";
@@ -800,55 +703,6 @@ function updatePortfolioTrackScrollPosition(
   applyPortfolioTrackTransform(track, viewport, motionState);
 }
 
-function updatePortfolioTrackRailPosition(
-  track: HTMLDivElement | null,
-  viewport: HTMLDivElement | null,
-  motionState: PortfolioTrackMotionState,
-  progress: number,
-  focusIndex: number,
-) {
-  if (!track) return false;
-  stopPortfolioInteractionAnimation(motionState);
-  motionState.isRailOwner = true;
-
-  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-    track.style.transform = "translate3d(calc(-50% + 0px), 0, 0)";
-    return progress >= 1;
-  }
-
-  const railGeometry =
-    motionState.railGeometry ??
-    measurePortfolioRailGeometry(track, viewport, focusIndex);
-
-  if (!railGeometry) return false;
-
-  motionState.railGeometry = railGeometry;
-
-  const railTravelProgress = clamp(
-    progress / railGeometry.travelPortion,
-    0,
-    1,
-  );
-  const easedProgress = 1 - Math.pow(1 - railTravelProgress, 3);
-
-  motionState.scrollOffset =
-    railGeometry.startOffset +
-    (railGeometry.endOffset - railGeometry.startOffset) * easedProgress;
-  const reachedTerminal =
-    Math.abs(motionState.scrollOffset - railGeometry.endOffset) <= 0.5;
-
-  if (reachedTerminal) {
-    motionState.scrollOffset = railGeometry.endOffset;
-    motionState.targetPointerOffset = 0;
-    motionState.currentPointerOffset = 0;
-    motionState.targetWheelOffset = 0;
-    motionState.currentWheelOffset = 0;
-  }
-
-  applyPortfolioTrackTransform(track, viewport, motionState);
-  return reachedTerminal;
-}
-
 function updatePortfolioPointerPosition(
   track: HTMLDivElement | null,
   viewport: HTMLDivElement | null,
@@ -864,7 +718,7 @@ function updatePortfolioPointerPosition(
     motionState.targetPointerOffset = 0;
   } else {
     const rect = viewport.getBoundingClientRect();
-    const bounds = getPortfolioMotionBounds(track, viewport, motionState);
+    const bounds = getPortfolioMotionBounds(track, viewport);
     const maxPan = Math.min(
       Math.max(Math.abs(bounds.min), Math.abs(bounds.max)),
       PORTFOLIO_POINTER_MAX_PAN,
@@ -890,7 +744,7 @@ function updatePortfolioWheelPosition(
     return;
   }
 
-  const bounds = getPortfolioMotionBounds(track, viewport, motionState);
+  const bounds = getPortfolioMotionBounds(track, viewport);
   const baseOffset =
     motionState.scrollOffset + motionState.currentPointerOffset;
 
@@ -922,7 +776,7 @@ function settlePortfolioTrackToNearestItem(
       motionState.currentPointerOffset +
       motionState.currentWheelOffset,
   );
-  const bounds = getPortfolioMotionBounds(track, viewport, motionState);
+  const bounds = getPortfolioMotionBounds(track, viewport);
   const baseOffset =
     motionState.scrollOffset + motionState.currentPointerOffset;
 
@@ -933,23 +787,6 @@ function settlePortfolioTrackToNearestItem(
   );
 
   animatePortfolioTrackMotion(track, viewport, motionState);
-}
-
-function stopPortfolioInteractionAnimation(
-  motionState: PortfolioTrackMotionState,
-) {
-  cancelAnimationFrame(motionState.frameId);
-  motionState.frameId = 0;
-
-  if (motionState.settleTimer !== null) {
-    window.clearTimeout(motionState.settleTimer);
-    motionState.settleTimer = null;
-  }
-}
-
-function resetPortfolioRailMotion(motionState: PortfolioTrackMotionState) {
-  stopPortfolioInteractionAnimation(motionState);
-  motionState.railGeometry = null;
 }
 
 function animatePortfolioTrackMotion(
@@ -987,7 +824,7 @@ function applyPortfolioTrackTransform(
   viewport: HTMLDivElement | null,
   motionState: PortfolioTrackMotionState,
 ) {
-  const bounds = getPortfolioMotionBounds(track, viewport, motionState);
+  const bounds = getPortfolioMotionBounds(track, viewport);
   const x = clamp(
     motionState.scrollOffset +
       motionState.currentPointerOffset +
@@ -1003,108 +840,8 @@ function applyPortfolioTrackTransform(
 function getPortfolioMotionBounds(
   track: HTMLDivElement,
   viewport: HTMLDivElement | null,
-  motionState: PortfolioTrackMotionState,
 ) {
-  if (motionState.isRailOwner && motionState.railGeometry) {
-    return {
-      min: motionState.railGeometry.minBound,
-      max: motionState.railGeometry.maxBound,
-    };
-  }
-
   return getPortfolioTrackPanBounds(track, viewport);
-}
-
-function getPortfolioRailScrollDistance(
-  track: HTMLDivElement | null,
-  viewport: HTMLDivElement | null,
-  focusIndex: number,
-) {
-  if (!track) return getPortfolioRailTotalDistance(0);
-
-  const railGeometry = measurePortfolioRailGeometry(track, viewport, focusIndex);
-
-  if (railGeometry) return railGeometry.scrollDistance;
-
-  return getPortfolioRailTotalDistance(getPortfolioTrackOverflow(track, viewport));
-}
-
-function measurePortfolioRailGeometry(
-  track: HTMLDivElement,
-  viewport: HTMLDivElement | null,
-  focusIndex: number,
-): PortfolioRailGeometry | null {
-  if (!viewport || viewport.clientWidth === 0 || track.children.length === 0) {
-    return null;
-  }
-
-  const normalizedFocusIndex =
-    focusIndex >= 0 ? focusIndex : Math.floor(track.children.length / 2);
-  const startOffset = getPortfolioItemCenterOffsetByIndex(
-    track,
-    normalizedFocusIndex,
-  );
-  const endOffset = getPortfolioTerminalOffset(track, viewport);
-  const overflow = getPortfolioTrackOverflow(track, viewport);
-  const railTravel = Math.abs(endOffset - startOffset);
-  const travelDistance = getPortfolioRailTravelDistance(railTravel);
-  const scrollDistance = travelDistance + PORTFOLIO_RAIL_PROOF_HOLD_DISTANCE;
-
-  return {
-    startOffset,
-    endOffset,
-    minBound: Math.min(-overflow, endOffset),
-    maxBound: Math.max(
-      overflow,
-      getPortfolioItemAnchorOffset(
-        track,
-        viewport,
-        "first",
-        PORTFOLIO_START_ITEM_ANCHOR,
-      ),
-    ),
-    scrollDistance,
-    travelPortion: travelDistance / scrollDistance,
-  };
-}
-
-function getPortfolioRailTotalDistance(railTravel: number) {
-  return (
-    getPortfolioRailTravelDistance(railTravel) +
-    PORTFOLIO_RAIL_PROOF_HOLD_DISTANCE
-  );
-}
-
-function getPortfolioRailTravelDistance(railTravel: number) {
-  const maxTravelDistance = Math.max(
-    PORTFOLIO_RAIL_MIN_SCROLL_DISTANCE,
-    PORTFOLIO_RAIL_MAX_SCROLL_DISTANCE - PORTFOLIO_RAIL_PROOF_HOLD_DISTANCE,
-  );
-
-  return clamp(
-    Math.round(railTravel * PORTFOLIO_RAIL_SCROLL_PER_PIXEL),
-    PORTFOLIO_RAIL_MIN_SCROLL_DISTANCE,
-    maxTravelDistance,
-  );
-}
-
-function getVisibleRailMetricCount(
-  progress: number,
-  railGeometry: PortfolioRailGeometry | null,
-) {
-  if (!railGeometry || progress < railGeometry.travelPortion) return 0;
-
-  const proofRange = Math.max(1 - railGeometry.travelPortion, 0.001);
-  const proofProgress = clamp(
-    (progress - railGeometry.travelPortion) / proofRange,
-    0,
-    1,
-  );
-
-  return RAIL_METRIC_REVEAL_THRESHOLDS.reduce(
-    (count, threshold) => (proofProgress >= threshold ? count + 1 : count),
-    0,
-  );
 }
 
 function getPortfolioTrackOverflow(
