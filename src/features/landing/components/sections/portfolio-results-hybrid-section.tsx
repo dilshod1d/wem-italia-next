@@ -574,7 +574,7 @@ export function PortfolioResultsHybridSection({
       <section
         ref={flowPortfolioSectionRef}
         data-nav-theme="light"
-        className="relative min-h-screen bg-white py-20 sm:py-24 lg:py-28 2xl:py-32"
+        className="relative bg-white pb-3 pt-20 sm:pb-4 sm:pt-24 lg:pb-5 lg:pt-28 2xl:pb-6 2xl:pt-32"
       >
         <div className="landing-frame">
           <div className="max-w-[70rem] text-black">
@@ -582,7 +582,7 @@ export function PortfolioResultsHybridSection({
             <h2 className="heading-hero">{copy.title}</h2>
           </div>
 
-          <div className="relative mt-8 min-h-[30rem] sm:min-h-[34rem] md:min-h-[38rem] lg:min-h-[40rem] 2xl:min-h-[44rem]">
+          <div className="relative mt-8 min-h-[24rem] sm:min-h-[28rem] md:min-h-[31rem] lg:min-h-[34rem] 2xl:min-h-[38rem]">
             <div
               ref={portfolioInteractionRef}
               className={cx(
@@ -633,7 +633,7 @@ export function PortfolioResultsHybridSection({
 
       <section
         data-nav-theme="light"
-        className="relative bg-white py-20 sm:py-24 lg:py-28 2xl:py-32"
+        className="relative bg-white py-3 sm:py-4 lg:py-5 2xl:py-6"
       >
         <div className="landing-frame">
           <div className="text-black">

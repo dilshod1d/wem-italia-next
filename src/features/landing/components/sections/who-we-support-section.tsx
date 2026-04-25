@@ -237,7 +237,7 @@ export function WhoWeSupportSection() {
     <section
       id="who-we-support"
       data-nav-theme="light"
-      className="relative bg-white pb-72 pt-20 sm:pb-80 sm:pt-24 lg:pb-88 lg:pt-28 2xl:pt-32"
+      className="relative bg-white pb-44 pt-3 sm:pb-48 sm:pt-4 lg:pb-52 lg:pt-5 2xl:pb-56 2xl:pt-6"
     >
       <div className="landing-frame">
         <div className="w-full sm:w-[90%] lg:w-[85%]">
