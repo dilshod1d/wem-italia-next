@@ -11,6 +11,12 @@ import type {
 } from "../../types/portfolio-results-section";
 import { CinematicVideoSection } from "../cinematic-video-section";
 
+function getPortfolioRowCenterIndex(itemCount: number) {
+  if (itemCount <= 0) return -1;
+
+  return itemCount % 2 === 0 ? itemCount / 2 - 1 : (itemCount - 1) / 2;
+}
+
 const { videoUrl, copy, portfolioItems, metrics, focusItemId } =
   portfolioResultsSectionConfig;
 const PORTFOLIO_TRACK_START_FRAME = 72;
@@ -18,6 +24,9 @@ const PORTFOLIO_TRACK_CENTER_FRAME = 108;
 const PORTFOLIO_POINTER_MAX_PAN = 460;
 const PORTFOLIO_START_ITEM_ANCHOR = 0.3;
 const PORTFOLIO_SETTLE_DELAY_MS = 180;
+const PORTFOLIO_ROW_CENTER_INDEX = getPortfolioRowCenterIndex(
+  portfolioItems.length,
+);
 const METRIC_COUNT_DURATION_MS = 1600;
 const metricNumberFormatter = new Intl.NumberFormat("en-US");
 
@@ -357,7 +366,9 @@ function ProofMetricCard({ metric, visible, delayMs }: ProofMetricCardProps) {
 export function PortfolioResultsSection({
   setLogoTheme,
 }: PortfolioResultsSectionProps) {
-  const [activePortfolioIndex, setActivePortfolioIndex] = useState(0);
+  const [activePortfolioIndex, setActivePortfolioIndex] = useState(
+    PORTFOLIO_ROW_CENTER_INDEX,
+  );
   const portfolioInteractionRef = useRef<HTMLDivElement | null>(null);
   const portfolioViewportRef = useRef<HTMLDivElement | null>(null);
   const portfolioTrackRef = useRef<HTMLDivElement | null>(null);
@@ -369,7 +380,7 @@ export function PortfolioResultsSection({
     currentWheelOffset: 0,
     frameId: 0,
     settleTimer: null,
-    activeIndex: 0,
+    activeIndex: PORTFOLIO_ROW_CENTER_INDEX,
     onActiveIndexChange: setActivePortfolioIndex,
   });
   const { sectionRef, videoRef, activeStageKey, isScrolled } =
@@ -521,7 +532,7 @@ export function PortfolioResultsSection({
           <div
             ref={portfolioInteractionRef}
             className={cx(
-              "absolute inset-x-0 bottom-0 top-[30%] z-10 overscroll-x-contain transition-[opacity,transform] duration-[900ms]",
+              "absolute inset-x-0 bottom-0 top-[34%] z-10 overscroll-x-contain transition-[opacity,transform] duration-[900ms] sm:top-[30%] lg:top-[26%]",
               showPortfolio
                 ? "translate-y-0 scale-100 opacity-100"
                 : activeStageKey === "proof"
@@ -551,9 +562,9 @@ export function PortfolioResultsSection({
                     focusMode={showPortfolio}
                     active={index === visualFocusIndex}
                     distanceFromFocus={
-                      visualFocusIndex === -1
+                      PORTFOLIO_ROW_CENTER_INDEX === -1
                         ? 0
-                        : Math.abs(index - visualFocusIndex)
+                        : Math.abs(index - PORTFOLIO_ROW_CENTER_INDEX)
                     }
                     delayMs={index * 85}
                   />

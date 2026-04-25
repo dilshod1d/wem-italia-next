@@ -21,6 +21,12 @@ import { CinematicVideoSection } from "../cinematic-video-section";
 
 gsap.registerPlugin(ScrollTrigger);
 
+function getPortfolioRowCenterIndex(itemCount: number) {
+  if (itemCount <= 0) return -1;
+
+  return itemCount % 2 === 0 ? itemCount / 2 - 1 : (itemCount - 1) / 2;
+}
+
 const { videoUrl, copy, portfolioItems, metrics, focusItemId } =
   portfolioResultsSectionConfig;
 const PORTFOLIO_TRACK_START_FRAME = 72;
@@ -28,6 +34,9 @@ const PORTFOLIO_TRACK_CENTER_FRAME = 108;
 const PORTFOLIO_POINTER_MAX_PAN = 460;
 const PORTFOLIO_START_ITEM_ANCHOR = 0.9;
 const PORTFOLIO_SETTLE_DELAY_MS = 180;
+const PORTFOLIO_ROW_CENTER_INDEX = getPortfolioRowCenterIndex(
+  portfolioItems.length,
+);
 const METRIC_COUNT_DURATION_MS = 1600;
 const metricNumberFormatter = new Intl.NumberFormat("en-US");
 
@@ -361,7 +370,9 @@ function ProofMetricCard({ metric, visible, delayMs }: ProofMetricCardProps) {
 export function PortfolioResultsHybridSection({
   setLogoTheme,
 }: PortfolioResultsHybridSectionProps) {
-  const [activePortfolioIndex, setActivePortfolioIndex] = useState(0);
+  const [activePortfolioIndex, setActivePortfolioIndex] = useState(
+    PORTFOLIO_ROW_CENTER_INDEX,
+  );
   const [isFlowPortfolioActive, setIsFlowPortfolioActive] = useState(false);
   const [areMetricsVisible, setAreMetricsVisible] = useState(false);
   const portfolioInteractionRef = useRef<HTMLDivElement | null>(null);
@@ -383,7 +394,7 @@ export function PortfolioResultsHybridSection({
     currentWheelOffset: 0,
     frameId: 0,
     settleTimer: null,
-    activeIndex: 0,
+    activeIndex: PORTFOLIO_ROW_CENTER_INDEX,
     onActiveIndexChange: setActivePortfolioIndex,
   });
   const {
@@ -643,13 +654,13 @@ export function PortfolioResultsHybridSection({
             <h2 className="heading-hero">{copy.title}</h2>
           </div>
 
-          <div className="relative mt-8 h-[70vh]">
+          <div className="relative mt-4 h-[72vh] sm:mt-5 lg:mt-4">
             <div
               ref={portfolioInteractionRef}
               className={cx(
                 "z-[32] overscroll-x-contain transition-[opacity,transform] duration-[900ms]",
                 useFixedPortfolio
-                  ? "fixed inset-x-0 bottom-0 top-[30%]"
+                  ? "fixed inset-x-0 bottom-0 top-[34%] sm:top-[30%] lg:top-[26%]"
                   : "relative left-1/2 h-full w-screen -translate-x-1/2",
                 showSharedPortfolio
                   ? "pointer-events-auto translate-y-0 scale-100 opacity-100"
@@ -678,9 +689,9 @@ export function PortfolioResultsHybridSection({
                       focusMode={showSharedPortfolio}
                       active={index === visualFocusIndex}
                       distanceFromFocus={
-                        visualFocusIndex === -1
+                        PORTFOLIO_ROW_CENTER_INDEX === -1
                           ? 0
-                          : Math.abs(index - visualFocusIndex)
+                          : Math.abs(index - PORTFOLIO_ROW_CENTER_INDEX)
                       }
                       delayMs={index * 85}
                     />
