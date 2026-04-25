@@ -71,8 +71,7 @@ function PortfolioCard({
   delayMs,
 }: PortfolioCardProps) {
   const sizeClassName = getPortfolioCardSizeClass(distanceFromFocus);
-  const imageHeightClassName =
-    getPortfolioCardImageHeightClass(distanceFromFocus);
+  const imageHeightClassName = getPortfolioCardImageHeightClass();
 
   const focusStateClassName = getPortfolioCardFocusStateClass(
     distanceFromFocus,
@@ -82,22 +81,22 @@ function PortfolioCard({
   return (
     <article
       className={cx(
-        "group relative shrink-0 transition-[opacity,transform,filter] duration-700 cursor-pointer",
+        "group relative shrink-0 cursor-pointer transition-[opacity,transform,filter,height,width] duration-700",
         active ? "z-40" : "z-30",
         visible
           ? "translate-x-0 opacity-100"
           : "pointer-events-none translate-x-20 opacity-0",
+        sizeClassName,
         focusStateClassName,
       )}
       aria-hidden={!visible}
     >
       <div
         className={cx(
-          "relative rounded-xl rounded-bl-none p-2.5 text-white shadow-[0_14px_38px_rgba(0,0,0,0.14)] transition-[width,filter,transform,box-shadow] duration-500 md:rounded-2xl md:rounded-bl-none md:p-4 2xl:p-5 motion-safe:hover:-translate-y-1.5",
+          "relative h-full w-full rounded-xl rounded-bl-none p-2.5 text-white shadow-[0_14px_38px_rgba(0,0,0,0.14)] transition-[filter,transform,box-shadow] duration-500 md:rounded-2xl md:rounded-bl-none md:p-4 2xl:p-5 motion-safe:hover:-translate-y-1.5",
           active
             ? "shadow-[0_30px_72px_rgba(0,0,0,0.24)] ring-2 ring-white/65 motion-safe:hover:shadow-[0_36px_82px_rgba(0,0,0,0.28)]"
             : "motion-safe:hover:shadow-[0_24px_58px_rgba(0,0,0,0.2)]",
-          sizeClassName,
           item.wrapperClassName,
           item.shellClassName,
         )}
@@ -145,34 +144,22 @@ function PortfolioCard({
 
 function getPortfolioCardSizeClass(distanceFromFocus: number) {
   if (distanceFromFocus === 0) {
-    return "w-[11.1rem] sm:w-[12.6rem] md:w-[15rem] lg:w-[16.8rem] 2xl:w-[19rem]";
+    return "aspect-[9/16] h-[93%]";
   }
 
   if (distanceFromFocus === 1) {
-    return "w-[10.2rem] sm:w-[11.6rem] md:w-[13.8rem] lg:w-[15.5rem] 2xl:w-[17.6rem]";
+    return "aspect-[9/16] h-[89%]";
   }
 
   if (distanceFromFocus === 2) {
-    return "w-[9.5rem] sm:w-[10.8rem] md:w-[12.8rem] lg:w-[14.3rem] 2xl:w-[16.2rem]";
+    return "aspect-[9/16] h-[85%]";
   }
 
-  return "w-[8.7rem] sm:w-[9.9rem] md:w-[11.8rem] lg:w-[13.2rem] 2xl:w-[15rem]";
+  return "aspect-[9/16] h-[81%]";
 }
 
-function getPortfolioCardImageHeightClass(distanceFromFocus: number) {
-  if (distanceFromFocus === 0) {
-    return "h-[16.5rem] sm:h-[18.25rem] md:h-[21.5rem] lg:h-[24rem] 2xl:h-[27.5rem]";
-  }
-
-  if (distanceFromFocus === 1) {
-    return "h-[16rem] sm:h-[17.5rem] md:h-[20.5rem] lg:h-[23rem] 2xl:h-[26.3rem]";
-  }
-
-  if (distanceFromFocus === 2) {
-    return "h-[15.25rem] sm:h-[16.75rem] md:h-[19.5rem] lg:h-[22rem] 2xl:h-[25rem]";
-  }
-
-  return "h-[14.5rem] sm:h-[16rem] md:h-[18.5rem] lg:h-[20.75rem] 2xl:h-[23.8rem]";
+function getPortfolioCardImageHeightClass() {
+  return "h-full";
 }
 
 function getPortfolioCardFocusStateClass(
@@ -385,7 +372,9 @@ export function PortfolioResultsHybridSection({
   const metricsHeadingRef = useRef<HTMLDivElement | null>(null);
   const metricsGridRef = useRef<HTMLDivElement | null>(null);
   const metricsCtaRef = useRef<HTMLDivElement | null>(null);
-  const focusIndex = portfolioItems.findIndex((item) => item.id === focusItemId);
+  const focusIndex = portfolioItems.findIndex(
+    (item) => item.id === focusItemId,
+  );
   const portfolioMotionRef = useRef<PortfolioTrackMotionState>({
     scrollOffset: 0,
     targetPointerOffset: 0,
@@ -561,12 +550,9 @@ export function PortfolioResultsHybridSection({
   const showSharedPortfolio = showVideoPortfolio || isFlowPortfolioActive;
   const useFixedPortfolio = showVideoPortfolio;
   const isVideoFocusStage =
-    isVideoActive &&
-    (activeStageKey === "focus" || activeStageKey === "proof");
+    isVideoActive && (activeStageKey === "focus" || activeStageKey === "proof");
   const visualFocusIndex =
-    isVideoFocusStage && focusIndex !== -1
-      ? focusIndex
-      : activePortfolioIndex;
+    isVideoFocusStage && focusIndex !== -1 ? focusIndex : activePortfolioIndex;
   const handlePortfolioPointerMove = (event: PointerEvent<HTMLDivElement>) => {
     if (event.pointerType === "touch") return;
 
@@ -657,14 +643,14 @@ export function PortfolioResultsHybridSection({
             <h2 className="heading-hero">{copy.title}</h2>
           </div>
 
-          <div className="relative mt-8 min-h-[24rem] sm:min-h-[28rem] md:min-h-[31rem] lg:min-h-[34rem] 2xl:min-h-[38rem]">
+          <div className="relative mt-8 h-[70vh]">
             <div
               ref={portfolioInteractionRef}
               className={cx(
                 "z-[32] overscroll-x-contain transition-[opacity,transform] duration-[900ms]",
                 useFixedPortfolio
-                  ? "fixed inset-x-0 bottom-[2%] md:bottom-[1%]"
-                  : "relative left-1/2 w-screen -translate-x-1/2",
+                  ? "fixed inset-x-0 bottom-0 top-[30%]"
+                  : "relative left-1/2 h-full w-screen -translate-x-1/2",
                 showSharedPortfolio
                   ? "pointer-events-auto translate-y-0 scale-100 opacity-100"
                   : "pointer-events-none translate-y-12 scale-[0.98] opacity-0",
@@ -674,11 +660,11 @@ export function PortfolioResultsHybridSection({
             >
               <div
                 ref={portfolioViewportRef}
-                className="overflow-visible pb-16 pt-2 [mask-image:linear-gradient(90deg,transparent,black_8%,black_92%,transparent)] [mask-repeat:no-repeat] [mask-size:100%_100%] md:pb-20"
+                className="h-full overflow-visible pb-8 [mask-image:linear-gradient(90deg,transparent,black_8%,black_92%,transparent)] [mask-repeat:no-repeat] [mask-size:100%_100%] md:pb-10"
               >
                 <div
                   ref={portfolioTrackRef}
-                  className="relative left-1/2 flex w-max items-center justify-center gap-0 will-change-transform"
+                  className="relative left-1/2 flex h-full w-max items-center justify-center gap-0 will-change-transform"
                   style={{
                     transform: "translate3d(calc(-50% + 0px), 0, 0)",
                   }}
@@ -712,10 +698,7 @@ export function PortfolioResultsHybridSection({
         className="relative bg-white py-3 sm:py-4 lg:py-5 2xl:py-6"
       >
         <div className="landing-frame">
-          <div
-            ref={metricsHeadingRef}
-            className="text-black"
-          >
+          <div ref={metricsHeadingRef} className="text-black">
             <p className="text-eyebrow text-black/25">{copy.eyebrow}</p>
             <h2 className="heading-hero">{copy.proofTitle}</h2>
           </div>
@@ -945,10 +928,7 @@ function getPortfolioTrackPanBounds(
   const overflow = getPortfolioTrackOverflow(track, viewport);
 
   return {
-    min: Math.min(
-      -overflow,
-      getPortfolioTerminalOffset(track, viewport),
-    ),
+    min: Math.min(-overflow, getPortfolioTerminalOffset(track, viewport)),
     max: Math.max(
       overflow,
       getPortfolioItemAnchorOffset(
@@ -970,12 +950,7 @@ function getPortfolioTerminalOffset(
   const safeInset = viewport.clientWidth >= 768 ? 24 : 16;
   const terminalAnchor = 1 - safeInset / viewport.clientWidth;
 
-  return getPortfolioItemAnchorOffset(
-    track,
-    viewport,
-    "last",
-    terminalAnchor,
-  );
+  return getPortfolioItemAnchorOffset(track, viewport, "last", terminalAnchor);
 }
 
 function getPortfolioItemAnchorOffset(
