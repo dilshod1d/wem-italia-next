@@ -48,7 +48,7 @@ interface InsightBlockProps {
   body: string;
   toneClassName: string;
   visible: boolean;
-  className?: string;
+  index: number;
 }
 
 function InsightBlock({
@@ -56,56 +56,82 @@ function InsightBlock({
   body,
   toneClassName,
   visible,
-  className,
+  index,
 }: InsightBlockProps) {
+  const label = String(index + 1).padStart(2, "0");
+
   return (
     <article
       className={cx(
         `
-        w-full
-        rounded-[1.25rem] p-4
-        sm:rounded-[1.75rem] sm:p-5
-        md:rounded-[2.25rem] md:p-10
-        2xl:rounded-[2.5rem] 2xl:p-12
+        relative flex
+        size-[min(78vw,29vh,18rem)]
+        min-h-[10rem] min-w-[10rem] flex-none
+        flex-col justify-between overflow-hidden
+        rounded-[1.55rem] p-4 text-white
+        shadow-[0_24px_70px_rgba(0,0,0,0.32)]
+        transition-[opacity,transform,filter] duration-700
+        will-change-transform
 
-        shadow-[0_20px_60px_rgba(0,0,0,0.25)]
-        transition-all duration-700
+        sm:size-[min(62vw,31vh,20rem)]
+        sm:min-h-[12rem] sm:min-w-[12rem] sm:rounded-[1.8rem] sm:p-5
+        md:size-[min(46vw,32vh,22rem)]
+        md:min-h-[14rem] md:min-w-[14rem] md:rounded-[2.15rem] md:p-6
+        lg:size-[min(23vw,40vh)]
+        xl:p-7
+        2xl:size-[min(22vw,43vh)] 2xl:rounded-[2.35rem] 2xl:p-8
+
+        before:pointer-events-none before:absolute before:inset-x-6 before:top-5
+        before:h-px before:bg-white/35
+        after:pointer-events-none after:absolute after:-right-10 after:-top-10
+        after:size-28 after:rounded-full after:bg-white/18 after:blur-2xl
         `,
         toneClassName,
-        className,
         visible
-          ? "translate-y-0 opacity-100"
-          : "pointer-events-none translate-y-4 sm:translate-y-6 md:translate-y-8 opacity-0",
+          ? "translate-x-0 translate-y-0 scale-100 rotate-0 opacity-100 blur-0"
+          : "pointer-events-none translate-x-14 translate-y-5 scale-[0.92] rotate-2 opacity-0 blur-[2px]",
       )}
+      style={{
+        transitionDelay: visible ? `${index * 120}ms` : "0ms",
+        transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)",
+      }}
     >
-      <h3
-        className="
-          landing-title-md uppercase text-white
-          text-[1.1rem] leading-snug
-          sm:text-[1.4rem]
-          md:text-[2.2rem]
-          2xl:text-[2.75rem]
+      <div className="relative z-10 flex items-start justify-between gap-4">
+        <span className="rounded-full border border-white/25 bg-white/15 px-3 py-1 font-body text-[0.58rem] font-semibold uppercase tracking-[0.24em] text-white/82 sm:text-[0.65rem] md:text-[0.7rem]">
+          Insight
+        </span>
+        <span className="font-sans text-[1.25rem] font-bold leading-none text-white/35 sm:text-[1.45rem] md:text-[1.7rem] 2xl:text-[2rem]">
+          {label}
+        </span>
+      </div>
+
+      <div className="relative z-10">
+        <h3
+          className="
+          font-sans uppercase tracking-tight text-white
+          text-[1.05rem] font-semibold leading-[1.08]
+          sm:text-[1.2rem]
+          md:text-[1.45rem]
+          xl:text-[1.58rem]
+          2xl:text-[1.75rem]
         "
-      >
-        {title}
-      </h3>
+        >
+          {title}
+        </h3>
 
-      <p
-        className="
-          landing-body-sm
-          mt-2
-          text-white/92
-
-          text-[0.9rem] leading-6
-          max-w-[95%]
-
-          sm:mt-3 sm:text-[1rem] sm:max-w-[85%]
-          md:mt-4 md:text-[1.15rem] md:max-w-4xl
-          2xl:text-[1.35rem]
+        <p
+          className="
+          mt-3 font-body text-white/90
+          text-[0.78rem] leading-[1.38]
+          sm:text-[0.88rem]
+          md:mt-4 md:text-[0.98rem]
+          xl:text-[1.05rem]
+          2xl:text-[1.16rem]
         "
-      >
-        {body}
-      </p>
+        >
+          {body}
+        </p>
+      </div>
     </article>
   );
 }
@@ -259,9 +285,9 @@ export function WhyWemWorksSection({ setLogoTheme }: WhyWemWorksSectionProps) {
                 className={cx(
                   `
     absolute
-    right-[4%] top-[19%] w-[60%]
-    sm:right-[5%] sm:top-[19%]
-    lg:right-[5%] lg:top-landing-copy-body-lg
+    right-[4%] top-[19%] w-[92%]
+    sm:right-[5%] sm:top-[19%] sm:w-[86%]
+    lg:right-[5%] lg:top-landing-copy-body-lg lg:w-[60%]
     2xl:top-landing-copy-body-wide
     transition-all duration-1000
     `,
@@ -290,10 +316,8 @@ export function WhyWemWorksSection({ setLogoTheme }: WhyWemWorksSectionProps) {
                     {resultParagraph}
                   </p>
                 </div>
-              </div>
 
-              <div className="absolute right-[4%] bottom-[9%] w-[60%] sm:right-[5%] sm:bottom-[16%] lg:bottom-[11%]">
-                <div className="ml-auto flex w-full flex-col gap-5">
+                <div className="mt-4 flex flex-col items-end gap-3 sm:mt-5 sm:gap-4 lg:mt-6 lg:w-full lg:flex-row-reverse lg:items-end lg:justify-start lg:gap-5">
                   {blocks.map((block, index) => (
                     <InsightBlock
                       key={block.stage}
@@ -301,15 +325,7 @@ export function WhyWemWorksSection({ setLogoTheme }: WhyWemWorksSectionProps) {
                       body={block.body}
                       toneClassName={block.toneClassName}
                       visible={isStageVisible(activeStageKey, block.stage)}
-                      className={cx(
-                        block.offsetClassName,
-                        index !== 0 &&
-                          `
-    -mt-6
-    sm:-mt-10
-    lg:-mt-16
-  `,
-                      )}
+                      index={index}
                     />
                   ))}
                 </div>
