@@ -35,7 +35,9 @@ function HowItWorksStepCard({
   return (
     <article
       className={cx(
-        "absolute w-full max-w-[800px] rounded-[2.2rem] px-5 py-5 text-left shadow-[0_24px_65px_rgba(0,0,0,0.12)] transition-[opacity,transform,box-shadow] duration-700 sm:px-8 sm:py-6 md:rounded-[6rem] md:px-10 lg:flex lg:h-[25%] lg:max-w-none lg:flex-col lg:justify-center lg:px-[4.5%] lg:py-5 xl:px-[4.75%] xl:py-6 2xl:px-[5%] 2xl:py-7",
+        "absolute w-full max-w-[800px] overflow-hidden rounded-[2.2rem] px-5 py-4 text-left shadow-[0_24px_65px_rgba(0,0,0,0.12)] transition-[opacity,transform,box-shadow] duration-700 sm:px-7 sm:py-5 md:rounded-[6rem] md:px-9 lg:h-[25%] lg:max-w-none lg:px-[3.8%] lg:py-4 xl:px-[4.1%] xl:py-5 2xl:px-[4.5%]",
+        "before:pointer-events-none before:absolute before:inset-x-10 before:top-0 before:h-px before:bg-white/42 before:content-['']",
+        "after:pointer-events-none after:absolute after:-right-14 after:-top-14 after:size-40 after:rounded-full after:bg-white/10 after:blur-2xl after:content-['']",
         step.toneClassName,
         step.placementClassName,
         step.zIndexClassName,
@@ -51,16 +53,27 @@ function HowItWorksStepCard({
         transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)",
       }}
     >
-      <span className="absolute right-6 top-5 font-sans text-[1.05rem] font-bold leading-none tracking-[0.1em] text-white/48 sm:right-8 sm:top-6 sm:text-[1.2rem] md:right-10 md:top-7 md:text-[1.38rem] lg:right-[5%] lg:top-1/2 lg:-translate-y-1/2 lg:text-[1.55rem] xl:text-[1.75rem] 2xl:text-[2rem]">
-        {step.stepLabel}
-      </span>
-      <div className="flex flex-col gap-2 pr-10 sm:gap-2.5 sm:pr-12 lg:gap-2.5 lg:pr-[7%] 2xl:gap-3">
-        <h3 className="font-sans text-[1.7rem] font-bold leading-[0.95] tracking-[-0.02em] text-white sm:text-[2.2rem] md:text-[2.8rem] lg:text-[3.05rem] xl:text-[3.4rem] 2xl:text-[3.9rem]">
-          {step.title}
-        </h3>
-        <p className="max-w-[92%] font-body text-[0.92rem] leading-[1.22] text-white/90 sm:text-[1.02rem] md:text-[1.22rem] lg:max-w-[90%] lg:text-[1.34rem] lg:leading-[1.16] xl:text-[1.46rem] 2xl:text-[1.68rem]">
-          {step.body}
-        </p>
+      <div className="relative z-10 grid h-full min-h-0 grid-cols-[3.8rem_1fr] items-center gap-3 sm:grid-cols-[4.5rem_1fr] sm:gap-4 md:grid-cols-[5.2rem_1fr] md:gap-5 lg:grid-cols-[5.65rem_1fr] lg:gap-5 xl:grid-cols-[6.2rem_1fr]">
+        <div className="flex h-full items-center">
+          <div className="flex shrink-0 items-center gap-2 rounded-full border border-white/28 bg-white/15 py-1.5 pl-1.5 pr-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.28)] backdrop-blur-sm md:gap-2.5 md:py-2 md:pl-2 md:pr-4">
+            <span className="grid size-8 place-items-center rounded-full bg-white text-[0.86rem] font-bold leading-none tracking-[-0.04em] text-black/70 sm:size-9 sm:text-[0.95rem] md:size-10 md:text-[1.05rem] lg:size-11 lg:text-[1.12rem] xl:size-12 xl:text-[1.24rem]">
+              {step.stepLabel}
+            </span>
+            <span className="font-sans text-[0.56rem] font-semibold uppercase tracking-[0.18em] text-white/70 sm:text-[0.6rem] md:text-[0.65rem]">
+              Step
+            </span>
+          </div>
+        </div>
+
+        <div className="min-w-0">
+          <h3 className="font-sans text-[1.55rem] font-bold uppercase leading-[0.95] tracking-[-0.02em] text-white sm:text-[2rem] md:text-[2.48rem] lg:text-[2.18rem] xl:text-[2.46rem] 2xl:text-[2.82rem]">
+            {step.title}
+          </h3>
+
+          <p className="mt-1.5 max-w-[94%] font-body text-[0.9rem] leading-[1.2] text-white/90 sm:text-[1rem] md:mt-2 md:text-[1.12rem] lg:mt-1.5 lg:max-w-[86%] lg:text-[1.02rem] lg:leading-[1.16] xl:text-[1.14rem] 2xl:text-[1.34rem]">
+            {step.body}
+          </p>
+        </div>
       </div>
     </article>
   );
