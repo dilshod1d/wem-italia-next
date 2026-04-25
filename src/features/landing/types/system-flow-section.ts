@@ -15,6 +15,7 @@ export interface SystemFlowStage {
 
 export interface SystemFlowCard {
   readonly stage: Extract<SystemFlowStageKey, "step" | "budget" | "support">;
+  readonly icon: "steps" | "budget" | "support";
   readonly title: string;
   readonly body: string;
   readonly toneClassName: string;

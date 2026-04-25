@@ -28,6 +28,7 @@ export const systemFlowSectionConfig = {
   cards: [
     {
       stage: "step",
+      icon: "steps",
       title: "CLEAR STEPS",
       body: "Each phase is defined and approved in advance.",
       toneClassName: "bg-brand-green",
@@ -37,6 +38,7 @@ export const systemFlowSectionConfig = {
     },
     {
       stage: "budget",
+      icon: "budget",
       title: "TRANSPARENT BUDGET",
       body: "Budget management is tied to results and approved at every step.",
       toneClassName: "bg-brand-red",
@@ -46,6 +48,7 @@ export const systemFlowSectionConfig = {
     },
     {
       stage: "support",
+      icon: "support",
       title: "WEM SUPPORT",
       body: "You invest in WEM specialists and tools only when they are truly needed.",
       toneClassName: "bg-brand-blue",

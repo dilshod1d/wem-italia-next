@@ -1,9 +1,15 @@
 "use client";
 
+import type { IconType } from "react-icons";
+import { FiCheckCircle, FiCreditCard, FiUsers } from "react-icons/fi";
+
 import { howItWorksSectionConfig } from "../../data/how-it-works-story";
 import { systemFlowSectionConfig } from "../../data/system-flow-story";
 import { useSystemFlowVideo } from "../../hooks/use-system-flow-video";
-import type { SystemFlowStageKey } from "../../types/system-flow-section";
+import type {
+  SystemFlowCard,
+  SystemFlowStageKey,
+} from "../../types/system-flow-section";
 import { CinematicVideoSection } from "../cinematic-video-section";
 
 const { videoUrl, eyebrow, title, paragraphs, cards } = systemFlowSectionConfig;
@@ -12,11 +18,18 @@ function cx(...classes: Array<string | false | null | undefined>) {
   return classes.filter(Boolean).join(" ");
 }
 
+const benefitCardIcons: Record<SystemFlowCard["icon"], IconType> = {
+  steps: FiCheckCircle,
+  budget: FiCreditCard,
+  support: FiUsers,
+};
+
 interface SystemFlowSectionProps {
   setLogoTheme: (theme: "light" | "dark") => void;
 }
 
 interface BenefitCardProps {
+  icon: SystemFlowCard["icon"];
   title: string;
   body: string;
   toneClassName: string;
@@ -27,6 +40,7 @@ interface BenefitCardProps {
 }
 
 function BenefitCard({
+  icon,
   title,
   body,
   toneClassName,
@@ -35,13 +49,17 @@ function BenefitCard({
   visible,
   delayMs,
 }: BenefitCardProps) {
+  const Icon = benefitCardIcons[icon];
+
   return (
     <article
       className={cx(
-        "absolute flex min-h-[7.93rem] flex-col rounded-[2.35rem] px-[1.35rem] py-[1.55rem] text-white shadow-[0_28px_80px_rgba(0,0,0,0.08)] transition-[opacity,transform] duration-700",
+        "group absolute flex min-h-[7.93rem] flex-col overflow-hidden rounded-[2.35rem] px-[1.35rem] py-[1.55rem] text-white shadow-[0_28px_80px_rgba(0,0,0,0.08)] transition-[opacity,transform] duration-700",
+        "before:pointer-events-none before:absolute before:inset-x-8 before:top-0 before:h-px before:bg-white/45 before:content-['']",
+        "after:pointer-events-none after:absolute after:-right-10 after:-top-10 after:size-28 after:rounded-full after:bg-white/10 after:blur-2xl after:content-['']",
         "sm:min-h-[9.5rem] sm:px-[1.8rem] sm:py-[1.85rem]",
         "md:min-h-[11.9rem] md:rounded-[3.85rem] md:px-[2.7rem] md:py-[2.3rem]",
-        "lg:min-h-0 lg:justify-center lg:overflow-hidden lg:rounded-[2.75rem] lg:px-8 lg:py-6",
+        "lg:min-h-0 lg:justify-center lg:rounded-[2.75rem] lg:px-8 lg:py-6",
         "xl:min-h-0 xl:rounded-[3.1rem] xl:px-10 xl:py-7",
         "2xl:min-h-0 2xl:rounded-[3.45rem] 2xl:px-12 2xl:py-8",
         toneClassName,
@@ -56,13 +74,27 @@ function BenefitCard({
         transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)",
       }}
     >
-      <h3 className="font-sans text-[1.53rem] font-semibold uppercase leading-[1.02] tracking-tight text-white sm:text-[2rem] md:text-[2.7rem] lg:whitespace-nowrap lg:text-[2.05rem] xl:text-[2.3rem] 2xl:text-[2.55rem]">
-        {title}
-      </h3>
+      <span
+        aria-hidden="true"
+        className="absolute right-[1.15rem] top-[1.15rem] grid size-11 place-items-center rounded-full bg-white/16 text-white ring-1 ring-white/28 backdrop-blur-md transition-transform duration-500 group-hover:scale-110 sm:right-[1.55rem] sm:top-[1.55rem] sm:size-12 md:size-14 lg:right-6 lg:top-6 lg:size-12 xl:size-14"
+      >
+        <Icon className="size-[1.35rem] sm:size-[1.5rem] md:size-[1.75rem] lg:size-[1.45rem] xl:size-[1.65rem]" />
+      </span>
 
-      <p className="mt-[0.45rem] max-w-[40.6rem] font-body text-[1.08rem] leading-[1.26] text-white/96 sm:text-[1.25rem] md:mt-[0.675rem] md:text-[1.8rem] lg:mt-2 lg:max-w-[94%] lg:text-[1rem] lg:leading-[1.2] xl:text-[1.12rem] 2xl:text-[1.26rem]">
-        {body}
-      </p>
+      <Icon
+        aria-hidden="true"
+        className="absolute -bottom-8 -right-8 size-32 text-white/10 transition-transform duration-700 group-hover:rotate-6 group-hover:scale-110 sm:size-40 md:size-48 lg:size-36 xl:size-44"
+      />
+
+      <div className="relative z-10 max-w-[84%] md:max-w-[82%] lg:max-w-[88%]">
+        <h3 className="font-sans text-[1.45rem] font-semibold uppercase leading-[0.98] tracking-tight text-white sm:text-[1.9rem] md:text-[2.45rem] lg:text-[1.9rem] xl:text-[2.12rem] 2xl:text-[2.34rem]">
+          {title}
+        </h3>
+
+        <p className="mt-[0.6rem] max-w-[40.6rem] font-body text-[1.04rem] leading-[1.25] text-white/92 sm:text-[1.2rem] md:mt-[0.78rem] md:text-[1.62rem] lg:mt-2 lg:max-w-[92%] lg:text-[1rem] lg:leading-[1.22] xl:text-[1.08rem] 2xl:text-[1.22rem]">
+          {body}
+        </p>
+      </div>
     </article>
   );
 }
@@ -149,6 +181,7 @@ export function SystemFlowSection({ setLogoTheme }: SystemFlowSectionProps) {
                 {cards.map((card, index) => (
                   <BenefitCard
                     key={card.stage}
+                    icon={card.icon}
                     title={card.title}
                     body={card.body}
                     toneClassName={card.toneClassName}
