@@ -44,21 +44,25 @@ interface WhyWemWorksSectionProps {
 }
 
 interface InsightBlockProps {
+  stage: "method" | "ai";
   title: string;
   body: string;
   toneClassName: string;
+  offsetClassName?: string;
   visible: boolean;
   index: number;
 }
 
 function InsightBlock({
+  stage,
   title,
   body,
   toneClassName,
+  offsetClassName,
   visible,
   index,
 }: InsightBlockProps) {
-  const label = String(index + 1).padStart(2, "0");
+  const isMethodBlock = stage === "method";
 
   return (
     <article
@@ -81,12 +85,12 @@ function InsightBlock({
         xl:p-7
         2xl:size-[min(22vw,43vh)] 2xl:rounded-[2.35rem] 2xl:p-8
 
-        before:pointer-events-none before:absolute before:inset-x-6 before:top-5
-        before:h-px before:bg-white/35
-        after:pointer-events-none after:absolute after:-right-10 after:-top-10
-        after:size-28 after:rounded-full after:bg-white/18 after:blur-2xl
         `,
         toneClassName,
+        offsetClassName,
+        isMethodBlock
+          ? "border border-white/12 bg-gradient-to-br from-white/12 via-white/[0.03] to-black/12"
+          : "border border-white/12 bg-gradient-to-br from-white/14 via-white/[0.02] to-black/18",
         visible
           ? "translate-x-0 translate-y-0 scale-100 rotate-0 opacity-100 blur-0"
           : "pointer-events-none translate-x-14 translate-y-5 scale-[0.92] rotate-2 opacity-0 blur-[2px]",
@@ -96,41 +100,80 @@ function InsightBlock({
         transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)",
       }}
     >
-      <div className="relative z-10 flex items-start justify-between gap-4">
-        <span className="rounded-full border border-white/25 bg-white/15 px-3 py-1 font-body text-[0.58rem] font-semibold uppercase tracking-[0.24em] text-white/82 sm:text-[0.65rem] md:text-[0.7rem]">
-          Insight
-        </span>
-        <span className="font-sans text-[1.25rem] font-bold leading-none text-white/35 sm:text-[1.45rem] md:text-[1.7rem] 2xl:text-[2rem]">
-          {label}
-        </span>
+      <div className="pointer-events-none absolute inset-0">
+        {isMethodBlock ? (
+          <>
+            <div className="absolute inset-x-5 top-5 h-px bg-white/28 sm:inset-x-6 sm:top-6" />
+            <div className="absolute bottom-5 left-5 h-12 w-12 rounded-full border border-white/12 sm:bottom-6 sm:left-6 sm:h-14 sm:w-14 md:h-16 md:w-16" />
+            <div className="absolute right-5 top-5 flex items-center gap-2 sm:right-6 sm:top-6">
+              <span className="h-2 w-2 rounded-full bg-white/65" />
+              <span className="h-px w-8 bg-white/40 sm:w-10" />
+              <span className="h-2 w-2 rounded-full bg-white/30" />
+            </div>
+            <div className="absolute bottom-5 right-5 grid grid-cols-3 gap-1 opacity-35 sm:bottom-6 sm:right-6 sm:gap-1.5">
+              {Array.from({ length: 6 }).map((_, dotIndex) => (
+                <span
+                  key={`method-dot-${dotIndex}`}
+                  className="h-1.5 w-1.5 rounded-full bg-white/65"
+                />
+              ))}
+            </div>
+          </>
+        ) : (
+          <>
+            <div className="absolute -right-8 -top-8 h-28 w-28 rounded-full bg-white/18 blur-3xl sm:h-32 sm:w-32 md:h-36 md:w-36" />
+            <div className="absolute right-5 top-5 h-px w-14 rotate-[12deg] bg-white/55 sm:right-6 sm:top-6 sm:w-16" />
+            <div className="absolute right-7 top-9 h-px w-10 rotate-[12deg] bg-white/30 sm:right-8 sm:top-11 sm:w-12" />
+            <div className="absolute bottom-5 left-5 flex items-center gap-2 opacity-40 sm:bottom-6 sm:left-6">
+              <span className="h-1.5 w-8 rounded-full bg-white/45 sm:w-10" />
+              <span className="h-1.5 w-4 rounded-full bg-white/65 sm:w-5" />
+              <span className="h-1.5 w-2 rounded-full bg-white/85" />
+            </div>
+          </>
+        )}
       </div>
 
-      <div className="relative z-10">
+      <div className="relative z-10 flex h-full flex-col">
         <h3
-          className="
-          font-sans uppercase tracking-tight text-white
-          text-[1.05rem] font-semibold leading-[1.08]
-          sm:text-[1.2rem]
-          md:text-[1.45rem]
-          xl:text-[1.58rem]
-          2xl:text-[1.75rem]
-        "
+          className={cx(
+            `
+            max-w-[11ch] font-sans tracking-[-0.04em] text-white
+            text-[1.02rem] font-semibold leading-[0.96]
+            sm:text-[1.16rem]
+            md:text-[1.36rem]
+            xl:text-[1.55rem]
+            2xl:text-[1.72rem]
+          `,
+            isMethodBlock ? "text-white" : "max-w-[10ch] text-white",
+          )}
         >
           {title}
         </h3>
 
-        <p
-          className="
-          mt-3 font-body text-white/90
-          text-[0.78rem] leading-[1.38]
-          sm:text-[0.88rem]
-          md:mt-4 md:text-[0.98rem]
-          xl:text-[1.05rem]
-          2xl:text-[1.16rem]
-        "
+        <div
+          className={cx(
+            "mt-auto rounded-[1rem] border px-3.5 py-3 backdrop-blur-[10px] sm:rounded-[1.15rem] sm:px-4 sm:py-3.5 md:px-5 md:py-4 xl:px-5 xl:py-5",
+            isMethodBlock
+              ? "border-white/14 bg-black/10"
+              : "border-white/10 bg-black/14",
+          )}
         >
-          {body}
-        </p>
+          <p
+            className={cx(
+              `
+              font-body text-white/90
+              text-[0.76rem] leading-[1.34]
+              sm:text-[0.86rem]
+              md:text-[0.96rem]
+              xl:text-[1.03rem]
+              2xl:text-[1.12rem]
+            `,
+              isMethodBlock ? "max-w-[18ch]" : "max-w-[17ch]",
+            )}
+          >
+            {body}
+          </p>
+        </div>
       </div>
     </article>
   );
@@ -321,9 +364,11 @@ export function WhyWemWorksSection({ setLogoTheme }: WhyWemWorksSectionProps) {
                   {blocks.map((block, index) => (
                     <InsightBlock
                       key={block.stage}
+                      stage={block.stage}
                       title={block.title}
                       body={block.body}
                       toneClassName={block.toneClassName}
+                      offsetClassName={block.offsetClassName}
                       visible={isStageVisible(activeStageKey, block.stage)}
                       index={index}
                     />
