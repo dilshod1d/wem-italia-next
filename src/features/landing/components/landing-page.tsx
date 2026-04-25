@@ -1,6 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useCallback, useLayoutEffect, useState } from "react";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 import { HeroSection } from "./sections/hero-section";
 import { HowItWorksSection } from "./sections/how-it-works-section";
@@ -12,13 +14,36 @@ import { SystemFlowSection } from "./sections/system-flow-section";
 import { WhoWeSupportSection } from "./sections/who-we-support-section";
 import { WhyWemWorksSection } from "./sections/why-wem-works-section";
 
+gsap.registerPlugin(ScrollTrigger);
+
 export function LandingPage() {
   const [logoTheme, setLogoTheme] = useState<"light" | "dark">("light");
+
+  const resetToLandingStart = useCallback(() => {
+    setLogoTheme("light");
+    ScrollTrigger.clearScrollMemory("manual");
+    window.scrollTo(0, 0);
+    requestAnimationFrame(() => ScrollTrigger.refresh());
+  }, []);
+
+  useLayoutEffect(() => {
+    const previousScrollRestoration = window.history.scrollRestoration;
+
+    window.history.scrollRestoration = "manual";
+    resetToLandingStart();
+
+    return () => {
+      window.history.scrollRestoration = previousScrollRestoration;
+    };
+  }, [resetToLandingStart]);
 
   return (
     <>
       <CustomCursor theme={logoTheme} />
-      <LandingNavbar logoTheme={logoTheme} />
+      <LandingNavbar
+        logoTheme={logoTheme}
+        onHomeClick={resetToLandingStart}
+      />
       <main className="relative bg-background">
         <HeroSection setLogoTheme={setLogoTheme} />
         <WhyWemWorksSection setLogoTheme={setLogoTheme} />

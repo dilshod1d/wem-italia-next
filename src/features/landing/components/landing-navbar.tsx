@@ -23,9 +23,10 @@ function cx(...classes: Array<string | false | null | undefined>) {
 
 interface LandingNavbarProps {
   logoTheme: "light" | "dark";
+  onHomeClick?: () => void;
 }
 
-export function LandingNavbar({ logoTheme }: LandingNavbarProps) {
+export function LandingNavbar({ logoTheme, onHomeClick }: LandingNavbarProps) {
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
@@ -52,7 +53,7 @@ export function LandingNavbar({ logoTheme }: LandingNavbarProps) {
     <>
       <header className="fixed inset-x-0 top-0 z-40">
         <div className="landing-frame flex items-center justify-between">
-          <BrandMark theme={logoTheme} />
+          <BrandMark theme={logoTheme} onClick={onHomeClick} />
           <button
             type="button"
             aria-label="Open navigation"
@@ -87,7 +88,13 @@ export function LandingNavbar({ logoTheme }: LandingNavbarProps) {
             onClick={(event) => event.stopPropagation()}
           >
             <div className="landing-frame flex items-center justify-between">
-              <BrandMark theme="light" />
+              <BrandMark
+                theme="light"
+                onClick={() => {
+                  setIsOpen(false);
+                  onHomeClick?.();
+                }}
+              />
 
               <button
                 type="button"

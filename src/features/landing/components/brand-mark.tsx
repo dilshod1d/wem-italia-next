@@ -4,15 +4,25 @@ import Link from "next/link";
 interface BrandMarkProps {
   className?: string;
   theme?: "light" | "dark";
+  onClick?: () => void;
 }
 
 function cx(...classes: Array<string | false | null | undefined>) {
   return classes.filter(Boolean).join(" ");
 }
 
-export function BrandMark({ className = "", theme = "light" }: BrandMarkProps) {
+export function BrandMark({
+  className = "",
+  theme = "light",
+  onClick,
+}: BrandMarkProps) {
   return (
-    <Link href="/" aria-label="Go to homepage">
+    <Link
+      href="/"
+      aria-label="Go to homepage"
+      scroll={false}
+      onClick={onClick}
+    >
       <div
         className={cx(
           "relative h-[56px] w-[140px] sm:h-[72px] sm:w-[180px] lg:h-[100px] lg:w-[250px]",
