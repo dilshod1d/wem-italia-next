@@ -35,7 +35,7 @@ function HowItWorksStepCard({
   return (
     <article
       className={cx(
-        "absolute w-full max-w-[800px] rounded-[3rem] px-3 py-3 text-left shadow-[0_24px_65px_rgba(0,0,0,0.12)] transition-[opacity,transform,box-shadow] duration-700 sm:px-8 md:rounded-[7rem] md:px-10 md:py-3.5 lg:flex lg:h-[25%] lg:max-w-none lg:flex-col lg:justify-center xl:px-12 xl:py-4 2xl:px-14 2xl:py-5",
+        "absolute w-full max-w-[800px] rounded-[2.2rem] px-5 py-5 text-left shadow-[0_24px_65px_rgba(0,0,0,0.12)] transition-[opacity,transform,box-shadow] duration-700 sm:px-8 sm:py-6 md:rounded-[6rem] md:px-10 lg:flex lg:h-[25%] lg:max-w-none lg:flex-col lg:justify-center lg:px-[4.5%] lg:py-5 xl:px-[4.75%] xl:py-6 2xl:px-[5%] 2xl:py-7",
         step.toneClassName,
         step.placementClassName,
         step.zIndexClassName,
@@ -51,12 +51,17 @@ function HowItWorksStepCard({
         transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)",
       }}
     >
-      <h3 className="landing-title-lg text-white md:text-[3.1rem] xl:text-[3.45rem] 2xl:text-[4.05rem]">
-        {step.title}
-      </h3>
-      <p className="mt-1.5 font-body text-[0.82rem] leading-[1.2] text-white/96 sm:text-[0.92rem] md:text-[1.28rem] md:leading-[1.08] xl:text-[1.4rem] 2xl:text-[1.68rem]">
-        {step.body}
-      </p>
+      <span className="absolute right-6 top-5 font-sans text-[1.05rem] font-bold leading-none tracking-[0.1em] text-white/48 sm:right-8 sm:top-6 sm:text-[1.2rem] md:right-10 md:top-7 md:text-[1.38rem] lg:right-[5%] lg:top-1/2 lg:-translate-y-1/2 lg:text-[1.55rem] xl:text-[1.75rem] 2xl:text-[2rem]">
+        {step.stepLabel}
+      </span>
+      <div className="flex flex-col gap-2 pr-10 sm:gap-2.5 sm:pr-12 lg:gap-2.5 lg:pr-[7%] 2xl:gap-3">
+        <h3 className="font-sans text-[1.7rem] font-bold leading-[0.95] tracking-[-0.02em] text-white sm:text-[2.2rem] md:text-[2.8rem] lg:text-[3.05rem] xl:text-[3.4rem] 2xl:text-[3.9rem]">
+          {step.title}
+        </h3>
+        <p className="max-w-[92%] font-body text-[0.92rem] leading-[1.22] text-white/90 sm:text-[1.02rem] md:text-[1.22rem] lg:max-w-[90%] lg:text-[1.34rem] lg:leading-[1.16] xl:text-[1.46rem] 2xl:text-[1.68rem]">
+          {step.body}
+        </p>
+      </div>
     </article>
   );
 }

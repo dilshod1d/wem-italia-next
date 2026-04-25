@@ -25,7 +25,8 @@ export const howItWorksSectionConfig = {
   steps: [
     {
       stage: "analysis",
-      title: "Step 1: ANALYSIS",
+      stepLabel: "01",
+      title: "ANALYSIS",
       body: "I understand the starting point, the goals, and the priorities.",
       toneClassName: "bg-brand-blue text-white",
       placementClassName:
@@ -34,7 +35,8 @@ export const howItWorksSectionConfig = {
     },
     {
       stage: "direction",
-      title: "Step 2: DIRECTION",
+      stepLabel: "02",
+      title: "DIRECTION",
       body: "We define where to intervene first and what is needed.",
       toneClassName: "bg-brand-green text-white",
       placementClassName:
@@ -43,7 +45,8 @@ export const howItWorksSectionConfig = {
     },
     {
       stage: "build",
-      title: "Step 3: BUILD",
+      stepLabel: "03",
+      title: "BUILD",
       body: "We build what makes the most sense for the project.",
       toneClassName: "bg-brand-red text-white",
       placementClassName:
@@ -52,7 +55,8 @@ export const howItWorksSectionConfig = {
     },
     {
       stage: "evolution",
-      title: "Step 4: EVOLUTION",
+      stepLabel: "04",
+      title: "EVOLUTION",
       body: "We optimize and grow what works",
       toneClassName: "bg-brand-purple text-white",
       placementClassName:

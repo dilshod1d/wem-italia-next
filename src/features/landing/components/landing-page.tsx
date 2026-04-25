@@ -19,23 +19,27 @@ gsap.registerPlugin(ScrollTrigger);
 export function LandingPage() {
   const [logoTheme, setLogoTheme] = useState<"light" | "dark">("light");
 
-  const resetToLandingStart = useCallback(() => {
-    setLogoTheme("light");
+  const resetScrollPosition = useCallback(() => {
     ScrollTrigger.clearScrollMemory("manual");
     window.scrollTo(0, 0);
     requestAnimationFrame(() => ScrollTrigger.refresh());
   }, []);
 
+  const resetToLandingStart = useCallback(() => {
+    setLogoTheme("light");
+    resetScrollPosition();
+  }, [resetScrollPosition]);
+
   useLayoutEffect(() => {
     const previousScrollRestoration = window.history.scrollRestoration;
 
     window.history.scrollRestoration = "manual";
-    resetToLandingStart();
+    resetScrollPosition();
 
     return () => {
       window.history.scrollRestoration = previousScrollRestoration;
     };
-  }, [resetToLandingStart]);
+  }, [resetScrollPosition]);
 
   return (
     <>

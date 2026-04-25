@@ -19,6 +19,7 @@ export interface HowItWorksStep {
     HowItWorksStageKey,
     "analysis" | "direction" | "build" | "evolution"
   >;
+  readonly stepLabel: string;
   readonly title: string;
   readonly body: string;
   readonly toneClassName: string;
