@@ -4,7 +4,9 @@ import type { IconType } from "react-icons";
 import {
   FaBriefcase,
   FaCoins,
+  FaDiagramProject,
   FaGaugeHigh,
+  FaMicrochip,
   FaPeopleGroup,
 } from "react-icons/fa6";
 
@@ -63,6 +65,7 @@ function InsightBlock({
   index,
 }: InsightBlockProps) {
   const isMethodBlock = stage === "method";
+  const WatermarkIcon = isMethodBlock ? FaDiagramProject : FaMicrochip;
 
   return (
     <article
@@ -101,36 +104,28 @@ function InsightBlock({
       }}
     >
       <div className="pointer-events-none absolute inset-0">
-        {isMethodBlock ? (
-          <>
-            <div className="absolute inset-x-5 top-5 h-px bg-white/28 sm:inset-x-6 sm:top-6" />
-            <div className="absolute bottom-5 left-5 h-12 w-12 rounded-full border border-white/12 sm:bottom-6 sm:left-6 sm:h-14 sm:w-14 md:h-16 md:w-16" />
-            <div className="absolute right-5 top-5 flex items-center gap-2 sm:right-6 sm:top-6">
-              <span className="h-2 w-2 rounded-full bg-white/65" />
-              <span className="h-px w-8 bg-white/40 sm:w-10" />
-              <span className="h-2 w-2 rounded-full bg-white/30" />
-            </div>
-            <div className="absolute bottom-5 right-5 grid grid-cols-3 gap-1 opacity-35 sm:bottom-6 sm:right-6 sm:gap-1.5">
-              {Array.from({ length: 6 }).map((_, dotIndex) => (
-                <span
-                  key={`method-dot-${dotIndex}`}
-                  className="h-1.5 w-1.5 rounded-full bg-white/65"
-                />
-              ))}
-            </div>
-          </>
-        ) : (
-          <>
-            <div className="absolute -right-8 -top-8 h-28 w-28 rounded-full bg-white/18 blur-3xl sm:h-32 sm:w-32 md:h-36 md:w-36" />
-            <div className="absolute right-5 top-5 h-px w-14 rotate-[12deg] bg-white/55 sm:right-6 sm:top-6 sm:w-16" />
-            <div className="absolute right-7 top-9 h-px w-10 rotate-[12deg] bg-white/30 sm:right-8 sm:top-11 sm:w-12" />
-            <div className="absolute bottom-5 left-5 flex items-center gap-2 opacity-40 sm:bottom-6 sm:left-6">
-              <span className="h-1.5 w-8 rounded-full bg-white/45 sm:w-10" />
-              <span className="h-1.5 w-4 rounded-full bg-white/65 sm:w-5" />
-              <span className="h-1.5 w-2 rounded-full bg-white/85" />
-            </div>
-          </>
-        )}
+        <div className="absolute inset-x-5 top-5 h-px bg-white/28 sm:inset-x-6 sm:top-6" />
+        <div
+          className={cx(
+            "absolute right-3 top-3 rounded-full border border-white/10 bg-white/8 p-2 backdrop-blur-[8px] sm:right-4 sm:top-4 sm:p-2.5 md:right-5 md:top-5",
+            isMethodBlock ? "rotate-[-6deg]" : "rotate-[8deg]",
+          )}
+        >
+          <WatermarkIcon
+            className={cx(
+              "h-5 w-5 text-white/85 sm:h-6 sm:w-6 md:h-7 md:w-7",
+              isMethodBlock ? "opacity-80" : "opacity-90",
+            )}
+          />
+        </div>
+        <WatermarkIcon
+          className={cx(
+            "absolute bottom-3 right-2 h-24 w-24 sm:bottom-4 sm:right-3 sm:h-28 sm:w-28 md:bottom-5 md:right-4 md:h-32 md:w-32 xl:h-36 xl:w-36 2xl:h-40 2xl:w-40",
+            isMethodBlock
+              ? "rotate-[-10deg] text-white/14"
+              : "rotate-[10deg] text-white/16",
+          )}
+        />
       </div>
 
       <div className="relative z-10 flex h-full flex-col">
