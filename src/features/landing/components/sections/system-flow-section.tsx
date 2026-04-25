@@ -143,7 +143,7 @@ export function SystemFlowSection({ setLogoTheme }: SystemFlowSectionProps) {
                 ))}
               </div>
             </div>
-
+            
             <div className="pointer-events-none relative z-30 mt-4 h-[16.5rem] sm:mt-5 sm:h-[19.75rem] md:mt-6 md:h-[23.5rem] lg:mt-[2vh] lg:h-auto lg:min-h-0 lg:flex-1 lg:w-[70%] xl:mt-[2.4vh] xl:w-[72%] 2xl:w-[74%]">
               <div className="relative h-full w-full">
                 {cards.map((card, index) => (

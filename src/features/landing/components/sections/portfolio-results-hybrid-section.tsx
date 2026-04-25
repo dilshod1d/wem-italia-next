@@ -8,6 +8,7 @@ import {
   useState,
   type PointerEvent,
 } from "react";
+import { FiArrowRight } from "react-icons/fi";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -737,12 +738,10 @@ export function PortfolioResultsHybridSection({
               className="group/cta inline-flex items-center gap-3 rounded-full border border-black/12 bg-white/82 px-6 py-3 font-body text-[1.05rem] font-medium tracking-tight text-black/86 shadow-[0_16px_40px_rgba(0,0,0,0.07)] backdrop-blur-sm transition-[transform,box-shadow,border-color] duration-300 hover:-translate-y-0.5 hover:border-black/22 hover:shadow-[0_22px_54px_rgba(0,0,0,0.1)] md:px-8 md:py-3.5 md:text-[1.35rem]"
             >
               <span>{copy.proofCta.replace(/\s*->$/, "")}</span>
-              <span
+              <FiArrowRight
                 aria-hidden
-                className="transition-transform duration-300 group-hover/cta:translate-x-1"
-              >
-                -&gt;
-              </span>
+                className="text-[1.2em] transition-transform duration-300 group-hover/cta:translate-x-1"
+              />
             </a>
           </div>
         </div>
