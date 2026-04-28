@@ -21,6 +21,7 @@ export interface WhyWemWorksInsightBlock {
   readonly title: string;
   readonly body: string;
   readonly toneClassName: string;
+  readonly offsetClassName?: string;
 }
 
 export type WhyWemWorksProofPointIcon =
