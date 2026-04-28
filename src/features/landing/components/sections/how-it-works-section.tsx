@@ -53,27 +53,14 @@ function HowItWorksStepCard({
         transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)",
       }}
     >
-      <div className="relative z-10 grid h-full min-h-0 grid-cols-[3.8rem_1fr] items-center gap-3 sm:grid-cols-[4.5rem_1fr] sm:gap-4 md:grid-cols-[5.2rem_1fr] md:gap-5 lg:grid-cols-[5.65rem_1fr] lg:gap-5 xl:grid-cols-[6.2rem_1fr]">
-        <div className="flex h-full items-center">
-          <div className="flex shrink-0 items-center gap-2 rounded-full border border-white/28 bg-white/15 py-1.5 pl-1.5 pr-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.28)] backdrop-blur-sm md:gap-2.5 md:py-2 md:pl-2 md:pr-4">
-            <span className="grid size-8 place-items-center rounded-full bg-white text-[0.86rem] font-bold leading-none tracking-[-0.04em] text-black/70 sm:size-9 sm:text-[0.95rem] md:size-10 md:text-[1.05rem] lg:size-11 lg:text-[1.12rem] xl:size-12 xl:text-[1.24rem]">
-              {step.stepLabel}
-            </span>
-            <span className="font-sans text-[0.56rem] font-semibold uppercase tracking-[0.18em] text-white/70 sm:text-[0.6rem] md:text-[0.65rem]">
-              Step
-            </span>
-          </div>
-        </div>
+      <div className="min-w-0">
+        <h3 className="font-sans text-[1.55rem] font-bold uppercase leading-[0.95] tracking-[-0.02em] text-white sm:text-[2rem] md:text-[2.48rem] lg:text-[2.18rem] xl:text-[2.46rem] 2xl:text-[2.82rem]">
+          {step.title}
+        </h3>
 
-        <div className="min-w-0">
-          <h3 className="font-sans text-[1.55rem] font-bold uppercase leading-[0.95] tracking-[-0.02em] text-white sm:text-[2rem] md:text-[2.48rem] lg:text-[2.18rem] xl:text-[2.46rem] 2xl:text-[2.82rem]">
-            {step.title}
-          </h3>
-
-          <p className="mt-1.5 max-w-[94%] font-body text-[0.9rem] leading-[1.2] text-white/90 sm:text-[1rem] md:mt-2 md:text-[1.12rem] lg:mt-1.5 lg:max-w-[86%] lg:text-[1.02rem] lg:leading-[1.16] xl:text-[1.14rem] 2xl:text-[1.34rem]">
-            {step.body}
-          </p>
-        </div>
+        <p className="mt-1.5 max-w-[94%] font-body text-[0.9rem] leading-[1.2] text-white/90 sm:text-[1rem] md:mt-2 md:text-[1.12rem] lg:mt-1.5 lg:max-w-[86%] lg:text-[1.02rem] lg:leading-[1.16] xl:text-[1.14rem] 2xl:text-[1.34rem]">
+          {step.body}
+        </p>
       </div>
     </article>
   );

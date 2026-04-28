@@ -13,7 +13,12 @@ export const howItWorksSectionConfig = {
     { id: 4, key: "analysis", startFrame: 59, endFrame: 84 },
     { id: 5, key: "direction", startFrame: 84, endFrame: 104 },
     { id: 6, key: "build", startFrame: 104, endFrame: 120 },
-    { id: 7, key: "evolution", startFrame: 120, endFrame: Number.POSITIVE_INFINITY },
+    {
+      id: 7,
+      key: "evolution",
+      startFrame: 120,
+      endFrame: Number.POSITIVE_INFINITY,
+    },
   ],
   copy: {
     eyebrow: "Clear Process",
@@ -25,8 +30,7 @@ export const howItWorksSectionConfig = {
   steps: [
     {
       stage: "analysis",
-      stepLabel: "01",
-      title: "ANALYSIS",
+      title: "Step 1: ANALYSIS",
       body: "I understand the starting point, the goals, and the priorities.",
       toneClassName: "bg-brand-blue text-white",
       placementClassName:
@@ -35,8 +39,7 @@ export const howItWorksSectionConfig = {
     },
     {
       stage: "direction",
-      stepLabel: "02",
-      title: "DIRECTION",
+      title: "Step 2: DIRECTION",
       body: "We define where to intervene first and what is needed.",
       toneClassName: "bg-brand-green text-white",
       placementClassName:
@@ -45,8 +48,7 @@ export const howItWorksSectionConfig = {
     },
     {
       stage: "build",
-      stepLabel: "03",
-      title: "BUILD",
+      title: "Step 3: BUILD",
       body: "We build what makes the most sense for the project.",
       toneClassName: "bg-brand-red text-white",
       placementClassName:
@@ -55,8 +57,7 @@ export const howItWorksSectionConfig = {
     },
     {
       stage: "evolution",
-      stepLabel: "04",
-      title: "EVOLUTION",
+      title: "Step 4: EVOLUTION",
       body: "We optimize and grow what works",
       toneClassName: "bg-brand-purple text-white",
       placementClassName:

@@ -175,7 +175,7 @@ function WarningCard({
               ? "flex min-h-[176px] flex-col items-center justify-center gap-4 px-5 py-5 text-center"
               : mobile
                 ? "flex flex-col items-center gap-5 px-6 py-7 text-center"
-                : "flex flex-col items-start gap-5 px-6 py-6 text-left md:flex-row md:items-center md:px-8 md:py-7",
+                : "flex flex-col items-center gap-5 px-6 py-6 text-center md:flex-row md:items-center md:px-8 md:py-7 md:text-left",
           )}
         >
           <div
@@ -198,7 +198,16 @@ function WarningCard({
             />
           </div>
 
-          <div className="text-black">
+          <div
+            className={cx(
+              "text-black",
+              stackedMobile
+                ? "mx-auto flex max-w-[15rem] flex-col items-center text-center"
+                : mobile
+                  ? "mx-auto flex max-w-[18rem] flex-col items-center text-center"
+                  : "mx-auto flex max-w-[32rem] flex-col items-center text-center md:mx-0 md:max-w-none md:items-start md:text-left",
+            )}
+          >
             <p
               className={cx(
                 "font-sans font-semibold tracking-tight text-black/92",
