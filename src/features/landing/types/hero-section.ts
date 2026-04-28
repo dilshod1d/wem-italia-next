@@ -25,6 +25,15 @@ export interface HeroBodyItem {
   readonly order: number;
 }
 
+export interface HeroSupportCardItem {
+  readonly key: string;
+  readonly supportCardKey: string;
+  readonly fromFrame: number;
+  readonly toFrame: number;
+  readonly order: number;
+  readonly placementKey?: string;
+}
+
 export interface HeroStagePlacement {
   readonly copyClassName: string;
   readonly bodyClassName?: string;
@@ -37,7 +46,6 @@ export interface HeroStage {
   readonly endFrame: number;
   readonly eyebrowKey?: string;
   readonly titleKey?: string;
-  readonly supportCardKey?: string;
   readonly placementKey: string;
 }
 
@@ -49,6 +57,7 @@ export interface HeroSectionConfig {
   readonly eyebrows: Readonly<Record<string, HeroEyebrow>>;
   readonly titles: Readonly<Record<string, HeroTitle>>;
   readonly bodyItems: readonly HeroBodyItem[];
+  readonly supportCardItems: readonly HeroSupportCardItem[];
   readonly supportCards: Readonly<Record<string, HeroSupportCard>>;
   readonly placements: Readonly<Record<string, HeroStagePlacement>>;
   readonly stages: readonly HeroStage[];

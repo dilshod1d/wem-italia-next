@@ -10,15 +10,15 @@ export const whyWemWorksSectionConfig = {
     cardAppearFrame: 5,
     endFrame: 32,
     eyebrow: "WEM Enterprise",
-    titleLines: ["One Guide. An Entire Ecosystem Behind You."],
+    titleLines: ["Una sola Guida un ecosistema alle spalle"],
     paragraphs: [
-      "Supporting this, an ecosystem built and validated at an international scale.",
+      "A supporto, un ecosistema costruito e validato su scala internazionale.",
     ],
     supportCard: {
       tone: "purple",
       icon: "wem-agency",
       title: "WEM Agency",
-      description: "WEM specialists activated based on what is truly needed.",
+      description: "Specialisti WEM attivati in base a ciò che serve davvero.",
     },
   },
   stages: [

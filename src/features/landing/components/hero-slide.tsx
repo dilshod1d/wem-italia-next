@@ -6,6 +6,7 @@ import type {
   HeroEyebrow,
   HeroSectionConfig,
   HeroStage,
+  HeroSupportCardItem,
   HeroSupportCard,
   HeroTitle,
 } from "../types/hero-section";
@@ -14,6 +15,7 @@ import { HeroSupportCard as HeroSupportCardBlock } from "./hero-support-card";
 interface HeroSlideProps {
   stage: HeroStage;
   visibleBodyItems: readonly HeroBodyItem[];
+  visibleSupportCardItems: readonly HeroSupportCardItem[];
   config: HeroSectionConfig;
 }
 
@@ -73,21 +75,30 @@ function KeyedSlot<T>({
   );
 }
 
-export function HeroSlide({ stage, visibleBodyItems, config }: HeroSlideProps) {
+export function HeroSlide({
+  stage,
+  visibleBodyItems,
+  visibleSupportCardItems,
+  config,
+}: HeroSlideProps) {
   const placement = config.placements[stage.placementKey];
   const eyebrow = stage.eyebrowKey
     ? config.eyebrows[stage.eyebrowKey]
     : undefined;
   const title = stage.titleKey ? config.titles[stage.titleKey] : undefined;
-  const card = stage.supportCardKey
-    ? config.supportCards[stage.supportCardKey]
+  const visibleSupportCard = visibleSupportCardItems[0];
+  const card = visibleSupportCard
+    ? config.supportCards[visibleSupportCard.supportCardKey]
     : undefined;
+  const cardPlacement = visibleSupportCard?.placementKey
+    ? config.placements[visibleSupportCard.placementKey]
+    : placement;
 
   const showCopy = Boolean(
     stage.eyebrowKey ||
     stage.titleKey ||
     visibleBodyItems.length > 0 ||
-    stage.supportCardKey,
+    visibleSupportCard,
   );
 
   return (
@@ -120,10 +131,10 @@ export function HeroSlide({ stage, visibleBodyItems, config }: HeroSlideProps) {
           </div>
         ) : null}
         <KeyedSlot
-          slotKey={stage.supportCardKey}
+          slotKey={visibleSupportCard?.key}
           value={card}
           render={renderCard}
-          className={placement.cardWrapClassName ?? "mt-6"}
+          className={cardPlacement.cardWrapClassName ?? "mt-6"}
         />
       </div>
     </div>

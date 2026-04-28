@@ -11,11 +11,17 @@ interface HeroSectionProps {
 }
 
 export function HeroSection({ setLogoTheme }: HeroSectionProps) {
-  const { sectionRef, videoRef, activeStageId, visibleBodyItems, isScrolled } =
-    useHeroSectionVideo(heroStoryConfig, {
-      onEnter: () => setLogoTheme("light"),
-      onEnterBack: () => setLogoTheme("light"),
-    });
+  const {
+    sectionRef,
+    videoRef,
+    activeStageId,
+    visibleBodyItems,
+    visibleSupportCardItems,
+    isScrolled,
+  } = useHeroSectionVideo(heroStoryConfig, {
+    onEnter: () => setLogoTheme("light"),
+    onEnterBack: () => setLogoTheme("light"),
+  });
   const activeStage =
     heroStoryConfig.stages.find((stage) => stage.id === activeStageId) ??
     heroStoryConfig.stages[0];
@@ -35,6 +41,7 @@ export function HeroSection({ setLogoTheme }: HeroSectionProps) {
         <HeroSlide
           stage={activeStage}
           visibleBodyItems={visibleBodyItems}
+          visibleSupportCardItems={visibleSupportCardItems}
           config={heroStoryConfig}
         />
       </div>

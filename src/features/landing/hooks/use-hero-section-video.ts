@@ -3,12 +3,17 @@
 import { useRef, useState } from "react";
 import { useSectionPin } from "@/components/Chapter/useSectionPin";
 
-import type { HeroBodyItem, HeroSectionConfig } from "../types/hero-section";
+import type {
+  HeroBodyItem,
+  HeroSectionConfig,
+  HeroSupportCardItem,
+} from "../types/hero-section";
 import { useVideoDebugLogger } from "./use-video-debug-logger";
 
 interface HeroVideoState {
   lastStageId: number;
   lastBodySignature: string;
+  lastSupportCardSignature: string;
 }
 
 interface HeroSectionVideoOptions {
@@ -25,12 +30,16 @@ export function useHeroSectionVideo(
   const stateRef = useRef<HeroVideoState>({
     lastStageId: stages[0]?.id ?? 0,
     lastBodySignature: "",
+    lastSupportCardSignature: "",
   });
   const [activeStageId, setActiveStageId] = useState<number>(
     stages[0]?.id ?? 0,
   );
   const [visibleBodyItems, setVisibleBodyItems] = useState<
     readonly HeroBodyItem[]
+  >([]);
+  const [visibleSupportCardItems, setVisibleSupportCardItems] = useState<
+    readonly HeroSupportCardItem[]
   >([]);
   const debugLogger = useVideoDebugLogger({
     label: "Hero",
@@ -63,6 +72,15 @@ export function useHeroSectionVideo(
       const nextBodySignature = visibleBodies
         .map((item) => item.key)
         .join("|");
+      const visibleSupportCards = config.supportCardItems
+        .filter(
+          (item) =>
+            currentFrame >= item.fromFrame && currentFrame < item.toFrame,
+        )
+        .sort((a, b) => a.order - b.order);
+      const nextSupportCardSignature = visibleSupportCards
+        .map((item) => item.key)
+        .join("|");
       const activeStage = stages.find(
         (stage) =>
           currentFrame >= stage.startFrame && currentFrame < stage.endFrame,
@@ -83,6 +101,13 @@ export function useHeroSectionVideo(
         stateRef.current.lastBodySignature = nextBodySignature;
         setVisibleBodyItems(visibleBodies);
       }
+
+      if (
+        nextSupportCardSignature !== stateRef.current.lastSupportCardSignature
+      ) {
+        stateRef.current.lastSupportCardSignature = nextSupportCardSignature;
+        setVisibleSupportCardItems(visibleSupportCards);
+      }
     },
   });
 
@@ -91,6 +116,7 @@ export function useHeroSectionVideo(
     videoRef,
     activeStageId,
     visibleBodyItems,
+    visibleSupportCardItems,
     isScrolled,
   };
 }
