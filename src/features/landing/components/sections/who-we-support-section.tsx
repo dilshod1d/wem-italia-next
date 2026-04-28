@@ -310,13 +310,10 @@ export function WhoWeSupportSection() {
       id="who-we-support"
       ref={sectionRef}
       data-nav-theme="light"
-      className="relative bg-white pb-44 pt-3 sm:pb-48 sm:pt-4 lg:pb-52 lg:pt-5 2xl:pb-56 2xl:pt-6"
+      className="relative bg-white pb-44 pt-12 sm:pb-48 sm:pt-16 lg:pb-52 lg:pt-20 2xl:pb-56 2xl:pt-24"
     >
       <div className="landing-frame">
-        <div
-          ref={headingRef}
-          className="w-full sm:w-[90%] lg:w-[85%]"
-        >
+        <div ref={headingRef} className="w-full sm:w-[90%] lg:w-[85%]">
           <p className="text-eyebrow text-black/28">{copy.eyebrow}</p>
           <h2 className="heading-hero text-black">{copy.title}</h2>
         </div>
@@ -326,12 +323,7 @@ export function WhoWeSupportSection() {
           className="mt-8 grid gap-5 md:grid-cols-2 lg:grid-cols-3 lg:gap-8"
         >
           {cards.map((card, index) => (
-            <AudienceCard
-              key={card.stage}
-              card={card}
-              index={index}
-              compact
-            />
+            <AudienceCard key={card.stage} card={card} index={index} compact />
           ))}
         </div>
 
