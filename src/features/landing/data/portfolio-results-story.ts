@@ -10,13 +10,13 @@ export const portfolioResultsSectionConfig = {
   stages: [
     { id: 1, key: "intro", startFrame: 0, endFrame: 24 },
     { id: 2, key: "headline", startFrame: 24, endFrame: 48 },
-    { id: 3, key: "narrative", startFrame: 48, endFrame: 72 },
-    { id: 4, key: "portfolio", startFrame: 72, endFrame: 90 },
-    { id: 5, key: "focus", startFrame: 90, endFrame: 108 },
+    { id: 3, key: "narrative", startFrame: 48, endFrame: 88 },
+    { id: 4, key: "portfolio", startFrame: 88, endFrame: 106 },
+    { id: 5, key: "focus", startFrame: 106, endFrame: 124 },
     {
       id: 6,
       key: "proof",
-      startFrame: 108,
+      startFrame: 124,
       endFrame: Number.POSITIVE_INFINITY,
     },
   ],

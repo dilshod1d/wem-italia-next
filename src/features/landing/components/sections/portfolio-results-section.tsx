@@ -551,7 +551,7 @@ export function PortfolioResultsSection({
                 ref={portfolioTrackRef}
                 className="relative left-1/2 flex h-full w-max items-center justify-center gap-0 will-change-transform"
                 style={{
-                  transform: "translate3d(calc(-50% + 0px), 0, 0)",
+                  transform: "translate3d(calc(-50% - 20%), 0, 0)",
                 }}
               >
                 {portfolioItems.map((item, index) => (
