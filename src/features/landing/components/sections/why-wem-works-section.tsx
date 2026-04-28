@@ -4,9 +4,7 @@ import type { IconType } from "react-icons";
 import {
   FaBriefcase,
   FaCoins,
-  FaDiagramProject,
   FaGaugeHigh,
-  FaMicrochip,
   FaPeopleGroup,
 } from "react-icons/fa6";
 
@@ -46,130 +44,68 @@ interface WhyWemWorksSectionProps {
 }
 
 interface InsightBlockProps {
-  stage: "method" | "ai";
   title: string;
   body: string;
   toneClassName: string;
-  offsetClassName?: string;
   visible: boolean;
-  index: number;
+  className?: string;
 }
 
 function InsightBlock({
-  stage,
   title,
   body,
   toneClassName,
-  offsetClassName,
   visible,
-  index,
+  className,
 }: InsightBlockProps) {
-  const isMethodBlock = stage === "method";
-  const WatermarkIcon = isMethodBlock ? FaDiagramProject : FaMicrochip;
-
   return (
     <article
       className={cx(
         `
-        relative flex
-        size-[min(78vw,29vh,18rem)]
-        min-h-[10rem] min-w-[10rem] flex-none
-        flex-col justify-between overflow-hidden
-        rounded-[1.55rem] p-4 text-white
-        shadow-[0_24px_70px_rgba(0,0,0,0.32)]
-        transition-[opacity,transform,filter] duration-700
-        will-change-transform
+        w-full
+        rounded-[1.25rem] p-4
+        sm:rounded-[1.75rem] sm:p-5
+        md:rounded-[2.25rem] md:p-10
+        2xl:rounded-[2.5rem] 2xl:p-12
 
-        sm:size-[min(62vw,31vh,20rem)]
-        sm:min-h-[12rem] sm:min-w-[12rem] sm:rounded-[1.8rem] sm:p-5
-        md:size-[min(46vw,32vh,22rem)]
-        md:min-h-[14rem] md:min-w-[14rem] md:rounded-[2.15rem] md:p-6
-        lg:size-[min(23vw,40vh)]
-        xl:p-7
-        2xl:size-[min(22vw,43vh)] 2xl:rounded-[2.35rem] 2xl:p-8
-
+        shadow-[0_20px_60px_rgba(0,0,0,0.25)]
+        transition-all duration-700
         `,
         toneClassName,
-        offsetClassName,
-        isMethodBlock
-          ? "border border-white/12 bg-gradient-to-br from-white/12 via-white/[0.03] to-black/12"
-          : "border border-white/12 bg-gradient-to-br from-white/14 via-white/[0.02] to-black/18",
+        className,
         visible
-          ? "translate-x-0 translate-y-0 scale-100 rotate-0 opacity-100 blur-0"
-          : "pointer-events-none translate-x-14 translate-y-5 scale-[0.92] rotate-2 opacity-0 blur-[2px]",
+          ? "translate-y-0 opacity-100"
+          : "pointer-events-none translate-y-4 sm:translate-y-6 md:translate-y-8 opacity-0",
       )}
-      style={{
-        transitionDelay: visible ? `${index * 120}ms` : "0ms",
-        transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)",
-      }}
     >
-      <div className="pointer-events-none absolute inset-0">
-        <div className="absolute inset-x-5 top-5 h-px bg-white/28 sm:inset-x-6 sm:top-6" />
-        <div
-          className={cx(
-            "absolute right-3 top-3 rounded-full border border-white/10 bg-white/8 p-2 backdrop-blur-[8px] sm:right-4 sm:top-4 sm:p-2.5 md:right-5 md:top-5",
-            isMethodBlock ? "rotate-[-6deg]" : "rotate-[8deg]",
-          )}
-        >
-          <WatermarkIcon
-            className={cx(
-              "h-5 w-5 text-white/85 sm:h-6 sm:w-6 md:h-7 md:w-7",
-              isMethodBlock ? "opacity-80" : "opacity-90",
-            )}
-          />
-        </div>
-        <WatermarkIcon
-          className={cx(
-            "absolute bottom-3 right-2 h-24 w-24 sm:bottom-4 sm:right-3 sm:h-28 sm:w-28 md:bottom-5 md:right-4 md:h-32 md:w-32 xl:h-36 xl:w-36 2xl:h-40 2xl:w-40",
-            isMethodBlock
-              ? "rotate-[-10deg] text-white/14"
-              : "rotate-[10deg] text-white/16",
-          )}
-        />
-      </div>
+      <h3
+        className="
+          landing-title-md uppercase text-white
+          text-[1.1rem] leading-snug
+          sm:text-[1.4rem]
+          md:text-[2.2rem]
+          2xl:text-[2.75rem]
+        "
+      >
+        {title}
+      </h3>
 
-      <div className="relative z-10 flex h-full flex-col">
-        <h3
-          className={cx(
-            `
-            max-w-[11ch] font-sans tracking-[-0.04em] text-white
-            text-[1.02rem] font-semibold leading-[0.96]
-            sm:text-[1.16rem]
-            md:text-[1.36rem]
-            xl:text-[1.55rem]
-            2xl:text-[1.72rem]
-          `,
-            isMethodBlock ? "text-white" : "max-w-[10ch] text-white",
-          )}
-        >
-          {title}
-        </h3>
+      <p
+        className="
+          landing-body-sm
+          mt-2
+          text-white/92
 
-        <div
-          className={cx(
-            "mt-auto rounded-[1rem] border px-3.5 py-3 backdrop-blur-[10px] sm:rounded-[1.15rem] sm:px-4 sm:py-3.5 md:px-5 md:py-4 xl:px-5 xl:py-5",
-            isMethodBlock
-              ? "border-white/14 bg-black/10"
-              : "border-white/10 bg-black/14",
-          )}
-        >
-          <p
-            className={cx(
-              `
-              font-body text-white/90
-              text-[0.76rem] leading-[1.34]
-              sm:text-[0.86rem]
-              md:text-[0.96rem]
-              xl:text-[1.03rem]
-              2xl:text-[1.12rem]
-            `,
-              isMethodBlock ? "max-w-[18ch]" : "max-w-[17ch]",
-            )}
-          >
-            {body}
-          </p>
-        </div>
-      </div>
+          text-[0.9rem] leading-6
+          max-w-[95%]
+
+          sm:mt-3 sm:text-[1rem] sm:max-w-[85%]
+          md:mt-4 md:text-[1.15rem] md:max-w-4xl
+          2xl:text-[1.35rem]
+        "
+      >
+        {body}
+      </p>
     </article>
   );
 }
@@ -355,17 +291,23 @@ export function WhyWemWorksSection({ setLogoTheme }: WhyWemWorksSectionProps) {
                   </p>
                 </div>
 
-                <div className="mt-4 flex flex-col items-end gap-3 sm:mt-5 sm:gap-4 lg:mt-6 lg:w-full lg:flex-row-reverse lg:items-end lg:justify-start lg:gap-5">
+                <div className="mt-4">
                   {blocks.map((block, index) => (
                     <InsightBlock
                       key={block.stage}
-                      stage={block.stage}
                       title={block.title}
                       body={block.body}
                       toneClassName={block.toneClassName}
-                      offsetClassName={block.offsetClassName}
                       visible={isStageVisible(activeStageKey, block.stage)}
-                      index={index}
+                      className={cx(
+                        block.offsetClassName,
+                        index !== 0 &&
+                          `
+    -mt-6
+    sm:-mt-10
+    lg:-mt-16
+  `,
+                      )}
                     />
                   ))}
                 </div>

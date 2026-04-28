@@ -647,7 +647,7 @@ export function PortfolioResultsHybridSection({
       <section
         ref={flowPortfolioSectionRef}
         data-nav-theme="light"
-        className="relative bg-white pb-3 pt-20 sm:pb-4 sm:pt-24 lg:pb-5 lg:pt-28 2xl:pb-6 2xl:pt-32"
+        className="relative bg-white pb-6 pt-20 sm:pb-8 sm:pt-24 lg:pb-10 lg:pt-28 2xl:pb-12 2xl:pt-32"
       >
         <div className="landing-frame">
           <div className="max-w-[70rem] text-black">
