@@ -615,7 +615,7 @@ export function PortfolioResultsHybridSection({
 
               <h2
                 className={cx(
-                  "heading-hero transition-all duration-700",
+                  "heading transition-all duration-700",
                   showTitle
                     ? "translate-y-0 opacity-100"
                     : "translate-y-8 opacity-0",
@@ -652,7 +652,7 @@ export function PortfolioResultsHybridSection({
         <div className="landing-frame">
           <div className="max-w-[70rem] text-black">
             <p className="text-eyebrow text-black/25">{copy.eyebrow}</p>
-            <h2 className="heading-hero">{copy.title}</h2>
+            <h2 className="heading">{copy.title}</h2>
           </div>
 
           <div className="relative mt-4 h-[72vh] sm:mt-5 lg:mt-4">
@@ -712,7 +712,7 @@ export function PortfolioResultsHybridSection({
         <div className="landing-frame">
           <div ref={metricsHeadingRef} className="text-black">
             <p className="text-eyebrow text-black/25">{copy.eyebrow}</p>
-            <h2 className="heading-hero">{copy.proofTitle}</h2>
+            <h2 className="heading">{copy.proofTitle}</h2>
           </div>
 
           <div

@@ -202,7 +202,7 @@ export function WhyWemWorksSection({ setLogoTheme }: WhyWemWorksSectionProps) {
                   <p className="text-eyebrow text-white/60">
                     {handoff.eyebrow}
                   </p>
-                  <h2 className="heading-hero text-white">
+                  <h2 className="heading text-white">
                     {handoff.titleLines.map((line) => (
                       <span key={line} className="block">
                         {line}
@@ -252,7 +252,7 @@ export function WhyWemWorksSection({ setLogoTheme }: WhyWemWorksSectionProps) {
       `,
                 )}
               >
-                <h3 className="heading-hero text-white/75">{introTitle}</h3>
+                <h3 className="heading text-white/75">{introTitle}</h3>
               </div>
 
               <div

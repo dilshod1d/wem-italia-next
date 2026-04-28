@@ -151,7 +151,7 @@ export function SystemFlowSection({ setLogoTheme }: SystemFlowSectionProps) {
               </p>
               <h2
                 className={cx(
-                  "heading-hero transition-all duration-700",
+                  "heading transition-all duration-700",
                   showTitle
                     ? "translate-y-0 opacity-100"
                     : "translate-y-8 opacity-0",
@@ -175,7 +175,7 @@ export function SystemFlowSection({ setLogoTheme }: SystemFlowSectionProps) {
                 ))}
               </div>
             </div>
-            
+
             <div className="pointer-events-none relative z-30 mt-4 h-[16.5rem] sm:mt-5 sm:h-[19.75rem] md:mt-6 md:h-[23.5rem] lg:mt-[2vh] lg:h-auto lg:min-h-0 lg:flex-1 lg:w-[70%] xl:mt-[2.4vh] xl:w-[72%] 2xl:w-[74%]">
               <div className="relative h-full w-full">
                 {cards.map((card, index) => (

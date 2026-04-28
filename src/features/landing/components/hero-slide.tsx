@@ -29,7 +29,7 @@ function renderEyebrow(eyebrow: HeroEyebrow) {
 
 function renderTitle(title: HeroTitle) {
   return (
-    <h1 className="heading-hero text-white">
+    <h1 className="heading text-white">
       {title.lines.map((line) => (
         <span key={line} className="block">
           {line}

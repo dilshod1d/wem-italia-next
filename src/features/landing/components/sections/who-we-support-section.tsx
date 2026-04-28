@@ -315,7 +315,7 @@ export function WhoWeSupportSection() {
       <div className="landing-frame">
         <div ref={headingRef} className="w-full sm:w-[90%] lg:w-[85%]">
           <p className="text-eyebrow text-black/28">{copy.eyebrow}</p>
-          <h2 className="heading-hero text-black">{copy.title}</h2>
+          <h2 className="heading text-black">{copy.title}</h2>
         </div>
 
         <div

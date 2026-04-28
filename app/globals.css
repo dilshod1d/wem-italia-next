@@ -23,12 +23,12 @@
   --color-brand-purple: #6d3cdb;
   --color-brand-yellow: #eaba2b;
   --color-portfolio-blue: #3179f6;
-  --spacing-landing-copy-base: 4rem;
-  --spacing-landing-copy-sm: 4.75rem;
-  --spacing-landing-copy-lg: 6.5rem;
-  --spacing-landing-copy-wide: 7rem;
-  --spacing-landing-copy-body-lg: 12rem;
-  --spacing-landing-copy-body-wide: 13rem;
+  --spacing-landing-copy-base: 5rem;
+  --spacing-landing-copy-sm: 6rem;
+  --spacing-landing-copy-lg: 8rem;
+  --spacing-landing-copy-wide: 9rem;
+  --spacing-landing-copy-body-lg: 15rem;
+  --spacing-landing-copy-body-wide: 17rem;
   --font-sans: var(--font-poppins);
   --font-body: var(--font-poppins);
 }
@@ -139,7 +139,7 @@ html::-webkit-scrollbar-thumb:hover {
   animation: hero-body-line-in 760ms cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
-@utility heading-hero {
+@utility heading {
   @apply font-sans font-bold
 
      
