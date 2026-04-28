@@ -19,36 +19,66 @@ interface HowItWorksSectionProps {
   setLogoTheme: (theme: "light" | "dark") => void;
 }
 
-interface HowItWorksStepCardProps {
-  step: HowItWorksStep;
+export type Step = {
+  stage: string;
+  title: string;
+  body: string;
+  toneClassName?: string;
+};
+
+export type HowItWorksStepCardProps = {
+  step: Step;
   visible: boolean;
   delayMs: number;
-  highlighted: boolean;
-}
+  highlighted?: boolean;
+  index: number;
+};
 
-function HowItWorksStepCard({
+export default function HowItWorksStepCard({
   step,
   visible,
   delayMs,
   highlighted,
+  index,
 }: HowItWorksStepCardProps) {
+  const OVERLAP = 5;
+  const SCALE_STEP = 0.035;
+  const X_OFFSET = 8;
+  const WIDTH_STEP = 4;
+
   return (
     <article
       className={cx(
-        "absolute w-full max-w-[800px] overflow-hidden rounded-[2.2rem] px-5 py-4 text-left shadow-[0_24px_65px_rgba(0,0,0,0.12)] transition-[opacity,transform,box-shadow] duration-700 sm:px-7 sm:py-5 md:rounded-[6rem] md:px-9 lg:h-[25%] lg:max-w-none lg:px-[3.8%] lg:py-4 xl:px-[4.1%] xl:py-5 2xl:px-[4.5%]",
+        "max-w-[88%] sm:max-w-[84%] md:max-w-[740px] lg:max-w-[800px] xl:max-w-[880px] 2xl:max-w-[960px]",
+        "relative overflow-hidden rounded-[2.2rem]",
+        "px-5 py-4 text-left sm:px-7 sm:py-5 md:rounded-[6rem] md:px-9",
+        "lg:max-w-none lg:px-[3.8%] lg:py-4",
+        "xl:px-[4.1%] xl:py-5 2xl:px-[4.5%]",
+
+        "shadow-[0_24px_65px_rgba(0,0,0,0.12)]",
+        "transition-[opacity,transform,box-shadow,width] duration-700 will-change-transform",
+
         "before:pointer-events-none before:absolute before:inset-x-10 before:top-0 before:h-px before:bg-white/42 before:content-['']",
         "after:pointer-events-none after:absolute after:-right-14 after:-top-14 after:size-40 after:rounded-full after:bg-white/10 after:blur-2xl after:content-['']",
+
         step.toneClassName,
-        step.placementClassName,
-        step.zIndexClassName,
-        highlighted
-          ? "shadow-[0_22px_70px_rgba(0,0,0,0.16),0_0_0_1px_rgba(255,255,255,0.08)]"
-          : "",
-        visible
-          ? "translate-x-0 translate-y-0 scale-100 opacity-100"
-          : "pointer-events-none translate-x-16 translate-y-6 scale-[0.97] opacity-0",
+
+        highlighted &&
+          "shadow-[0_22px_70px_rgba(0,0,0,0.16),0_0_0_1px_rgba(255,255,255,0.08)]",
+
+        visible ? "opacity-100" : "opacity-0 pointer-events-none",
       )}
       style={{
+        width: `${100 - index * WIDTH_STEP}%`,
+        transform: visible
+          ? `translateX(${index * X_OFFSET}%)
+             translateY(index * -OVERLAP)
+             scale(${1 - index * SCALE_STEP})`
+          : `translateX(${index * X_OFFSET + 5}%)
+             translateY(${index * -OVERLAP + 20}px)
+             scale(0.96)`,
+
+        zIndex: 20 - index,
         transitionDelay: visible ? `${delayMs}ms` : "0ms",
         transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)",
       }}
@@ -150,23 +180,17 @@ export function HowItWorksSection({ setLogoTheme }: HowItWorksSectionProps) {
             </div>
           </div>
 
-          <div
-            className={cx(
-              "pointer-events-none absolute bottom-[4%] left-[4%] right-[4%] z-30 h-[24rem] overflow-visible sm:h-[28rem] lg:left-auto lg:right-0 lg:top-[41%] lg:bottom-[7%] lg:h-auto lg:w-[86%] xl:top-[40%] 2xl:top-[39%] 2xl:w-[88%]",
-              isFinal ? "animate-[wem-breathe_5.2s_ease-in-out_infinite]" : "",
-            )}
-          >
-            <div className="relative h-full w-full">
-              {steps.map((step, index) => (
-                <HowItWorksStepCard
-                  key={step.stage}
-                  step={step}
-                  visible={isStepVisible(activeStageKey, step.stage)}
-                  delayMs={index * 120}
-                  highlighted={isFinal}
-                />
-              ))}
-            </div>
+          <div className="relative flex flex-col overflow-hidden ml-[15%]">
+            {steps.map((step, index) => (
+              <HowItWorksStepCard
+                key={step.stage}
+                step={step}
+                visible={isStepVisible(activeStageKey, step.stage)}
+                delayMs={index * 120}
+                highlighted={false}
+                index={index}
+              />
+            ))}
           </div>
         </div>
       </div>
