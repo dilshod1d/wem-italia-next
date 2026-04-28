@@ -111,7 +111,7 @@ function InsightBlock({
 }
 
 interface ProofPointCardProps {
-  title: string;
+  titleLines: readonly string[];
   color: string;
   iconName: WhyWemWorksProofPointIcon;
   visible: boolean;
@@ -119,7 +119,7 @@ interface ProofPointCardProps {
 }
 
 function ProofPointCard({
-  title,
+  titleLines,
   color,
   iconName,
   visible,
@@ -145,7 +145,11 @@ function ProofPointCard({
         <Icon className="h-full w-full" />
       </div>
       <h3 className="landing-title-md uppercase text-white md:text-[2.05rem] 2xl:text-[2.45rem]">
-        {title}
+        {titleLines.map((line) => (
+          <span key={line} className="block">
+            {line}
+          </span>
+        ))}
       </h3>
     </article>
   );
@@ -324,8 +328,8 @@ export function WhyWemWorksSection({ setLogoTheme }: WhyWemWorksSectionProps) {
                 <div className="grid h-full max-h-[22rem] w-full max-w-[22rem] grid-cols-2 grid-rows-2 gap-4 sm:max-h-[27rem] sm:max-w-[27rem] sm:gap-5 md:max-h-[31rem] md:max-w-[31rem] lg:max-h-[34rem] lg:max-w-[34rem] xl:max-h-[37rem] xl:max-w-[37rem] 2xl:max-h-[40rem] 2xl:max-w-[40rem]">
                   {proofPoints.map((item, index) => (
                     <ProofPointCard
-                      key={item.title}
-                      title={item.title}
+                      key={item.titleLines.join("-")}
+                      titleLines={item.titleLines}
                       color={item.color}
                       iconName={item.icon}
                       visible={showProofGrid}

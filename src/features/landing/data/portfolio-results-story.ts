@@ -21,14 +21,14 @@ export const portfolioResultsSectionConfig = {
     },
   ],
   copy: {
-    eyebrow: "Real Results",
-    title: "Different Industries. Same Method!",
+    eyebrow: "Risultati Reali",
+    title: "Settori Diversi. Stesso Metodo!",
     descriptionLines: [
-      "The method adapts to different contexts, but keeps the same direction:",
-      "vision, clarity, structure, and growth.",
+      "Il metodo si adatta a contesti diversi, ma mantiene la stessa direzione:",
+      "visione, chiarezza, struttura e crescita.",
     ],
-    proofTitle: "No Promises. Real Data!",
-    proofCta: "Click and read the case studies ->",
+    proofTitle: "Non Promesse. Dati Concreti!",
+    proofCta: "Clicca e leggi i casi studio",
   },
   portfolioItems: [
     {

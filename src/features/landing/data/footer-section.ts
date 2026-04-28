@@ -1,17 +1,17 @@
 import type { FooterSectionConfig } from "../types/footer-section";
 
 export const footerSectionConfig = {
-  ctaTitle: "Do you want a solid foundation to grow your project?",
+  ctaTitle: "Vuoi una base solida per far crescere il tuo progetto?",
   ctaBody:
-    "Let's talk about your project, your goals, and the budget you have available. I will quickly understand where to start and which path can work best.",
+    "Parliamo del tuo progetto, dei tuoi obiettivi e del budget disponibile.Capirò subito da dove partire e quale percorso può funzionare meglio.",
   ctaButtons: [
     {
-      label: "Call Me Now",
+      label: "Chiamami Subito",
       href: "tel:+393493432343",
       tone: "dark",
     },
     {
-      label: "Message Me on WhatsApp",
+      label: "Scrivimi su Whatsapp",
       href: "https://wa.me/393493432343",
       tone: "light",
     },
@@ -19,27 +19,27 @@ export const footerSectionConfig = {
   faqItems: [
     {
       id: "contracts",
-      question: "Are there mandatory subscriptions or binding contracts?",
+      question: "Ci sono abbonamenti obbligatori o contratti vincolanti?",
       answer:
-        "No. We work step by step, with clear approvals and no forced long-term constraints.",
+        "No. Lavoriamo passo dopo passo, con approvazioni chiare e senza vincoli a lungo termine imposti.",
     },
     {
       id: "timing",
-      question: "How long does it take?",
+      question: "Quanto tempo ci vuole?",
       answer:
-        "It depends on the project, but priorities, timing, and milestones are defined from the start.",
+        "Dipende dal progetto, ma priorità, tempistiche e milestone vengono definite fin dall’inizio.",
     },
     {
       id: "existing-site",
-      question: "What if I already have a website?",
+      question: "E se ho già un sito web?",
       answer:
-        "We assess what should be improved, what can be kept, and what should be rebuilt without wasting budget.",
+        "Valutiamo cosa migliorare, cosa mantenere e cosa ricostruire, senza sprecare budget.",
     },
     {
       id: "marketing",
-      question: "Do you also handle marketing?",
+      question: "Vi occupate anche di marketing?",
       answer:
-        "Yes. Strategy, website, SEO, communication, and promotion can all be included when they serve the project.",
+        "Sì. Strategia, sito web, SEO, comunicazione e promozione possono essere inclusi quando servono al progetto.",
     },
   ],
   socials: [
@@ -65,15 +65,15 @@ export const footerSectionConfig = {
     {
       id: "location",
       icon: "location",
-      label: "Where to find us",
-      value: "Wherever there is a phone",
+      label: "Dove trovarci",
+      value: "Ovunque ci sia un italiano!",
     },
   ],
   navLinks: [
-    { label: "Who We Are", href: "#who-we-are" },
-    { label: "Why It Works", href: "#why-it-works" },
-    { label: "How It Works", href: "#how-it-works" },
-    { label: "Results", href: "#results" },
-    { label: "Who We Support", href: "#who-we-support" },
+    { label: "Chi Siamo", href: "#who-we-are" },
+    { label: "Perché Funziona", href: "#why-it-works" },
+    { label: "Come Funziona", href: "#how-it-works" },
+    { label: "Risultati", href: "#results" },
+    { label: "Chi Supportiamo", href: "#who-we-support" },
   ],
 } satisfies FooterSectionConfig;

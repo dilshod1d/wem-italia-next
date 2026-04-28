@@ -396,7 +396,7 @@ export function FooterSection({ setLogoTheme }: FooterSectionProps) {
 
               <div>
                 <p className="font-sans text-[0.95rem] font-semibold uppercase tracking-[0.08em] text-white">
-                  Navigation
+                  NAVIGAZIONE
                 </p>
                 <nav className="mt-4 space-y-3">
                   {navLinks.map((link) => (

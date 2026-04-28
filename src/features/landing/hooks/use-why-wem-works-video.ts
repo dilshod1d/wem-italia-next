@@ -36,7 +36,7 @@ export function useWhyWemWorksVideo(
   const [handoffPhase, setHandoffPhase] =
     useState<WhyWemWorksHandoffPhase>("copy");
   const debugLogger = useVideoDebugLogger({
-    label: "Why WEM Works",
+    label: "Perché Funziona",
     videoSrc: videoUrl,
     configuredDuration: videoDuration,
     videoRef,

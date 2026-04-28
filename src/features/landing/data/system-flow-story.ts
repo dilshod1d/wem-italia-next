@@ -19,18 +19,18 @@ export const systemFlowSectionConfig = {
       endFrame: Number.POSITIVE_INFINITY,
     },
   ],
-  eyebrow: "How It Works",
-  title: "Pay Per Step.\nNo Constraints - No Subscriptions",
+  eyebrow: "Come Funziona",
+  title: "Paghi a Step. \nNo Vincoli - No Abbonamenti",
   paragraphs: [
-    "Continuity is built on value, not on constraints.",
-    "We work to build trust and results step by step.",
+    "La continuità si costruisce con il valore, non con i vincoli.",
+    "Lavoriamo per costruire fiducia e risultati passo dopo passo.",
   ],
   cards: [
     {
       stage: "step",
       icon: "steps",
-      title: "CLEAR STEPS",
-      body: "Each phase is defined and approved in advance.",
+      title: "STEP CHIARI",
+      body: "Ogni fase viene definita e approvata in anticipo.",
       toneClassName: "bg-brand-green",
       placementClassName:
         "left-0 right-4 top-0 sm:right-auto sm:w-[82%] lg:left-0 lg:top-0 lg:h-[42%] lg:w-[48%]",
@@ -39,8 +39,8 @@ export const systemFlowSectionConfig = {
     {
       stage: "budget",
       icon: "budget",
-      title: "TRANSPARENT BUDGET",
-      body: "Budget management is tied to results and approved at every step.",
+      title: "BUDGET TRASPARENTE",
+      body: "La gestione del budget è legata ai risultati e approvata ad ogni step",
       toneClassName: "bg-brand-red",
       placementClassName:
         "left-[7%] right-4 top-[5.25rem] sm:left-[18%] sm:right-auto sm:top-[6rem] sm:w-[82%] md:top-[6.5rem] lg:left-[28%] lg:top-[28%] lg:h-[43%] lg:w-[64%]",
@@ -49,8 +49,8 @@ export const systemFlowSectionConfig = {
     {
       stage: "support",
       icon: "support",
-      title: "WEM SUPPORT",
-      body: "You invest in WEM specialists and tools only when they are truly needed.",
+      title: "SUPPORTO WEM",
+      body: "Su specialisti e strumenti WEM si investe solo quando servono davvero",
       toneClassName: "bg-brand-blue",
       placementClassName:
         "left-[4%] right-4 top-[10rem] sm:left-[8%] sm:right-auto sm:top-[11.25rem] sm:w-[82%] md:top-[13rem] lg:left-[6%] lg:top-[58%] lg:h-[42%] lg:w-[66%]",

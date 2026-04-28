@@ -33,44 +33,45 @@ export const whyWemWorksSectionConfig = {
       endFrame: Number.POSITIVE_INFINITY,
     },
   ],
-  introTitle: "Why WEM Works",
-  title: "Why WEM Works",
+  introTitle: "Perché Funziona",
+  title: "Perché Funziona",
   leadParagraph:
-    "Management and execution are streamlined through AI, advanced tools, and the WEM professional network.",
-  resultParagraph: "The result is more efficient work and reduced costs.",
+    "Gestione e Operatività sono semplificati da AI, strumenti evoluti e la rete di professionisti WEM.",
+  resultParagraph:
+    "Il risultato è un lavoro più efficiente e budget ottimizzato.",
   blocks: [
     {
       stage: "method",
-      title: "The Strength of WEM Vision and Method",
-      body: "Every project is coordinated using the WEM Model, designed to integrate people, tools, and processes.",
+      title: "LA FORZA DI VISIONE E METODO WEM",
+      body: "Ogni progetto viene coordinato con il Modello WEM, progettato per integrare persone, strumenti e processi.",
       toneClassName: "bg-brand-blue",
     },
     {
       stage: "ai",
-      title: "The Superpowers of AI",
-      body: "Technical and repetitive tasks are handled faster thanks to advanced tools and AI.",
+      title: "I SUPER POTERI DELLE AI",
+      body: "Le attività tecniche e ripetitive vengono gestite più velocemente grazie a strumenti avanzati e AI.",
       toneClassName: "bg-brand-red",
       offsetClassName: "lg:ml-14",
     },
   ],
   proofPoints: [
     {
-      title: "Greater speed",
+      titleLines: ["PIÙ", "VELOCITÀ"],
       color: "bg-brand-green",
       icon: "speed",
     },
     {
-      title: "Reduced costs",
+      titleLines: ["Costi", "Ridotti"],
       color: "bg-brand-red",
       icon: "costs",
     },
     {
-      title: "Clearer decisions",
+      titleLines: ["Scelte", "Chiare"],
       color: "bg-brand-blue",
       icon: "decisions",
     },
     {
-      title: "Stronger projects",
+      titleLines: ["Progetti", "Piu Solidi"],
       color: "bg-brand-purple",
       icon: "projects",
     },

@@ -31,7 +31,7 @@ export type WhyWemWorksProofPointIcon =
   | "projects";
 
 export interface WhyWemWorksProofPoint {
-  readonly title: string;
+  readonly titleLines: readonly string[];
   readonly color: string;
   readonly icon: WhyWemWorksProofPointIcon;
 }
