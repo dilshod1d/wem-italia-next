@@ -18,34 +18,31 @@ gsap.registerPlugin(ScrollTrigger);
 export function LandingPage() {
   const [logoTheme, setLogoTheme] = useState<"light" | "dark">("light");
 
-  const resetScrollPosition = useCallback(() => {
-    ScrollTrigger.clearScrollMemory("manual");
-    window.scrollTo(0, 0);
-    requestAnimationFrame(() => ScrollTrigger.refresh());
-  }, []);
+  // const resetScrollPosition = useCallback(() => {
+  //   ScrollTrigger.clearScrollMemory("manual");
+  //   window.scrollTo(0, 0);
+  //   requestAnimationFrame(() => ScrollTrigger.refresh());
+  // }, []);
 
-  const resetToLandingStart = useCallback(() => {
-    setLogoTheme("light");
-    resetScrollPosition();
-  }, [resetScrollPosition]);
+  // const resetToLandingStart = useCallback(() => {
+  //   setLogoTheme("light");
+  //   resetScrollPosition();
+  // }, [resetScrollPosition]);
 
-  useLayoutEffect(() => {
-    const previousScrollRestoration = window.history.scrollRestoration;
+  // useLayoutEffect(() => {
+  //   const previousScrollRestoration = window.history.scrollRestoration;
 
-    window.history.scrollRestoration = "manual";
-    resetScrollPosition();
+  //   window.history.scrollRestoration = "manual";
+  //   resetScrollPosition();
 
-    return () => {
-      window.history.scrollRestoration = previousScrollRestoration;
-    };
-  }, [resetScrollPosition]);
+  //   return () => {
+  //     window.history.scrollRestoration = previousScrollRestoration;
+  //   };
+  // }, [resetScrollPosition]);
 
   return (
     <>
-      <LandingNavbar
-        logoTheme={logoTheme}
-        onHomeClick={resetToLandingStart}
-      />
+      <LandingNavbar logoTheme={logoTheme} onHomeClick={() => {}} />
       <main className="relative bg-background">
         <HeroSection setLogoTheme={setLogoTheme} />
         <WhyWemWorksSection setLogoTheme={setLogoTheme} />
