@@ -144,18 +144,18 @@ function PortfolioCard({
 
 function getPortfolioCardSizeClass(distanceFromFocus: number) {
   if (distanceFromFocus === 0) {
-    return "aspect-[9/16] h-[93%]";
-  }
-
-  if (distanceFromFocus === 1) {
     return "aspect-[9/16] h-[89%]";
   }
 
-  if (distanceFromFocus === 2) {
+  if (distanceFromFocus === 1) {
     return "aspect-[9/16] h-[85%]";
   }
 
-  return "aspect-[9/16] h-[81%]";
+  if (distanceFromFocus === 2) {
+    return "aspect-[9/16] h-[81%]";
+  }
+
+  return "aspect-[9/16] h-[77%]";
 }
 
 function getPortfolioCardImageHeightClass() {
@@ -549,7 +549,7 @@ export function PortfolioResultsSection({
             >
               <div
                 ref={portfolioTrackRef}
-                className="relative left-1/2 flex h-full w-max items-center justify-center gap-0 will-change-transform"
+                className="absolute left-1/2 flex h-full w-max items-center justify-center gap-0 will-change-transform"
                 style={{
                   transform: "translate3d(calc(-50% - 20%), 0, 0)",
                 }}
