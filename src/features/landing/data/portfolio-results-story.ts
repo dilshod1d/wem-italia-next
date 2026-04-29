@@ -9,7 +9,7 @@ export const portfolioResultsSectionConfig = {
   mobileVideoPan: [
     {
       startFrame: 0,
-      endFrame: 80, // ~2 second hold
+      endFrame: 90, // ~2 second hold
       fromX: 0,
       toX: 0,
       widthPercent: 240,
@@ -17,7 +17,7 @@ export const portfolioResultsSectionConfig = {
     },
     // Hold
     {
-      startFrame: 80,
+      startFrame: 90,
       endFrame: 150,
       fromX: -58,
       toX: -58,
