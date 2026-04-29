@@ -54,7 +54,6 @@
       ),
       linear-gradient(180deg, #050505 0%, #000000 100%);
     color: var(--foreground);
-    font-family: var(--font-poppins), ui-sans-serif, system-ui, sans-serif;
     overflow-x: hidden;
   }
 

@@ -17,12 +17,7 @@ export function BrandMark({
   onClick,
 }: BrandMarkProps) {
   return (
-    <Link
-      href="/"
-      aria-label="Go to homepage"
-      scroll={false}
-      onClick={onClick}
-    >
+    <Link href="/" aria-label="Go to homepage" scroll={false} onClick={onClick}>
       <div
         className={cx(
           "relative h-[56px] w-[140px] sm:h-[72px] sm:w-[180px] lg:h-[100px] lg:w-[250px]",
@@ -32,6 +27,7 @@ export function BrandMark({
         <Image
           src="/logo-light.svg"
           alt="WEM Italia logo"
+          loading="eager"
           fill
           sizes="(min-width: 1024px) 250px, (min-width: 640px) 180px, 140px"
           className={cx(
