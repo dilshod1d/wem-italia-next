@@ -20,6 +20,53 @@ interface WhyWemWorksVideoOptions {
   onEnterBack?: () => void;
 }
 
+function getMobileVideoPanTransform(
+  currentFrame: number,
+  pans: WhyWemWorksSectionConfig["mobileVideoPan"],
+) {
+  const activePan = pans?.find(
+    (pan) => currentFrame >= pan.startFrame && currentFrame <= pan.endFrame,
+  );
+
+  if (!activePan) return null;
+
+  const progress =
+    activePan.endFrame === activePan.startFrame
+      ? 1
+      : (currentFrame - activePan.startFrame) /
+        (activePan.endFrame - activePan.startFrame);
+
+  const x = activePan.fromX + (activePan.toX - activePan.fromX) * progress;
+
+  return {
+    x,
+    widthPercent: activePan.widthPercent ?? 180,
+  };
+}
+
+function applyMobileVideoPan(
+  video: HTMLVideoElement | null,
+  pan: { x: number; widthPercent: number } | null,
+) {
+  if (!video) return;
+
+  if (pan && window.innerWidth < 768) {
+    video.style.width = `${pan.widthPercent}%`;
+    video.style.maxWidth = "none";
+    video.style.left = "0";
+    video.style.right = "auto";
+    video.style.objectFit = "cover";
+    video.style.transform = `translateX(${pan.x}%)`;
+  } else {
+    video.style.width = "";
+    video.style.maxWidth = "";
+    video.style.left = "";
+    video.style.right = "";
+    video.style.objectFit = "";
+    video.style.transform = "";
+  }
+}
+
 export function useWhyWemWorksVideo(
   config: WhyWemWorksSectionConfig,
   options: WhyWemWorksVideoOptions = {},
@@ -51,6 +98,13 @@ export function useWhyWemWorksVideo(
       const currentFrame = Math.round(
         Math.min(Math.max(currentTime * fps, 0), totalFrames),
       );
+
+      const mobilePan = getMobileVideoPanTransform(
+        currentFrame,
+        config.mobileVideoPan,
+      );
+
+      applyMobileVideoPan(video, mobilePan);
 
       if (video && video.readyState >= 1) {
         video.currentTime = currentTime;

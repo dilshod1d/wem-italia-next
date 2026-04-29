@@ -6,19 +6,76 @@ export const systemFlowSectionConfig = {
   fps: 30,
   totalFrames: 150,
   videoDuration: 5,
-  // stages: [
-  //   { id: 1, key: "intro", startFrame: 0, endFrame: 90 },
-  //   { id: 2, key: "title", startFrame: 90, endFrame: 95 },
-  //   { id: 3, key: "body", startFrame: 95, endFrame: 104 },
-  //   { id: 4, key: "step", startFrame: 104, endFrame: 122 },
-  //   { id: 5, key: "budget", startFrame: 122, endFrame: 125 },
+  // mobileVideoPan: [
   //   {
-  //     id: 6,
-  //     key: "support",
-  //     startFrame: 125,
-  //     endFrame: Number.POSITIVE_INFINITY,
+  //     startFrame: 0,
+  //     endFrame: 30, // ~1 second
+  //     fromX: 0,
+  //     toX: 0,
+  //     widthPercent: 180,
+  //     description: "Hold last frame from section two (no movement).",
+  //   },
+  //   {
+  //     startFrame: 30,
+  //     endFrame: 150,
+  //     fromX: 0,
+  //     toX: -24,
+  //     widthPercent: 180,
+  //     description: "Characters fly right, so camera follows right.",
   //   },
   // ],
+  // mobileVideoPan: [
+  //   {
+  //     startFrame: 0,
+  //     endFrame: 30,
+  //     fromX: 0,
+  //     toX: 0,
+  //     widthPercent: 180,
+  //     description: "Hold section two final framing for first second.",
+  //   },
+  //   {
+  //     startFrame: 30,
+  //     endFrame: 90,
+  //     fromX: 0,
+  //     toX: -44,
+  //     widthPercent: 180,
+  //     description: "Reach right edge exactly by 3s / frame 90.",
+  //   },
+  //   {
+  //     startFrame: 90,
+  //     endFrame: 150,
+  //     fromX: -44,
+  //     toX: -44,
+  //     widthPercent: 180,
+  //     description: "Hold right edge after character reaches right side.",
+  //   },
+  // ],
+
+  mobileVideoPan: [
+    {
+      startFrame: 0,
+      endFrame: 30,
+      fromX: 0,
+      toX: 0,
+      widthPercent: 180,
+    },
+    {
+      startFrame: 30,
+      endFrame: 90,
+      fromX: 0,
+      toX: -58,
+      widthPercent: 240,
+      description:
+        "More aggressive pan right earlier to keep character in frame.",
+    },
+    {
+      startFrame: 90,
+      endFrame: 150,
+      fromX: -58,
+      toX: -58,
+      widthPercent: 240,
+    },
+  ],
   stages: [
     { id: 1, key: "intro", startFrame: 0, endFrame: 60 }, // 2s
     { id: 2, key: "title", startFrame: 60, endFrame: 75 }, // 0.5s
@@ -30,7 +87,7 @@ export const systemFlowSectionConfig = {
       id: 6,
       key: "support",
       startFrame: 131,
-      endFrame: 150, 
+      endFrame: 150,
     },
   ],
   eyebrow: "Come Funziona",

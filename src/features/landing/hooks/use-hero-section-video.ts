@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useSectionPin } from "@/components/Chapter/useSectionPin";
 
 import type {
@@ -19,6 +19,45 @@ interface HeroVideoState {
 interface HeroSectionVideoOptions {
   onEnter?: () => void;
   onEnterBack?: () => void;
+}
+
+function getMobileVideoPanTransform(
+  currentFrame: number,
+  pans: HeroSectionConfig["mobileVideoPan"],
+) {
+  const activePan = pans?.find(
+    (pan) => currentFrame >= pan.startFrame && currentFrame <= pan.endFrame,
+  );
+
+  if (!activePan) return null;
+
+  return {
+    x: activePan.fromX,
+    widthPercent: activePan.widthPercent ?? 150,
+  };
+}
+
+function applyMobileVideoPan(
+  video: HTMLVideoElement | null,
+  pan: { x: number; widthPercent: number } | null,
+) {
+  if (!video) return;
+
+  if (pan && window.innerWidth < 768) {
+    video.style.width = `${pan.widthPercent}%`;
+    video.style.maxWidth = "none";
+    video.style.left = "0";
+    video.style.right = "auto";
+    video.style.objectFit = "cover";
+    video.style.transform = `translateX(${pan.x}%)`;
+  } else {
+    video.style.width = "";
+    video.style.maxWidth = "";
+    video.style.left = "";
+    video.style.right = "";
+    video.style.objectFit = "";
+    video.style.transform = "";
+  }
 }
 
 export function useHeroSectionVideo(
@@ -48,6 +87,17 @@ export function useHeroSectionVideo(
     videoRef,
   });
 
+  useEffect(() => {
+    const firstPan = config.mobileVideoPan?.[0];
+
+    if (!firstPan) return;
+
+    applyMobileVideoPan(videoRef.current, {
+      x: firstPan.fromX,
+      widthPercent: firstPan.widthPercent ?? 150,
+    });
+  }, [config.mobileVideoPan]);
+
   const { sectionRef, isScrolled } = useSectionPin({
     onEnter: options.onEnter,
     onEnterBack: options.onEnterBack,
@@ -57,6 +107,15 @@ export function useHeroSectionVideo(
       const currentFrame = Math.round(
         Math.min(Math.max(currentTime * fps, 0), totalFrames),
       );
+
+      const mobilePan = getMobileVideoPanTransform(
+        currentFrame,
+        config.mobileVideoPan,
+      );
+
+      if (video) {
+        applyMobileVideoPan(video, mobilePan);
+      }
 
       if (video && video.readyState >= 1) {
         video.currentTime = currentTime;
@@ -69,9 +128,7 @@ export function useHeroSectionVideo(
             currentFrame >= item.fromFrame && currentFrame < item.toFrame,
         )
         .sort((a, b) => a.order - b.order);
-      const nextBodySignature = visibleBodies
-        .map((item) => item.key)
-        .join("|");
+      const nextBodySignature = visibleBodies.map((item) => item.key).join("|");
       const visibleSupportCards = config.supportCardItems
         .filter(
           (item) =>

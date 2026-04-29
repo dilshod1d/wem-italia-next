@@ -6,6 +6,16 @@ export const heroStoryConfig = {
   fps: 30,
   totalFrames: 150,
   videoDuration: 5,
+  mobileVideoPan: [
+    {
+      startFrame: 0,
+      endFrame: 150,
+      fromX: -44,
+      toX: -44,
+      widthPercent: 180,
+      description: "Fixed mobile framing for hero video.",
+    },
+  ],
   eyebrows: {
     intro: { text: "Sito Web - SEO - Social - Promo - AI" },
     enterprise: { text: "WEM Enterprise" },

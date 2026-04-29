@@ -6,6 +6,25 @@ export const whyWemWorksSectionConfig = {
   fps: 30,
   totalFrames: 150,
   videoDuration: 5,
+  mobileVideoPan: [
+    {
+      startFrame: 0,
+      endFrame: 55,
+      fromX: -44,
+      toX: -44,
+      widthPercent: 180,
+      description: "Start fixed on the right-side framing.",
+    },
+    {
+      startFrame: 55,
+      endFrame: 150,
+      fromX: -44,
+      toX: 0,
+      widthPercent: 180,
+      description:
+        "Follow character gradually moving left by returning toward center.",
+    },
+  ],
   handoff: {
     cardAppearFrame: 5,
     endFrame: 32,

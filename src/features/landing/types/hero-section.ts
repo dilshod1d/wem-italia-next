@@ -1,3 +1,5 @@
+import { MobileVideoPan } from "./mobile-frame-types";
+
 export type HeroSupportCardTone = "blue" | "orange" | "purple";
 
 export type HeroSupportCardIcon = "giovanni" | "wem-ai" | "wem-agency";
@@ -61,4 +63,5 @@ export interface HeroSectionConfig {
   readonly supportCards: Readonly<Record<string, HeroSupportCard>>;
   readonly placements: Readonly<Record<string, HeroStagePlacement>>;
   readonly stages: readonly HeroStage[];
+  readonly mobileVideoPan?: readonly MobileVideoPan[];
 }
