@@ -18,6 +18,61 @@ interface HowItWorksVideoOptions {
   onEnterBack?: () => void;
 }
 
+function getMobileVideoPanTransform(
+  currentFrame: number,
+  pans: HowItWorksSectionConfig["mobileVideoPan"],
+) {
+  const activePan = pans?.find(
+    (pan) => currentFrame >= pan.startFrame && currentFrame <= pan.endFrame,
+  );
+
+  if (!activePan) return null;
+
+  const progress =
+    activePan.endFrame === activePan.startFrame
+      ? 1
+      : (currentFrame - activePan.startFrame) /
+        (activePan.endFrame - activePan.startFrame);
+
+  // const x = activePan.fromX + (activePan.toX - activePan.fromX) * progress;
+  const easedProgress =
+    progress < 0.5
+      ? 2 * progress * progress
+      : 1 - Math.pow(-2 * progress + 2, 2) / 2;
+
+  const x = activePan.fromX + (activePan.toX - activePan.fromX) * easedProgress;
+
+  return {
+    x,
+    widthPercent: activePan.widthPercent ?? 180,
+  };
+}
+
+function applyMobileVideoPan(
+  video: HTMLVideoElement | null,
+  pan: { x: number; widthPercent: number } | null,
+) {
+  if (!video) return;
+
+  const isMobile = window.matchMedia("(max-width: 767px)").matches;
+
+  if (pan && isMobile) {
+    video.style.width = `${pan.widthPercent}%`;
+    video.style.maxWidth = "none";
+    video.style.left = "0";
+    video.style.right = "auto";
+    video.style.objectFit = "cover";
+    video.style.transform = `translateX(${pan.x}%)`;
+  } else {
+    video.style.width = "";
+    video.style.maxWidth = "";
+    video.style.left = "";
+    video.style.right = "";
+    video.style.objectFit = "";
+    video.style.transform = "";
+  }
+}
+
 export function useHowItWorksVideo(
   config: HowItWorksSectionConfig,
   options: HowItWorksVideoOptions = {},
@@ -47,9 +102,16 @@ export function useHowItWorksVideo(
         Math.min(Math.max(currentTime * fps, 0), totalFrames),
       );
 
+      const mobilePan = getMobileVideoPanTransform(
+        currentFrame,
+        config.mobileVideoPan,
+      );
+
       if (video && video.readyState >= 1) {
         video.currentTime = currentTime;
       }
+
+      applyMobileVideoPan(video, mobilePan);
 
       const { lastStageKey } = stateRef.current;
       const activeStage = stages.find(

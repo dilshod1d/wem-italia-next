@@ -6,6 +6,24 @@ export const howItWorksSectionConfig = {
   fps: 30,
   totalFrames: 150,
   videoDuration: 5,
+  mobileVideoPan: [
+    {
+      startFrame: 0,
+      endFrame: 40,
+      fromX: -58,
+      toX: -50,
+      widthPercent: 240,
+      description: "Hold final right-side framing from section three.",
+    },
+    {
+      startFrame: 40,
+      endFrame: 150,
+      fromX: 0,
+      toX: 0,
+      widthPercent: 240,
+      description: "Hold left-side framing at the end.",
+    },
+  ],
   stages: [
     { id: 1, key: "intro", startFrame: 0, endFrame: 0 },
     { id: 2, key: "headline", startFrame: 0, endFrame: 47 },

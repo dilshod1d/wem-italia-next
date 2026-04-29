@@ -6,51 +6,6 @@ export const systemFlowSectionConfig = {
   fps: 30,
   totalFrames: 150,
   videoDuration: 5,
-  // mobileVideoPan: [
-  //   {
-  //     startFrame: 0,
-  //     endFrame: 30, // ~1 second
-  //     fromX: 0,
-  //     toX: 0,
-  //     widthPercent: 180,
-  //     description: "Hold last frame from section two (no movement).",
-  //   },
-  //   {
-  //     startFrame: 30,
-  //     endFrame: 150,
-  //     fromX: 0,
-  //     toX: -24,
-  //     widthPercent: 180,
-  //     description: "Characters fly right, so camera follows right.",
-  //   },
-  // ],
-  // mobileVideoPan: [
-  //   {
-  //     startFrame: 0,
-  //     endFrame: 30,
-  //     fromX: 0,
-  //     toX: 0,
-  //     widthPercent: 180,
-  //     description: "Hold section two final framing for first second.",
-  //   },
-  //   {
-  //     startFrame: 30,
-  //     endFrame: 90,
-  //     fromX: 0,
-  //     toX: -44,
-  //     widthPercent: 180,
-  //     description: "Reach right edge exactly by 3s / frame 90.",
-  //   },
-  //   {
-  //     startFrame: 90,
-  //     endFrame: 150,
-  //     fromX: -44,
-  //     toX: -44,
-  //     widthPercent: 180,
-  //     description: "Hold right edge after character reaches right side.",
-  //   },
-  // ],
-
   mobileVideoPan: [
     {
       startFrame: 0,

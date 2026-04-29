@@ -6,6 +6,25 @@ export const portfolioResultsSectionConfig = {
   fps: 30,
   totalFrames: 150,
   videoDuration: 5,
+  mobileVideoPan: [
+    {
+      startFrame: 0,
+      endFrame: 80, // ~2 second hold
+      fromX: 0,
+      toX: 0,
+      widthPercent: 240,
+      description: "Continue from section 4 (hold left-side framing).",
+    },
+    // Hold
+    {
+      startFrame: 80,
+      endFrame: 150,
+      fromX: -58,
+      toX: -58,
+      widthPercent: 240,
+      description: "Hold right-side framing.",
+    },
+  ],
   focusItemId: "architecture",
   stages: [
     { id: 1, key: "intro", startFrame: 0, endFrame: 24 },

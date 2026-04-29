@@ -1,3 +1,5 @@
+import { MobileVideoPan } from "./mobile-frame-types";
+
 export type HowItWorksStageKey =
   | "intro"
   | "headline"
@@ -41,4 +43,5 @@ export interface HowItWorksSectionConfig {
   readonly stages: readonly HowItWorksStage[];
   readonly copy: HowItWorksCopy;
   readonly steps: readonly HowItWorksStep[];
+  readonly mobileVideoPan?: readonly MobileVideoPan[];
 }
