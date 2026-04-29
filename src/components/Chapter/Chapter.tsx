@@ -56,7 +56,8 @@ export function Chapter({
       style={{ height: `${CHAPTER_SCROLL_DISTANCE}px` }}
     >
       <div
-        className="relative z-20 h-screen w-full overflow-hidden max-md:h-dvh!"
+        // className="relative z-20 h-screen w-full overflow-hidden max-md:h-dvh!"
+        className="relative z-20 h-[100lvh] w-full overflow-hidden md:h-screen"
       >
         {videoSrc ? (
           <video
