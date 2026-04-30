@@ -45,11 +45,11 @@ export function LandingPage() {
       {/* <LandingNavbar logoTheme={logoTheme} onHomeClick={resetToLandingStart} /> */}
       <main className="relative bg-background">
         <HeroSection setLogoTheme={setLogoTheme} />
-        <WhyWemWorksSection setLogoTheme={setLogoTheme} />
+        {/* <WhyWemWorksSection setLogoTheme={setLogoTheme} />
         <SystemFlowSection setLogoTheme={setLogoTheme} />
         <HowItWorksSection setLogoTheme={setLogoTheme} />
         <PortfolioResultsHybridSection setLogoTheme={setLogoTheme} />
-        <WhoWeSupportSection />
+        <WhoWeSupportSection /> */}
         {/* <FooterSection setLogoTheme={setLogoTheme} /> */}
       </main>
     </>
