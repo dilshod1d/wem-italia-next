@@ -161,46 +161,49 @@ export function FooterSection({ setLogoTheme }: FooterSectionProps) {
 
     if (!footer || !cta || !faqHeading || !faqList || !talk || !panel) return;
 
-    // Theme trigger (no change needed)
     const trigger = ScrollTrigger.create({
       trigger: footer,
       start: "top top",
       end: "bottom bottom",
-      onEnter: () => setLogoTheme("light"),
-      onEnterBack: () => setLogoTheme("light"),
-      onLeaveBack: () => setLogoTheme("dark"),
+      onEnter: () => {
+        setLogoTheme("light");
+      },
+      onEnterBack: () => {
+        setLogoTheme("light");
+      },
+      onLeaveBack: () => {
+        setLogoTheme("dark");
+      },
     });
 
     const ctx = gsap.context(() => {
-      const elements = [cta, faqHeading, faqList, talk, panel];
-
-      // ✅ SAFE initial state (NO scale)
-      gsap.set(elements, {
+      gsap.set([cta, faqHeading, faqList, talk, panel], {
         autoAlpha: 0,
-        y: 40, // slightly smaller for smoother feel
-        clearProps: "scale", // ensures no leftover scale
+        y: 50,
+        scale: 0.985,
       });
 
-      // ✅ Clean timeline
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: footer,
-          start: "top 82%",
-          once: true,
-        },
-      });
-
-      tl.to(cta, {
-        autoAlpha: 1,
-        y: 0,
-        duration: 0.65,
-        ease: "power3.out",
-      })
+      gsap
+        .timeline({
+          scrollTrigger: {
+            trigger: footer,
+            start: "top 82%",
+            once: true,
+          },
+        })
+        .to(cta, {
+          autoAlpha: 1,
+          y: 0,
+          scale: 1,
+          duration: 0.65,
+          ease: "power3.out",
+        })
         .to(
           faqHeading,
           {
             autoAlpha: 1,
             y: 0,
+            scale: 1,
             duration: 0.58,
             ease: "power3.out",
           },
@@ -211,6 +214,7 @@ export function FooterSection({ setLogoTheme }: FooterSectionProps) {
           {
             autoAlpha: 1,
             y: 0,
+            scale: 1,
             duration: 0.62,
             ease: "power3.out",
           },
@@ -221,6 +225,7 @@ export function FooterSection({ setLogoTheme }: FooterSectionProps) {
           {
             autoAlpha: 1,
             y: 0,
+            scale: 1,
             duration: 0.62,
             ease: "power3.out",
           },
@@ -231,6 +236,7 @@ export function FooterSection({ setLogoTheme }: FooterSectionProps) {
           {
             autoAlpha: 1,
             y: 0,
+            scale: 1,
             duration: 0.62,
             ease: "power3.out",
           },
@@ -239,99 +245,10 @@ export function FooterSection({ setLogoTheme }: FooterSectionProps) {
     }, footer);
 
     return () => {
-      ctx.revert(); // cleans animations
-      trigger.kill(); // cleans ScrollTrigger
+      ctx.revert();
+      trigger.kill();
     };
   }, [setLogoTheme]);
-
-  //   const trigger = ScrollTrigger.create({
-  //     trigger: footer,
-  //     start: "top top",
-  //     end: "bottom bottom",
-  //     onEnter: () => {
-  //       setLogoTheme("light");
-  //     },
-  //     onEnterBack: () => {
-  //       setLogoTheme("light");
-  //     },
-  //     onLeaveBack: () => {
-  //       setLogoTheme("dark");
-  //     },
-  //   });
-
-  //   const ctx = gsap.context(() => {
-  //     gsap.set([cta, faqHeading, faqList, talk, panel], {
-  //       autoAlpha: 0,
-  //       y: 50,
-  //       scale: 0.985,
-  //     });
-
-  //     gsap
-  //       .timeline({
-  //         scrollTrigger: {
-  //           trigger: footer,
-  //           start: "top 82%",
-  //           once: true,
-  //         },
-  //       })
-  //       .to(cta, {
-  //         autoAlpha: 1,
-  //         y: 0,
-  //         scale: 1,
-  //         duration: 0.65,
-  //         ease: "power3.out",
-  //       })
-  //       .to(
-  //         faqHeading,
-  //         {
-  //           autoAlpha: 1,
-  //           y: 0,
-  //           scale: 1,
-  //           duration: 0.58,
-  //           ease: "power3.out",
-  //         },
-  //         "-=0.2",
-  //       )
-  //       .to(
-  //         faqList,
-  //         {
-  //           autoAlpha: 1,
-  //           y: 0,
-  //           scale: 1,
-  //           duration: 0.62,
-  //           ease: "power3.out",
-  //         },
-  //         "-=0.22",
-  //       )
-  //       .to(
-  //         talk,
-  //         {
-  //           autoAlpha: 1,
-  //           y: 0,
-  //           scale: 1,
-  //           duration: 0.62,
-  //           ease: "power3.out",
-  //         },
-  //         "-=0.18",
-  //       )
-  //       .to(
-  //         panel,
-  //         {
-  //           autoAlpha: 1,
-  //           y: 0,
-  //           scale: 1,
-  //           duration: 0.62,
-  //           ease: "power3.out",
-  //         },
-  //         "-=0.2",
-  //       );
-  //   }, footer);
-
-  //   return () => {
-  //     ctx.revert();
-  //     trigger.kill();
-  //   };
-  // }, [setLogoTheme]);
 
   return (
     <footer
@@ -370,13 +287,19 @@ export function FooterSection({ setLogoTheme }: FooterSectionProps) {
         </div>
 
         <div className="w-full">
-          <div ref={footerFaqHeadingRef} className="text-center">
+          <div
+            ref={footerFaqHeadingRef}
+            className="text-center"
+          >
             <h3 className="font-sans text-[2rem] font-semibold tracking-tight text-white sm:text-[2.3rem] md:text-[3rem] lg:text-[4rem]">
               FAQ
             </h3>
           </div>
 
-          <div ref={footerFaqListRef} className="mt-6 sm:mt-8">
+          <div
+            ref={footerFaqListRef}
+            className="mt-6 sm:mt-8"
+          >
             {faqItems.map((item) => (
               <FooterFaqRow
                 key={item.id}
