@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useLayoutEffect, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -39,6 +39,23 @@ export function LandingPage() {
       window.history.scrollRestoration = previousScrollRestoration;
     };
   }, [resetScrollPosition]);
+
+  useEffect(() => {
+  const updateHeight = () => {
+    const vh = window.visualViewport?.height || window.innerHeight;
+    document.documentElement.style.setProperty("--vh", `${vh * 0.01}px`);
+  };
+
+  updateHeight();
+
+  window.visualViewport?.addEventListener("resize", updateHeight);
+  window.addEventListener("resize", updateHeight);
+
+  return () => {
+    window.visualViewport?.removeEventListener("resize", updateHeight);
+    window.removeEventListener("resize", updateHeight);
+  };
+}, []);
 
   return (
     <>
