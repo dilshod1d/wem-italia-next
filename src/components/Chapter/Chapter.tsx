@@ -73,7 +73,6 @@ export function Chapter({
             src={videoSrc}
             playsInline
             muted
-            // autoPlay={isIOS}
             preload="auto"
           />
         ) : null}
@@ -86,7 +85,6 @@ export function Chapter({
             className="hidden"
             src={nextVideoSrc}
             muted
-            // autoPlay={isIOS}
             playsInline
             preload="auto"
           />

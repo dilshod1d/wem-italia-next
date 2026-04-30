@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { useSectionPin } from "@/components/Chapter/useSectionPin";
 
 import type {
@@ -87,7 +87,18 @@ export function useHeroSectionVideo(
     videoRef,
   });
 
-  useEffect(() => {
+  // useEffect(() => {
+  //   const firstPan = config.mobileVideoPan?.[0];
+
+  //   if (!firstPan) return;
+
+  //   applyMobileVideoPan(videoRef.current, {
+  //     x: firstPan.fromX,
+  //     widthPercent: firstPan.widthPercent ?? 150,
+  //   });
+  // }, [config.mobileVideoPan]);
+
+  useLayoutEffect(() => {
     const firstPan = config.mobileVideoPan?.[0];
 
     if (!firstPan) return;
