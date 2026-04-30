@@ -65,7 +65,6 @@ export function Chapter({
             )}
             src={videoSrc}
             playsInline
-            autoPlay
             muted
             preload="auto"
           />
@@ -80,7 +79,6 @@ export function Chapter({
             src={nextVideoSrc}
             muted
             playsInline
-            autoPlay
             preload="auto"
           />
         ) : null}
