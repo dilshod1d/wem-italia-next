@@ -47,8 +47,8 @@ export function LandingPage() {
         <HeroSection setLogoTheme={setLogoTheme} />
         <WhyWemWorksSection setLogoTheme={setLogoTheme} />
         <SystemFlowSection setLogoTheme={setLogoTheme} />
-        {/* <HowItWorksSection setLogoTheme={setLogoTheme} />
-        <PortfolioResultsHybridSection setLogoTheme={setLogoTheme} />
+        <HowItWorksSection setLogoTheme={setLogoTheme} />
+        {/* <PortfolioResultsHybridSection setLogoTheme={setLogoTheme} />
         <WhoWeSupportSection /> */}
         {/* <FooterSection setLogoTheme={setLogoTheme} /> */}
       </main>
