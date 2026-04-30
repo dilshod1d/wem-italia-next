@@ -566,7 +566,7 @@ export function PortfolioResultsHybridSection({
   const visualFocusIndex =
     isVideoFocusStage && focusIndex !== -1 ? focusIndex : activePortfolioIndex;
   const handlePortfolioPointerMove = (event: PointerEvent<HTMLDivElement>) => {
-    if (event.pointerType === "touch") return;
+    // if (event.pointerType === "touch") return;
 
     updatePortfolioPointerPosition(
       portfolioTrackRef.current,
@@ -575,6 +575,52 @@ export function PortfolioResultsHybridSection({
       event.clientX,
     );
   };
+  const touchState = useRef({
+    startX: 0,
+    lastX: 0,
+    isDragging: false,
+  });
+
+  useEffect(() => {
+    const el = portfolioInteractionRef.current;
+    if (!el) return;
+
+    const onTouchStart = (e: TouchEvent) => {
+      touchState.current.startX = e.touches[0].clientX;
+      touchState.current.lastX = e.touches[0].clientX;
+      touchState.current.isDragging = true;
+    };
+
+    const onTouchMove = (e: TouchEvent) => {
+      if (!touchState.current.isDragging) return;
+
+      const currentX = e.touches[0].clientX;
+      const delta = touchState.current.lastX - currentX;
+
+      touchState.current.lastX = currentX;
+
+      updatePortfolioWheelPosition(
+        portfolioTrackRef.current,
+        portfolioViewportRef.current,
+        portfolioMotionRef.current,
+        delta,
+      );
+    };
+
+    const onTouchEnd = () => {
+      touchState.current.isDragging = false;
+    };
+
+    el.addEventListener("touchstart", onTouchStart, { passive: true });
+    el.addEventListener("touchmove", onTouchMove, { passive: true });
+    el.addEventListener("touchend", onTouchEnd);
+
+    return () => {
+      el.removeEventListener("touchstart", onTouchStart);
+      el.removeEventListener("touchmove", onTouchMove);
+      el.removeEventListener("touchend", onTouchEnd);
+    };
+  }, []);
   const handlePortfolioPointerLeave = () => {
     updatePortfolioPointerPosition(
       portfolioTrackRef.current,
