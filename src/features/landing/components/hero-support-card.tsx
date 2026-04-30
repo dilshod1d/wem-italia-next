@@ -53,7 +53,7 @@ export function HeroSupportCard({ card, isActive }: HeroSupportCardProps) {
           <p className="font-sans text-[1.7rem] font-semibold uppercase sm:text-[2rem] md:text-[2.4rem] 2xl:text-[2.9rem]">
             {card.title}
           </p>
-          <p className="mt-1.5 font-body text-[0.95rem] leading-[1.35] text-white/90 sm:mt-2 sm:text-[1.15rem] md:text-2xl 2xl:text-[1.6rem]">
+          <p className="mt-1.5 font-body text-[0.95rem] leading-[1.35] text-white sm:mt-2 sm:text-[1.15rem] md:text-2xl 2xl:text-[1.6rem]">
             {card.description}
           </p>
         </div>

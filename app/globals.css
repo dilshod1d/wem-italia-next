@@ -23,6 +23,8 @@
   --color-brand-purple: #6d3cdb;
   --color-brand-yellow: #eaba2b;
   --color-portfolio-blue: #3179f6;
+  --color-light-gray: rgb(255 255 255 / 0.84);
+  --color-dark-gray: rgb(255 255 255 / 0.6);
   --spacing-landing-copy-base: 5rem;
   --spacing-landing-copy-sm: 6rem;
   --spacing-landing-copy-lg: 8rem;

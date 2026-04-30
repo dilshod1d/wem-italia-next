@@ -88,7 +88,7 @@ export default function HowItWorksStepCard({
           {step.title}
         </h3>
 
-        <p className="mt-1.5 max-w-[94%] font-body text-[0.9rem] leading-[1.2] text-white/90 sm:text-[1rem] md:mt-2 md:text-[1.12rem] lg:mt-1.5 lg:max-w-[86%] lg:text-[1.02rem] lg:leading-[1.16] xl:text-[1.14rem] 2xl:text-[1.34rem]">
+        <p className="mt-1.5 max-w-[94%] font-body text-[0.9rem] leading-[1.2] text-white sm:text-[1rem] md:mt-2 md:text-[1.12rem] lg:mt-1.5 lg:max-w-[86%] lg:text-[1.02rem] lg:leading-[1.16] xl:text-[1.14rem] 2xl:text-[1.34rem]">
           {step.body}
         </p>
       </div>

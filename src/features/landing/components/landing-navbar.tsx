@@ -134,7 +134,7 @@ export function LandingNavbar({ logoTheme, onHomeClick }: LandingNavbarProps) {
                       key={social.id}
                       href={social.href}
                       aria-label={social.label}
-                      className="flex h-10 w-10 items-center justify-center rounded-full border border-white/28 text-white/82 transition-colors hover:border-white hover:text-white sm:h-10 sm:w-10"
+                      className="flex h-10 w-10 items-center justify-center rounded-full border border-white/28 text-light-gray transition-colors hover:border-white hover:text-white sm:h-10 sm:w-10"
                     >
                       <Icon className="h-3.5 w-3.5" />
                     </a>

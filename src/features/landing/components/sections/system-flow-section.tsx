@@ -91,7 +91,7 @@ function BenefitCard({
           {title}
         </h3>
 
-        <p className="mt-[0.6rem] max-w-[40.6rem] font-body text-[1.04rem] leading-[1.25] text-white/92 sm:text-[1.2rem] md:mt-[0.78rem] md:text-[1.62rem] lg:mt-2 lg:max-w-[92%] lg:text-[1rem] lg:leading-[1.22] xl:text-[1.08rem] 2xl:text-[1.22rem]">
+        <p className="mt-[0.6rem] max-w-[40.6rem] font-body text-[1.04rem] leading-[1.25] text-white sm:text-[1.2rem] md:mt-[0.78rem] md:text-[1.62rem] lg:mt-2 lg:max-w-[92%] lg:text-[1rem] lg:leading-[1.22] xl:text-[1.08rem] 2xl:text-[1.22rem]">
           {body}
         </p>
       </div>

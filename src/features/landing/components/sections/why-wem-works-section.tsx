@@ -94,7 +94,7 @@ function InsightBlock({
         className="
           landing-body-sm
           mt-2
-          text-white/92
+          text-white
 
           text-[0.9rem] leading-6
           max-w-[95%]
@@ -173,7 +173,7 @@ export function WhyWemWorksSection({ setLogoTheme }: WhyWemWorksSectionProps) {
       navTheme="dark"
       indicatorLabel="Scroll Down"
       indicatorPersistent
-      indicatorLabelClassName="normal-case text-[1.05rem] font-medium tracking-normal text-white/95"
+      indicatorLabelClassName="normal-case text-[1.05rem] font-medium tracking-normal text-white"
       videoClassName="md:object-[center_58%]"
     >
       {(() => {
@@ -203,7 +203,7 @@ export function WhyWemWorksSection({ setLogoTheme }: WhyWemWorksSectionProps) {
                 style={{ textShadow: "0 8px 30px rgba(0, 0, 0, 0.32)" }}
               >
                 <div>
-                  <p className="text-eyebrow text-white/60">
+                  <p className="text-eyebrow text-dark-gray">
                     {handoff.eyebrow}
                   </p>
                   <h2 className="heading text-white">
@@ -213,7 +213,7 @@ export function WhyWemWorksSection({ setLogoTheme }: WhyWemWorksSectionProps) {
                       </span>
                     ))}
                   </h2>
-                  <div className="mt-5 body-stack text-body text-white/84">
+                  <div className="mt-5 body-stack text-body text-white">
                     {handoff.paragraphs.map((paragraph) => (
                       <p key={paragraph}>{paragraph}</p>
                     ))}
@@ -256,7 +256,7 @@ export function WhyWemWorksSection({ setLogoTheme }: WhyWemWorksSectionProps) {
       `,
                 )}
               >
-                <h3 className="heading text-white/75">{introTitle}</h3>
+                <h3 className="heading text-white">{introTitle}</h3>
               </div>
 
               <div
@@ -278,11 +278,11 @@ export function WhyWemWorksSection({ setLogoTheme }: WhyWemWorksSectionProps) {
                 }}
               >
                 <div className="text-right">
-                  <p className="text-body text-white/94">{leadParagraph}</p>
+                  <p className="text-body text-white">{leadParagraph}</p>
 
                   <p
                     className={cx(
-                      "text-body text-white/90 transition-all duration-700",
+                      "text-body text-white transition-all duration-700",
                       showSecondParagraph
                         ? "translate-y-0 opacity-100"
                         : "translate-y-5 opacity-0",

@@ -68,7 +68,7 @@ function FooterFaqRow({ item, open, onToggle }: FooterFaqRowProps) {
         onClick={onToggle}
         className="flex w-full items-center justify-between gap-4 text-left sm:gap-6"
       >
-        <span className="font-body text-[0.95rem] font-medium leading-[1.3] text-white/94 sm:text-[1rem] md:text-[1.2rem]">
+        <span className="font-body text-[0.95rem] font-medium leading-[1.3] text-white sm:text-[1rem] md:text-[1.2rem]">
           {item.question}
         </span>
 
@@ -97,7 +97,7 @@ function FooterFaqRow({ item, open, onToggle }: FooterFaqRowProps) {
         )}
       >
         <div className="overflow-hidden">
-          <p className="max-w-5xl font-body text-[0.96rem] leading-[1.5] text-white/68 md:text-[1.05rem]">
+          <p className="max-w-5xl font-body text-[0.96rem] leading-[1.5] text-dark-gray md:text-[1.05rem]">
             {item.answer}
           </p>
         </div>
@@ -110,14 +110,14 @@ function FooterContactRow({ item }: { item: FooterContactItem }) {
   const Icon = contactIcons[item.icon];
   const content = (
     <div className="flex items-center gap-3.5 rounded-[1rem] bg-footer-surface px-3.5 py-3.5 ring-1 ring-white/8 sm:gap-4 sm:px-4 sm:py-4">
-      <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-white/8 text-white/90 sm:h-10 sm:w-10">
+      <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-white/8 text-white sm:h-10 sm:w-10">
         <Icon className="h-4 w-4" />
       </div>
       <div className="min-w-0">
-        <p className="font-body text-[0.72rem] leading-none text-white/45 sm:text-[0.76rem]">
+        <p className="font-body text-[0.72rem] leading-none text-dark-gray sm:text-[0.76rem]">
           {item.label}
         </p>
-        <p className="mt-1 break-words font-body text-[0.88rem] leading-[1.25] text-white/92 sm:text-[0.95rem]">
+        <p className="mt-1 break-words font-body text-[0.88rem] leading-[1.25] text-white sm:text-[0.95rem]">
           {item.value}
         </p>
       </div>
@@ -265,7 +265,7 @@ export function FooterSection({ setLogoTheme }: FooterSectionProps) {
           <h2 className="mx-auto max-w-4xl font-sans text-[1.55rem] font-semibold leading-[1.08] tracking-tight text-white sm:text-[2rem] md:text-[2.5rem] lg:text-[3rem]">
             {ctaTitle}
           </h2>
-          <p className="mx-auto mt-3 max-w-4xl font-body text-[0.95rem] leading-[1.55] text-white/88 sm:mt-4 sm:text-[1rem] md:text-[1.08rem] lg:text-[1.18rem]">
+          <p className="mx-auto mt-3 max-w-4xl font-body text-[0.95rem] leading-[1.55] text-light-gray sm:mt-4 sm:text-[1rem] md:text-[1.08rem] lg:text-[1.18rem]">
             {ctaBody}
           </p>
           <div className="mt-5 flex flex-col items-center justify-center gap-3 sm:mt-6 sm:flex-row sm:gap-4">
@@ -287,19 +287,13 @@ export function FooterSection({ setLogoTheme }: FooterSectionProps) {
         </div>
 
         <div className="w-full">
-          <div
-            ref={footerFaqHeadingRef}
-            className="text-center"
-          >
+          <div ref={footerFaqHeadingRef} className="text-center">
             <h3 className="font-sans text-[2rem] font-semibold tracking-tight text-white sm:text-[2.3rem] md:text-[3rem] lg:text-[4rem]">
               FAQ
             </h3>
           </div>
 
-          <div
-            ref={footerFaqListRef}
-            className="mt-6 sm:mt-8"
-          >
+          <div ref={footerFaqListRef} className="mt-6 sm:mt-8">
             {faqItems.map((item) => (
               <FooterFaqRow
                 key={item.id}
@@ -337,7 +331,7 @@ export function FooterSection({ setLogoTheme }: FooterSectionProps) {
                       key={social.id}
                       href={social.href}
                       aria-label={social.label}
-                      className="flex h-10 w-10 items-center justify-center rounded-full border border-white/18 text-white/88 transition-colors hover:border-brand-cyan hover:text-brand-cyan"
+                      className="flex h-10 w-10 items-center justify-center rounded-full border border-white/18 text-light-gray transition-colors hover:border-brand-cyan hover:text-brand-cyan"
                     >
                       <Icon className="h-4 w-4" />
                     </a>
@@ -403,7 +397,7 @@ export function FooterSection({ setLogoTheme }: FooterSectionProps) {
                     <a
                       key={link.label}
                       href={link.href}
-                      className="block font-body text-[0.95rem] text-white/84 transition-colors hover:text-brand-cyan"
+                      className="block font-body text-[0.95rem] text-light-gray transition-colors hover:text-brand-cyan"
                     >
                       {link.label}
                     </a>
