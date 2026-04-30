@@ -141,8 +141,10 @@ html::-webkit-scrollbar-thumb:hover {
 }
 
 @utility heading {
-  @apply font-sans font-bold
-
+  @apply font-sans font-bold 
+       max-w-full
+       whitespace-normal
+       break-normal
      
        leading-[1.04]
        sm:leading-[1.07]
