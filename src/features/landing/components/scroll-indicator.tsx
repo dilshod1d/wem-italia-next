@@ -4,6 +4,7 @@ interface ScrollIndicatorProps {
   labelClassName?: string;
   mouseClassName?: string;
   wheelClassName?: string;
+  theme?: "light" | "dark";
 }
 
 function cx(...classes: Array<string | false | null | undefined>) {
@@ -16,30 +17,36 @@ export function ScrollIndicator({
   labelClassName,
   mouseClassName,
   wheelClassName,
+  theme = "light",
 }: ScrollIndicatorProps) {
+  const isLight = theme === "light";
   return (
     <div
       className={cx(
         "absolute bottom-12 left-1/2 z-20 flex -translate-x-1/2 flex-col items-center gap-3 transition-opacity duration-500",
-        hidden ? "pointer-events-none opacity-0" : "opacity-60",
+        hidden ? "pointer-events-none opacity-0" : "opacity-100",
       )}
     >
       <div
         className={cx(
-          "relative h-10 w-6 rounded-full border-2 border-white/30",
+          "relative h-10 w-6 rounded-full border-2 transition-colors duration-500",
+          isLight ? "border-black/30" : "border-white/30",
+
           mouseClassName,
         )}
       >
         <div
           className={cx(
-            "absolute top-2 left-1/2 h-2 w-1 -translate-x-1/2 animate-bounce rounded-full bg-white",
+            "absolute top-2 left-1/2 h-2 w-1 -translate-x-1/2 animate-bounce rounded-full transition-colors duration-500",
+            isLight ? "bg-black" : "bg-white",
             wheelClassName,
           )}
         />
       </div>
       <span
         className={cx(
-          "text-[10px] font-medium uppercase tracking-[0.3em] text-white/50",
+          "text-[10px] font-medium uppercase tracking-[0.3em] transition-colors duration-500",
+          isLight ? "text-black/50" : "text-white/50",
           labelClassName,
         )}
       >

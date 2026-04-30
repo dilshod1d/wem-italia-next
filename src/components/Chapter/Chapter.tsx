@@ -97,8 +97,9 @@ export function Chapter({
         </div>
 
         <ScrollIndicator
-          hidden={!indicatorPersistent && isScrolled}
+          hidden={isScrolled}
           label={indicatorLabel}
+          theme={navTheme}
           labelClassName={indicatorLabelClassName}
           mouseClassName={indicatorMouseClassName}
           wheelClassName={indicatorWheelClassName}
