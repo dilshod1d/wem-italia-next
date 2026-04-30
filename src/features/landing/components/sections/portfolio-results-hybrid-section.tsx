@@ -351,7 +351,7 @@ function ProofMetricCard({ metric, visible, delayMs }: ProofMetricCardProps) {
         </div>
 
         <div className="flex flex-1 items-center justify-center py-6 md:py-8 2xl:py-10">
-          <div className="font-sans text-[2.25rem] font-semibold leading-none tracking-tight text-black tabular-nums sm:text-[2.75rem] md:text-[4.4rem] 2xl:text-[5.2rem]">
+          <div className="font-sans text-[2.1rem] font-semibold leading-none tracking-tight text-black tabular-nums sm:text-[2.6rem] md:text-[3.2rem] lg:text-[3.4rem] xl:text-[4.4rem] 2xl:text-[5.2rem]">
             <AnimatedMetricValue
               value={metric.value}
               visible={visible}

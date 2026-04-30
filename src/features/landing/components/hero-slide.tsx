@@ -94,13 +94,6 @@ export function HeroSlide({
     ? config.placements[visibleSupportCard.placementKey]
     : placement;
 
-  const showCopy = Boolean(
-    stage.eyebrowKey ||
-    stage.titleKey ||
-    visibleBodyItems.length > 0 ||
-    visibleSupportCard,
-  );
-
   return (
     <div
       className="landing-copy-panel"
