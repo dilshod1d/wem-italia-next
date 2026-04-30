@@ -643,7 +643,7 @@ export function PortfolioResultsHybridSection({
         indicatorLabelClassName="normal-case text-[1.05rem] font-medium tracking-normal text-sky-200/75"
         indicatorMouseClassName="border-sky-200/55"
         indicatorWheelClassName="bg-sky-200/80"
-        videoClassName="md:object-[center_78%]"
+        videoClassName="md:object-[center_78%] object-[center_0%]"
       >
         <div className="relative h-full w-full">
           <div className="landing-shell">

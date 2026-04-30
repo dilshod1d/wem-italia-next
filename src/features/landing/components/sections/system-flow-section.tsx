@@ -53,12 +53,28 @@ function BenefitCard({
 
   return (
     <article
+      // className={cx(
+      //   "group absolute flex min-h-[7.93rem] flex-col overflow-hidden rounded-[2.35rem] px-[1.35rem] py-[1.55rem] text-white shadow-[0_28px_80px_rgba(0,0,0,0.08)] transition-[opacity,transform] duration-700",
+      //   "before:pointer-events-none before:absolute before:inset-x-8 before:top-0 before:h-px before:bg-white/45 before:content-['']",
+      //   "after:pointer-events-none after:absolute after:-right-10 after:-top-10 after:size-28 after:rounded-full after:bg-white/10 after:blur-2xl after:content-['']",
+      //   "sm:min-h-[9.5rem] sm:px-[1.8rem] sm:py-[1.85rem]",
+      //   "md:min-h-[11.9rem] md:rounded-[3.85rem] md:px-[2.7rem] md:py-[2.3rem]",
+      //   "lg:min-h-0 lg:justify-center lg:rounded-[2.75rem] lg:px-8 lg:py-6",
+      //   "xl:min-h-0 xl:rounded-[3.1rem] xl:px-10 xl:py-7",
+      //   "2xl:min-h-0 2xl:rounded-[3.45rem] 2xl:px-12 2xl:py-8",
+      //   toneClassName,
+      //   placementClassName,
+      //   zIndexClassName,
+      //   visible
+      //     ? "translate-y-0 scale-100 opacity-100"
+      //     : "pointer-events-none translate-y-10 scale-[0.94] opacity-0",
+      // )}
       className={cx(
-        "group absolute flex min-h-[7.93rem] flex-col overflow-hidden rounded-[2.35rem] px-[1.35rem] py-[1.55rem] text-white shadow-[0_28px_80px_rgba(0,0,0,0.08)] transition-[opacity,transform] duration-700",
-        "before:pointer-events-none before:absolute before:inset-x-8 before:top-0 before:h-px before:bg-white/45 before:content-['']",
-        "after:pointer-events-none after:absolute after:-right-10 after:-top-10 after:size-28 after:rounded-full after:bg-white/10 after:blur-2xl after:content-['']",
-        "sm:min-h-[9.5rem] sm:px-[1.8rem] sm:py-[1.85rem]",
-        "md:min-h-[11.9rem] md:rounded-[3.85rem] md:px-[2.7rem] md:py-[2.3rem]",
+        "group absolute flex min-h-[4.9rem] flex-col overflow-hidden rounded-[1.25rem] px-3.5 py-3 text-white shadow-[0_18px_44px_rgba(0,0,0,0.12)] transition-[opacity,transform] duration-700",
+        "before:pointer-events-none before:absolute before:inset-x-5 before:top-0 before:h-px before:bg-white/35 before:content-['']",
+        "after:pointer-events-none after:absolute after:-right-10 after:-top-10 after:size-24 after:rounded-full after:bg-white/10 after:blur-2xl after:content-['']",
+        "sm:min-h-[6rem] sm:rounded-[1.55rem] sm:px-5 sm:py-4",
+        "md:min-h-[8rem] md:rounded-[2.2rem] md:px-7 md:py-5",
         "lg:min-h-0 lg:justify-center lg:rounded-[2.75rem] lg:px-8 lg:py-6",
         "xl:min-h-0 xl:rounded-[3.1rem] xl:px-10 xl:py-7",
         "2xl:min-h-0 2xl:rounded-[3.45rem] 2xl:px-12 2xl:py-8",
@@ -128,7 +144,7 @@ export function SystemFlowSection({ setLogoTheme }: SystemFlowSectionProps) {
       indicatorLabelClassName="normal-case text-[1.05rem] font-medium tracking-normal text-sky-200/75"
       indicatorMouseClassName="border-sky-200/55"
       indicatorWheelClassName="bg-sky-200/80"
-      videoClassName="md:object-[72%_78%]"
+      videoClassName="md:object-[72%_78%] object-[center_0%]"
     >
       <div className="relative h-full w-full">
         <div className="landing-frame landing-copy-start relative h-full pb-[5vh] lg:pb-[5.5vh] 2xl:pb-[6vh]">
@@ -176,7 +192,8 @@ export function SystemFlowSection({ setLogoTheme }: SystemFlowSectionProps) {
               </div>
             </div>
 
-            <div className="pointer-events-none relative z-30 mt-4 h-[16.5rem] sm:mt-5 sm:h-[19.75rem] md:mt-6 md:h-[23.5rem] lg:mt-[2vh] lg:h-auto lg:min-h-0 lg:flex-1 lg:w-[70%] xl:mt-[2.4vh] xl:w-[72%] 2xl:w-[74%]">
+            {/* <div className="pointer-events-none relative z-30 mt-4 h-[16.5rem] sm:mt-5 sm:h-[19.75rem] md:mt-6 md:h-[23.5rem] lg:mt-[2vh] lg:h-auto lg:min-h-0 lg:flex-1 lg:w-[70%] xl:mt-[2.4vh] xl:w-[72%] 2xl:w-[74%]"> */}
+            <div className="pointer-events-none relative z-30 mt-4 h-[17rem] w-full sm:mt-5 sm:h-[19rem] md:mt-6 md:h-[22rem] lg:mt-[2vh] lg:h-auto lg:min-h-0 lg:flex-1 lg:w-[70%] xl:mt-[2.4vh] xl:w-[72%] 2xl:w-[74%]">
               <div className="relative h-full w-full">
                 {cards.map((card, index) => (
                   <BenefitCard

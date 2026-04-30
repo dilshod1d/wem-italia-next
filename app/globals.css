@@ -144,7 +144,7 @@ html::-webkit-scrollbar-thumb:hover {
   @apply font-sans font-bold
 
      
-       leading-[1.14]
+       leading-[1.04]
        sm:leading-[1.07]
        md:leading-[1.01]
        lg:leading-[0.95]
@@ -152,14 +152,14 @@ html::-webkit-scrollbar-thumb:hover {
        2xl:leading-[1.02]
 
     
-       tracking-[0.022em]
+       tracking-[0.01em]
        sm:tracking-[0.012em]
        md:tracking-[-0.008em]
        lg:tracking-[-0.018em]
        xl:tracking-[-0.005em]
        2xl:tracking-[-0.01em]
 
-       text-[1.9rem]
+       text-[1.8rem]
        sm:text-[2.4rem]
        md:text-[2.9rem]   
        lg:text-[3.4rem]   
@@ -182,7 +182,7 @@ html::-webkit-scrollbar-thumb:hover {
 }
 
 @utility body-stack {
-  @apply space-y-2 sm:space-y-3;
+  @apply space-y-0.5 sm:space-y-3;
 }
 
 @utility landing-frame {
@@ -211,7 +211,7 @@ html::-webkit-scrollbar-thumb:hover {
 }
 
 @utility landing-copy-panel {
-  @apply absolute left-[4%] top-landing-copy-base z-20 w-[92%]
+  @apply absolute left-[4%] top-landing-copy-base z-20 w-full
          sm:left-[5%] sm:top-landing-copy-sm sm:w-[75%]
          lg:left-[5%] lg:top-landing-copy-lg lg:w-[55%]
          2xl:top-landing-copy-wide;

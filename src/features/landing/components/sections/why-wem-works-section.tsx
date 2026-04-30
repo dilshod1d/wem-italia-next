@@ -175,7 +175,7 @@ export function WhyWemWorksSection({ setLogoTheme }: WhyWemWorksSectionProps) {
       indicatorLabel="Scroll Down"
       indicatorPersistent
       indicatorLabelClassName="normal-case text-[1.05rem] font-medium tracking-normal text-white"
-      videoClassName="md:object-[center_58%]"
+      videoClassName="md:object-[center_58%] object-[center_0%]"
     >
       {(() => {
         const showHandoff = handoffPhase !== "done";
