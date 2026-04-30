@@ -39,6 +39,8 @@ export function HeroSupportCard({ card, isActive }: HeroSupportCardProps) {
   return (
     <div
       className={[
+        "w-1/2 self-start",
+        "sm:w-auto sm:self-auto",
         "rounded-[1.5rem] px-4 py-4 text-white shadow-[0_30px_60px_rgba(0,0,0,0.35)] sm:rounded-[1.75rem] sm:px-5 2xl:rounded-[2rem] 2xl:px-7 2xl:py-6",
         "transition-all duration-500",
         getToneClasses(card.tone),
