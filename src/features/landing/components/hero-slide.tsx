@@ -119,7 +119,7 @@ export function HeroSlide({
           render={renderTitle}
         />
         {visibleBodyItems.length > 0 ? (
-          <div className={cx("mt-5", placement.bodyClassName)}>
+          <div className={cx("mt-2 sm:mt-5", placement.bodyClassName)}>
             {renderBodyItems(visibleBodyItems)}
           </div>
         ) : null}

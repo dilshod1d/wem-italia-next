@@ -214,7 +214,7 @@ export function WhyWemWorksSection({ setLogoTheme }: WhyWemWorksSectionProps) {
                       </span>
                     ))}
                   </h2>
-                  <div className="mt-5 body-stack text-body text-white">
+                  <div className="mt-2 sm:mt-5 body-stack text-body text-white">
                     {handoff.paragraphs.map((paragraph) => (
                       <p key={paragraph}>{paragraph}</p>
                     ))}
@@ -222,7 +222,7 @@ export function WhyWemWorksSection({ setLogoTheme }: WhyWemWorksSectionProps) {
                 </div>
                 <div
                   className={cx(
-                    "mt-7 transition-all duration-500 md:mt-8",
+                    "mt-4 sm:mt-7  transition-all duration-500 md:mt-8",
                     handoffPhase === "card"
                       ? "translate-y-0 opacity-100"
                       : "translate-y-4 opacity-0",
@@ -244,13 +244,13 @@ export function WhyWemWorksSection({ setLogoTheme }: WhyWemWorksSectionProps) {
 
                   activeStageKey === "intro"
                     ? `
-        left-[4%] top-[13%] translate-x-0 w-[92%]
+        left-[4%] top-[13%] translate-x-0 w-full
         sm:left-[5%] sm:top-[17%] sm:w-[75%]
         lg:left-[5%] lg:top-landing-copy-lg lg:w-[60%]
         2xl:top-landing-copy-wide
       `
                     : `
-        right-[4%] top-[11%] translate-x-0 w-[92%] text-right
+        right-[4%] top-[11%] translate-x-0 w-full text-right
         sm:right-[5%] sm:top-[13%] sm:w-[75%]
         lg:right-[5%] lg:top-landing-copy-lg lg:w-[60%]
         2xl:top-landing-copy-wide
@@ -264,7 +264,7 @@ export function WhyWemWorksSection({ setLogoTheme }: WhyWemWorksSectionProps) {
                 className={cx(
                   `
     absolute
-    right-[4%] top-[19%] w-[92%]
+    right-[4%] top-[16%] w-full
     sm:right-[5%] sm:top-[19%] sm:w-[86%]
     lg:right-[5%] lg:top-landing-copy-body-lg lg:w-[60%]
     2xl:top-landing-copy-body-wide
@@ -296,7 +296,7 @@ export function WhyWemWorksSection({ setLogoTheme }: WhyWemWorksSectionProps) {
                   </p>
                 </div>
 
-                <div className="mt-4">
+                <div className="mt-2 sm:mt-4">
                   {blocks.map((block, index) => (
                     <InsightBlock
                       key={block.stage}

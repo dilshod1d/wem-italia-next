@@ -102,7 +102,7 @@ function BenefitCard({
         className="absolute -bottom-8 -right-8 size-32 text-white/10 transition-transform duration-700 group-hover:rotate-6 group-hover:scale-110 sm:size-40 md:size-48 lg:size-36 xl:size-44"
       />
 
-      <div className="relative z-10 max-w-[84%] md:max-w-[82%] lg:max-w-[88%]">
+      <div className="relative z-10 max-w-full md:max-w-[82%] lg:max-w-[88%]">
         <h3 className="font-sans text-[1.45rem] font-semibold uppercase leading-[0.98] tracking-tight text-white sm:text-[1.9rem] md:text-[2.45rem] lg:text-[1.9rem] xl:text-[2.12rem] 2xl:text-[2.34rem]">
           {title}
         </h3>
@@ -177,7 +177,7 @@ export function SystemFlowSection({ setLogoTheme }: SystemFlowSectionProps) {
               </h2>
               <div
                 className={cx(
-                  "body-stack text-body mt-6 text-black/85 transition-all duration-1000",
+                  "body-stack text-body mt-2 sm:mt-6 text-black/85 transition-all duration-1000",
                   showParagraphs
                     ? "translate-y-0 opacity-100"
                     : "translate-y-6 opacity-0",
@@ -192,7 +192,6 @@ export function SystemFlowSection({ setLogoTheme }: SystemFlowSectionProps) {
               </div>
             </div>
 
-            {/* <div className="pointer-events-none relative z-30 mt-4 h-[16.5rem] sm:mt-5 sm:h-[19.75rem] md:mt-6 md:h-[23.5rem] lg:mt-[2vh] lg:h-auto lg:min-h-0 lg:flex-1 lg:w-[70%] xl:mt-[2.4vh] xl:w-[72%] 2xl:w-[74%]"> */}
             <div className="pointer-events-none relative z-30 mt-4 h-[17rem] w-full sm:mt-5 sm:h-[19rem] md:mt-6 md:h-[22rem] lg:mt-[2vh] lg:h-auto lg:min-h-0 lg:flex-1 lg:w-[70%] xl:mt-[2.4vh] xl:w-[72%] 2xl:w-[74%]">
               <div className="relative h-full w-full">
                 {cards.map((card, index) => (
