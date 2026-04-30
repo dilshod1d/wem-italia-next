@@ -40,72 +40,7 @@ export function LandingPage() {
     };
   }, [resetScrollPosition]);
 
- useEffect(() => {
-  let lastVH = 0;
-  let scrollTimeout: ReturnType<typeof setTimeout>;
 
-  const setVH = () => {
-    const vh = window.innerHeight;
-    document.documentElement.style.setProperty("--vh", `${vh * 0.01}px`);
-    lastVH = vh;
-  };
-
-  const handleScroll = () => {
-    const vh = window.innerHeight;
-
-    // update height only if it actually changed (address bar)
-    if (Math.abs(vh - lastVH) > 10) {
-      setVH();
-    }
-
-    // wait for scroll to stop → THEN refresh GSAP
-    clearTimeout(scrollTimeout);
-    scrollTimeout = setTimeout(() => {
-      ScrollTrigger.refresh();
-    }, 120);
-  };
-
-  setVH();
-
-  window.addEventListener("scroll", handleScroll, { passive: true });
-  window.addEventListener("resize", setVH);
-
-  return () => {
-    window.removeEventListener("scroll", handleScroll);
-    window.removeEventListener("resize", setVH);
-    clearTimeout(scrollTimeout);
-  };
-}, []);
-
-  // useEffect(() => {
-  //   let ticking = false;
-
-  //   const updateHeight = () => {
-  //     if (ticking) return;
-  //     ticking = true;
-
-  //     requestAnimationFrame(() => {
-  //       const vh = window.visualViewport?.height || window.innerHeight;
-
-  //       document.documentElement.style.setProperty("--vh", `${vh * 0.01}px`);
-
-  //       // 🔥 IMPORTANT: refresh GSAP
-  //       ScrollTrigger.refresh();
-
-  //       ticking = false;
-  //     });
-  //   };
-
-  //   updateHeight();
-
-  //   window.visualViewport?.addEventListener("resize", updateHeight);
-  //   window.addEventListener("resize", updateHeight);
-
-  //   return () => {
-  //     window.visualViewport?.removeEventListener("resize", updateHeight);
-  //     window.removeEventListener("resize", updateHeight);
-  //   };
-  // }, []);
 
   return (
     <>
