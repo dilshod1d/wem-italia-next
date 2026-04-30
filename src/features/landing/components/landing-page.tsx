@@ -42,15 +42,15 @@ export function LandingPage() {
 
   return (
     <>
-      {/* <LandingNavbar logoTheme={logoTheme} onHomeClick={resetToLandingStart} /> */}
+      <LandingNavbar logoTheme={logoTheme} onHomeClick={resetToLandingStart} />
       <main className="relative bg-background">
         <HeroSection setLogoTheme={setLogoTheme} />
         <WhyWemWorksSection setLogoTheme={setLogoTheme} />
         <SystemFlowSection setLogoTheme={setLogoTheme} />
         <HowItWorksSection setLogoTheme={setLogoTheme} />
-        <PortfolioResultsHybridSection setLogoTheme={setLogoTheme} />
-        {/* <WhoWeSupportSection /> */}
-        {/* <FooterSection setLogoTheme={setLogoTheme} /> */}
+        {/* <PortfolioResultsHybridSection setLogoTheme={setLogoTheme} /> */}
+        <WhoWeSupportSection />
+        <FooterSection setLogoTheme={setLogoTheme} />
       </main>
     </>
   );
