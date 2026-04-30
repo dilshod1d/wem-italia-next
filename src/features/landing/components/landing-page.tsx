@@ -42,6 +42,7 @@ export function LandingPage() {
 
   useEffect(() => {
     let ticking = false;
+    let resizeTimeout: ReturnType<typeof setTimeout>;
 
     const updateHeight = () => {
       if (ticking) return;
@@ -52,11 +53,14 @@ export function LandingPage() {
 
         document.documentElement.style.setProperty("--vh", `${vh * 0.01}px`);
 
-        // 🔥 IMPORTANT: refresh GSAP
-        ScrollTrigger.refresh();
-
         ticking = false;
       });
+
+      // 👇 debounce GSAP refresh
+      clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(() => {
+        ScrollTrigger.refresh();
+      }, 200); // adjust 150–300ms if needed
     };
 
     updateHeight();
@@ -67,8 +71,39 @@ export function LandingPage() {
     return () => {
       window.visualViewport?.removeEventListener("resize", updateHeight);
       window.removeEventListener("resize", updateHeight);
+      clearTimeout(resizeTimeout);
     };
   }, []);
+
+  // useEffect(() => {
+  //   let ticking = false;
+
+  //   const updateHeight = () => {
+  //     if (ticking) return;
+  //     ticking = true;
+
+  //     requestAnimationFrame(() => {
+  //       const vh = window.visualViewport?.height || window.innerHeight;
+
+  //       document.documentElement.style.setProperty("--vh", `${vh * 0.01}px`);
+
+  //       // 🔥 IMPORTANT: refresh GSAP
+  //       ScrollTrigger.refresh();
+
+  //       ticking = false;
+  //     });
+  //   };
+
+  //   updateHeight();
+
+  //   window.visualViewport?.addEventListener("resize", updateHeight);
+  //   window.addEventListener("resize", updateHeight);
+
+  //   return () => {
+  //     window.visualViewport?.removeEventListener("resize", updateHeight);
+  //     window.removeEventListener("resize", updateHeight);
+  //   };
+  // }, []);
 
   return (
     <>
