@@ -33,5 +33,5 @@ export function useIOSVideoUnlock(
     return () => {
       cancelled = true;
     };
-  }, [videoRef, isIOS]);
+  }, [isIOS]);
 }
