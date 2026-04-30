@@ -41,37 +41,17 @@ export function LandingPage() {
   }, [resetScrollPosition]);
 
   useEffect(() => {
-    let ticking = false;
-    let resizeTimeout: ReturnType<typeof setTimeout>;
-
     const updateHeight = () => {
-      if (ticking) return;
-      ticking = true;
-
-      requestAnimationFrame(() => {
-        const vh = window.visualViewport?.height || window.innerHeight;
-
-        document.documentElement.style.setProperty("--vh", `${vh * 0.01}px`);
-
-        ticking = false;
-      });
-
-      // 👇 debounce GSAP refresh
-      clearTimeout(resizeTimeout);
-      resizeTimeout = setTimeout(() => {
-        ScrollTrigger.refresh();
-      }, 200); // adjust 150–300ms if needed
+      const vh = window.visualViewport?.height || window.innerHeight;
+      document.documentElement.style.setProperty("--vh", `${vh * 0.01}px`);
     };
 
     updateHeight();
 
     window.visualViewport?.addEventListener("resize", updateHeight);
-    window.addEventListener("resize", updateHeight);
 
     return () => {
       window.visualViewport?.removeEventListener("resize", updateHeight);
-      window.removeEventListener("resize", updateHeight);
-      clearTimeout(resizeTimeout);
     };
   }, []);
 
