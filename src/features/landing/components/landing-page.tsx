@@ -41,21 +41,34 @@ export function LandingPage() {
   }, [resetScrollPosition]);
 
   useEffect(() => {
-  const updateHeight = () => {
-    const vh = window.visualViewport?.height || window.innerHeight;
-    document.documentElement.style.setProperty("--vh", `${vh * 0.01}px`);
-  };
+    let ticking = false;
 
-  updateHeight();
+    const updateHeight = () => {
+      if (ticking) return;
+      ticking = true;
 
-  window.visualViewport?.addEventListener("resize", updateHeight);
-  window.addEventListener("resize", updateHeight);
+      requestAnimationFrame(() => {
+        const vh = window.visualViewport?.height || window.innerHeight;
 
-  return () => {
-    window.visualViewport?.removeEventListener("resize", updateHeight);
-    window.removeEventListener("resize", updateHeight);
-  };
-}, []);
+        document.documentElement.style.setProperty("--vh", `${vh * 0.01}px`);
+
+        // 🔥 IMPORTANT: refresh GSAP
+        ScrollTrigger.refresh();
+
+        ticking = false;
+      });
+    };
+
+    updateHeight();
+
+    window.visualViewport?.addEventListener("resize", updateHeight);
+    window.addEventListener("resize", updateHeight);
+
+    return () => {
+      window.visualViewport?.removeEventListener("resize", updateHeight);
+      window.removeEventListener("resize", updateHeight);
+    };
+  }, []);
 
   return (
     <>
