@@ -36,15 +36,7 @@ export function HeroSection({ setLogoTheme }: HeroSectionProps) {
       isScrolled={isScrolled}
       navTheme="dark"
       // videoClassName="md:object-[center_58%]"
-      videoClassName="
-    md:object-[center_58%]
-    max-md:!w-[180%]
-    max-md:!max-w-none
-    max-md:!left-0
-    max-md:!right-auto
-    max-md:!translate-x-[-44%]
-    max-md:!object-cover
-  "
+      videoClassName="hero-mobile-pan md:object-[center_58%]"
     >
       <div className="landing-stage flex items-center justify-center">
         <HeroSlide

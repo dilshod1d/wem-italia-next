@@ -239,3 +239,18 @@ html::-webkit-scrollbar-thumb:hover {
          md:text-[1.12rem] md:leading-[1.5]
          2xl:text-[1.28rem];
 }
+
+
+
+@media (max-width: 767px) {
+  .hero-mobile-pan {
+    inset: auto;
+    top: 0;
+    left: 0;
+    width: 180%;
+    height: 100%;
+    max-width: none;
+    transform: translateX(-44%);
+    object-fit: cover;
+  }
+}
