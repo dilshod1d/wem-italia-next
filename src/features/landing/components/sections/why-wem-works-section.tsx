@@ -62,7 +62,8 @@ function InsightBlock({
     <article
       className={cx(
         `
-        w-full
+        ml-auto w-[60%]
+        sm:ml-0 sm:w-full
         rounded-[1.25rem] p-4
         sm:rounded-[1.75rem] sm:p-5
         md:rounded-[2.25rem] md:p-10
@@ -325,7 +326,7 @@ export function WhyWemWorksSection({ setLogoTheme }: WhyWemWorksSectionProps) {
                     : "pointer-events-none opacity-0",
                 )}
               >
-                <div className="grid h-full max-h-[22rem] w-full max-w-[22rem] grid-cols-2 grid-rows-2 gap-4 sm:max-h-[27rem] sm:max-w-[27rem] sm:gap-5 md:max-h-[31rem] md:max-w-[31rem] lg:max-h-[34rem] lg:max-w-[34rem] xl:max-h-[37rem] xl:max-w-[37rem] 2xl:max-h-[40rem] 2xl:max-w-[40rem]">
+                <div className="ml-auto flex w-[50%] max-w-[18rem] flex-col gap-3 sm:mx-0 sm:grid sm:h-full sm:w-full sm:max-h-[27rem] sm:max-w-[27rem] sm:grid-cols-2 sm:grid-rows-2 sm:gap-5 md:max-h-[31rem] md:max-w-[31rem] lg:max-h-[34rem] lg:max-w-[34rem] xl:max-h-[37rem] xl:max-w-[37rem] 2xl:max-h-[40rem] 2xl:max-w-[40rem]">
                   {proofPoints.map((item, index) => (
                     <ProofPointCard
                       key={item.titleLines.join("-")}
