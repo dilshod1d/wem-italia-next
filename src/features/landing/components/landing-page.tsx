@@ -41,17 +41,31 @@ export function LandingPage() {
   }, [resetScrollPosition]);
 
   useEffect(() => {
+    let lastHeight = window.innerHeight;
+
     const updateHeight = () => {
-      const vh = window.visualViewport?.height || window.innerHeight;
+      const vh = window.innerHeight;
       document.documentElement.style.setProperty("--vh", `${vh * 0.01}px`);
+    };
+
+    const onScroll = () => {
+      const currentHeight = window.innerHeight;
+
+      // only update when address bar actually changed height
+      if (Math.abs(currentHeight - lastHeight) > 20) {
+        lastHeight = currentHeight;
+        updateHeight();
+      }
     };
 
     updateHeight();
 
-    window.visualViewport?.addEventListener("resize", updateHeight);
+    window.addEventListener("scroll", onScroll);
+    window.addEventListener("resize", updateHeight);
 
     return () => {
-      window.visualViewport?.removeEventListener("resize", updateHeight);
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", updateHeight);
     };
   }, []);
 
