@@ -40,34 +40,42 @@ export function LandingPage() {
     };
   }, [resetScrollPosition]);
 
-  useEffect(() => {
-    let lastHeight = window.innerHeight;
+ useEffect(() => {
+  let lastVH = 0;
+  let scrollTimeout: ReturnType<typeof setTimeout>;
 
-    const updateHeight = () => {
-      const vh = window.innerHeight;
-      document.documentElement.style.setProperty("--vh", `${vh * 0.01}px`);
-    };
+  const setVH = () => {
+    const vh = window.innerHeight;
+    document.documentElement.style.setProperty("--vh", `${vh * 0.01}px`);
+    lastVH = vh;
+  };
 
-    const onScroll = () => {
-      const currentHeight = window.innerHeight;
+  const handleScroll = () => {
+    const vh = window.innerHeight;
 
-      // only update when address bar actually changed height
-      if (Math.abs(currentHeight - lastHeight) > 20) {
-        lastHeight = currentHeight;
-        updateHeight();
-      }
-    };
+    // update height only if it actually changed (address bar)
+    if (Math.abs(vh - lastVH) > 10) {
+      setVH();
+    }
 
-    updateHeight();
+    // wait for scroll to stop → THEN refresh GSAP
+    clearTimeout(scrollTimeout);
+    scrollTimeout = setTimeout(() => {
+      ScrollTrigger.refresh();
+    }, 120);
+  };
 
-    window.addEventListener("scroll", onScroll);
-    window.addEventListener("resize", updateHeight);
+  setVH();
 
-    return () => {
-      window.removeEventListener("scroll", onScroll);
-      window.removeEventListener("resize", updateHeight);
-    };
-  }, []);
+  window.addEventListener("scroll", handleScroll, { passive: true });
+  window.addEventListener("resize", setVH);
+
+  return () => {
+    window.removeEventListener("scroll", handleScroll);
+    window.removeEventListener("resize", setVH);
+    clearTimeout(scrollTimeout);
+  };
+}, []);
 
   // useEffect(() => {
   //   let ticking = false;
