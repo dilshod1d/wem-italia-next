@@ -50,7 +50,7 @@ export function LandingPage() {
         <HowItWorksSection setLogoTheme={setLogoTheme} />
         <PortfolioResultsHybridSection setLogoTheme={setLogoTheme} />
         <WhoWeSupportSection />
-        <FooterSection setLogoTheme={setLogoTheme} />
+        {/* <FooterSection setLogoTheme={setLogoTheme} /> */}
       </main>
     </>
   );
