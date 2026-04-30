@@ -240,8 +240,6 @@ html::-webkit-scrollbar-thumb:hover {
          2xl:text-[1.28rem];
 }
 
-
-
 @media (max-width: 767px) {
   .hero-mobile-pan {
     inset: auto;

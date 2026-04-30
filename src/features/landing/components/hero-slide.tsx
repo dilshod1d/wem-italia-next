@@ -41,7 +41,7 @@ function renderTitle(title: HeroTitle) {
 
 function renderBodyItems(items: readonly HeroBodyItem[]) {
   return (
-    <div className="hero-slot-in body-stack text-body text-white/85">
+    <div className="hero-slot-in body-stack text-body text-white">
       {items.map((item) => (
         <p key={item.key}>{item.text}</p>
       ))}
@@ -106,14 +106,7 @@ export function HeroSlide({
       className="landing-copy-panel"
       style={{ textShadow: "0 8px 30px rgba(0, 0, 0, 0.32)" }}
     >
-      <div
-        className={cx(
-          "w-full text-left transition-all duration-700",
-          showCopy ? "opacity-100" : "opacity-0",
-          placement.copyClassName,
-        )}
-        style={{ transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)" }}
-      >
+      <div className={cx("w-full text-left", placement.copyClassName)}>
         <KeyedSlot
           slotKey={stage.eyebrowKey}
           value={eyebrow}

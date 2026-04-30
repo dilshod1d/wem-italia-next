@@ -5,6 +5,7 @@ import { whyWemWorksSectionConfig } from "../../data/why-wem-works-story";
 import { useHeroSectionVideo } from "../../hooks/use-hero-section-video";
 import { HeroSlide } from "../hero-slide";
 import { CinematicVideoSection } from "../cinematic-video-section";
+import { useRenderDebug } from "../../hooks/use-render-debug";
 
 interface HeroSectionProps {
   setLogoTheme: (theme: "light" | "dark") => void;
