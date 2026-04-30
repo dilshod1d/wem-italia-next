@@ -170,7 +170,8 @@ html::-webkit-scrollbar-thumb:hover {
 }
 
 @utility text-eyebrow {
-  @apply font-sans uppercase text-white/60
+  @apply font-sans uppercase
+   text-white/60
          text-[0.92rem] sm:text-[1.05rem] md:text-[1.35rem] lg:text-[1.65rem]
          2xl:text-[1.9rem];
 }

@@ -41,7 +41,7 @@ function renderTitle(title: HeroTitle) {
 
 function renderBodyItems(items: readonly HeroBodyItem[]) {
   return (
-    <div className="hero-slot-in body-stack text-body text-white">
+    <div className="hero-slot-in body-stack text-body text-white max-w-[92%]">
       {items.map((item) => (
         <p key={item.key}>{item.text}</p>
       ))}

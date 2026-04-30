@@ -244,13 +244,13 @@ export function WhyWemWorksSection({ setLogoTheme }: WhyWemWorksSectionProps) {
 
                   activeStageKey === "intro"
                     ? `
-        left-[4%] top-[13%] translate-x-0 w-full
+        left-[4%] top-[13%] translate-x-0 w-[92%]
         sm:left-[5%] sm:top-[17%] sm:w-[75%]
         lg:left-[5%] lg:top-landing-copy-lg lg:w-[60%]
         2xl:top-landing-copy-wide
       `
                     : `
-        right-[4%] top-[11%] translate-x-0 w-full text-right
+        right-[4%] top-[11%] translate-x-0 w-[92%] text-right
         sm:right-[5%] sm:top-[13%] sm:w-[75%]
         lg:right-[5%] lg:top-landing-copy-lg lg:w-[60%]
         2xl:top-landing-copy-wide
@@ -264,7 +264,7 @@ export function WhyWemWorksSection({ setLogoTheme }: WhyWemWorksSectionProps) {
                 className={cx(
                   `
     absolute
-    right-[4%] top-[16%] w-full
+    right-[4%] top-[16%] w-[92%]
     sm:right-[5%] sm:top-[19%] sm:w-[86%]
     lg:right-[5%] lg:top-landing-copy-body-lg lg:w-[60%]
     2xl:top-landing-copy-body-wide
