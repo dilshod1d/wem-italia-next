@@ -1,12 +1,6 @@
 "use client";
 
-import {
-  useCallback,
-  useEffect,
-  useLayoutEffect,
-  useRef,
-  useState,
-} from "react";
+import { useCallback, useEffect, useLayoutEffect, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -22,58 +16,23 @@ import { WhyWemWorksSection } from "./sections/why-wem-works-section";
 gsap.registerPlugin(ScrollTrigger);
 
 export function LandingPage() {
-  const hasResetInitialScrollRef = useRef(false);
   const [logoTheme, setLogoTheme] = useState<"light" | "dark">("light");
-
-  const updateLogoTheme = useCallback((theme: "light" | "dark") => {
-    setLogoTheme((current) => (current === theme ? current : theme));
-  }, []);
-
-  // const resetScrollPosition = useCallback(() => {
-  //   ScrollTrigger.clearScrollMemory("manual");
-  //   window.scrollTo(0, 0);
-  //   requestAnimationFrame(() => ScrollTrigger.refresh());
-  // }, []);
-
-  // const resetToLandingStart = useCallback(() => {
-  //   setLogoTheme("light");
-  //   resetScrollPosition();
-  // }, [resetScrollPosition]);
-
-  // useLayoutEffect(() => {
-  //   const previousScrollRestoration = window.history.scrollRestoration;
-
-  //   window.history.scrollRestoration = "manual";
-  //   resetScrollPosition();
-
-  //   return () => {
-  //     window.history.scrollRestoration = previousScrollRestoration;
-  //   };
-  // }, [resetScrollPosition]);
 
   const resetScrollPosition = useCallback(() => {
     ScrollTrigger.clearScrollMemory("manual");
     window.scrollTo(0, 0);
-
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        ScrollTrigger.refresh();
-      });
-    });
+    requestAnimationFrame(() => ScrollTrigger.refresh());
   }, []);
 
   const resetToLandingStart = useCallback(() => {
-    updateLogoTheme("light");
+    setLogoTheme("light");
     resetScrollPosition();
-  }, [resetScrollPosition, updateLogoTheme]);
+  }, [resetScrollPosition]);
 
   useLayoutEffect(() => {
-    if (hasResetInitialScrollRef.current) return;
-    hasResetInitialScrollRef.current = true;
-
     const previousScrollRestoration = window.history.scrollRestoration;
-    window.history.scrollRestoration = "manual";
 
+    window.history.scrollRestoration = "manual";
     resetScrollPosition();
 
     return () => {
