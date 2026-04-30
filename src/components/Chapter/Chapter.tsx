@@ -1,6 +1,6 @@
 "use client";
 
-import type { ReactNode, RefObject } from "react";
+import { useMemo, type ReactNode, type RefObject } from "react";
 import { ScrollIndicator } from "@/features/landing/components/scroll-indicator";
 import { CHAPTER_SCROLL_DISTANCE } from "./useSectionPin";
 import { useIOSVideoUnlock } from "@/features/landing/hooks/use-ios-video-unlock";
@@ -48,10 +48,11 @@ export function Chapter({
   videoClassName,
   contentClassName,
 }: ChapterProps) {
-  const isIOS =
-    typeof window !== "undefined" &&
-    /iPhone|iPad|iPod/.test(navigator.userAgent);
-    
+  const isIOS = useMemo(() => {
+    if (typeof window === "undefined") return false;
+    return /iPhone|iPad|iPod/.test(navigator.userAgent);
+  }, []);
+
   useIOSVideoUnlock(videoRef, isIOS);
   return (
     <section
@@ -72,7 +73,7 @@ export function Chapter({
             src={videoSrc}
             playsInline
             muted
-            autoPlay={isIOS}
+            // autoPlay={isIOS}
             preload="auto"
           />
         ) : null}
@@ -85,7 +86,7 @@ export function Chapter({
             className="hidden"
             src={nextVideoSrc}
             muted
-            autoPlay={isIOS}
+            // autoPlay={isIOS}
             playsInline
             preload="auto"
           />
