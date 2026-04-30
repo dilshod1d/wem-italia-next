@@ -662,7 +662,8 @@ export function PortfolioResultsHybridSection({
                 "z-[32] overscroll-x-contain transition-[opacity,transform] duration-[900ms]",
                 useFixedPortfolio
                   ? "fixed inset-x-0 bottom-0 top-[34%] sm:top-[30%] lg:top-[26%]"
-                  : "relative left-1/2 h-full w-full -translate-x-1/2",
+                  : "relative h-full w-full",
+                // : "relative left-1/2 h-full w-full -translate-x-1/2",
                 showSharedPortfolio
                   ? "pointer-events-auto translate-y-0 scale-100 opacity-100"
                   : "pointer-events-none translate-y-12 scale-[0.98] opacity-0",
@@ -676,7 +677,8 @@ export function PortfolioResultsHybridSection({
               >
                 <div
                   ref={portfolioTrackRef}
-                  className="relative left-1/2 flex h-full w-max items-center justify-center gap-0 will-change-transform"
+                  // className="relative left-1/2 flex h-full w-max items-center justify-center gap-0 will-change-transform"
+                  className="relative flex h-full w-max items-center justify-center gap-0 will-change-transform"
                   style={{
                     transform: "translate3d(calc(-50% + 0px), 0, 0)",
                   }}
