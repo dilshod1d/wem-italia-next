@@ -191,7 +191,6 @@ export function HowItWorksSection({ setLogoTheme }: HowItWorksSectionProps) {
             </div>
           </div>
 
-          {/* <div className="relative flex flex-col overflow-hidden ml-[15%]"> */}
           <div className="relative flex w-full flex-col overflow-visible lg:ml-[15%]">
             {steps.map((step, index) => (
               <HowItWorksStepCard

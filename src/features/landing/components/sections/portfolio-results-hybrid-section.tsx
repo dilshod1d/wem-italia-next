@@ -142,7 +142,7 @@ function PortfolioCard({
           />
         </div>
 
-        <div className="absolute -bottom-12 left-0 flex h-14 w-[82%] items-center justify-center rounded-b-2xl rounded-r-2xl bg-inherit md:-bottom-14 md:h-16 2xl:-bottom-16 2xl:h-[4.5rem]">
+        <div className="absolute -bottom-6 left-0 flex h-[2.5rem] w-[82%] items-center justify-center rounded-b-2xl rounded-r-2xl bg-inherit md:-bottom-8 md:h-[3rem] 2xl:-bottom-16 2xl:h-[4rem]">
           <p className="px-3 text-center font-sans text-[0.82rem] font-semibold tracking-tight sm:text-[0.9rem] md:text-[1.35rem] 2xl:text-[1.55rem]">
             {item.footerLabel}
           </p>
@@ -154,18 +154,18 @@ function PortfolioCard({
 
 function getPortfolioCardSizeClass(distanceFromFocus: number) {
   if (distanceFromFocus === 0) {
-    return "aspect-[9/16] h-[85%]";
+    return "aspect-[9/16] h-[calc(100%-5rem)]";
   }
 
   if (distanceFromFocus === 1) {
-    return "aspect-[9/16] h-[81%]";
+    return "aspect-[9/16] h-[calc(95%-5rem)]";
   }
 
   if (distanceFromFocus === 2) {
-    return "aspect-[9/16] h-[77%]";
+    return "aspect-[9/16] h-[calc(90%-5rem)]";
   }
 
-  return "aspect-[9/16] h-[73%]";
+  return "aspect-[9/16] h-[calc(85%-5rem)]";
 }
 
 function getPortfolioCardImageHeightClass() {
@@ -566,8 +566,6 @@ export function PortfolioResultsHybridSection({
   const visualFocusIndex =
     isVideoFocusStage && focusIndex !== -1 ? focusIndex : activePortfolioIndex;
   const handlePortfolioPointerMove = (event: PointerEvent<HTMLDivElement>) => {
-    // if (event.pointerType === "touch") return;
-
     updatePortfolioPointerPosition(
       portfolioTrackRef.current,
       portfolioViewportRef.current,
@@ -645,80 +643,54 @@ export function PortfolioResultsHybridSection({
         indicatorWheelClassName="bg-sky-200/80"
         videoClassName="md:object-[center_78%] object-[center_0%]"
       >
-        <div className="relative h-full w-full">
-          <div className="landing-shell">
-            <div className={cx("landing-copy-panel-alt text-black")}>
-              <p
-                className={cx(
-                  "text-eyebrow text-black/25 transition-all duration-700 ",
-                  showTitle
-                    ? "translate-y-0 opacity-100"
-                    : "translate-y-8 opacity-0",
-                )}
-              >
-                {copy.eyebrow}
-              </p>
-
-              <h2
-                className={cx(
-                  "heading transition-all duration-700",
-                  showTitle
-                    ? "translate-y-0 opacity-100"
-                    : "translate-y-8 opacity-0",
-                )}
-              >
-                {copy.title}
-              </h2>
-
-              <div
-                className={cx(
-                  "text-body transition-all duration-1000",
-                  showDescription
-                    ? "translate-y-0 opacity-100"
-                    : "pointer-events-none translate-y-6 opacity-0",
-                )}
-                style={{
-                  transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)",
-                }}
-              >
-                {copy.descriptionLines.map((line) => (
-                  <p key={line}>{line}</p>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
+        <div />
       </CinematicVideoSection>
 
       <section
         ref={flowPortfolioSectionRef}
         data-nav-theme="light"
-        className="relative bg-white pb-12 pt-20 sm:pb-16 sm:pt-24 lg:pb-20 lg:pt-28 2xl:pb-24 2xl:pt-32"
+        className="relative h-screen"
       >
-        <div className="landing-frame">
-          <div className="max-w-[70rem] text-black">
+        <div
+          className={cx(
+            "landing-shell z-10 flex h-full flex-col",
+            useFixedPortfolio && "fixed inset-0 z-100",
+          )}
+        >
+          <div className="max-w-[70rem] text-black shrink-0">
             <p className="text-eyebrow text-black/25">{copy.eyebrow}</p>
             <h2 className="heading">{copy.title}</h2>
           </div>
+          {showDescription && (
+            <div
+              className={cx(
+                "text-body transition-all duration-1000 z-100",
+                showDescription
+                  ? "translate-y-0 opacity-100"
+                  : "pointer-events-none translate-y-6 opacity-0",
+              )}
+              style={{
+                transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)",
+              }}
+            >
+              {copy.descriptionLines.map((line) => (
+                <p key={line}>{line}</p>
+              ))}
+            </div>
+          )}
 
-          <div className="relative mt-4 h-[72vh] sm:mt-5 lg:mt-4">
+          <div className="relative flex-1 min-h-0">
             <div
               ref={portfolioInteractionRef}
               className={cx(
-                "z-[32] overscroll-x-contain transition-[opacity,transform] duration-[900ms]",
-                useFixedPortfolio
-                  ? "fixed inset-x-0 bottom-0 top-[34%] sm:top-[30%] lg:top-[26%]"
-                  : "relative h-full w-full overflow-hidden",
-                showSharedPortfolio
-                  ? "pointer-events-auto translate-y-0 scale-100 opacity-100"
-                  : "pointer-events-none translate-y-12 scale-[0.98] opacity-0",
+                "z-[32] min-h-full h-full min-w-screen overscroll-x-contain transition-[opacity,transform] duration-[900ms]",
               )}
               onPointerMove={handlePortfolioPointerMove}
               onPointerLeave={handlePortfolioPointerLeave}
             >
               <div
                 ref={portfolioViewportRef}
-                className="h-full overflow-visible pb-8 [mask-image:linear-gradient(90deg,transparent,black_8%,black_92%,transparent)] [mask-repeat:no-repeat] [mask-size:100%_100%] md:pb-10"
+                className="h-full min-h-full overflow-visible [mask-image:linear-gradient(90deg,transparent,black_8%,black_92%,transparent)] [mask-repeat:no-repeat] [mask-size:100%_100%]"
               >
                 <div
                   ref={portfolioTrackRef}
@@ -753,7 +725,7 @@ export function PortfolioResultsHybridSection({
       <section
         ref={metricsSectionRef}
         data-nav-theme="light"
-        className="relative bg-white py-6 sm:py-8 lg:py-10 2xl:py-12"
+        className="relative bg-white py-6 sm:py-8 lg:py-10 2xl:py-12 pt-12 sm:pt-16 lg:pt-20 2xl:pt-24"
       >
         <div className="landing-frame">
           <div ref={metricsHeadingRef} className="text-black">
