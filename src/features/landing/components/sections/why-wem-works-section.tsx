@@ -179,166 +179,146 @@ export function WhyWemWorksSection({ setLogoTheme }: WhyWemWorksSectionProps) {
     >
       {(() => {
         const showHandoff = handoffPhase !== "done";
+
         const showSectionTitle =
           handoffPhase === "done" && activeStageKey !== "proof";
+
         const showNarrativeCopy =
           handoffPhase === "done" &&
           activeStageKey !== "intro" &&
           activeStageKey !== "proof";
+
         const showSecondParagraph =
           handoffPhase === "done" &&
           (activeStageKey === "method" || activeStageKey === "ai");
+
         const showProofGrid =
           handoffPhase === "done" && activeStageKey === "proof";
+
+        const showInsightBlocks =
+          handoffPhase === "done" &&
+          activeStageKey !== "intro" &&
+          activeStageKey !== "proof";
 
         return (
           <div className="relative h-full w-full">
             <div className="landing-shell-tall">
-              <div
-                className={cx(
-                  "landing-copy-panel transition-all duration-700",
-                  showHandoff
-                    ? "translate-y-0 opacity-100"
-                    : "-translate-y-6 opacity-0",
-                )}
-                style={{ textShadow: "0 8px 30px rgba(0, 0, 0, 0.32)" }}
-              >
-                <div>
-                  <p className="text-eyebrow text-dark-gray">
-                    {handoff.eyebrow}
-                  </p>
-                  <h2 className="heading text-white">
-                    {handoff.titleLines.map((line) => (
-                      <span key={line} className="block">
-                        {line}
-                      </span>
-                    ))}
-                  </h2>
-                  <div className="mt-2 sm:mt-5 body-stack text-body text-white">
-                    {handoff.paragraphs.map((paragraph) => (
-                      <p key={paragraph}>{paragraph}</p>
+              {showHandoff ? (
+                <div
+                  className="landing-copy-panel hero-slot-in"
+                  style={{ textShadow: "0 8px 30px rgba(0, 0, 0, 0.32)" }}
+                >
+                  <div>
+                    <p className="text-eyebrow text-dark-gray">
+                      {handoff.eyebrow}
+                    </p>
+
+                    <h2 className="heading text-white">
+                      {handoff.titleLines.map((line) => (
+                        <span key={line} className="block">
+                          {line}
+                        </span>
+                      ))}
+                    </h2>
+
+                    <div className="body-stack mt-2 text-body text-white sm:mt-5">
+                      {handoff.paragraphs.map((paragraph) => (
+                        <p key={paragraph}>{paragraph}</p>
+                      ))}
+                    </div>
+                  </div>
+
+                  {handoffPhase === "card" ? (
+                    <div className="hero-slot-in mt-4 sm:mt-7 md:mt-8">
+                      <HeroSupportCard
+                        card={handoff.supportCard}
+                        isActive={handoffPhase === "card"}
+                      />
+                    </div>
+                  ) : null}
+                </div>
+              ) : null}
+
+              {!showProofGrid ? (
+                <div className="w-full">
+                  {showSectionTitle ? (
+                    <div
+                      className={cx(
+                        "hero-slot-in z-10 w-full",
+                        activeStageKey === "intro" ? "text-left" : "text-right",
+                      )}
+                    >
+                      <h3 className="heading text-white">{introTitle}</h3>
+                    </div>
+                  ) : null}
+
+                  {showNarrativeCopy ? (
+                    <div
+                      className="hero-slot-in flex w-full flex-col items-end"
+                      style={{
+                        transitionTimingFunction:
+                          "cubic-bezier(0.16, 1, 0.3, 1)",
+                      }}
+                    >
+                      <div className="min-w-[60%] text-right">
+                        <p className="text-body text-white">{leadParagraph}</p>
+
+                        {showSecondParagraph ? (
+                          <p
+                            className="hero-slot-in text-body text-white"
+                            style={{
+                              transitionTimingFunction:
+                                "cubic-bezier(0.16, 1, 0.3, 1)",
+                            }}
+                          >
+                            {resultParagraph}
+                          </p>
+                        ) : null}
+                      </div>
+                    </div>
+                  ) : null}
+
+                  {showInsightBlocks ? (
+                    <div className="flex flex-col items-end">
+                      <div className="mt-2 min-w-[60%] sm:mt-4">
+                        {blocks.map((block, index) => (
+                          <InsightBlock
+                            key={block.stage}
+                            title={block.title}
+                            body={block.body}
+                            toneClassName={block.toneClassName}
+                            visible={isStageVisible(
+                              activeStageKey,
+                              block.stage,
+                            )}
+                            className={cx(
+                              block.offsetClassName,
+                              index !== 0 && "-mt-6 sm:-mt-10 lg:-mt-16",
+                            )}
+                          />
+                        ))}
+                      </div>
+                    </div>
+                  ) : null}
+                </div>
+              ) : null}
+
+              {showProofGrid ? (
+                <div className="flex w-full flex-col items-end justify-end w-full">
+                  <div className="ml-auto flex w-[50%] max-w-[28rem] flex-col gap-3 sm:mx-0 sm:grid sm:h-full sm:w-full sm:max-h-[27rem] sm:max-w-[27rem] sm:grid-cols-2 sm:grid-rows-2 sm:gap-5 md:max-h-[31rem] md:max-w-[31rem] lg:max-h-[34rem] lg:max-w-[34rem] xl:max-h-[37rem] xl:max-w-[37rem] 2xl:max-h-[40rem] 2xl:max-w-[40rem]">
+                    {proofPoints.map((item, index) => (
+                      <ProofPointCard
+                        key={item.titleLines.join("-")}
+                        titleLines={item.titleLines}
+                        color={item.color}
+                        iconName={item.icon}
+                        visible={showProofGrid}
+                        delayMs={index * 140}
+                      />
                     ))}
                   </div>
                 </div>
-                <div
-                  className={cx(
-                    "mt-4 sm:mt-7  transition-all duration-500 md:mt-8",
-                    handoffPhase === "card"
-                      ? "translate-y-0 opacity-100"
-                      : "translate-y-4 opacity-0",
-                  )}
-                >
-                  <HeroSupportCard
-                    card={handoff.supportCard}
-                    isActive={handoffPhase === "card"}
-                  />
-                </div>
-              </div>
-
-              <div
-                className={cx(
-                  "absolute z-10 transition-all duration-1000",
-                  showSectionTitle
-                    ? "opacity-100"
-                    : "pointer-events-none opacity-0",
-
-                  activeStageKey === "intro"
-                    ? `
-        left-[4%] top-[13%] translate-x-0 w-[92%]
-        sm:left-[5%] sm:top-[17%] sm:w-[75%]
-        lg:left-[5%] lg:top-landing-copy-lg lg:w-[60%]
-        2xl:top-landing-copy-wide
-      `
-                    : `
-        right-[4%] top-[11%] translate-x-0 w-[92%] text-right
-        sm:right-[5%] sm:top-[13%] sm:w-[75%]
-        lg:right-[5%] lg:top-landing-copy-lg lg:w-[60%]
-        2xl:top-landing-copy-wide
-      `,
-                )}
-              >
-                <h3 className="heading text-white">{introTitle}</h3>
-              </div>
-
-              <div
-                className={cx(
-                  `
-    absolute
-    right-[4%] top-[16%] w-[92%]
-    sm:right-[5%] sm:top-[19%] sm:w-[86%]
-    lg:right-[5%] lg:top-landing-copy-body-lg lg:w-[60%]
-    2xl:top-landing-copy-body-wide
-    transition-all duration-1000
-    `,
-                  showNarrativeCopy
-                    ? "translate-x-0 opacity-100"
-                    : "translate-x-12 opacity-0",
-                )}
-                style={{
-                  transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)",
-                }}
-              >
-                <div className="text-right">
-                  <p className="text-body text-white">{leadParagraph}</p>
-
-                  <p
-                    className={cx(
-                      "text-body text-white transition-all duration-700",
-                      showSecondParagraph
-                        ? "translate-y-0 opacity-100"
-                        : "translate-y-5 opacity-0",
-                    )}
-                    style={{
-                      transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)",
-                    }}
-                  >
-                    {resultParagraph}
-                  </p>
-                </div>
-
-                <div className="mt-2 sm:mt-4">
-                  {blocks.map((block, index) => (
-                    <InsightBlock
-                      key={block.stage}
-                      title={block.title}
-                      body={block.body}
-                      toneClassName={block.toneClassName}
-                      visible={isStageVisible(activeStageKey, block.stage)}
-                      className={cx(
-                        block.offsetClassName,
-                        index !== 0 &&
-                          `
-    -mt-6
-    sm:-mt-10
-    lg:-mt-16
-  `,
-                      )}
-                    />
-                  ))}
-                </div>
-              </div>
-
-              <div
-                className={cx(
-                  "absolute inset-0 flex items-center justify-center px-[4%] pb-20 pt-landing-copy-base transition-opacity duration-500 sm:px-[5%] sm:pb-24 sm:pt-landing-copy-sm lg:justify-end lg:pb-24 lg:pt-landing-copy-lg 2xl:pb-28 2xl:pt-landing-copy-wide",
-                  showProofGrid
-                    ? "opacity-100"
-                    : "pointer-events-none opacity-0",
-                )}
-              >
-                <div className="ml-auto flex w-[50%] max-w-[18rem] flex-col gap-3 sm:mx-0 sm:grid sm:h-full sm:w-full sm:max-h-[27rem] sm:max-w-[27rem] sm:grid-cols-2 sm:grid-rows-2 sm:gap-5 md:max-h-[31rem] md:max-w-[31rem] lg:max-h-[34rem] lg:max-w-[34rem] xl:max-h-[37rem] xl:max-w-[37rem] 2xl:max-h-[40rem] 2xl:max-w-[40rem]">
-                  {proofPoints.map((item, index) => (
-                    <ProofPointCard
-                      key={item.titleLines.join("-")}
-                      titleLines={item.titleLines}
-                      color={item.color}
-                      iconName={item.icon}
-                      visible={showProofGrid}
-                      delayMs={index * 140}
-                    />
-                  ))}
-                </div>
-              </div>
+              ) : null}
             </div>
           </div>
         );
