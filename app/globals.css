@@ -257,3 +257,38 @@ html::-webkit-scrollbar-thumb:hover {
     object-fit: cover;
   }
 }
+
+@keyframes wem-loading-line {
+  0% {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  40% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+}
+
+.wem-loader-line {
+  width: 120px;
+  height: 2px;
+  overflow: hidden;
+  position: relative;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.wem-loader-line::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 40%;
+  height: 100%;
+
+  background: linear-gradient(90deg, transparent, white, transparent);
+
+  animation: wem-loading-line 1.2s ease-in-out infinite;
+}

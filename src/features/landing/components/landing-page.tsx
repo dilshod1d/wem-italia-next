@@ -12,6 +12,7 @@ import { PortfolioResultsHybridSection } from "./sections/portfolio-results-hybr
 import { SystemFlowSection } from "./sections/system-flow-section";
 import { WhoWeSupportSection } from "./sections/who-we-support-section";
 import { WhyWemWorksSection } from "./sections/why-wem-works-section";
+import CinematicIndicator from "./cinematic-indicator";
 
 gsap.registerPlugin(ScrollTrigger);
 

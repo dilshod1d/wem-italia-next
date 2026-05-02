@@ -5,6 +5,8 @@ import { whyWemWorksSectionConfig } from "../../data/why-wem-works-story";
 import { useHeroSectionVideo } from "../../hooks/use-hero-section-video";
 import { HeroSlide } from "../hero-slide";
 import { CinematicVideoSection } from "../cinematic-video-section";
+import VideoProgressIndicator from "../cinematic-indicator";
+import { useVideoReady } from "../../hooks/use-video-ready";
 
 interface HeroSectionProps {
   setLogoTheme: (theme: "light" | "dark") => void;
@@ -26,6 +28,8 @@ export function HeroSection({ setLogoTheme }: HeroSectionProps) {
     heroStoryConfig.stages.find((stage) => stage.id === activeStageId) ??
     heroStoryConfig.stages[0];
 
+  const { isVideoReady } = useVideoReady(videoRef, true);
+
   return (
     <CinematicVideoSection
       sectionId="who-we-are"
@@ -38,6 +42,7 @@ export function HeroSection({ setLogoTheme }: HeroSectionProps) {
       videoClassName="hero-mobile-pan md:object-[center_58%] object-[center_0%]"
     >
       <div className="landing-stage flex items-center justify-center">
+        <VideoProgressIndicator isVisible={!isVideoReady} />
         <HeroSlide
           stage={activeStage}
           visibleBodyItems={visibleBodyItems}

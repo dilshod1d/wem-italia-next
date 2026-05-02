@@ -19,6 +19,8 @@ import type {
   PortfolioResultsMetric,
 } from "../../types/portfolio-results-section";
 import { CinematicVideoSection } from "../cinematic-video-section";
+import CinematicIndicator from "../cinematic-indicator";
+import { useVideoReady } from "../../hooks/use-video-ready";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -627,6 +629,7 @@ export function PortfolioResultsHybridSection({
       null,
     );
   };
+  const { isVideoReady } = useVideoReady(videoRef, true);
   return (
     <>
       <CinematicVideoSection
@@ -644,6 +647,7 @@ export function PortfolioResultsHybridSection({
         videoClassName="md:object-[center_78%] object-[center_0%]"
       >
         <div className="relative h-full w-full">
+          <CinematicIndicator isVisible={!isVideoReady} />
           <div className="landing-shell">
             <div className={cx("landing-copy-panel-alt text-black")}>
               <p

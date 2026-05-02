@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useLayoutEffect, useRef, useState } from "react";
 import { useSectionPin } from "@/components/Chapter/useSectionPin";
 
 import type {
@@ -66,6 +66,7 @@ export function useHeroSectionVideo(
 ) {
   const { fps, stages, totalFrames, videoDuration, videoUrl } = config;
   const videoRef = useRef<HTMLVideoElement | null>(null);
+
   const stateRef = useRef<HeroVideoState>({
     lastStageId: stages[0]?.id ?? 0,
     lastBodySignature: "",
@@ -77,26 +78,17 @@ export function useHeroSectionVideo(
   const [visibleBodyItems, setVisibleBodyItems] = useState<
     readonly HeroBodyItem[]
   >([]);
+
   const [visibleSupportCardItems, setVisibleSupportCardItems] = useState<
     readonly HeroSupportCardItem[]
   >([]);
+
   const debugLogger = useVideoDebugLogger({
     label: "Hero",
     videoSrc: videoUrl,
     configuredDuration: videoDuration,
     videoRef,
   });
-
-  // useEffect(() => {
-  //   const firstPan = config.mobileVideoPan?.[0];
-
-  //   if (!firstPan) return;
-
-  //   applyMobileVideoPan(videoRef.current, {
-  //     x: firstPan.fromX,
-  //     widthPercent: firstPan.widthPercent ?? 150,
-  //   });
-  // }, [config.mobileVideoPan]);
 
   useLayoutEffect(() => {
     const firstPan = config.mobileVideoPan?.[0];

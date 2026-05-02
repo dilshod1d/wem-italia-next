@@ -46,7 +46,6 @@ export function useSectionPin({
 
     if (!section || !(pinTarget instanceof HTMLElement)) return;
 
-
     const trigger = ScrollTrigger.create({
       trigger: section,
       start: "top top",
@@ -74,7 +73,6 @@ export function useSectionPin({
         }
       },
     });
-
 
     return () => {
       section.style.zIndex = "0";
