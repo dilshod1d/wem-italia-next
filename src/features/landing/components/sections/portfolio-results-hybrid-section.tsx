@@ -643,7 +643,49 @@ export function PortfolioResultsHybridSection({
         indicatorWheelClassName="bg-sky-200/80"
         videoClassName="md:object-[center_78%] object-[center_0%]"
       >
-        <div />
+        <div className="relative h-full w-full">
+          <div className="landing-shell">
+            <div className={cx("landing-copy-panel-alt text-black")}>
+              <p
+                className={cx(
+                  "text-eyebrow text-black/25 transition-all duration-700 ",
+                  showTitle
+                    ? "translate-y-0 opacity-100"
+                    : "translate-y-8 opacity-0",
+                )}
+              >
+                {copy.eyebrow}
+              </p>
+
+              <h2
+                className={cx(
+                  "heading transition-all duration-700",
+                  showTitle
+                    ? "translate-y-0 opacity-100"
+                    : "translate-y-8 opacity-0",
+                )}
+              >
+                {copy.title}
+              </h2>
+
+              <div
+                className={cx(
+                  "text-body transition-all duration-1000",
+                  showDescription
+                    ? "translate-y-0 opacity-100"
+                    : "pointer-events-none translate-y-6 opacity-0",
+                )}
+                style={{
+                  transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)",
+                }}
+              >
+                {copy.descriptionLines.map((line) => (
+                  <p key={line}>{line}</p>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
       </CinematicVideoSection>
 
       <section
@@ -657,27 +699,17 @@ export function PortfolioResultsHybridSection({
             useFixedPortfolio && "fixed inset-0 z-100",
           )}
         >
-          <div className="max-w-[70rem] text-black shrink-0">
+          <div
+            className={cx(
+              "max-w-[70rem] text-black shrink-0",
+              showSharedPortfolio
+                ? "opacity-100"
+                : "pointer-events-none opacity-0",
+            )}
+          >
             <p className="text-eyebrow text-black/25">{copy.eyebrow}</p>
             <h2 className="heading">{copy.title}</h2>
           </div>
-          {showDescription && (
-            <div
-              className={cx(
-                "text-body transition-all duration-1000 z-100",
-                showDescription
-                  ? "translate-y-0 opacity-100"
-                  : "pointer-events-none translate-y-6 opacity-0",
-              )}
-              style={{
-                transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)",
-              }}
-            >
-              {copy.descriptionLines.map((line) => (
-                <p key={line}>{line}</p>
-              ))}
-            </div>
-          )}
 
           <div className="relative flex-1 min-h-0">
             <div
