@@ -125,7 +125,7 @@ export function HowItWorksSection({ setLogoTheme }: HowItWorksSectionProps) {
 
   const isMobile = useIsMobile();
 
-  const { isVideoReady } = useVideoReady(videoRef, true);
+  // const { isVideoReady } = useVideoReady(videoRef, true);
 
   return (
     <CinematicVideoSection
@@ -143,7 +143,7 @@ export function HowItWorksSection({ setLogoTheme }: HowItWorksSectionProps) {
       videoClassName="md:object-[center_86%] object-[center_0%] "
     >
       <div className="relative h-full w-full">
-        <CinematicIndicator isVisible={!isVideoReady} />
+        {/* <CinematicIndicator isVisible={!isVideoReady} /> */}
         <div className="landing-shell">
           <div className="landing-copy-panel-alt text-black">
             <p

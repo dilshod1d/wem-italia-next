@@ -118,7 +118,7 @@ function PortfolioCard({
         }}
       >
         <div className="z-31 absolute left-0 top-0 flex h-10 w-[82%] items-center justify-center rounded-t-2xl rounded-br-2xl bg-inherit md:h-12 2xl:h-14">
-          <h3 className="px-3 text-center font-sans text-[0.82rem] font-semibold tracking-tight sm:text-[0.9rem] md:text-[1.35rem] 2xl:text-[1.55rem]">
+          <h3 className="px-3 text-center font-sans text-[0.72rem] font-semibold tracking-tight sm:text-[0.78rem] md:text-[1rem] 2xl:text-[1.2rem]">
             {item.title}
           </h3>
         </div>
@@ -143,9 +143,8 @@ function PortfolioCard({
             )}
           />
         </div>
-
         <div className="absolute -bottom-6 left-0 flex h-[2.5rem] w-[82%] items-center justify-center rounded-b-2xl rounded-r-2xl bg-inherit md:-bottom-8 md:h-[3rem] 2xl:-bottom-16 2xl:h-[4rem]">
-          <p className="px-3 text-center font-sans text-[0.82rem] font-semibold tracking-tight sm:text-[0.9rem] md:text-[1.35rem] 2xl:text-[1.55rem]">
+          <p className="px-3 text-center font-sans text-[0.72rem] font-semibold tracking-tight sm:text-[0.78rem] md:text-[1rem] 2xl:text-[1.2rem]">
             {item.footerLabel}
           </p>
         </div>
@@ -629,7 +628,7 @@ export function PortfolioResultsHybridSection({
       null,
     );
   };
-  const { isVideoReady } = useVideoReady(videoRef, true);
+  // const { isVideoReady } = useVideoReady(videoRef, true);
   return (
     <>
       <CinematicVideoSection
@@ -647,7 +646,7 @@ export function PortfolioResultsHybridSection({
         videoClassName="md:object-[center_78%] object-[center_0%]"
       >
         <div className="relative h-full w-full">
-          <CinematicIndicator isVisible={!isVideoReady} />
+          {/* <CinematicIndicator isVisible={!isVideoReady} /> */}
           <div className="landing-shell">
             <div className={cx("landing-copy-panel-alt text-black")}>
               <p

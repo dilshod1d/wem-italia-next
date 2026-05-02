@@ -116,7 +116,7 @@ export function SystemFlowSection({ setLogoTheme }: SystemFlowSectionProps) {
     activeStageKey === "support";
   const isFinal = activeStageKey === "support";
 
-  const { isVideoReady } = useVideoReady(videoRef, true);
+  // const { isVideoReady } = useVideoReady(videoRef, true);
 
   return (
     <CinematicVideoSection
@@ -135,7 +135,7 @@ export function SystemFlowSection({ setLogoTheme }: SystemFlowSectionProps) {
       videoClassName="md:object-[72%_78%] object-[center_0%]"
     >
       <div className="relative h-full w-full">
-        <CinematicIndicator isVisible={!isVideoReady} />
+        {/* <CinematicIndicator isVisible={!isVideoReady} /> */}
         <div className="landing-frame landing-copy-start relative h-full pb-[5vh] lg:pb-[5.5vh] 2xl:pb-[6vh]">
           <div
             className={cx(

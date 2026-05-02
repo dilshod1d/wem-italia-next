@@ -2,10 +2,7 @@
 
 import { useEffect, useState, RefObject } from "react";
 
-export function useVideoReady(
-  videoRef: RefObject<HTMLVideoElement | null>,
-  lockScroll = false,
-) {
+export function useVideoReady(videoRef: RefObject<HTMLVideoElement | null>) {
   const [isVideoReady, setIsVideoReady] = useState(false);
 
   useEffect(() => {
