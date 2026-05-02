@@ -28,7 +28,7 @@ export function HeroSection({ setLogoTheme }: HeroSectionProps) {
     heroStoryConfig.stages.find((stage) => stage.id === activeStageId) ??
     heroStoryConfig.stages[0];
 
-  const { isVideoReady } = useVideoReady(videoRef, true);
+  const { isVideoReady } = useVideoReady(videoRef);
 
   return (
     <CinematicVideoSection

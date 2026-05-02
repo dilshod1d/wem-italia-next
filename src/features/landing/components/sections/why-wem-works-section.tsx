@@ -165,7 +165,7 @@ export function WhyWemWorksSection({ setLogoTheme }: WhyWemWorksSectionProps) {
       onEnterBack: () => setLogoTheme("light"),
     });
 
-  // const { isVideoReady } = useVideoReady(videoRef, true);
+  const { isVideoReady } = useVideoReady(videoRef);
 
   return (
     <CinematicVideoSection
@@ -206,7 +206,7 @@ export function WhyWemWorksSection({ setLogoTheme }: WhyWemWorksSectionProps) {
 
         return (
           <div className="relative h-full w-full">
-            {/* <CinematicIndicator isVisible={!isVideoReady} /> */}
+            <CinematicIndicator isVisible={!isVideoReady} />
             <div className="landing-shell-tall">
               {showHandoff ? (
                 <div
