@@ -62,7 +62,10 @@ export function Chapter({
       className={cx("relative", sectionClassName)}
       style={{ height: `${CHAPTER_SCROLL_DISTANCE}px` }}
     >
-      <div className="relative z-20 h-screen w-full overflow-hidden">
+      <div
+        className="relative z-20 h-screen w-full overflow-hidden"
+        style={{ height: "var(--landing-viewport-height, 100vh)" }}
+      >
         {videoSrc ? (
           <video
             ref={videoRef}

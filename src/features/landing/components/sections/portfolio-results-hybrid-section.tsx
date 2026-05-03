@@ -695,6 +695,7 @@ export function PortfolioResultsHybridSection({
         ref={flowPortfolioSectionRef}
         data-nav-theme="light"
         className="relative h-screen"
+        style={{ height: "var(--landing-viewport-height, 100vh)" }}
       >
         <div
           className={cx(

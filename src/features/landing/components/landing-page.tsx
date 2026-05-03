@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useLayoutEffect, useState } from "react";
+import { useCallback, useLayoutEffect, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -12,12 +12,20 @@ import { PortfolioResultsHybridSection } from "./sections/portfolio-results-hybr
 import { SystemFlowSection } from "./sections/system-flow-section";
 import { WhoWeSupportSection } from "./sections/who-we-support-section";
 import { WhyWemWorksSection } from "./sections/why-wem-works-section";
-import CinematicIndicator from "./cinematic-indicator";
+import { useDynamicViewportHeight } from "../hooks/use-dynamic-viewport-height";
 
 gsap.registerPlugin(ScrollTrigger);
 
 export function LandingPage() {
   const [logoTheme, setLogoTheme] = useState<"light" | "dark">("light");
+
+  const refreshScrollTriggers = useCallback(() => {
+    requestAnimationFrame(() => ScrollTrigger.refresh());
+  }, []);
+
+  useDynamicViewportHeight(undefined, {
+    onHeightChange: refreshScrollTriggers,
+  });
 
   const resetScrollPosition = useCallback(() => {
     ScrollTrigger.clearScrollMemory("manual");
