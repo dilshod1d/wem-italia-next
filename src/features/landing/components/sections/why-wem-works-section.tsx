@@ -165,7 +165,7 @@ export function WhyWemWorksSection({ setLogoTheme }: WhyWemWorksSectionProps) {
       onEnterBack: () => setLogoTheme("light"),
     });
 
-  const { isVideoReady } = useVideoReady(videoRef);
+  // const { isVideoReady } = useVideoReady(videoRef);
 
   return (
     <CinematicVideoSection
@@ -179,7 +179,7 @@ export function WhyWemWorksSection({ setLogoTheme }: WhyWemWorksSectionProps) {
       indicatorLabel="Scroll Down"
       indicatorPersistent
       indicatorLabelClassName="normal-case text-[1.05rem] font-medium tracking-normal text-white"
-      videoClassName="md:object-[center_58%] object-[center_0%]"
+      videoClassName="md:object-[center_58%] object-cover object-center translate-y-[25%] md:translate-y-0"
     >
       {(() => {
         const showHandoff = handoffPhase !== "done";
@@ -206,7 +206,7 @@ export function WhyWemWorksSection({ setLogoTheme }: WhyWemWorksSectionProps) {
 
         return (
           <div className="relative h-full w-full">
-            <CinematicIndicator isVisible={!isVideoReady} />
+            {/* <CinematicIndicator isVisible={!isVideoReady} /> */}
             <div className="landing-shell-tall">
               {showHandoff ? (
                 <div

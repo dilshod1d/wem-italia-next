@@ -39,7 +39,8 @@ export function HeroSection({ setLogoTheme }: HeroSectionProps) {
       nextVideoSrc={whyWemWorksSectionConfig.videoUrl}
       isScrolled={isScrolled}
       navTheme="dark"
-      videoClassName="hero-mobile-pan md:object-[center_58%] object-[center_0%]"
+      // videoClassName="hero-mobile-pan md:object-[center_58%] object-[center_0%]"
+      videoClassName="object-cover object-center translate-y-[25%] md:translate-y-0 md:object-[center_58%]"
     >
       <div className="landing-stage flex items-center justify-center">
         <VideoProgressIndicator isVisible={!isVideoReady} />

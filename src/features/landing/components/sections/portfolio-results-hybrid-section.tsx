@@ -628,7 +628,7 @@ export function PortfolioResultsHybridSection({
       null,
     );
   };
-  const { isVideoReady } = useVideoReady(videoRef);
+  // const { isVideoReady } = useVideoReady(videoRef);
   return (
     <>
       <CinematicVideoSection
@@ -643,10 +643,10 @@ export function PortfolioResultsHybridSection({
         indicatorLabelClassName="normal-case text-[1.05rem] font-medium tracking-normal text-sky-200/75"
         indicatorMouseClassName="border-sky-200/55"
         indicatorWheelClassName="bg-sky-200/80"
-        videoClassName="md:object-[center_78%] object-[center_0%]"
+        videoClassName="md:object-[center_78%] object-cover object-center translate-y-[25%] md:translate-y-0"
       >
         <div className="relative h-full w-full">
-          <CinematicIndicator isVisible={!isVideoReady} />
+          {/* <CinematicIndicator isVisible={!isVideoReady} /> */}
           <div className="landing-shell">
             <div className={cx("landing-copy-panel-alt text-black")}>
               <p

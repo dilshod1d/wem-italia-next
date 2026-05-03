@@ -116,7 +116,7 @@ export function SystemFlowSection({ setLogoTheme }: SystemFlowSectionProps) {
     activeStageKey === "support";
   const isFinal = activeStageKey === "support";
 
-  const { isVideoReady } = useVideoReady(videoRef);
+  // const { isVideoReady } = useVideoReady(videoRef);
 
   return (
     <CinematicVideoSection
@@ -132,10 +132,10 @@ export function SystemFlowSection({ setLogoTheme }: SystemFlowSectionProps) {
       indicatorLabelClassName="normal-case text-[1.05rem] font-medium tracking-normal text-sky-200/75"
       indicatorMouseClassName="border-sky-200/55"
       indicatorWheelClassName="bg-sky-200/80"
-      videoClassName="md:object-[72%_78%] object-[center_0%]"
+      videoClassName="md:object-[72%_78%] object-cover object-center translate-y-[25%] md:translate-y-0"
     >
       <div className="relative h-full w-full">
-        <CinematicIndicator isVisible={!isVideoReady} />
+        {/* <CinematicIndicator isVisible={!isVideoReady} /> */}
         <div className="landing-frame landing-copy-start relative h-full pb-[5vh] lg:pb-[5.5vh] 2xl:pb-[6vh]">
           <div
             className={cx(
