@@ -718,7 +718,7 @@ export function PortfolioResultsHybridSection({
             <div
               ref={portfolioInteractionRef}
               className={cx(
-                "z-[32] min-h-full h-full min-w-screen overscroll-x-contain transition-[opacity,transform] duration-[900ms]",
+                "z-[32] min-h-full h-full overscroll-x-contain transition-[opacity,transform] duration-[900ms]",
               )}
               onPointerMove={handlePortfolioPointerMove}
               onPointerLeave={handlePortfolioPointerLeave}
