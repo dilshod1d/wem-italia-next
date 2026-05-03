@@ -725,7 +725,7 @@ export function PortfolioResultsHybridSection({
             >
               <div
                 ref={portfolioViewportRef}
-                className="h-full min-h-full overflow-visible [mask-image:linear-gradient(90deg,transparent,black_8%,black_92%,transparent)] [mask-repeat:no-repeat] [mask-size:100%_100%]"
+                className="relative h-full min-h-full overflow-hidden [mask-image:linear-gradient(90deg,transparent,black_8%,black_92%,transparent)] [mask-repeat:no-repeat] [mask-size:100%_100%]"
               >
                 <div
                   ref={portfolioTrackRef}
