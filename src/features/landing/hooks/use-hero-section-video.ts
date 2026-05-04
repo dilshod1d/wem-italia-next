@@ -31,15 +31,24 @@ function getMobileVideoPanTransform(
 
   if (!activePan) return null;
 
+  const progress =
+    activePan.endFrame === activePan.startFrame
+      ? 1
+      : (currentFrame - activePan.startFrame) /
+        (activePan.endFrame - activePan.startFrame);
+  const fromY = activePan.fromY ?? 0;
+  const toY = activePan.toY ?? fromY;
+
   return {
-    x: activePan.fromX,
+    x: activePan.fromX + (activePan.toX - activePan.fromX) * progress,
+    y: fromY + (toY - fromY) * progress,
     widthPercent: activePan.widthPercent ?? 150,
   };
 }
 
 function applyMobileVideoPan(
   video: HTMLVideoElement | null,
-  pan: { x: number; widthPercent: number } | null,
+  pan: { x: number; y: number; widthPercent: number } | null,
 ) {
   if (!video) return;
 
@@ -49,7 +58,7 @@ function applyMobileVideoPan(
     video.style.left = "0";
     video.style.right = "auto";
     video.style.objectFit = "cover";
-    video.style.transform = `translateX(${pan.x}%)`;
+    video.style.transform = `translate3d(${pan.x}%, ${pan.y}%, 0)`;
   } else {
     video.style.width = "";
     video.style.maxWidth = "";
@@ -97,6 +106,7 @@ export function useHeroSectionVideo(
 
     applyMobileVideoPan(videoRef.current, {
       x: firstPan.fromX,
+      y: firstPan.fromY ?? 0,
       widthPercent: firstPan.widthPercent ?? 150,
     });
   }, [config.mobileVideoPan]);

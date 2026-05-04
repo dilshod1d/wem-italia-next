@@ -12,6 +12,8 @@ export const heroStoryConfig = {
       endFrame: 150,
       fromX: -44,
       toX: -44,
+      fromY: 0,
+      toY: 0,
       widthPercent: 180,
       description: "Fixed mobile framing for hero video.",
     },

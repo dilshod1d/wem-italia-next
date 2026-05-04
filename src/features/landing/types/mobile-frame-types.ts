@@ -5,9 +5,10 @@ export interface MobileVideoPan {
   endFrame: number;
   fromX: number;
   toX: number;
+  fromY?: number;
+  toY?: number;
   widthPercent?: number;
   description?: string;
   direction?: MobileVideoPanDirection;
 }
-
 

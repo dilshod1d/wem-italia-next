@@ -12,6 +12,8 @@ export const portfolioResultsSectionConfig = {
       endFrame: 30, // 1 second hold at 30fps
       fromX: 0,
       toX: 0,
+      fromY: 0,
+      toY: 0,
       widthPercent: 240,
       description: "Hold left-side framing before the character starts moving.",
     },
@@ -20,6 +22,8 @@ export const portfolioResultsSectionConfig = {
       endFrame: 150,
       fromX: 0,
       toX: -58,
+      fromY: 0,
+      toY: 0,
       widthPercent: 240,
       description:
         "Continuously follow the character to the right side until the end.",

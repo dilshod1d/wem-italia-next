@@ -36,17 +36,21 @@ function getMobileVideoPanTransform(
       : (currentFrame - activePan.startFrame) /
         (activePan.endFrame - activePan.startFrame);
 
+  const fromY = activePan.fromY ?? 0;
+  const toY = activePan.toY ?? fromY;
   const x = activePan.fromX + (activePan.toX - activePan.fromX) * progress;
+  const y = fromY + (toY - fromY) * progress;
 
   return {
     x,
+    y,
     widthPercent: activePan.widthPercent ?? 180,
   };
 }
 
 function applyMobileVideoPan(
   video: HTMLVideoElement | null,
-  pan: { x: number; widthPercent: number } | null,
+  pan: { x: number; y: number; widthPercent: number } | null,
 ) {
   if (!video) return;
 
@@ -56,7 +60,7 @@ function applyMobileVideoPan(
     video.style.left = "0";
     video.style.right = "auto";
     video.style.objectFit = "cover";
-    video.style.transform = `translateX(${pan.x}%)`;
+    video.style.transform = `translate3d(${pan.x}%, ${pan.y}%, 0)`;
   } else {
     video.style.width = "";
     video.style.maxWidth = "";

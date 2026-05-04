@@ -12,6 +12,8 @@ export const whyWemWorksSectionConfig = {
       endFrame: 55,
       fromX: -44,
       toX: -44,
+      fromY: 0,
+      toY: 0,
       widthPercent: 180,
       description: "Start fixed on the right-side framing.",
     },
@@ -20,6 +22,8 @@ export const whyWemWorksSectionConfig = {
       endFrame: 150,
       fromX: -44,
       toX: 0,
+      fromY: 0,
+      toY: 0,
       widthPercent: 180,
       description:
         "Follow character gradually moving left by returning toward center.",

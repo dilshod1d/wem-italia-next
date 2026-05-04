@@ -12,6 +12,8 @@ export const systemFlowSectionConfig = {
       endFrame: 30,
       fromX: 0,
       toX: 0,
+      fromY: 0,
+      toY: 0,
       widthPercent: 180,
     },
     {
@@ -19,6 +21,8 @@ export const systemFlowSectionConfig = {
       endFrame: 90,
       fromX: 0,
       toX: -58,
+      fromY: 0,
+      toY: 0,
       widthPercent: 240,
       description:
         "More aggressive pan right earlier to keep character in frame.",
@@ -28,6 +32,8 @@ export const systemFlowSectionConfig = {
       endFrame: 150,
       fromX: -58,
       toX: -58,
+      fromY: 0,
+      toY: 0,
       widthPercent: 240,
     },
   ],

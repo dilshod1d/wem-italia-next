@@ -6,30 +6,15 @@ export const howItWorksSectionConfig = {
   fps: 30,
   totalFrames: 150,
   videoDuration: 5,
-  // mobileVideoPan: [
-  //   {
-  //     startFrame: 0,
-  //     endFrame: 40,
-  //     fromX: -58,
-  //     toX: -50,
-  //     widthPercent: 240,
-  //     description: "Hold final right-side framing from section three.",
-  //   },
-  //   {
-  //     startFrame: 40,
-  //     endFrame: 150,
-  //     fromX: 0,
-  //     toX: 0,
-  //     widthPercent: 240,
-  //     description: "Hold left-side framing at the end.",
-  //   },
-  // ],
+
   mobileVideoPan: [
     {
       startFrame: 0,
       endFrame: 48, // 1.6s at 30fps, faster than 2s
       fromX: -58,
       toX: 0,
+      fromY: 0,
+      toY: 0,
       widthPercent: 240,
       description:
         "Fast mobile camera pan from right-side framing to left-side framing before the character reaches the left edge.",
@@ -39,6 +24,8 @@ export const howItWorksSectionConfig = {
       endFrame: 150,
       fromX: 0,
       toX: 0,
+      fromY: 0,
+      toY: 0,
       widthPercent: 240,
       description: "Hold left-side framing after the fast pan.",
     },
