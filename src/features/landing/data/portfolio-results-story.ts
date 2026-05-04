@@ -16,7 +16,7 @@ export const portfolioResultsSectionConfig = {
   mobileVideoPan: [
     {
       startFrame: 0,
-      endFrame: 30, // 1 second hold at 30fps
+      endFrame: 40, // 1 second hold at 30fps
       fromX: 0,
       toX: 0,
       fromY: 0,
@@ -26,7 +26,7 @@ export const portfolioResultsSectionConfig = {
       description: "Hold left-side framing before the character starts moving.",
     },
     {
-      startFrame: 30,
+      startFrame: 40,
       endFrame: 150,
       fromX: 0,
       toX: -58,
