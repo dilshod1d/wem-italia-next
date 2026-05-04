@@ -64,7 +64,7 @@ function InsightBlock({
     <article
       className={cx(
         `
-        w-full text-left
+        w-[58%] text-left sm:w-full
         rounded-[1.25rem] p-4
         sm:rounded-[1.75rem] sm:p-5
         md:rounded-[2.25rem] md:p-10
@@ -292,8 +292,8 @@ export function WhyWemWorksSection({ setLogoTheme }: WhyWemWorksSectionProps) {
                   ) : null}
 
                   {showInsightBlocks ? (
-                    <div className="landing-card-gap flex flex-col items-end">
-                      <div className="landing-right-rail">
+                    <div className="landing-card-gap">
+                      <div className="landing-right-rail flex flex-col items-end">
                         {blocks.map((block, index) => (
                           <InsightBlock
                             key={block.stage}
