@@ -54,7 +54,7 @@ export default function HowItWorksStepCard({
     <article
       className={cx(
         // mobile
-        "relative w-full overflow-hidden rounded-[1.25rem]",
+        "relative w-full overflow-hidden rounded-[1.3rem]",
         "px-3.5 py-3 text-left",
 
         // tablet / desktop
@@ -90,17 +90,17 @@ export default function HowItWorksStepCard({
        translateY(${index * -OVERLAP + (isMobile ? 12 : 20)}px)
        scale(${isMobile ? 0.985 : 0.96})`,
 
-        zIndex: 20 - index,
+        zIndex: isMobile ? 20 + index : 20 - index,
         transitionDelay: visible ? `${delayMs}ms` : "0ms",
         transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)",
       }}
     >
       <div className="min-w-0">
-        <h3 className="font-sans text-[1.05rem] font-bold uppercase leading-[0.98] tracking-[-0.015em] text-white sm:text-[2rem] md:text-[2.48rem] lg:text-[2.18rem] xl:text-[2.46rem] 2xl:text-[2.82rem]">
+        <h3 className="font-sans text-[1.12rem] font-bold uppercase leading-[0.98] tracking-[-0.015em] text-white sm:text-[2rem] md:text-[2.48rem] lg:text-[2.18rem] xl:text-[2.46rem] 2xl:text-[2.82rem]">
           {step.title}
         </h3>
 
-        <p className="mt-1 max-w-full font-body text-[0.74rem] leading-[1.18] text-white sm:mt-1.5 sm:max-w-[94%] sm:text-[1rem] md:mt-2 md:text-[1.12rem] lg:mt-1.5 lg:max-w-[86%] lg:text-[1.02rem] lg:leading-[1.16] xl:text-[1.14rem] 2xl:text-[1.34rem]">
+        <p className="mt-1 max-w-full font-body text-[0.78rem] leading-[1.2] text-white sm:mt-1.5 sm:max-w-[94%] sm:text-[1rem] md:mt-2 md:text-[1.12rem] lg:mt-1.5 lg:max-w-[86%] lg:text-[1.02rem] lg:leading-[1.16] xl:text-[1.14rem] 2xl:text-[1.34rem]">
           {step.body}
         </p>
       </div>
