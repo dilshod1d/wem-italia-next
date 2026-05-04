@@ -10,7 +10,7 @@ export const heroStoryConfig = {
     objectFit: "cover",
     objectPosition: "center bottom",
     widthPercent: 180,
-    heightPercent: 70,
+    heightPercent: 75,
     verticalAnchor: "bottom",
   },
   mobileVideoPan: [
