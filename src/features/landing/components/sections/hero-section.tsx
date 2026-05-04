@@ -1,5 +1,7 @@
 "use client";
 
+import { useEffect, useState } from "react";
+
 import { heroStoryConfig } from "../../data/hero-story";
 import { whyWemWorksSectionConfig } from "../../data/why-wem-works-story";
 import { useHeroSectionVideo } from "../../hooks/use-hero-section-video";
@@ -11,6 +13,7 @@ interface HeroSectionProps {
 }
 
 export function HeroSection({ setLogoTheme }: HeroSectionProps) {
+  const [showInitialHeader, setShowInitialHeader] = useState(false);
   const {
     sectionRef,
     videoRef,
@@ -27,6 +30,19 @@ export function HeroSection({ setLogoTheme }: HeroSectionProps) {
   const activeStage =
     heroStoryConfig.stages.find((stage) => stage.id === activeStageId) ??
     heroStoryConfig.stages[0];
+
+  useEffect(() => {
+    const showHeader = () => setShowInitialHeader(true);
+
+    if (document.readyState === "complete") {
+      showHeader();
+      return;
+    }
+
+    window.addEventListener("load", showHeader, { once: true });
+
+    return () => window.removeEventListener("load", showHeader);
+  }, []);
 
   return (
     <CinematicVideoSection
@@ -47,6 +63,7 @@ export function HeroSection({ setLogoTheme }: HeroSectionProps) {
           visibleBodyItems={visibleBodyItems}
           visibleSupportCardItems={visibleSupportCardItems}
           config={heroStoryConfig}
+          showInitialHeader={showInitialHeader}
         />
       </div>
     </CinematicVideoSection>
