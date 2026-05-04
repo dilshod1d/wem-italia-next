@@ -179,7 +179,7 @@ export function SystemFlowSection({ setLogoTheme }: SystemFlowSectionProps) {
               </h2>
               <div
                 className={cx(
-                  "body-stack text-body mt-2 sm:mt-6 text-black/85 transition-all duration-1000",
+                  "landing-copy-gap landing-paragraph-stack text-body landing-body-copy text-black/85 transition-all duration-1000",
                   showParagraphs
                     ? "translate-y-0 opacity-100"
                     : "translate-y-6 opacity-0",
@@ -194,7 +194,7 @@ export function SystemFlowSection({ setLogoTheme }: SystemFlowSectionProps) {
               </div>
             </div>
 
-            <div className="pointer-events-none relative z-30 mt-4 h-[17rem] w-full sm:mt-5 sm:h-[19rem] md:mt-6 md:h-[22rem] lg:mt-[2vh] lg:h-auto lg:min-h-0 lg:flex-1 lg:w-[70%] xl:mt-[2.4vh] xl:w-[72%] 2xl:w-[74%]">
+            <div className="pointer-events-none landing-card-gap relative z-30 h-[17rem] w-full sm:h-[19rem] md:h-[22rem] lg:h-auto lg:min-h-0 lg:flex-1 lg:w-[70%] xl:w-[72%] 2xl:w-[74%]">
               <div className="relative h-full w-full">
                 {cards.map((card, index) => (
                   <BenefitCard

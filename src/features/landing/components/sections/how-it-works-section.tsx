@@ -179,7 +179,7 @@ export function HowItWorksSection({ setLogoTheme }: HowItWorksSectionProps) {
 
             <div
               className={cx(
-                "text-body text-black transition-all duration-1000",
+                "landing-copy-gap landing-paragraph-stack text-body landing-body-copy text-black transition-all duration-1000",
                 showHeading
                   ? "translate-y-0 opacity-100"
                   : "translate-y-6 opacity-0",
@@ -206,7 +206,7 @@ export function HowItWorksSection({ setLogoTheme }: HowItWorksSectionProps) {
           </div>
 
           {showStepCards ? (
-            <div className="relative flex w-full flex-col overflow-visible lg:ml-[15%]">
+            <div className="landing-card-gap relative flex w-full flex-col overflow-visible lg:ml-[15%]">
               {steps.map((step, index) => (
                 <HowItWorksStepCard
                   key={step.stage}

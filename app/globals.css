@@ -188,6 +188,26 @@ html::-webkit-scrollbar-thumb:hover {
   @apply space-y-0.5 sm:space-y-3;
 }
 
+@utility landing-copy-gap {
+  @apply mt-2 sm:mt-3 md:mt-4;
+}
+
+@utility landing-paragraph-stack {
+  @apply space-y-0 sm:space-y-0.5 md:space-y-1;
+}
+
+@utility landing-body-copy {
+  @apply leading-[1.32] sm:leading-[1.36] md:leading-[1.42] lg:leading-[1.42] 2xl:leading-[1.45];
+}
+
+@utility landing-card-gap {
+  @apply mt-4 sm:mt-5 md:mt-6;
+}
+
+@utility landing-right-rail {
+  @apply ml-auto w-full max-w-[92%] text-right sm:max-w-[68%] lg:max-w-[60%];
+}
+
 @utility landing-frame {
   @apply mx-auto w-full max-w-[1680px] px-[4%]
          sm:px-[5%]

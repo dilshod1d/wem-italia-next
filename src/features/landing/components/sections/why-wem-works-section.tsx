@@ -64,8 +64,7 @@ function InsightBlock({
     <article
       className={cx(
         `
-        ml-auto w-[60%]
-        sm:ml-0 sm:w-full
+        w-full text-left
         rounded-[1.25rem] p-4
         sm:rounded-[1.75rem] sm:p-5
         md:rounded-[2.25rem] md:p-10
@@ -268,18 +267,18 @@ export function WhyWemWorksSection({ setLogoTheme }: WhyWemWorksSectionProps) {
 
                   {showNarrativeCopy ? (
                     <div
-                      className="hero-slot-in flex w-full flex-col items-end"
+                      className="hero-slot-in landing-copy-gap flex w-full flex-col items-end"
                       style={{
                         transitionTimingFunction:
                           "cubic-bezier(0.16, 1, 0.3, 1)",
                       }}
                     >
-                      <div className="min-w-[60%] text-right">
-                        <p className="text-body text-white">{leadParagraph}</p>
+                      <div className="landing-right-rail landing-paragraph-stack text-body landing-body-copy text-white">
+                        <p>{leadParagraph}</p>
 
                         {showSecondParagraph ? (
                           <p
-                            className="hero-slot-in text-body text-white"
+                            className="hero-slot-in"
                             style={{
                               transitionTimingFunction:
                                 "cubic-bezier(0.16, 1, 0.3, 1)",
@@ -293,8 +292,8 @@ export function WhyWemWorksSection({ setLogoTheme }: WhyWemWorksSectionProps) {
                   ) : null}
 
                   {showInsightBlocks ? (
-                    <div className="flex flex-col items-end">
-                      <div className="mt-2 min-w-[60%] sm:mt-4">
+                    <div className="landing-card-gap flex flex-col items-end">
+                      <div className="landing-right-rail">
                         {blocks.map((block, index) => (
                           <InsightBlock
                             key={block.stage}

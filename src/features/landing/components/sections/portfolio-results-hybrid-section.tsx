@@ -677,7 +677,7 @@ export function PortfolioResultsHybridSection({
 
               <div
                 className={cx(
-                  "text-body transition-all duration-1000",
+                  "landing-copy-gap landing-paragraph-stack text-body landing-body-copy transition-all duration-1000",
                   showDescription
                     ? "translate-y-0 opacity-100"
                     : "pointer-events-none translate-y-6 opacity-0",
