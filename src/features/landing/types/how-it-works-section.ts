@@ -7,7 +7,8 @@ export type HowItWorksStageKey =
   | "analysis"
   | "direction"
   | "build"
-  | "evolution";
+  | "evolution"
+  | "blank";
 
 export interface HowItWorksStage {
   readonly id: number;

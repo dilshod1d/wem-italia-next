@@ -53,6 +53,12 @@ export const howItWorksSectionConfig = {
       id: 7,
       key: "evolution",
       startFrame: 120,
+      endFrame: 146,
+    },
+    {
+      id: 8,
+      key: "blank",
+      startFrame: 146,
       endFrame: Number.POSITIVE_INFINITY,
     },
   ],

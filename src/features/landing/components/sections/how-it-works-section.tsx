@@ -121,13 +121,14 @@ export function HowItWorksSection({ setLogoTheme }: HowItWorksSectionProps) {
     onEnterBack: () => setLogoTheme("dark"),
   });
 
-  const showHeading = activeStageKey !== "intro";
+  const showHeading = activeStageKey !== "intro" && activeStageKey !== "blank";
   const showDescription =
     activeStageKey === "context" ||
     activeStageKey === "analysis" ||
     activeStageKey === "direction" ||
     activeStageKey === "build" ||
     activeStageKey === "evolution";
+  const showStepCards = activeStageKey !== "blank";
 
   const isMobile = useIsMobile();
 
@@ -204,19 +205,21 @@ export function HowItWorksSection({ setLogoTheme }: HowItWorksSectionProps) {
             </div>
           </div>
 
-          <div className="relative flex w-full flex-col overflow-visible lg:ml-[15%]">
-            {steps.map((step, index) => (
-              <HowItWorksStepCard
-                key={step.stage}
-                step={step}
-                visible={isStepVisible(activeStageKey, step.stage)}
-                delayMs={index * 120}
-                highlighted={false}
-                index={index}
-                isMobile={isMobile}
-              />
-            ))}
-          </div>
+          {showStepCards ? (
+            <div className="relative flex w-full flex-col overflow-visible lg:ml-[15%]">
+              {steps.map((step, index) => (
+                <HowItWorksStepCard
+                  key={step.stage}
+                  step={step}
+                  visible={isStepVisible(activeStageKey, step.stage)}
+                  delayMs={index * 120}
+                  highlighted={false}
+                  index={index}
+                  isMobile={isMobile}
+                />
+              ))}
+            </div>
+          ) : null}
         </div>
       </div>
     </CinematicVideoSection>
