@@ -14,6 +14,7 @@ interface ChapterProps {
   sectionRef: RefObject<HTMLElement | null>;
   sectionId?: string;
   navTheme?: "light" | "dark";
+  surfaceTheme?: "light" | "dark";
   videoRef?: RefObject<HTMLVideoElement | null>;
   videoSrc?: string;
   nextVideoSrc?: string;
@@ -41,6 +42,7 @@ export function Chapter({
   sectionRef,
   sectionId,
   navTheme = "dark",
+  surfaceTheme = navTheme,
   videoRef,
   videoSrc,
   nextVideoSrc,
@@ -85,6 +87,7 @@ export function Chapter({
         aria-hidden={!isPanelVisible}
         className={cx(
           "relative z-20 h-screen w-full overflow-hidden",
+          surfaceTheme === "light" ? "bg-white" : "bg-black",
           isPanelVisible ? "visible" : "invisible",
         )}
         style={{ height: "var(--landing-viewport-height, 100vh)" }}

@@ -75,12 +75,6 @@ function applyMobileVideoPan(
 
   const isMobile = window.matchMedia("(max-width: 767px)").matches;
 
-  console.log("mobile pan", {
-    isMobile,
-    pan,
-    width: window.innerWidth,
-  });
-
   if (pan && isMobile) {
     video.style.width = `${pan.widthPercent}%`;
     video.style.height = `${pan.heightPercent}%`;

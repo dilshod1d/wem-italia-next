@@ -121,6 +121,10 @@ export function SystemFlowSection({ setLogoTheme }: SystemFlowSectionProps) {
     activeStageKey === "budget" ||
     activeStageKey === "support";
   const isFinal = activeStageKey === "support";
+  const surfaceTheme =
+    activeStageKey === "intro" || activeStageKey === "title"
+      ? "dark"
+      : "light";
 
   // const { isVideoReady } = useVideoReady(videoRef);
 
@@ -135,6 +139,7 @@ export function SystemFlowSection({ setLogoTheme }: SystemFlowSectionProps) {
       isAtHandoff={isAtHandoff}
       isScrolled={isScrolled}
       navTheme="light"
+      surfaceTheme={surfaceTheme}
       indicatorLabel="Scroll Down"
       indicatorPersistent
       indicatorLabelClassName="normal-case text-[1.05rem] font-medium tracking-normal text-sky-200/75"

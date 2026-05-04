@@ -14,6 +14,7 @@ interface CinematicVideoSectionProps {
   isScrolled: boolean;
   sectionId?: string;
   navTheme?: "light" | "dark";
+  surfaceTheme?: "light" | "dark";
   children: ReactNode;
   indicatorLabel?: string;
   indicatorPersistent?: boolean;
@@ -39,6 +40,7 @@ export function CinematicVideoSection({
   isScrolled,
   sectionId,
   navTheme = "dark",
+  surfaceTheme,
   children,
   indicatorLabel = "Scroll to explore",
   indicatorPersistent = false,
@@ -53,6 +55,7 @@ export function CinematicVideoSection({
       sectionRef={sectionRef}
       sectionId={sectionId}
       navTheme={navTheme}
+      surfaceTheme={surfaceTheme}
       videoRef={videoRef}
       videoSrc={videoUrl}
       nextVideoSrc={nextVideoSrc}
