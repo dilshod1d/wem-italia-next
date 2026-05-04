@@ -260,7 +260,7 @@ export function FooterSection({ setLogoTheme }: FooterSectionProps) {
       <div className="landing-frame relative">
         <div
           ref={footerCtaRef}
-          className="absolute -top-[18rem] left-[4%] right-[4%] rounded-[1rem] bg-gradient-to-r from-footer-cta-start to-brand-cyan px-5 py-6 text-center shadow-[0_26px_70px_rgba(26,119,254,0.26)] ring-1 ring-white/18 sm:-top-[20rem] sm:left-[5%] sm:right-[5%] sm:px-6 sm:py-7 md:-top-[22rem] md:px-10 md:py-8 lg:-top-[21rem] lg:rounded-[1.1rem] lg:px-12"
+          className="relative z-20 -mt-[18rem] mb-12 rounded-[1rem] bg-gradient-to-r from-footer-cta-start to-brand-cyan px-5 py-6 text-center shadow-[0_26px_70px_rgba(26,119,254,0.26)] ring-1 ring-white/18 sm:absolute sm:-top-[20rem] sm:left-[5%] sm:right-[5%] sm:mt-0 sm:mb-0 sm:px-6 sm:py-7 md:-top-[22rem] md:px-10 md:py-8 lg:-top-[21rem] lg:rounded-[1.1rem] lg:px-12"
         >
           <h2 className="mx-auto max-w-4xl font-sans text-[1.55rem] font-semibold leading-[1.08] tracking-tight text-white sm:text-[2rem] md:text-[2.5rem] lg:text-[3rem]">
             {ctaTitle}
