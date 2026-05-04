@@ -17,7 +17,7 @@ export const howItWorksSectionConfig = {
   mobileVideoPan: [
     {
       startFrame: 0,
-      endFrame: 100,
+      endFrame: 95,
       fromX: -58,
       toX: 0,
       fromY: 0,
@@ -28,7 +28,7 @@ export const howItWorksSectionConfig = {
         "Fast mobile camera pan from right-side framing to left-side framing before the character reaches the left edge.",
     },
     {
-      startFrame: 100,
+      startFrame: 95,
       endFrame: 150,
       fromX: 0,
       toX: 0,
