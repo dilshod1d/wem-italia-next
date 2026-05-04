@@ -1,5 +1,5 @@
 import type { HeroSupportCard } from "./hero-section";
-import { MobileVideoPan } from "./mobile-frame-types";
+import type { MobileVideoConfig, MobileVideoPan } from "./mobile-frame-types";
 
 export type WhyWemWorksStageKey =
   | "intro"
@@ -59,5 +59,6 @@ export interface WhyWemWorksSectionConfig {
   readonly resultParagraph: string;
   readonly blocks: readonly WhyWemWorksInsightBlock[];
   readonly proofPoints: readonly WhyWemWorksProofPoint[];
+  readonly mobileVideoConfig?: MobileVideoConfig;
   readonly mobileVideoPan?: readonly MobileVideoPan[];
 }

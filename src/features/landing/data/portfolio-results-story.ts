@@ -6,6 +6,13 @@ export const portfolioResultsSectionConfig = {
   fps: 30,
   totalFrames: 150,
   videoDuration: 5,
+  mobileVideoConfig: {
+    objectFit: "cover",
+    objectPosition: "center bottom",
+    widthPercent: 240,
+    heightPercent: 75,
+    verticalAnchor: "bottom",
+  },
   mobileVideoPan: [
     {
       startFrame: 0,
@@ -16,11 +23,6 @@ export const portfolioResultsSectionConfig = {
       toY: 0,
       fromScale: 1,
       toScale: 1,
-      objectFit: "cover",
-      objectPosition: "center bottom",
-      widthPercent: 240,
-      heightPercent: 75,
-      verticalAnchor: "bottom",
       description: "Hold left-side framing before the character starts moving.",
     },
     {
@@ -32,11 +34,6 @@ export const portfolioResultsSectionConfig = {
       toY: 0,
       fromScale: 1,
       toScale: 1,
-      objectFit: "cover",
-      objectPosition: "center bottom",
-      widthPercent: 240,
-      heightPercent: 75,
-      verticalAnchor: "bottom",
       description:
         "Continuously follow the character to the right side until the end.",
     },

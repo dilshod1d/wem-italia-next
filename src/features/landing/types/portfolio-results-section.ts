@@ -1,4 +1,4 @@
-import { MobileVideoPan } from "./mobile-frame-types";
+import type { MobileVideoConfig, MobileVideoPan } from "./mobile-frame-types";
 
 export type PortfolioResultsStageKey =
   | "intro"
@@ -51,5 +51,6 @@ export interface PortfolioResultsSectionConfig {
   readonly copy: PortfolioResultsCopy;
   readonly portfolioItems: readonly PortfolioResultsItem[];
   readonly metrics: readonly PortfolioResultsMetric[];
+  readonly mobileVideoConfig?: MobileVideoConfig;
   readonly mobileVideoPan?: readonly MobileVideoPan[];
 }

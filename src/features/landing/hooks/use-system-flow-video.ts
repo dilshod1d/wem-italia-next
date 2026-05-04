@@ -25,6 +25,7 @@ interface SystemFlowVideoOptions {
 function getMobileVideoPanTransform(
   currentFrame: number,
   pans: SystemFlowSectionConfig["mobileVideoPan"],
+  mobileVideoConfig: SystemFlowSectionConfig["mobileVideoConfig"],
 ) {
   const activePan = pans?.find(
     (pan) => currentFrame >= pan.startFrame && currentFrame <= pan.endFrame,
@@ -49,11 +50,11 @@ function getMobileVideoPanTransform(
     x,
     y,
     scale: fromScale + (toScale - fromScale) * progress,
-    objectFit: activePan.objectFit ?? "cover",
-    objectPosition: activePan.objectPosition ?? "center center",
-    widthPercent: activePan.widthPercent ?? 180,
-    heightPercent: activePan.heightPercent ?? 100,
-    verticalAnchor: activePan.verticalAnchor ?? "top",
+    objectFit: mobileVideoConfig?.objectFit ?? "cover",
+    objectPosition: mobileVideoConfig?.objectPosition ?? "center center",
+    widthPercent: mobileVideoConfig?.widthPercent ?? 180,
+    heightPercent: mobileVideoConfig?.heightPercent ?? 100,
+    verticalAnchor: mobileVideoConfig?.verticalAnchor ?? "top",
   };
 }
 
@@ -147,6 +148,7 @@ export function useSystemFlowVideo(
       const mobilePan = getMobileVideoPanTransform(
         currentFrame,
         config.mobileVideoPan,
+        config.mobileVideoConfig,
       );
 
       applyMobileVideoPan(video, mobilePan);

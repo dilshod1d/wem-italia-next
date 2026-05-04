@@ -22,6 +22,7 @@ interface PortfolioResultsHybridVideoState {
 function getMobileVideoPanTransform(
   currentFrame: number,
   pans: PortfolioResultsSectionConfig["mobileVideoPan"],
+  mobileVideoConfig: PortfolioResultsSectionConfig["mobileVideoConfig"],
 ) {
   const activePan = pans?.find(
     (pan) => currentFrame >= pan.startFrame && currentFrame <= pan.endFrame,
@@ -46,11 +47,11 @@ function getMobileVideoPanTransform(
     x,
     y,
     scale: fromScale + (toScale - fromScale) * progress,
-    objectFit: activePan.objectFit ?? "cover",
-    objectPosition: activePan.objectPosition ?? "center center",
-    widthPercent: activePan.widthPercent ?? 180,
-    heightPercent: activePan.heightPercent ?? 100,
-    verticalAnchor: activePan.verticalAnchor ?? "top",
+    objectFit: mobileVideoConfig?.objectFit ?? "cover",
+    objectPosition: mobileVideoConfig?.objectPosition ?? "center center",
+    widthPercent: mobileVideoConfig?.widthPercent ?? 180,
+    heightPercent: mobileVideoConfig?.heightPercent ?? 100,
+    verticalAnchor: mobileVideoConfig?.verticalAnchor ?? "top",
   };
 }
 
@@ -207,6 +208,7 @@ export function usePortfolioResultsHybridVideo(
         const mobilePan = getMobileVideoPanTransform(
           currentFrame,
           config.mobileVideoPan,
+          config.mobileVideoConfig,
         );
 
         applyMobileVideoPan(video, mobilePan);
@@ -256,7 +258,15 @@ export function usePortfolioResultsHybridVideo(
       section.style.zIndex = "0";
       trigger.kill();
     };
-  }, [fps, stages, totalFrames, videoDuration, debugLogger]);
+  }, [
+    fps,
+    stages,
+    totalFrames,
+    videoDuration,
+    debugLogger,
+    config.mobileVideoConfig,
+    config.mobileVideoPan,
+  ]);
 
   return {
     sectionRef,

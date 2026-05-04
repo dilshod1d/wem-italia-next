@@ -1,4 +1,4 @@
-import { MobileVideoPan } from "./mobile-frame-types";
+import type { MobileVideoConfig, MobileVideoPan } from "./mobile-frame-types";
 
 export type SystemFlowStageKey =
   | "intro"
@@ -35,5 +35,6 @@ export interface SystemFlowSectionConfig {
   readonly title: string;
   readonly paragraphs: readonly string[];
   readonly cards: readonly SystemFlowCard[];
+  readonly mobileVideoConfig?: MobileVideoConfig;
   readonly mobileVideoPan?: readonly MobileVideoPan[];
 }

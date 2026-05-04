@@ -24,6 +24,7 @@ interface HeroSectionVideoOptions {
 function getMobileVideoPanTransform(
   currentFrame: number,
   pans: HeroSectionConfig["mobileVideoPan"],
+  mobileVideoConfig: HeroSectionConfig["mobileVideoConfig"],
 ) {
   const activePan = pans?.find(
     (pan) => currentFrame >= pan.startFrame && currentFrame <= pan.endFrame,
@@ -45,11 +46,11 @@ function getMobileVideoPanTransform(
     x: activePan.fromX + (activePan.toX - activePan.fromX) * progress,
     y: fromY + (toY - fromY) * progress,
     scale: fromScale + (toScale - fromScale) * progress,
-    objectFit: activePan.objectFit ?? "cover",
-    objectPosition: activePan.objectPosition ?? "center center",
-    widthPercent: activePan.widthPercent ?? 150,
-    heightPercent: activePan.heightPercent ?? 100,
-    verticalAnchor: activePan.verticalAnchor ?? "top",
+    objectFit: mobileVideoConfig?.objectFit ?? "cover",
+    objectPosition: mobileVideoConfig?.objectPosition ?? "center center",
+    widthPercent: mobileVideoConfig?.widthPercent ?? 150,
+    heightPercent: mobileVideoConfig?.heightPercent ?? 100,
+    verticalAnchor: mobileVideoConfig?.verticalAnchor ?? "top",
   };
 }
 
@@ -135,17 +136,15 @@ export function useHeroSectionVideo(
 
     if (!firstPan) return;
 
-    applyMobileVideoPan(videoRef.current, {
-      x: firstPan.fromX,
-      y: firstPan.fromY ?? 0,
-      scale: firstPan.fromScale ?? 1,
-      objectFit: firstPan.objectFit ?? "cover",
-      objectPosition: firstPan.objectPosition ?? "center center",
-      widthPercent: firstPan.widthPercent ?? 150,
-      heightPercent: firstPan.heightPercent ?? 100,
-      verticalAnchor: firstPan.verticalAnchor ?? "top",
-    });
-  }, [config.mobileVideoPan]);
+    applyMobileVideoPan(
+      videoRef.current,
+      getMobileVideoPanTransform(
+        firstPan.startFrame,
+        config.mobileVideoPan,
+        config.mobileVideoConfig,
+      ),
+    );
+  }, [config.mobileVideoConfig, config.mobileVideoPan]);
 
   const { sectionRef, isScrolled, isActive, isAtHandoff } = useSectionPin({
     onEnter: options.onEnter,
@@ -160,6 +159,7 @@ export function useHeroSectionVideo(
       const mobilePan = getMobileVideoPanTransform(
         currentFrame,
         config.mobileVideoPan,
+        config.mobileVideoConfig,
       );
 
       if (video) {

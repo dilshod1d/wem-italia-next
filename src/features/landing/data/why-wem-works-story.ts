@@ -6,6 +6,13 @@ export const whyWemWorksSectionConfig = {
   fps: 30,
   totalFrames: 150,
   videoDuration: 5,
+  mobileVideoConfig: {
+    objectFit: "cover",
+    objectPosition: "center bottom",
+    widthPercent: 180,
+    heightPercent: 75,
+    verticalAnchor: "bottom",
+  },
   mobileVideoPan: [
     {
       startFrame: 0,
@@ -16,11 +23,6 @@ export const whyWemWorksSectionConfig = {
       toY: 0,
       fromScale: 1,
       toScale: 1,
-      objectFit: "cover",
-      objectPosition: "center bottom",
-      widthPercent: 180,
-      heightPercent: 75,
-      verticalAnchor: "bottom",
       description: "Start fixed on the right-side framing.",
     },
     {
@@ -32,11 +34,6 @@ export const whyWemWorksSectionConfig = {
       toY: 0,
       fromScale: 1,
       toScale: 1,
-      objectFit: "cover",
-      objectPosition: "center bottom",
-      widthPercent: 180,
-      heightPercent: 75,
-      verticalAnchor: "bottom",
       description:
         "Follow character gradually moving left by returning toward center.",
     },

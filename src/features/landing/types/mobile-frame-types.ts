@@ -1,10 +1,18 @@
 type MobileVideoPanDirection = "left" | "right";
-type MobileVideoPanObjectFit = "cover" | "contain";
-type MobileVideoPanObjectPosition =
+export type MobileVideoObjectFit = "cover" | "contain";
+export type MobileVideoObjectPosition =
   | "center center"
   | "center top"
   | "center bottom";
-type MobileVideoPanVerticalAnchor = "top" | "center" | "bottom";
+export type MobileVideoVerticalAnchor = "top" | "center" | "bottom";
+
+export interface MobileVideoConfig {
+  objectFit?: MobileVideoObjectFit;
+  objectPosition?: MobileVideoObjectPosition;
+  widthPercent?: number;
+  heightPercent?: number;
+  verticalAnchor?: MobileVideoVerticalAnchor;
+}
 
 export interface MobileVideoPan {
   startFrame: number;
@@ -15,11 +23,6 @@ export interface MobileVideoPan {
   toY?: number;
   fromScale?: number;
   toScale?: number;
-  objectFit?: MobileVideoPanObjectFit;
-  objectPosition?: MobileVideoPanObjectPosition;
-  widthPercent?: number;
-  heightPercent?: number;
-  verticalAnchor?: MobileVideoPanVerticalAnchor;
   description?: string;
   direction?: MobileVideoPanDirection;
 }
