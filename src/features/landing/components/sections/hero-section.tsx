@@ -5,8 +5,6 @@ import { whyWemWorksSectionConfig } from "../../data/why-wem-works-story";
 import { useHeroSectionVideo } from "../../hooks/use-hero-section-video";
 import { HeroSlide } from "../hero-slide";
 import { CinematicVideoSection } from "../cinematic-video-section";
-import VideoProgressIndicator from "../cinematic-indicator";
-import { useVideoReady } from "../../hooks/use-video-ready";
 
 interface HeroSectionProps {
   setLogoTheme: (theme: "light" | "dark") => void;
@@ -21,6 +19,7 @@ export function HeroSection({ setLogoTheme }: HeroSectionProps) {
     visibleSupportCardItems,
     isScrolled,
     isActive,
+    isAtHandoff,
   } = useHeroSectionVideo(heroStoryConfig, {
     onEnter: () => setLogoTheme("light"),
     onEnterBack: () => setLogoTheme("light"),
@@ -28,8 +27,6 @@ export function HeroSection({ setLogoTheme }: HeroSectionProps) {
   const activeStage =
     heroStoryConfig.stages.find((stage) => stage.id === activeStageId) ??
     heroStoryConfig.stages[0];
-
-  const { isVideoReady } = useVideoReady(videoRef);
 
   return (
     <CinematicVideoSection
@@ -39,13 +36,13 @@ export function HeroSection({ setLogoTheme }: HeroSectionProps) {
       videoUrl={heroStoryConfig.videoUrl}
       nextVideoSrc={whyWemWorksSectionConfig.videoUrl}
       isActive={isActive}
+      isAtHandoff={isAtHandoff}
       isScrolled={isScrolled}
       navTheme="dark"
       videoClassName="hero-mobile-pan md:object-[center_58%] object-[center_0%]"
       // videoClassName="object-cover object-center translate-y-[25%] md:translate-y-0 md:object-[center_58%]"
     >
       <div className="landing-stage flex items-center justify-center">
-        <VideoProgressIndicator isVisible={!isVideoReady} />
         <HeroSlide
           stage={activeStage}
           visibleBodyItems={visibleBodyItems}

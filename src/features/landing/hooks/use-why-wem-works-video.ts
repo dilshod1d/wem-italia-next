@@ -89,7 +89,7 @@ export function useWhyWemWorksVideo(
     videoRef,
   });
 
-  const { sectionRef, isScrolled, isActive } = useSectionPin({
+  const { sectionRef, isScrolled, isActive, isAtHandoff } = useSectionPin({
     onEnter: options.onEnter,
     onEnterBack: options.onEnterBack,
     onUpdate: (progress) => {
@@ -149,5 +149,6 @@ export function useWhyWemWorksVideo(
     handoffPhase,
     isScrolled,
     isActive,
+    isAtHandoff,
   };
 }

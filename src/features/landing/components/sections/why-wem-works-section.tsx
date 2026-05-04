@@ -166,6 +166,7 @@ export function WhyWemWorksSection({ setLogoTheme }: WhyWemWorksSectionProps) {
     handoffPhase,
     isScrolled,
     isActive,
+    isAtHandoff,
   } = useWhyWemWorksVideo(whyWemWorksSectionConfig, {
     onEnter: () => setLogoTheme("light"),
     onEnterBack: () => setLogoTheme("light"),
@@ -181,6 +182,7 @@ export function WhyWemWorksSection({ setLogoTheme }: WhyWemWorksSectionProps) {
       videoUrl={videoUrl}
       nextVideoSrc={systemFlowSectionConfig.videoUrl}
       isActive={isActive}
+      isAtHandoff={isAtHandoff}
       isScrolled={isScrolled}
       navTheme="dark"
       indicatorLabel="Scroll Down"

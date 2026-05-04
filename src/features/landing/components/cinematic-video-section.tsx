@@ -9,6 +9,7 @@ interface CinematicVideoSectionProps {
   videoUrl: string;
   nextVideoSrc?: string;
   isActive?: boolean;
+  isAtHandoff?: boolean;
   isolateWhenInactive?: boolean;
   isScrolled: boolean;
   sectionId?: string;
@@ -33,6 +34,7 @@ export function CinematicVideoSection({
   videoUrl,
   nextVideoSrc,
   isActive,
+  isAtHandoff,
   isolateWhenInactive,
   isScrolled,
   sectionId,
@@ -55,6 +57,7 @@ export function CinematicVideoSection({
       videoSrc={videoUrl}
       nextVideoSrc={nextVideoSrc}
       isActive={isActive}
+      isAtHandoff={isAtHandoff}
       isolateWhenInactive={isolateWhenInactive}
       isScrolled={isScrolled}
       indicatorLabel={indicatorLabel}

@@ -109,11 +109,17 @@ export default function HowItWorksStepCard({
 }
 
 export function HowItWorksSection({ setLogoTheme }: HowItWorksSectionProps) {
-  const { sectionRef, videoRef, activeStageKey, isScrolled, isActive } =
-    useHowItWorksVideo(howItWorksSectionConfig, {
-      onEnter: () => setLogoTheme("dark"),
-      onEnterBack: () => setLogoTheme("dark"),
-    });
+  const {
+    sectionRef,
+    videoRef,
+    activeStageKey,
+    isScrolled,
+    isActive,
+    isAtHandoff,
+  } = useHowItWorksVideo(howItWorksSectionConfig, {
+    onEnter: () => setLogoTheme("dark"),
+    onEnterBack: () => setLogoTheme("dark"),
+  });
 
   const showHeading = activeStageKey !== "intro";
   const showDescription =
@@ -134,6 +140,7 @@ export function HowItWorksSection({ setLogoTheme }: HowItWorksSectionProps) {
       videoUrl={videoUrl}
       nextVideoSrc={portfolioResultsSectionConfig.videoUrl}
       isActive={isActive}
+      isAtHandoff={isAtHandoff}
       isScrolled={isScrolled}
       navTheme="light"
       indicatorLabel="Scroll Down"

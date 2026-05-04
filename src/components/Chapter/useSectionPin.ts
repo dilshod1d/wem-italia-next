@@ -7,6 +7,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 gsap.registerPlugin(ScrollTrigger);
 
 export const CHAPTER_SCROLL_DISTANCE = 1800;
+const CHAPTER_HANDOFF_PROGRESS = 0.985;
 
 interface UseSectionPinOptions {
   pinDistance?: number;
@@ -27,8 +28,10 @@ export function useSectionPin({
   const enterRef = useRef(onEnter);
   const enterBackRef = useRef(onEnterBack);
   const activeRef = useRef(true);
+  const handoffRef = useRef(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isActive, setIsActive] = useState(true);
+  const [isAtHandoff, setIsAtHandoff] = useState(false);
 
   useEffect(() => {
     updateRef.current = onUpdate;
@@ -57,6 +60,13 @@ export function useSectionPin({
       setIsActive(active);
     };
 
+    const syncHandoff = (handoff: boolean) => {
+      if (handoff === handoffRef.current) return;
+
+      handoffRef.current = handoff;
+      setIsAtHandoff(handoff);
+    };
+
     const trigger = ScrollTrigger.create({
       trigger: section,
       start: "top top",
@@ -72,12 +82,15 @@ export function useSectionPin({
       },
       onToggle: (self) => {
         syncActive(self.isActive);
+        if (!self.isActive) syncHandoff(false);
       },
       onRefresh: (self) => {
         syncActive(self.isActive);
+        syncHandoff(self.isActive && self.progress >= CHAPTER_HANDOFF_PROGRESS);
       },
       onUpdate: (self) => {
         updateRef.current?.(self.progress);
+        syncHandoff(self.isActive && self.progress >= CHAPTER_HANDOFF_PROGRESS);
 
         const nextScrolled = self.progress > 0.02;
 
@@ -100,5 +113,6 @@ export function useSectionPin({
     sectionRef,
     isScrolled,
     isActive,
+    isAtHandoff,
   };
 }

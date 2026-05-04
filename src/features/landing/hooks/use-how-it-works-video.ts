@@ -92,7 +92,7 @@ export function useHowItWorksVideo(
     videoRef,
   });
 
-  const { sectionRef, isScrolled, isActive } = useSectionPin({
+  const { sectionRef, isScrolled, isActive, isAtHandoff } = useSectionPin({
     onEnter: options.onEnter,
     onEnterBack: options.onEnterBack,
     onUpdate: (progress) => {
@@ -138,5 +138,6 @@ export function useHowItWorksVideo(
     activeStageKey,
     isScrolled,
     isActive,
+    isAtHandoff,
   };
 }

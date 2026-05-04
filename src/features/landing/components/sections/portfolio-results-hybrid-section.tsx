@@ -405,6 +405,7 @@ export function PortfolioResultsHybridSection({
     activeStageKey,
     isScrolled,
     isActive: isVideoActive,
+    isAtHandoff,
   } = usePortfolioResultsHybridVideo(portfolioResultsSectionConfig, {
     onEnter: () => setLogoTheme("dark"),
     onEnterBack: () => setLogoTheme("dark"),
@@ -637,6 +638,7 @@ export function PortfolioResultsHybridSection({
         videoRef={videoRef}
         videoUrl={videoUrl}
         isActive={isVideoActive}
+        isAtHandoff={isAtHandoff}
         isolateWhenInactive={false}
         isScrolled={isScrolled}
         navTheme="light"

@@ -102,10 +102,16 @@ function BenefitCard({
 }
 
 export function SystemFlowSection({ setLogoTheme }: SystemFlowSectionProps) {
-  const { sectionRef, videoRef, activeStageKey, isScrolled, isActive } =
-    useSystemFlowVideo(systemFlowSectionConfig, {
-      onLogoThemeChange: setLogoTheme,
-    });
+  const {
+    sectionRef,
+    videoRef,
+    activeStageKey,
+    isScrolled,
+    isActive,
+    isAtHandoff,
+  } = useSystemFlowVideo(systemFlowSectionConfig, {
+    onLogoThemeChange: setLogoTheme,
+  });
 
   const showTitle = activeStageKey !== "intro";
   const showEyebrow = showTitle;
@@ -126,6 +132,7 @@ export function SystemFlowSection({ setLogoTheme }: SystemFlowSectionProps) {
       videoUrl={videoUrl}
       nextVideoSrc={howItWorksSectionConfig.videoUrl}
       isActive={isActive}
+      isAtHandoff={isAtHandoff}
       isScrolled={isScrolled}
       navTheme="light"
       indicatorLabel="Scroll Down"

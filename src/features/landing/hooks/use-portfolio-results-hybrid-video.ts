@@ -13,6 +13,7 @@ import { useVideoDebugLogger } from "./use-video-debug-logger";
 gsap.registerPlugin(ScrollTrigger);
 
 const PORTFOLIO_RESULTS_SCROLL_DISTANCE = 1800;
+const PORTFOLIO_RESULTS_HANDOFF_PROGRESS = 0.985;
 
 interface PortfolioResultsHybridVideoState {
   lastStageKey: PortfolioResultsStageKey;
@@ -98,7 +99,9 @@ export function usePortfolioResultsHybridVideo(
     useState<PortfolioResultsStageKey>(stages[0]?.key ?? "intro");
   const [isScrolled, setIsScrolled] = useState(false);
   const activeRef = useRef(true);
+  const handoffRef = useRef(false);
   const [isActive, setIsActive] = useState(true);
+  const [isAtHandoff, setIsAtHandoff] = useState(false);
   const scrolledRef = useRef(false);
   const debugLogger = useVideoDebugLogger({
     label: "Portfolio Results",
@@ -128,6 +131,13 @@ export function usePortfolioResultsHybridVideo(
       setIsActive(active);
     };
 
+    const syncHandoff = (handoff: boolean) => {
+      if (handoff === handoffRef.current) return;
+
+      handoffRef.current = handoff;
+      setIsAtHandoff(handoff);
+    };
+
     const trigger = ScrollTrigger.create({
       trigger: section,
       start: "top top",
@@ -143,9 +153,13 @@ export function usePortfolioResultsHybridVideo(
       },
       onToggle: (self) => {
         syncActive(self.isActive);
+        if (!self.isActive) syncHandoff(false);
       },
       onRefresh: (self) => {
         syncActive(self.isActive);
+        syncHandoff(
+          self.isActive && self.progress >= PORTFOLIO_RESULTS_HANDOFF_PROGRESS,
+        );
       },
       onUpdate: (self) => {
         const progress = self.progress;
@@ -190,6 +204,9 @@ export function usePortfolioResultsHybridVideo(
         }
 
         const nextScrolled = progress > 0.02;
+        syncHandoff(
+          self.isActive && progress >= PORTFOLIO_RESULTS_HANDOFF_PROGRESS,
+        );
 
         if (nextScrolled !== scrolledRef.current) {
           scrolledRef.current = nextScrolled;
@@ -212,5 +229,6 @@ export function usePortfolioResultsHybridVideo(
     activeStageKey,
     isScrolled,
     isActive,
+    isAtHandoff,
   };
 }
