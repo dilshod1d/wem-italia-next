@@ -89,7 +89,7 @@ function BenefitCard({
       />
 
       <div className="relative z-10 max-w-full pr-[4.75rem] sm:pr-0 md:max-w-[82%] lg:max-w-[88%]">
-        <h3 className="font-sans text-[1.6rem] font-semibold uppercase leading-[0.98] tracking-tight text-white sm:text-[1.9rem] md:text-[2.45rem] lg:text-[1.9rem] xl:text-[2.12rem] 2xl:text-[2.34rem]">
+        <h3 className="font-sans text-[1.4rem] font-semibold uppercase leading-[0.98] tracking-tight text-white sm:text-[1.9rem] md:text-[2.45rem] lg:text-[1.9rem] xl:text-[2.12rem] 2xl:text-[2.34rem]">
           {title}
         </h3>
 
@@ -122,9 +122,7 @@ export function SystemFlowSection({ setLogoTheme }: SystemFlowSectionProps) {
     activeStageKey === "support";
   const isFinal = activeStageKey === "support";
   const surfaceTheme =
-    activeStageKey === "intro" || activeStageKey === "title"
-      ? "dark"
-      : "light";
+    activeStageKey === "intro" || activeStageKey === "title" ? "dark" : "light";
 
   // const { isVideoReady } = useVideoReady(videoRef);
 
