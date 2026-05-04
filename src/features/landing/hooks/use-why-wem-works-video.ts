@@ -38,19 +38,31 @@ function getMobileVideoPanTransform(
 
   const fromY = activePan.fromY ?? 0;
   const toY = activePan.toY ?? fromY;
+  const fromScale = activePan.fromScale ?? 1;
+  const toScale = activePan.toScale ?? fromScale;
   const x = activePan.fromX + (activePan.toX - activePan.fromX) * progress;
   const y = fromY + (toY - fromY) * progress;
 
   return {
     x,
     y,
+    scale: fromScale + (toScale - fromScale) * progress,
+    objectFit: activePan.objectFit ?? "cover",
+    objectPosition: activePan.objectPosition ?? "center center",
     widthPercent: activePan.widthPercent ?? 180,
   };
 }
 
 function applyMobileVideoPan(
   video: HTMLVideoElement | null,
-  pan: { x: number; y: number; widthPercent: number } | null,
+  pan: {
+    x: number;
+    y: number;
+    scale: number;
+    objectFit: "cover" | "contain";
+    objectPosition: "center center" | "center top" | "center bottom";
+    widthPercent: number;
+  } | null,
 ) {
   if (!video) return;
 
@@ -59,14 +71,18 @@ function applyMobileVideoPan(
     video.style.maxWidth = "none";
     video.style.left = "0";
     video.style.right = "auto";
-    video.style.objectFit = "cover";
-    video.style.transform = `translate3d(${pan.x}%, ${pan.y}%, 0)`;
+    video.style.objectFit = pan.objectFit;
+    video.style.objectPosition = pan.objectPosition;
+    video.style.transformOrigin = "center center";
+    video.style.transform = `translate3d(${pan.x}%, ${pan.y}%, 0) scale(${pan.scale})`;
   } else {
     video.style.width = "";
     video.style.maxWidth = "";
     video.style.left = "";
     video.style.right = "";
     video.style.objectFit = "";
+    video.style.objectPosition = "";
+    video.style.transformOrigin = "";
     video.style.transform = "";
   }
 }

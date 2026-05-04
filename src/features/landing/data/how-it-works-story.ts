@@ -10,11 +10,15 @@ export const howItWorksSectionConfig = {
   mobileVideoPan: [
     {
       startFrame: 0,
-      endFrame: 48, // 1.6s at 30fps, faster than 2s
+      endFrame: 48, 
       fromX: -58,
       toX: 0,
       fromY: 0,
       toY: 0,
+      fromScale: 1,
+      toScale: 1,
+      objectFit: "cover",
+      objectPosition: "center center",
       widthPercent: 240,
       description:
         "Fast mobile camera pan from right-side framing to left-side framing before the character reaches the left edge.",
@@ -26,6 +30,10 @@ export const howItWorksSectionConfig = {
       toX: 0,
       fromY: 0,
       toY: 0,
+      fromScale: 1,
+      toScale: 1,
+      objectFit: "cover",
+      objectPosition: "center center",
       widthPercent: 240,
       description: "Hold left-side framing after the fast pan.",
     },
