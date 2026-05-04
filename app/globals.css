@@ -253,7 +253,7 @@ html::-webkit-scrollbar-thumb:hover {
     bottom: 0;
     left: 0;
     width: 180%;
-    height: 75%;
+    height: 70%;
     max-width: none;
     transform: translate3d(-44%, 0, 0);
     transform-origin: center center;

@@ -11,7 +11,7 @@ export const howItWorksSectionConfig = {
     objectFit: "cover",
     objectPosition: "center bottom",
     widthPercent: 240,
-    heightPercent: 75,
+    heightPercent: 70,
     verticalAnchor: "bottom",
   },
   mobileVideoPan: [
