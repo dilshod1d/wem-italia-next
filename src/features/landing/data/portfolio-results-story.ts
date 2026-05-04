@@ -9,20 +9,20 @@ export const portfolioResultsSectionConfig = {
   mobileVideoPan: [
     {
       startFrame: 0,
-      endFrame: 90, // ~2 second hold
+      endFrame: 30, // 1 second hold at 30fps
       fromX: 0,
       toX: 0,
       widthPercent: 240,
-      description: "Continue from section 4 (hold left-side framing).",
+      description: "Hold left-side framing before the character starts moving.",
     },
-    // Hold
     {
-      startFrame: 90,
+      startFrame: 30,
       endFrame: 150,
-      fromX: -58,
+      fromX: 0,
       toX: -58,
       widthPercent: 240,
-      description: "Hold right-side framing.",
+      description:
+        "Continuously follow the character to the right side until the end.",
     },
   ],
   focusItemId: "architecture",
