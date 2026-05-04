@@ -14,8 +14,6 @@ interface SystemFlowVideoState {
   lastLogoTheme: "light" | "dark";
 }
 
-const LOGO_DARK_LEAD_FRAMES = 8;
-
 interface SystemFlowVideoOptions {
   onEnter?: () => void;
   onEnterBack?: () => void;
@@ -112,8 +110,8 @@ export function useSystemFlowVideo(
   options: SystemFlowVideoOptions = {},
 ) {
   const { fps, stages, totalFrames, videoDuration, videoUrl } = config;
-  const titleStartFrame =
-    stages.find((stage) => stage.key === "title")?.startFrame ?? totalFrames;
+  const lightSurfaceStartFrame =
+    stages.find((stage) => stage.key === "body")?.startFrame ?? totalFrames;
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const stateRef = useRef<SystemFlowVideoState>({
     lastStageKey: stages[0]?.key ?? "intro",
@@ -148,9 +146,7 @@ export function useSystemFlowVideo(
       applyMobileVideoPan(video, mobilePan);
 
       const nextLogoTheme =
-        currentFrame < Math.max(titleStartFrame - LOGO_DARK_LEAD_FRAMES, 0)
-          ? "light"
-          : "dark";
+        currentFrame < lightSurfaceStartFrame ? "light" : "dark";
 
       if (video && video.readyState >= 1) {
         video.currentTime = currentTime;
