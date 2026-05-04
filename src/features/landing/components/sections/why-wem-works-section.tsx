@@ -235,7 +235,7 @@ export function WhyWemWorksSection({ setLogoTheme }: WhyWemWorksSectionProps) {
                       ))}
                     </h2>
 
-                    <div className="body-stack mt-2 text-body text-white sm:mt-5">
+                    <div className="body-stack mt-2 max-w-[92%] text-body text-white sm:mt-5">
                       {opening.paragraphs.map((paragraph) => (
                         <p key={paragraph}>{paragraph}</p>
                       ))}
