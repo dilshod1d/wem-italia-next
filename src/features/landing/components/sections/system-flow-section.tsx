@@ -56,7 +56,7 @@ function BenefitCard({
   return (
     <article
       className={cx(
-        "group absolute flex min-h-[4.9rem] flex-col overflow-hidden rounded-[1.25rem] px-3.5 py-3 text-white shadow-[0_18px_44px_rgba(0,0,0,0.12)] transition-[opacity,transform] duration-700",
+        "group absolute flex min-h-[6.1rem] flex-col overflow-hidden rounded-[1.45rem] px-4 py-4 text-white shadow-[0_18px_44px_rgba(0,0,0,0.12)] transition-[opacity,transform] duration-700",
         "before:pointer-events-none before:absolute before:inset-x-5 before:top-0 before:h-px before:bg-white/35 before:content-['']",
         "after:pointer-events-none after:absolute after:-right-10 after:-top-10 after:size-24 after:rounded-full after:bg-white/10 after:blur-2xl after:content-['']",
         "sm:min-h-[6rem] sm:rounded-[1.55rem] sm:px-5 sm:py-4",
@@ -88,12 +88,12 @@ function BenefitCard({
         className="absolute -bottom-8 -right-8 size-32 text-white/10 transition-transform duration-700 group-hover:rotate-6 group-hover:scale-110 sm:size-40 md:size-48 lg:size-36 xl:size-44"
       />
 
-      <div className="relative z-10 max-w-full md:max-w-[82%] lg:max-w-[88%]">
-        <h3 className="font-sans text-[1.45rem] font-semibold uppercase leading-[0.98] tracking-tight text-white sm:text-[1.9rem] md:text-[2.45rem] lg:text-[1.9rem] xl:text-[2.12rem] 2xl:text-[2.34rem]">
+      <div className="relative z-10 max-w-full pr-[4.75rem] sm:pr-0 md:max-w-[82%] lg:max-w-[88%]">
+        <h3 className="font-sans text-[1.6rem] font-semibold uppercase leading-[0.98] tracking-tight text-white sm:text-[1.9rem] md:text-[2.45rem] lg:text-[1.9rem] xl:text-[2.12rem] 2xl:text-[2.34rem]">
           {title}
         </h3>
 
-        <p className="mt-[0.6rem] max-w-[40.6rem] font-body text-[1.04rem] leading-[1.25] text-white sm:text-[1.2rem] md:mt-[0.78rem] md:text-[1.62rem] lg:mt-2 lg:max-w-[92%] lg:text-[1rem] lg:leading-[1.22] xl:text-[1.08rem] 2xl:text-[1.22rem]">
+        <p className="mt-[0.68rem] max-w-[40.6rem] font-body text-[1.12rem] leading-[1.26] text-white sm:text-[1.2rem] md:mt-[0.78rem] md:text-[1.62rem] lg:mt-2 lg:max-w-[92%] lg:text-[1rem] lg:leading-[1.22] xl:text-[1.08rem] 2xl:text-[1.22rem]">
           {body}
         </p>
       </div>
