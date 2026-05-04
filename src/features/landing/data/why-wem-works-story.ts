@@ -17,8 +17,10 @@ export const whyWemWorksSectionConfig = {
       fromScale: 1,
       toScale: 1,
       objectFit: "cover",
-      objectPosition: "center center",
+      objectPosition: "center bottom",
       widthPercent: 180,
+      heightPercent: 75,
+      verticalAnchor: "bottom",
       description: "Start fixed on the right-side framing.",
     },
     {
@@ -31,13 +33,15 @@ export const whyWemWorksSectionConfig = {
       fromScale: 1,
       toScale: 1,
       objectFit: "cover",
-      objectPosition: "center center",
+      objectPosition: "center bottom",
       widthPercent: 180,
+      heightPercent: 75,
+      verticalAnchor: "bottom",
       description:
         "Follow character gradually moving left by returning toward center.",
     },
   ],
-  handoff: {
+  opening: {
     cardAppearFrame: 5,
     endFrame: 32,
     eyebrow: "WEM Enterprise",

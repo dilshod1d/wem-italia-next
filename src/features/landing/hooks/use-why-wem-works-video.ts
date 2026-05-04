@@ -4,7 +4,7 @@ import { useRef, useState } from "react";
 import { useSectionPin } from "@/components/Chapter/useSectionPin";
 
 import type {
-  WhyWemWorksHandoffPhase,
+  WhyWemWorksOpeningPhase,
   WhyWemWorksSectionConfig,
   WhyWemWorksStageKey,
 } from "../types/why-wem-works-section";
@@ -12,7 +12,7 @@ import { useVideoDebugLogger } from "./use-video-debug-logger";
 
 interface WhyWemWorksVideoState {
   lastStageKey: WhyWemWorksStageKey;
-  lastHandoffPhase: WhyWemWorksHandoffPhase;
+  lastOpeningPhase: WhyWemWorksOpeningPhase;
 }
 
 interface WhyWemWorksVideoOptions {
@@ -50,6 +50,8 @@ function getMobileVideoPanTransform(
     objectFit: activePan.objectFit ?? "cover",
     objectPosition: activePan.objectPosition ?? "center center",
     widthPercent: activePan.widthPercent ?? 180,
+    heightPercent: activePan.heightPercent ?? 100,
+    verticalAnchor: activePan.verticalAnchor ?? "top",
   };
 }
 
@@ -62,24 +64,37 @@ function applyMobileVideoPan(
     objectFit: "cover" | "contain";
     objectPosition: "center center" | "center top" | "center bottom";
     widthPercent: number;
+    heightPercent: number;
+    verticalAnchor: "top" | "center" | "bottom";
   } | null,
 ) {
   if (!video) return;
 
   if (pan && window.innerWidth < 768) {
     video.style.width = `${pan.widthPercent}%`;
+    video.style.height = `${pan.heightPercent}%`;
     video.style.maxWidth = "none";
     video.style.left = "0";
     video.style.right = "auto";
+    video.style.top =
+      pan.verticalAnchor === "center"
+        ? `${(100 - pan.heightPercent) / 2}%`
+        : pan.verticalAnchor === "bottom"
+          ? "auto"
+          : "0";
+    video.style.bottom = pan.verticalAnchor === "bottom" ? "0" : "auto";
     video.style.objectFit = pan.objectFit;
     video.style.objectPosition = pan.objectPosition;
     video.style.transformOrigin = "center center";
     video.style.transform = `translate3d(${pan.x}%, ${pan.y}%, 0) scale(${pan.scale})`;
   } else {
     video.style.width = "";
+    video.style.height = "";
     video.style.maxWidth = "";
     video.style.left = "";
     video.style.right = "";
+    video.style.top = "";
+    video.style.bottom = "";
     video.style.objectFit = "";
     video.style.objectPosition = "";
     video.style.transformOrigin = "";
@@ -91,17 +106,17 @@ export function useWhyWemWorksVideo(
   config: WhyWemWorksSectionConfig,
   options: WhyWemWorksVideoOptions = {},
 ) {
-  const { fps, handoff, stages, totalFrames, videoDuration, videoUrl } = config;
+  const { fps, opening, stages, totalFrames, videoDuration, videoUrl } = config;
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const stateRef = useRef<WhyWemWorksVideoState>({
     lastStageKey: stages[0]?.key ?? "intro",
-    lastHandoffPhase: "copy",
+    lastOpeningPhase: "copy",
   });
   const [activeStageKey, setActiveStageKey] = useState<WhyWemWorksStageKey>(
     stages[0]?.key ?? "intro",
   );
-  const [handoffPhase, setHandoffPhase] =
-    useState<WhyWemWorksHandoffPhase>("copy");
+  const [openingPhase, setOpeningPhase] =
+    useState<WhyWemWorksOpeningPhase>("copy");
   const debugLogger = useVideoDebugLogger({
     label: "Perché Funziona",
     videoSrc: videoUrl,
@@ -130,13 +145,13 @@ export function useWhyWemWorksVideo(
         video.currentTime = currentTime;
       }
 
-      const { lastHandoffPhase, lastStageKey } = stateRef.current;
-      let nextHandoffPhase: WhyWemWorksHandoffPhase = "done";
+      const { lastOpeningPhase, lastStageKey } = stateRef.current;
+      let nextOpeningPhase: WhyWemWorksOpeningPhase = "done";
 
-      if (currentFrame < handoff.cardAppearFrame) {
-        nextHandoffPhase = "copy";
-      } else if (currentFrame < handoff.endFrame) {
-        nextHandoffPhase = "card";
+      if (currentFrame < opening.cardAppearFrame) {
+        nextOpeningPhase = "copy";
+      } else if (currentFrame < opening.endFrame) {
+        nextOpeningPhase = "card";
       }
 
       const activeStage = stages.find(
@@ -147,7 +162,7 @@ export function useWhyWemWorksVideo(
       debugLogger.logProgress({
         progress,
         currentTime,
-        marker: `${activeStage?.key ?? nextHandoffPhase ?? lastStageKey}@f${currentFrame}`,
+        marker: `${activeStage?.key ?? nextOpeningPhase ?? lastStageKey}@f${currentFrame}`,
       });
 
       if (activeStage && activeStage.key !== lastStageKey) {
@@ -155,9 +170,9 @@ export function useWhyWemWorksVideo(
         setActiveStageKey(activeStage.key);
       }
 
-      if (nextHandoffPhase !== lastHandoffPhase) {
-        stateRef.current.lastHandoffPhase = nextHandoffPhase;
-        setHandoffPhase(nextHandoffPhase);
+      if (nextOpeningPhase !== lastOpeningPhase) {
+        stateRef.current.lastOpeningPhase = nextOpeningPhase;
+        setOpeningPhase(nextOpeningPhase);
       }
     },
   });
@@ -166,7 +181,7 @@ export function useWhyWemWorksVideo(
     sectionRef,
     videoRef,
     activeStageKey,
-    handoffPhase,
+    openingPhase,
     isScrolled,
     isActive,
     isAtHandoff,

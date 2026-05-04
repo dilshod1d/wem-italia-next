@@ -8,7 +8,7 @@ export type WhyWemWorksStageKey =
   | "ai"
   | "proof";
 
-export type WhyWemWorksHandoffPhase = "copy" | "card" | "done";
+export type WhyWemWorksOpeningPhase = "copy" | "card" | "done";
 
 export interface WhyWemWorksStage {
   readonly id: number;
@@ -37,7 +37,7 @@ export interface WhyWemWorksProofPoint {
   readonly icon: WhyWemWorksProofPointIcon;
 }
 
-export interface WhyWemWorksHandoff {
+export interface WhyWemWorksOpening {
   readonly cardAppearFrame: number;
   readonly endFrame: number;
   readonly eyebrow: string;
@@ -51,7 +51,7 @@ export interface WhyWemWorksSectionConfig {
   readonly fps: number;
   readonly totalFrames: number;
   readonly videoDuration: number;
-  readonly handoff: WhyWemWorksHandoff;
+  readonly opening: WhyWemWorksOpening;
   readonly stages: readonly WhyWemWorksStage[];
   readonly introTitle: string;
   readonly title: string;

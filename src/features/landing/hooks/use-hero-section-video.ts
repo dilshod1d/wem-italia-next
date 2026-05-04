@@ -48,6 +48,8 @@ function getMobileVideoPanTransform(
     objectFit: activePan.objectFit ?? "cover",
     objectPosition: activePan.objectPosition ?? "center center",
     widthPercent: activePan.widthPercent ?? 150,
+    heightPercent: activePan.heightPercent ?? 100,
+    verticalAnchor: activePan.verticalAnchor ?? "top",
   };
 }
 
@@ -60,24 +62,37 @@ function applyMobileVideoPan(
     objectFit: "cover" | "contain";
     objectPosition: "center center" | "center top" | "center bottom";
     widthPercent: number;
+    heightPercent: number;
+    verticalAnchor: "top" | "center" | "bottom";
   } | null,
 ) {
   if (!video) return;
 
   if (pan && window.innerWidth < 768) {
     video.style.width = `${pan.widthPercent}%`;
+    video.style.height = `${pan.heightPercent}%`;
     video.style.maxWidth = "none";
     video.style.left = "0";
     video.style.right = "auto";
+    video.style.top =
+      pan.verticalAnchor === "center"
+        ? `${(100 - pan.heightPercent) / 2}%`
+        : pan.verticalAnchor === "bottom"
+          ? "auto"
+          : "0";
+    video.style.bottom = pan.verticalAnchor === "bottom" ? "0" : "auto";
     video.style.objectFit = pan.objectFit;
     video.style.objectPosition = pan.objectPosition;
     video.style.transformOrigin = "center center";
     video.style.transform = `translate3d(${pan.x}%, ${pan.y}%, 0) scale(${pan.scale})`;
   } else {
     video.style.width = "";
+    video.style.height = "";
     video.style.maxWidth = "";
     video.style.left = "";
     video.style.right = "";
+    video.style.top = "";
+    video.style.bottom = "";
     video.style.objectFit = "";
     video.style.objectPosition = "";
     video.style.transformOrigin = "";
@@ -127,6 +142,8 @@ export function useHeroSectionVideo(
       objectFit: firstPan.objectFit ?? "cover",
       objectPosition: firstPan.objectPosition ?? "center center",
       widthPercent: firstPan.widthPercent ?? 150,
+      heightPercent: firstPan.heightPercent ?? 100,
+      verticalAnchor: firstPan.verticalAnchor ?? "top",
     });
   }, [config.mobileVideoPan]);
 

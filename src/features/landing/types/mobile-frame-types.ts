@@ -4,6 +4,7 @@ type MobileVideoPanObjectPosition =
   | "center center"
   | "center top"
   | "center bottom";
+type MobileVideoPanVerticalAnchor = "top" | "center" | "bottom";
 
 export interface MobileVideoPan {
   startFrame: number;
@@ -17,6 +18,8 @@ export interface MobileVideoPan {
   objectFit?: MobileVideoPanObjectFit;
   objectPosition?: MobileVideoPanObjectPosition;
   widthPercent?: number;
+  heightPercent?: number;
+  verticalAnchor?: MobileVideoPanVerticalAnchor;
   description?: string;
   direction?: MobileVideoPanDirection;
 }

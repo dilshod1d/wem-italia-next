@@ -22,7 +22,7 @@ import { useVideoReady } from "../../hooks/use-video-ready";
 
 const {
   videoUrl,
-  handoff,
+  opening,
   introTitle,
   leadParagraph,
   resultParagraph,
@@ -163,7 +163,7 @@ export function WhyWemWorksSection({ setLogoTheme }: WhyWemWorksSectionProps) {
     sectionRef,
     videoRef,
     activeStageKey,
-    handoffPhase,
+    openingPhase,
     isScrolled,
     isActive,
     isAtHandoff,
@@ -191,25 +191,25 @@ export function WhyWemWorksSection({ setLogoTheme }: WhyWemWorksSectionProps) {
       videoClassName="md:object-[center_58%] object-[center_0%]"
     >
       {(() => {
-        const showHandoff = handoffPhase !== "done";
+        const showOpening = openingPhase !== "done";
 
         const showSectionTitle =
-          handoffPhase === "done" && activeStageKey !== "proof";
+          openingPhase === "done" && activeStageKey !== "proof";
 
         const showNarrativeCopy =
-          handoffPhase === "done" &&
+          openingPhase === "done" &&
           activeStageKey !== "intro" &&
           activeStageKey !== "proof";
 
         const showSecondParagraph =
-          handoffPhase === "done" &&
+          openingPhase === "done" &&
           (activeStageKey === "method" || activeStageKey === "ai");
 
         const showProofGrid =
-          handoffPhase === "done" && activeStageKey === "proof";
+          openingPhase === "done" && activeStageKey === "proof";
 
         const showInsightBlocks =
-          handoffPhase === "done" &&
+          openingPhase === "done" &&
           activeStageKey !== "intro" &&
           activeStageKey !== "proof";
 
@@ -217,18 +217,18 @@ export function WhyWemWorksSection({ setLogoTheme }: WhyWemWorksSectionProps) {
           <div className="relative h-full w-full">
             {/* <CinematicIndicator isVisible={!isVideoReady} /> */}
             <div className="landing-shell-tall">
-              {showHandoff ? (
+              {showOpening ? (
                 <div
                   className="landing-copy-panel hero-slot-in"
                   style={{ textShadow: "0 8px 30px rgba(0, 0, 0, 0.32)" }}
                 >
                   <div>
                     <p className="text-eyebrow text-dark-gray">
-                      {handoff.eyebrow}
+                      {opening.eyebrow}
                     </p>
 
                     <h2 className="heading text-white">
-                      {handoff.titleLines.map((line) => (
+                      {opening.titleLines.map((line) => (
                         <span key={line} className="block">
                           {line}
                         </span>
@@ -236,17 +236,17 @@ export function WhyWemWorksSection({ setLogoTheme }: WhyWemWorksSectionProps) {
                     </h2>
 
                     <div className="body-stack mt-2 text-body text-white sm:mt-5">
-                      {handoff.paragraphs.map((paragraph) => (
+                      {opening.paragraphs.map((paragraph) => (
                         <p key={paragraph}>{paragraph}</p>
                       ))}
                     </div>
                   </div>
 
-                  {handoffPhase === "card" ? (
+                  {openingPhase === "card" ? (
                     <div className="hero-slot-in mt-4 sm:mt-7 md:mt-8">
                       <HeroSupportCard
-                        card={handoff.supportCard}
-                        isActive={handoffPhase === "card"}
+                        card={opening.supportCard}
+                        isActive={openingPhase === "card"}
                       />
                     </div>
                   ) : null}

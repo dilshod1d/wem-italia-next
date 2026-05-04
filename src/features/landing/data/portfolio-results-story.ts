@@ -17,8 +17,10 @@ export const portfolioResultsSectionConfig = {
       fromScale: 1,
       toScale: 1,
       objectFit: "cover",
-      objectPosition: "center center",
+      objectPosition: "center bottom",
       widthPercent: 240,
+      heightPercent: 75,
+      verticalAnchor: "bottom",
       description: "Hold left-side framing before the character starts moving.",
     },
     {
@@ -31,8 +33,10 @@ export const portfolioResultsSectionConfig = {
       fromScale: 1,
       toScale: 1,
       objectFit: "cover",
-      objectPosition: "center center",
+      objectPosition: "center bottom",
       widthPercent: 240,
+      heightPercent: 75,
+      verticalAnchor: "bottom",
       description:
         "Continuously follow the character to the right side until the end.",
     },
