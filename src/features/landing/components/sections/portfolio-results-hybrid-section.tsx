@@ -37,6 +37,8 @@ const PORTFOLIO_TRACK_CENTER_FRAME = 108;
 const PORTFOLIO_POINTER_MAX_PAN = 460;
 const PORTFOLIO_START_ITEM_ANCHOR = 0.9;
 const PORTFOLIO_SETTLE_DELAY_MS = 180;
+const PORTFOLIO_TOUCH_DRAG_MULTIPLIER = 1.25;
+const PORTFOLIO_TOUCH_INTENT_THRESHOLD = 6;
 const PORTFOLIO_ROW_CENTER_INDEX = getPortfolioRowCenterIndex(
   portfolioItems.length,
 );
@@ -568,6 +570,8 @@ export function PortfolioResultsHybridSection({
   const visualFocusIndex =
     isVideoFocusStage && focusIndex !== -1 ? focusIndex : activePortfolioIndex;
   const handlePortfolioPointerMove = (event: PointerEvent<HTMLDivElement>) => {
+    if (event.pointerType === "touch") return;
+
     updatePortfolioPointerPosition(
       portfolioTrackRef.current,
       portfolioViewportRef.current,
@@ -578,6 +582,8 @@ export function PortfolioResultsHybridSection({
   const touchState = useRef({
     startX: 0,
     lastX: 0,
+    startY: 0,
+    isHorizontalIntent: null as boolean | null,
     isDragging: false,
   });
 
@@ -588,6 +594,8 @@ export function PortfolioResultsHybridSection({
     const onTouchStart = (e: TouchEvent) => {
       touchState.current.startX = e.touches[0].clientX;
       touchState.current.lastX = e.touches[0].clientX;
+      touchState.current.startY = e.touches[0].clientY;
+      touchState.current.isHorizontalIntent = null;
       touchState.current.isDragging = true;
     };
 
@@ -595,11 +603,30 @@ export function PortfolioResultsHybridSection({
       if (!touchState.current.isDragging) return;
 
       const currentX = e.touches[0].clientX;
+      const currentY = e.touches[0].clientY;
+      const totalX = currentX - touchState.current.startX;
+      const totalY = currentY - touchState.current.startY;
+
+      if (
+        touchState.current.isHorizontalIntent === null &&
+        (Math.abs(totalX) > PORTFOLIO_TOUCH_INTENT_THRESHOLD ||
+          Math.abs(totalY) > PORTFOLIO_TOUCH_INTENT_THRESHOLD)
+      ) {
+        touchState.current.isHorizontalIntent =
+          Math.abs(totalX) > Math.abs(totalY);
+      }
+
+      if (!touchState.current.isHorizontalIntent) return;
+
+      if (e.cancelable) {
+        e.preventDefault();
+      }
+
       const delta = touchState.current.lastX - currentX;
 
       touchState.current.lastX = currentX;
 
-      updatePortfolioWheelPosition(
+      updatePortfolioTouchDragPosition(
         portfolioTrackRef.current,
         portfolioViewportRef.current,
         portfolioMotionRef.current,
@@ -608,17 +635,28 @@ export function PortfolioResultsHybridSection({
     };
 
     const onTouchEnd = () => {
+      if (touchState.current.isHorizontalIntent) {
+        settleNullablePortfolioTrackToNearestItem(
+          portfolioTrackRef.current,
+          portfolioViewportRef.current,
+          portfolioMotionRef.current,
+        );
+      }
+
       touchState.current.isDragging = false;
+      touchState.current.isHorizontalIntent = null;
     };
 
     el.addEventListener("touchstart", onTouchStart, { passive: true });
-    el.addEventListener("touchmove", onTouchMove, { passive: true });
+    el.addEventListener("touchmove", onTouchMove, { passive: false });
     el.addEventListener("touchend", onTouchEnd);
+    el.addEventListener("touchcancel", onTouchEnd);
 
     return () => {
       el.removeEventListener("touchstart", onTouchStart);
       el.removeEventListener("touchmove", onTouchMove);
       el.removeEventListener("touchend", onTouchEnd);
+      el.removeEventListener("touchcancel", onTouchEnd);
     };
   }, []);
   const handlePortfolioPointerLeave = () => {
@@ -723,7 +761,7 @@ export function PortfolioResultsHybridSection({
             <div
               ref={portfolioInteractionRef}
               className={cx(
-                "z-[32] min-h-full h-full overscroll-x-contain transition-[opacity,transform] duration-[900ms]",
+                "z-[32] min-h-full h-full overscroll-x-contain [touch-action:pan-y] transition-[opacity,transform] duration-[900ms]",
               )}
               onPointerMove={handlePortfolioPointerMove}
               onPointerLeave={handlePortfolioPointerLeave}
@@ -899,6 +937,49 @@ function updatePortfolioWheelPosition(
   }, PORTFOLIO_SETTLE_DELAY_MS);
 
   animatePortfolioTrackMotion(track, viewport, motionState);
+}
+
+function updatePortfolioTouchDragPosition(
+  track: HTMLDivElement | null,
+  viewport: HTMLDivElement | null,
+  motionState: PortfolioTrackMotionState,
+  delta: number,
+) {
+  if (!track || !viewport) return;
+
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    return;
+  }
+
+  const bounds = getPortfolioMotionBounds(track, viewport);
+  const baseOffset =
+    motionState.scrollOffset + motionState.currentPointerOffset;
+  const nextWheelOffset = clamp(
+    motionState.currentWheelOffset -
+      delta * PORTFOLIO_TOUCH_DRAG_MULTIPLIER,
+    bounds.min - baseOffset,
+    bounds.max - baseOffset,
+  );
+
+  if (motionState.settleTimer !== null) {
+    window.clearTimeout(motionState.settleTimer);
+    motionState.settleTimer = null;
+  }
+
+  cancelAnimationFrame(motionState.frameId);
+  motionState.targetWheelOffset = nextWheelOffset;
+  motionState.currentWheelOffset = nextWheelOffset;
+  applyPortfolioTrackTransform(track, viewport, motionState);
+}
+
+function settleNullablePortfolioTrackToNearestItem(
+  track: HTMLDivElement | null,
+  viewport: HTMLDivElement | null,
+  motionState: PortfolioTrackMotionState,
+) {
+  if (!track || !viewport) return;
+
+  settlePortfolioTrackToNearestItem(track, viewport, motionState);
 }
 
 function settlePortfolioTrackToNearestItem(
