@@ -8,6 +8,8 @@ interface CinematicVideoSectionProps {
   videoRef: RefObject<HTMLVideoElement | null>;
   videoUrl: string;
   nextVideoSrc?: string;
+  isActive?: boolean;
+  isolateWhenInactive?: boolean;
   isScrolled: boolean;
   sectionId?: string;
   navTheme?: "light" | "dark";
@@ -30,6 +32,8 @@ export function CinematicVideoSection({
   videoRef,
   videoUrl,
   nextVideoSrc,
+  isActive,
+  isolateWhenInactive,
   isScrolled,
   sectionId,
   navTheme = "dark",
@@ -50,6 +54,8 @@ export function CinematicVideoSection({
       videoRef={videoRef}
       videoSrc={videoUrl}
       nextVideoSrc={nextVideoSrc}
+      isActive={isActive}
+      isolateWhenInactive={isolateWhenInactive}
       isScrolled={isScrolled}
       indicatorLabel={indicatorLabel}
       indicatorPersistent={indicatorPersistent}

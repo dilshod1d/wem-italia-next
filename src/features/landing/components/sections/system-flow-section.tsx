@@ -102,7 +102,7 @@ function BenefitCard({
 }
 
 export function SystemFlowSection({ setLogoTheme }: SystemFlowSectionProps) {
-  const { sectionRef, videoRef, activeStageKey, isScrolled } =
+  const { sectionRef, videoRef, activeStageKey, isScrolled, isActive } =
     useSystemFlowVideo(systemFlowSectionConfig, {
       onLogoThemeChange: setLogoTheme,
     });
@@ -125,6 +125,7 @@ export function SystemFlowSection({ setLogoTheme }: SystemFlowSectionProps) {
       videoRef={videoRef}
       videoUrl={videoUrl}
       nextVideoSrc={howItWorksSectionConfig.videoUrl}
+      isActive={isActive}
       isScrolled={isScrolled}
       navTheme="light"
       indicatorLabel="Scroll Down"
@@ -132,7 +133,7 @@ export function SystemFlowSection({ setLogoTheme }: SystemFlowSectionProps) {
       indicatorLabelClassName="normal-case text-[1.05rem] font-medium tracking-normal text-sky-200/75"
       indicatorMouseClassName="border-sky-200/55"
       indicatorWheelClassName="bg-sky-200/80"
-      videoClassName="md:object-[72%_78%] object-cover object-center translate-y-[25%] md:translate-y-0"
+      videoClassName="md:object-[72%_78%] object-[center_0%]"
     >
       <div className="relative h-full w-full">
         {/* <CinematicIndicator isVisible={!isVideoReady} /> */}

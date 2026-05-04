@@ -109,7 +109,7 @@ export default function HowItWorksStepCard({
 }
 
 export function HowItWorksSection({ setLogoTheme }: HowItWorksSectionProps) {
-  const { sectionRef, videoRef, activeStageKey, isScrolled } =
+  const { sectionRef, videoRef, activeStageKey, isScrolled, isActive } =
     useHowItWorksVideo(howItWorksSectionConfig, {
       onEnter: () => setLogoTheme("dark"),
       onEnterBack: () => setLogoTheme("dark"),
@@ -133,6 +133,7 @@ export function HowItWorksSection({ setLogoTheme }: HowItWorksSectionProps) {
       videoRef={videoRef}
       videoUrl={videoUrl}
       nextVideoSrc={portfolioResultsSectionConfig.videoUrl}
+      isActive={isActive}
       isScrolled={isScrolled}
       navTheme="light"
       indicatorLabel="Scroll Down"
@@ -140,7 +141,7 @@ export function HowItWorksSection({ setLogoTheme }: HowItWorksSectionProps) {
       indicatorLabelClassName="normal-case text-[1.05rem] font-medium tracking-normal text-sky-200/75"
       indicatorMouseClassName="border-sky-200/55"
       indicatorWheelClassName="bg-sky-200/80"
-      videoClassName="md:object-[center_86%] object-cover object-center translate-y-[25%] md:translate-y-0"
+      videoClassName="md:object-[center_86%] object-[center_0%]"
     >
       <div className="relative h-full w-full">
         {/* <CinematicIndicator isVisible={!isVideoReady} /> */}

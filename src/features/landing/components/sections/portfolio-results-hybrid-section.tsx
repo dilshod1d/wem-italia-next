@@ -636,6 +636,8 @@ export function PortfolioResultsHybridSection({
         sectionRef={sectionRef}
         videoRef={videoRef}
         videoUrl={videoUrl}
+        isActive={isVideoActive}
+        isolateWhenInactive={false}
         isScrolled={isScrolled}
         navTheme="light"
         indicatorLabel="Scroll Down"
@@ -643,7 +645,7 @@ export function PortfolioResultsHybridSection({
         indicatorLabelClassName="normal-case text-[1.05rem] font-medium tracking-normal text-sky-200/75"
         indicatorMouseClassName="border-sky-200/55"
         indicatorWheelClassName="bg-sky-200/80"
-        videoClassName="md:object-[center_78%] object-cover object-center translate-y-[25%] md:translate-y-0"
+        videoClassName="md:object-[center_78%] object-[center_0%]"
       >
         <div className="relative h-full w-full">
           {/* <CinematicIndicator isVisible={!isVideoReady} /> */}

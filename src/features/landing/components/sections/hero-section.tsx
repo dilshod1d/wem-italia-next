@@ -20,6 +20,7 @@ export function HeroSection({ setLogoTheme }: HeroSectionProps) {
     visibleBodyItems,
     visibleSupportCardItems,
     isScrolled,
+    isActive,
   } = useHeroSectionVideo(heroStoryConfig, {
     onEnter: () => setLogoTheme("light"),
     onEnterBack: () => setLogoTheme("light"),
@@ -37,10 +38,11 @@ export function HeroSection({ setLogoTheme }: HeroSectionProps) {
       videoRef={videoRef}
       videoUrl={heroStoryConfig.videoUrl}
       nextVideoSrc={whyWemWorksSectionConfig.videoUrl}
+      isActive={isActive}
       isScrolled={isScrolled}
       navTheme="dark"
-      // videoClassName="hero-mobile-pan md:object-[center_58%] object-[center_0%]"
-      videoClassName="object-cover object-center translate-y-[25%] md:translate-y-0 md:object-[center_58%]"
+      videoClassName="hero-mobile-pan md:object-[center_58%] object-[center_0%]"
+      // videoClassName="object-cover object-center translate-y-[25%] md:translate-y-0 md:object-[center_58%]"
     >
       <div className="landing-stage flex items-center justify-center">
         <VideoProgressIndicator isVisible={!isVideoReady} />

@@ -99,7 +99,7 @@ export function useSystemFlowVideo(
     videoRef,
   });
 
-  const { sectionRef, isScrolled } = useSectionPin({
+  const { sectionRef, isScrolled, isActive } = useSectionPin({
     onEnter: options.onEnter,
     onEnterBack: options.onEnterBack,
     onUpdate: (progress) => {
@@ -154,5 +154,6 @@ export function useSystemFlowVideo(
     videoRef,
     activeStageKey,
     isScrolled,
+    isActive,
   };
 }

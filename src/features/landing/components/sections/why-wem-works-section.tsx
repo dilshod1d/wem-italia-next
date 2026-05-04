@@ -159,11 +159,17 @@ function ProofPointCard({
 }
 
 export function WhyWemWorksSection({ setLogoTheme }: WhyWemWorksSectionProps) {
-  const { sectionRef, videoRef, activeStageKey, handoffPhase, isScrolled } =
-    useWhyWemWorksVideo(whyWemWorksSectionConfig, {
-      onEnter: () => setLogoTheme("light"),
-      onEnterBack: () => setLogoTheme("light"),
-    });
+  const {
+    sectionRef,
+    videoRef,
+    activeStageKey,
+    handoffPhase,
+    isScrolled,
+    isActive,
+  } = useWhyWemWorksVideo(whyWemWorksSectionConfig, {
+    onEnter: () => setLogoTheme("light"),
+    onEnterBack: () => setLogoTheme("light"),
+  });
 
   // const { isVideoReady } = useVideoReady(videoRef);
 
@@ -174,12 +180,13 @@ export function WhyWemWorksSection({ setLogoTheme }: WhyWemWorksSectionProps) {
       videoRef={videoRef}
       videoUrl={videoUrl}
       nextVideoSrc={systemFlowSectionConfig.videoUrl}
+      isActive={isActive}
       isScrolled={isScrolled}
       navTheme="dark"
       indicatorLabel="Scroll Down"
       indicatorPersistent
       indicatorLabelClassName="normal-case text-[1.05rem] font-medium tracking-normal text-white"
-      videoClassName="md:object-[center_58%] object-cover object-center translate-y-[25%] md:translate-y-0"
+      videoClassName="md:object-[center_58%] object-[center_0%]"
     >
       {(() => {
         const showHandoff = handoffPhase !== "done";

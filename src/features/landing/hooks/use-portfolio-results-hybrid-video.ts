@@ -97,7 +97,8 @@ export function usePortfolioResultsHybridVideo(
   const [activeStageKey, setActiveStageKey] =
     useState<PortfolioResultsStageKey>(stages[0]?.key ?? "intro");
   const [isScrolled, setIsScrolled] = useState(false);
-  const [isActive, setIsActive] = useState(false);
+  const activeRef = useRef(true);
+  const [isActive, setIsActive] = useState(true);
   const scrolledRef = useRef(false);
   const debugLogger = useVideoDebugLogger({
     label: "Portfolio Results",
@@ -118,6 +119,15 @@ export function usePortfolioResultsHybridVideo(
 
     if (!section || !(pinTarget instanceof HTMLElement)) return;
 
+    const syncActive = (active: boolean) => {
+      section.style.zIndex = active ? "30" : "0";
+
+      if (active === activeRef.current) return;
+
+      activeRef.current = active;
+      setIsActive(active);
+    };
+
     const trigger = ScrollTrigger.create({
       trigger: section,
       start: "top top",
@@ -132,8 +142,10 @@ export function usePortfolioResultsHybridVideo(
         enterBackRef.current?.();
       },
       onToggle: (self) => {
-        section.style.zIndex = self.isActive ? "30" : "0";
-        setIsActive(self.isActive);
+        syncActive(self.isActive);
+      },
+      onRefresh: (self) => {
+        syncActive(self.isActive);
       },
       onUpdate: (self) => {
         const progress = self.progress;
@@ -185,6 +197,8 @@ export function usePortfolioResultsHybridVideo(
         }
       },
     });
+
+    syncActive(trigger.isActive);
 
     return () => {
       section.style.zIndex = "0";

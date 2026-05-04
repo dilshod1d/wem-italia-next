@@ -26,7 +26,9 @@ export function useSectionPin({
   const updateRef = useRef(onUpdate);
   const enterRef = useRef(onEnter);
   const enterBackRef = useRef(onEnterBack);
+  const activeRef = useRef(true);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isActive, setIsActive] = useState(true);
 
   useEffect(() => {
     updateRef.current = onUpdate;
@@ -46,6 +48,15 @@ export function useSectionPin({
 
     if (!section || !(pinTarget instanceof HTMLElement)) return;
 
+    const syncActive = (active: boolean) => {
+      section.style.zIndex = active ? "30" : "0";
+
+      if (active === activeRef.current) return;
+
+      activeRef.current = active;
+      setIsActive(active);
+    };
+
     const trigger = ScrollTrigger.create({
       trigger: section,
       start: "top top",
@@ -60,7 +71,10 @@ export function useSectionPin({
         enterBackRef.current?.();
       },
       onToggle: (self) => {
-        section.style.zIndex = self.isActive ? "30" : "0";
+        syncActive(self.isActive);
+      },
+      onRefresh: (self) => {
+        syncActive(self.isActive);
       },
       onUpdate: (self) => {
         updateRef.current?.(self.progress);
@@ -74,6 +88,8 @@ export function useSectionPin({
       },
     });
 
+    syncActive(trigger.isActive);
+
     return () => {
       section.style.zIndex = "0";
       trigger.kill();
@@ -83,5 +99,6 @@ export function useSectionPin({
   return {
     sectionRef,
     isScrolled,
+    isActive,
   };
 }

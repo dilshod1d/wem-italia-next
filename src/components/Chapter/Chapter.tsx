@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, type ReactNode, type RefObject } from "react";
+import { useEffect, useMemo, type ReactNode, type RefObject } from "react";
 import { ScrollIndicator } from "@/features/landing/components/scroll-indicator";
 import { CHAPTER_SCROLL_DISTANCE } from "./useSectionPin";
 import { useIOSVideoUnlock } from "@/features/landing/hooks/use-ios-video-unlock";
@@ -12,6 +12,8 @@ interface ChapterProps {
   videoRef?: RefObject<HTMLVideoElement | null>;
   videoSrc?: string;
   nextVideoSrc?: string;
+  isActive?: boolean;
+  isolateWhenInactive?: boolean;
   isScrolled?: boolean;
   children: ReactNode;
   indicatorLabel?: string;
@@ -36,6 +38,8 @@ export function Chapter({
   videoRef,
   videoSrc,
   nextVideoSrc,
+  isActive = true,
+  isolateWhenInactive = true,
   isScrolled = false,
   children,
   indicatorLabel = "Scroll to explore",
@@ -53,7 +57,16 @@ export function Chapter({
     return /iPhone|iPad|iPod/.test(navigator.userAgent);
   }, []);
 
-  useIOSVideoUnlock(videoRef, isIOS);
+  useIOSVideoUnlock(videoRef, isIOS && isActive);
+
+  useEffect(() => {
+    if (isActive) return;
+
+    videoRef?.current?.pause();
+  }, [isActive, videoRef]);
+
+  const isPanelVisible = !isolateWhenInactive || isActive;
+
   return (
     <section
       id={sectionId}
@@ -63,7 +76,11 @@ export function Chapter({
       style={{ height: `${CHAPTER_SCROLL_DISTANCE}px` }}
     >
       <div
-        className="relative z-20 h-screen w-full overflow-hidden"
+        aria-hidden={!isPanelVisible}
+        className={cx(
+          "relative z-20 h-screen w-full overflow-hidden",
+          isPanelVisible ? "visible" : "invisible",
+        )}
         style={{ height: "var(--landing-viewport-height, 100vh)" }}
       >
         {videoSrc ? (
