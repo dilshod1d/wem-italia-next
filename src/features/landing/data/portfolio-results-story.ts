@@ -20,7 +20,7 @@ export const portfolioResultsSectionConfig = {
   mobileVideoPan: [
     {
       startFrame: 0,
-      endFrame: 40,
+      endFrame: 60,
       fromX: 0,
       toX: 0,
       fromY: 0,
@@ -30,7 +30,7 @@ export const portfolioResultsSectionConfig = {
       description: "Hold left-side framing before the character starts moving.",
     },
     {
-      startFrame: 40,
+      startFrame: 60,
       endFrame: 150,
       fromX: 0,
       toX: -58,
