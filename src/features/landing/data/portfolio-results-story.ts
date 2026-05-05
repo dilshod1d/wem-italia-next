@@ -68,16 +68,6 @@ export const portfolioResultsSectionConfig = {
   },
   portfolioItems: [
     {
-      id: "dublicate-replaced-later-2",
-      title: "Beauty",
-      imageSrc: "/portfolio/beauty.png",
-      imageAlt: "Portfolio beauty website preview",
-      footerLabel: "Branding",
-      wrapperClassName: "bg-brand-purple",
-      shellClassName:
-        "shadow-[0_28px_70px_rgba(109,60,219,0.24)] ring-1 ring-brand-purple/18",
-    },
-    {
       id: "wellness",
       title: "Wellness",
       imageSrc: "/portfolio/health.png",
@@ -139,16 +129,6 @@ export const portfolioResultsSectionConfig = {
     },
     {
       id: "beauty",
-      title: "Beauty",
-      imageSrc: "/portfolio/beauty.png",
-      imageAlt: "Portfolio beauty website preview",
-      footerLabel: "Branding",
-      wrapperClassName: "bg-brand-purple",
-      shellClassName:
-        "shadow-[0_28px_70px_rgba(109,60,219,0.24)] ring-1 ring-brand-purple/18",
-    },
-    {
-      id: "dublicate-replaced-later",
       title: "Beauty",
       imageSrc: "/portfolio/beauty.png",
       imageAlt: "Portfolio beauty website preview",
