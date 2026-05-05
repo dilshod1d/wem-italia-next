@@ -758,14 +758,14 @@ export function PortfolioResultsHybridSection({
             <div
               ref={portfolioInteractionRef}
               className={cx(
-                "z-[32] min-h-full h-full overscroll-x-contain [touch-action:pan-y] transition-[opacity,transform] duration-[900ms]",
+                "z-[32] min-h-full h-full w-screen overscroll-x-contain [touch-action:pan-y] transition-[opacity,transform] duration-[900ms]",
               )}
               onPointerMove={handlePortfolioPointerMove}
               onPointerLeave={handlePortfolioPointerLeave}
             >
               <div
                 ref={portfolioViewportRef}
-                className="relative h-full min-h-full overflow-visible"
+                className="relative h-full min-h-full w-full overflow-hidden"
               >
                 <div
                   ref={portfolioTrackRef}
