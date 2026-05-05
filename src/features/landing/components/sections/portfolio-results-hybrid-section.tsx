@@ -768,7 +768,7 @@ export function PortfolioResultsHybridSection({
             >
               <div
                 ref={portfolioViewportRef}
-                className="relative h-full min-h-full overflow-hidden"
+                className="relative h-full min-h-full overflow-visible"
               >
                 <div
                   ref={portfolioTrackRef}
