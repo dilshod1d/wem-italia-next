@@ -111,72 +111,74 @@ export function Chapter({
       className={cx("relative", sectionClassName)}
       style={{ height: `${CHAPTER_SCROLL_DISTANCE}px` }}
     >
-      <div
-        aria-hidden={!isPanelVisible}
-        className={cx(
-          "relative z-20 h-screen w-full overflow-hidden",
-          surfaceTheme === "light" ? "bg-white" : "bg-black",
-          isPanelVisible ? "visible" : "invisible",
-        )}
-        style={{ height: "var(--landing-viewport-height, 100vh)" }}
-      >
-        {videoSrc ? (
-          <video
-            ref={videoRef}
-            className={cx(
-              "absolute inset-0 h-full w-full object-cover",
-              videoClassName,
-            )}
-            playsInline
-            muted
-            preload={shouldAutoPreload ? "auto" : "metadata"}
-          >
-            {mobileVideoSrc ? (
-              <source
-                src={mobileVideoSrc}
-                media="(max-width: 767px)"
-                type="video/mp4"
-              />
-            ) : null}
-            <source src={videoSrc} type="video/mp4" />
-          </video>
-        ) : null}
+      <div className="relative z-20 h-screen w-full overflow-visible">
+        <div
+          aria-hidden={!isPanelVisible}
+          className={cx(
+            "relative w-full overflow-hidden",
+            surfaceTheme === "light" ? "bg-white" : "bg-black",
+            isPanelVisible ? "visible" : "invisible",
+          )}
+          style={{ height: "var(--landing-viewport-height, 100vh)" }}
+        >
+          {videoSrc ? (
+            <video
+              ref={videoRef}
+              className={cx(
+                "absolute inset-0 h-full w-full object-cover",
+                videoClassName,
+              )}
+              playsInline
+              muted
+              preload={shouldAutoPreload ? "auto" : "metadata"}
+            >
+              {mobileVideoSrc ? (
+                <source
+                  src={mobileVideoSrc}
+                  media="(max-width: 767px)"
+                  type="video/mp4"
+                />
+              ) : null}
+              <source src={videoSrc} type="video/mp4" />
+            </video>
+          ) : null}
 
-        {shouldPreloadNext && nextVideoSrc ? (
-          // Hidden preload lets the next chapter start seeking immediately when
-          // the pinned handoff happens.
-          <video
-            aria-hidden="true"
-            className="hidden"
-            muted
-            playsInline
-            preload="auto"
-          >
-            {nextMobileVideoSrc ? (
-              <source
-                src={nextMobileVideoSrc}
-                media="(max-width: 767px)"
-                type="video/mp4"
-              />
-            ) : null}
-            <source src={nextVideoSrc} type="video/mp4" />
-          </video>
-        ) : null}
+          {shouldPreloadNext && nextVideoSrc ? (
+            // Hidden preload lets the next chapter start seeking immediately when
+            // the pinned handoff happens.
+            <video
+              aria-hidden="true"
+              className="hidden"
+              muted
+              playsInline
+              preload="auto"
+            >
+              {nextMobileVideoSrc ? (
+                <source
+                  src={nextMobileVideoSrc}
+                  media="(max-width: 767px)"
+                  type="video/mp4"
+                />
+              ) : null}
+              <source src={nextVideoSrc} type="video/mp4" />
+            </video>
+          ) : null}
 
-        <div className="absolute inset-0 z-[5]">{overlay}</div>
+          <div className="absolute inset-0 z-[5]">{overlay}</div>
 
-        <div className={cx("relative z-10 h-full w-full", contentClassName)}>
-          {children}
+          <div className={cx("relative z-10 h-full w-full", contentClassName)}>
+            {children}
+          </div>
+
+          <ScrollIndicator
+            hidden={isScrolled}
+            label={indicatorLabel}
+            theme={navTheme}
+            labelClassName={indicatorLabelClassName}
+            mouseClassName={indicatorMouseClassName}
+            wheelClassName={indicatorWheelClassName}
+          />
         </div>
-
-        <ScrollIndicator
-          hidden={isScrolled}
-          label={indicatorLabel}
-          theme={navTheme}
-          labelClassName={indicatorLabelClassName}
-          mouseClassName={indicatorMouseClassName}
-          wheelClassName={indicatorWheelClassName}
-        />
       </div>
     </section>
   );

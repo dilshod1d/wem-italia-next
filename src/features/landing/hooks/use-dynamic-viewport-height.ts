@@ -21,11 +21,12 @@ export function useDynamicViewportHeight(
 
     let frameId = 0;
     let lastHeight = 0;
+    let shouldNotifyOnFrame = false;
 
     const getViewportHeight = () =>
       window.visualViewport?.height ?? window.innerHeight;
 
-    const syncHeight = () => {
+    const syncHeight = (notifyHeightChange: boolean) => {
       frameId = 0;
 
       const nextHeight = Math.round(getViewportHeight());
@@ -34,29 +35,42 @@ export function useDynamicViewportHeight(
 
       lastHeight = nextHeight;
       element.style.setProperty(propertyName, `${nextHeight}px`);
-      onHeightChange?.();
+
+      if (notifyHeightChange) {
+        onHeightChange?.();
+      }
     };
 
-    const scheduleSync = () => {
+    const scheduleSync = (notifyHeightChange: boolean) => {
+      shouldNotifyOnFrame ||= notifyHeightChange;
+
       if (frameId) return;
 
-      frameId = requestAnimationFrame(syncHeight);
+      frameId = requestAnimationFrame(() => {
+        const notify = shouldNotifyOnFrame;
+
+        shouldNotifyOnFrame = false;
+        syncHeight(notify);
+      });
     };
 
-    syncHeight();
+    const scheduleLayoutSync = () => scheduleSync(true);
+    const scheduleViewportSync = () => scheduleSync(false);
 
-    window.addEventListener("resize", scheduleSync);
-    window.addEventListener("orientationchange", scheduleSync);
-    window.visualViewport?.addEventListener("resize", scheduleSync);
-    window.visualViewport?.addEventListener("scroll", scheduleSync);
+    syncHeight(true);
+
+    window.addEventListener("resize", scheduleLayoutSync);
+    window.addEventListener("orientationchange", scheduleLayoutSync);
+    window.visualViewport?.addEventListener("resize", scheduleViewportSync);
+    window.visualViewport?.addEventListener("scroll", scheduleViewportSync);
 
     return () => {
       if (frameId) cancelAnimationFrame(frameId);
 
-      window.removeEventListener("resize", scheduleSync);
-      window.removeEventListener("orientationchange", scheduleSync);
-      window.visualViewport?.removeEventListener("resize", scheduleSync);
-      window.visualViewport?.removeEventListener("scroll", scheduleSync);
+      window.removeEventListener("resize", scheduleLayoutSync);
+      window.removeEventListener("orientationchange", scheduleLayoutSync);
+      window.visualViewport?.removeEventListener("resize", scheduleViewportSync);
+      window.visualViewport?.removeEventListener("scroll", scheduleViewportSync);
       element.style.removeProperty(propertyName);
     };
   }, [elementRef, onHeightChange, propertyName]);
