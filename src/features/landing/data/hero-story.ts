@@ -202,14 +202,14 @@ export const heroStoryConfig = {
     {
       id: 8,
       startFrame: 126,
-      endFrame: 148,
+      endFrame: 149,
       eyebrowKey: "enterprise",
       titleKey: "ecosystem",
       placementKey: "ecosystemCardLate",
     },
     {
       id: 9,
-      startFrame: 148,
+      startFrame: 149,
       endFrame: Number.POSITIVE_INFINITY,
       placementKey: "blank",
     },
