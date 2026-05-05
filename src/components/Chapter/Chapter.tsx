@@ -90,7 +90,7 @@ export function Chapter({
     return /iPhone|iPad|iPod/.test(navigator.userAgent);
   }, []);
 
-  useIOSVideoUnlock(videoRef, isIOS && isActive);
+  useIOSVideoUnlock(videoRef, isIOS);
 
   useEffect(() => {
     if (isActive) return;
