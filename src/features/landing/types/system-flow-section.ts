@@ -27,6 +27,7 @@ export interface SystemFlowCard {
 
 export interface SystemFlowSectionConfig {
   readonly videoUrl: string;
+  readonly mobileVideoUrl?: string;
   readonly fps: number;
   readonly totalFrames: number;
   readonly videoDuration: number;

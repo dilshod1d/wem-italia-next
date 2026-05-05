@@ -7,6 +7,7 @@ import type {
   SystemFlowSectionConfig,
   SystemFlowStageKey,
 } from "../types/system-flow-section";
+import { useBufferedScrollVideo } from "./use-buffered-scroll-video";
 import { useVideoDebugLogger } from "./use-video-debug-logger";
 
 interface SystemFlowVideoState {
@@ -113,6 +114,7 @@ export function useSystemFlowVideo(
   const lightSurfaceStartFrame =
     stages.find((stage) => stage.key === "body")?.startFrame ?? totalFrames;
   const videoRef = useRef<HTMLVideoElement | null>(null);
+  const scrubVideo = useBufferedScrollVideo(videoRef);
   const stateRef = useRef<SystemFlowVideoState>({
     lastStageKey: stages[0]?.key ?? "intro",
     lastLogoTheme: "light",
@@ -148,9 +150,7 @@ export function useSystemFlowVideo(
       const nextLogoTheme =
         currentFrame < lightSurfaceStartFrame ? "light" : "dark";
 
-      if (video && video.readyState >= 1) {
-        video.currentTime = currentTime;
-      }
+      scrubVideo(currentTime);
 
       const { lastLogoTheme, lastStageKey } = stateRef.current;
       const activeStage = stages.find(

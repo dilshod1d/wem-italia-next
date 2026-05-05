@@ -11,8 +11,6 @@ import type {
   SystemFlowStageKey,
 } from "../../types/system-flow-section";
 import { CinematicVideoSection } from "../cinematic-video-section";
-import { useVideoReady } from "../../hooks/use-video-ready";
-import CinematicIndicator from "../cinematic-indicator";
 
 const { videoUrl, eyebrow, title, paragraphs, cards } = systemFlowSectionConfig;
 
@@ -124,15 +122,15 @@ export function SystemFlowSection({ setLogoTheme }: SystemFlowSectionProps) {
   const surfaceTheme =
     activeStageKey === "intro" || activeStageKey === "title" ? "dark" : "light";
 
-  // const { isVideoReady } = useVideoReady(videoRef);
-
   return (
     <CinematicVideoSection
       sectionId="how-it-works"
       sectionRef={sectionRef}
       videoRef={videoRef}
       videoUrl={videoUrl}
+      mobileVideoUrl={systemFlowSectionConfig.mobileVideoUrl}
       nextVideoSrc={howItWorksSectionConfig.videoUrl}
+      nextMobileVideoSrc={howItWorksSectionConfig.mobileVideoUrl}
       isActive={isActive}
       isAtHandoff={isAtHandoff}
       isScrolled={isScrolled}
@@ -146,7 +144,6 @@ export function SystemFlowSection({ setLogoTheme }: SystemFlowSectionProps) {
       videoClassName="md:object-[72%_78%] object-[center_0%]"
     >
       <div className="relative h-full w-full">
-        {/* <CinematicIndicator isVisible={!isVideoReady} /> */}
         <div className="landing-frame landing-copy-start relative h-full pb-[5vh] lg:pb-[5.5vh] 2xl:pb-[6vh]">
           <div
             className={cx(

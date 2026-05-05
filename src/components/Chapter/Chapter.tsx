@@ -3,6 +3,7 @@
 import {
   useEffect,
   useMemo,
+  useSyncExternalStore,
   type ReactNode,
   type RefObject,
 } from "react";
@@ -17,7 +18,9 @@ interface ChapterProps {
   surfaceTheme?: "light" | "dark";
   videoRef?: RefObject<HTMLVideoElement | null>;
   videoSrc?: string;
+  mobileVideoSrc?: string;
   nextVideoSrc?: string;
+  nextMobileVideoSrc?: string;
   isActive?: boolean;
   isAtHandoff?: boolean;
   isolateWhenInactive?: boolean;
@@ -32,10 +35,25 @@ interface ChapterProps {
   sectionClassName?: string;
   videoClassName?: string;
   contentClassName?: string;
+  preloadStrategy?: "eager" | "active";
 }
 
 function cx(...classes: Array<string | false | null | undefined>) {
   return classes.filter(Boolean).join(" ");
+}
+
+function subscribeToHydration(onStoreChange: () => void) {
+  const timeoutId = window.setTimeout(onStoreChange, 0);
+
+  return () => window.clearTimeout(timeoutId);
+}
+
+function getHydratedSnapshot() {
+  return true;
+}
+
+function getServerHydratedSnapshot() {
+  return false;
 }
 
 export function Chapter({
@@ -45,13 +63,14 @@ export function Chapter({
   surfaceTheme = navTheme,
   videoRef,
   videoSrc,
+  mobileVideoSrc,
   nextVideoSrc,
+  nextMobileVideoSrc,
   isActive = true,
   isolateWhenInactive = true,
   isScrolled = false,
   children,
   indicatorLabel = "Scroll to explore",
-  indicatorPersistent = false,
   indicatorLabelClassName,
   indicatorMouseClassName,
   indicatorWheelClassName,
@@ -59,7 +78,13 @@ export function Chapter({
   sectionClassName,
   videoClassName,
   contentClassName,
+  preloadStrategy = "active",
 }: ChapterProps) {
+  const hasMounted = useSyncExternalStore(
+    subscribeToHydration,
+    getHydratedSnapshot,
+    getServerHydratedSnapshot,
+  );
   const isIOS = useMemo(() => {
     if (typeof window === "undefined") return false;
     return /iPhone|iPad|iPod/.test(navigator.userAgent);
@@ -74,6 +99,9 @@ export function Chapter({
   }, [isActive, videoRef]);
 
   const isPanelVisible = !isolateWhenInactive || isActive;
+  const shouldAutoPreload =
+    preloadStrategy === "eager" || (hasMounted && isActive);
+  const shouldPreloadNext = Boolean(hasMounted && isActive && nextVideoSrc);
 
   return (
     <section
@@ -99,24 +127,40 @@ export function Chapter({
               "absolute inset-0 h-full w-full object-cover",
               videoClassName,
             )}
-            src={videoSrc}
             playsInline
             muted
-            preload="auto"
-          />
+            preload={shouldAutoPreload ? "auto" : "metadata"}
+          >
+            {mobileVideoSrc ? (
+              <source
+                src={mobileVideoSrc}
+                media="(max-width: 767px)"
+                type="video/mp4"
+              />
+            ) : null}
+            <source src={videoSrc} type="video/mp4" />
+          </video>
         ) : null}
 
-        {nextVideoSrc ? (
+        {shouldPreloadNext && nextVideoSrc ? (
           // Hidden preload lets the next chapter start seeking immediately when
           // the pinned handoff happens.
           <video
             aria-hidden="true"
             className="hidden"
-            src={nextVideoSrc}
             muted
             playsInline
             preload="auto"
-          />
+          >
+            {nextMobileVideoSrc ? (
+              <source
+                src={nextMobileVideoSrc}
+                media="(max-width: 767px)"
+                type="video/mp4"
+              />
+            ) : null}
+            <source src={nextVideoSrc} type="video/mp4" />
+          </video>
         ) : null}
 
         <div className="absolute inset-0 z-[5]">{overlay}</div>

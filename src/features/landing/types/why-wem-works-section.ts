@@ -48,6 +48,7 @@ export interface WhyWemWorksOpening {
 
 export interface WhyWemWorksSectionConfig {
   readonly videoUrl: string;
+  readonly mobileVideoUrl?: string;
   readonly fps: number;
   readonly totalFrames: number;
   readonly videoDuration: number;

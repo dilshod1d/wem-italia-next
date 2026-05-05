@@ -7,7 +7,9 @@ interface CinematicVideoSectionProps {
   sectionRef: RefObject<HTMLElement | null>;
   videoRef: RefObject<HTMLVideoElement | null>;
   videoUrl: string;
+  mobileVideoUrl?: string;
   nextVideoSrc?: string;
+  nextMobileVideoSrc?: string;
   isActive?: boolean;
   isAtHandoff?: boolean;
   isolateWhenInactive?: boolean;
@@ -23,6 +25,7 @@ interface CinematicVideoSectionProps {
   indicatorWheelClassName?: string;
   sectionClassName?: string;
   videoClassName?: string;
+  preloadStrategy?: "eager" | "active";
 }
 
 function cx(...classes: Array<string | false | null | undefined>) {
@@ -33,7 +36,9 @@ export function CinematicVideoSection({
   sectionRef,
   videoRef,
   videoUrl,
+  mobileVideoUrl,
   nextVideoSrc,
+  nextMobileVideoSrc,
   isActive,
   isAtHandoff,
   isolateWhenInactive,
@@ -49,6 +54,7 @@ export function CinematicVideoSection({
   indicatorWheelClassName,
   sectionClassName,
   videoClassName,
+  preloadStrategy,
 }: CinematicVideoSectionProps) {
   return (
     <Chapter
@@ -58,7 +64,9 @@ export function CinematicVideoSection({
       surfaceTheme={surfaceTheme}
       videoRef={videoRef}
       videoSrc={videoUrl}
+      mobileVideoSrc={mobileVideoUrl}
       nextVideoSrc={nextVideoSrc}
+      nextMobileVideoSrc={nextMobileVideoSrc}
       isActive={isActive}
       isAtHandoff={isAtHandoff}
       isolateWhenInactive={isolateWhenInactive}
@@ -70,6 +78,7 @@ export function CinematicVideoSection({
       indicatorWheelClassName={indicatorWheelClassName}
       sectionClassName={cx("relative", sectionClassName)}
       videoClassName={videoClassName}
+      preloadStrategy={preloadStrategy}
     >
       {children}
     </Chapter>

@@ -17,8 +17,6 @@ import type {
 } from "../../types/why-wem-works-section";
 import { CinematicVideoSection } from "../cinematic-video-section";
 import { HeroSupportCard } from "../hero-support-card";
-import CinematicIndicator from "../cinematic-indicator";
-import { useVideoReady } from "../../hooks/use-video-ready";
 
 const {
   videoUrl,
@@ -171,15 +169,15 @@ export function WhyWemWorksSection({ setLogoTheme }: WhyWemWorksSectionProps) {
     onEnterBack: () => setLogoTheme("light"),
   });
 
-  // const { isVideoReady } = useVideoReady(videoRef);
-
   return (
     <CinematicVideoSection
       sectionId="why-it-works"
       sectionRef={sectionRef}
       videoRef={videoRef}
       videoUrl={videoUrl}
+      mobileVideoUrl={whyWemWorksSectionConfig.mobileVideoUrl}
       nextVideoSrc={systemFlowSectionConfig.videoUrl}
+      nextMobileVideoSrc={systemFlowSectionConfig.mobileVideoUrl}
       isActive={isActive}
       isAtHandoff={isAtHandoff}
       isScrolled={isScrolled}
@@ -214,7 +212,6 @@ export function WhyWemWorksSection({ setLogoTheme }: WhyWemWorksSectionProps) {
 
         return (
           <div className="relative h-full w-full">
-            {/* <CinematicIndicator isVisible={!isVideoReady} /> */}
             <div className="landing-shell-tall">
               {showOpening ? (
                 <div

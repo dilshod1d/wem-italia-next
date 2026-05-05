@@ -1,8 +1,12 @@
 import type { SystemFlowSectionConfig } from "../types/system-flow-section";
+import { getMobileOptimizedVideoUrl } from "../utils/video-url";
+
+const videoUrl =
+  "https://res.cloudinary.com/dcderdzpp/video/upload/v1776166093/v3_kk7e7f.mp4";
 
 export const systemFlowSectionConfig = {
-  videoUrl:
-    "https://res.cloudinary.com/dcderdzpp/video/upload/v1776166093/v3_kk7e7f.mp4",
+  videoUrl,
+  mobileVideoUrl: getMobileOptimizedVideoUrl(videoUrl),
   fps: 30,
   totalFrames: 150,
   videoDuration: 5,

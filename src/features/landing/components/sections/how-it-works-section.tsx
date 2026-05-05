@@ -4,12 +4,7 @@ import { howItWorksSectionConfig } from "../../data/how-it-works-story";
 import { portfolioResultsSectionConfig } from "../../data/portfolio-results-story";
 import { useHowItWorksVideo } from "../../hooks/use-how-it-works-video";
 import { useIsMobile } from "../../hooks/use-is-mobile";
-import { useVideoReady } from "../../hooks/use-video-ready";
-import type {
-  HowItWorksStageKey,
-  HowItWorksStep,
-} from "../../types/how-it-works-section";
-import CinematicIndicator from "../cinematic-indicator";
+import type { HowItWorksStageKey } from "../../types/how-it-works-section";
 import { CinematicVideoSection } from "../cinematic-video-section";
 
 const { videoUrl, copy, steps } = howItWorksSectionConfig;
@@ -132,14 +127,14 @@ export function HowItWorksSection({ setLogoTheme }: HowItWorksSectionProps) {
 
   const isMobile = useIsMobile();
 
-  // const { isVideoReady } = useVideoReady(videoRef);
-
   return (
     <CinematicVideoSection
       sectionRef={sectionRef}
       videoRef={videoRef}
       videoUrl={videoUrl}
+      mobileVideoUrl={howItWorksSectionConfig.mobileVideoUrl}
       nextVideoSrc={portfolioResultsSectionConfig.videoUrl}
+      nextMobileVideoSrc={portfolioResultsSectionConfig.mobileVideoUrl}
       isActive={isActive}
       isAtHandoff={isAtHandoff}
       isScrolled={isScrolled}
@@ -152,7 +147,6 @@ export function HowItWorksSection({ setLogoTheme }: HowItWorksSectionProps) {
       videoClassName="md:object-[center_86%] object-[center_0%]"
     >
       <div className="relative h-full w-full">
-        {/* <CinematicIndicator isVisible={!isVideoReady} /> */}
         <div className="landing-shell">
           <div className="landing-copy-panel-alt text-black">
             <p

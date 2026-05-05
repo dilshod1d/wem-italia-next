@@ -8,6 +8,7 @@ import type {
   WhyWemWorksSectionConfig,
   WhyWemWorksStageKey,
 } from "../types/why-wem-works-section";
+import { useBufferedScrollVideo } from "./use-buffered-scroll-video";
 import { useVideoDebugLogger } from "./use-video-debug-logger";
 
 interface WhyWemWorksVideoState {
@@ -109,6 +110,7 @@ export function useWhyWemWorksVideo(
 ) {
   const { fps, opening, stages, totalFrames, videoDuration, videoUrl } = config;
   const videoRef = useRef<HTMLVideoElement | null>(null);
+  const scrubVideo = useBufferedScrollVideo(videoRef);
   const stateRef = useRef<WhyWemWorksVideoState>({
     lastStageKey: stages[0]?.key ?? "intro",
     lastOpeningPhase: "copy",
@@ -143,9 +145,7 @@ export function useWhyWemWorksVideo(
 
       applyMobileVideoPan(video, mobilePan);
 
-      if (video && video.readyState >= 1) {
-        video.currentTime = currentTime;
-      }
+      scrubVideo(currentTime);
 
       const { lastOpeningPhase, lastStageKey } = stateRef.current;
       let nextOpeningPhase: WhyWemWorksOpeningPhase = "done";

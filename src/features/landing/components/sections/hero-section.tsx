@@ -50,11 +50,14 @@ export function HeroSection({ setLogoTheme }: HeroSectionProps) {
       sectionRef={sectionRef}
       videoRef={videoRef}
       videoUrl={heroStoryConfig.videoUrl}
+      mobileVideoUrl={heroStoryConfig.mobileVideoUrl}
       nextVideoSrc={whyWemWorksSectionConfig.videoUrl}
+      nextMobileVideoSrc={whyWemWorksSectionConfig.mobileVideoUrl}
       isActive={isActive}
       isAtHandoff={isAtHandoff}
       isScrolled={isScrolled}
       navTheme="dark"
+      preloadStrategy="eager"
       videoClassName="hero-mobile-pan md:object-[center_58%] object-[center_0%]"
     >
       <div className="landing-stage flex items-center justify-center">

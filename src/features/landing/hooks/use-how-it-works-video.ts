@@ -7,6 +7,7 @@ import type {
   HowItWorksSectionConfig,
   HowItWorksStageKey,
 } from "../types/how-it-works-section";
+import { useBufferedScrollVideo } from "./use-buffered-scroll-video";
 import { useVideoDebugLogger } from "./use-video-debug-logger";
 
 interface HowItWorksVideoState {
@@ -111,6 +112,7 @@ export function useHowItWorksVideo(
 ) {
   const { fps, stages, totalFrames, videoDuration, videoUrl } = config;
   const videoRef = useRef<HTMLVideoElement | null>(null);
+  const scrubVideo = useBufferedScrollVideo(videoRef);
   const stateRef = useRef<HowItWorksVideoState>({
     lastStageKey: stages[0]?.key ?? "intro",
   });
@@ -140,9 +142,7 @@ export function useHowItWorksVideo(
         config.mobileVideoConfig,
       );
 
-      if (video && video.readyState >= 1) {
-        video.currentTime = currentTime;
-      }
+      scrubVideo(currentTime);
 
       applyMobileVideoPan(video, mobilePan);
 

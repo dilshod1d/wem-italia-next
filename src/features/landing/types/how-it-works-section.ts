@@ -38,6 +38,7 @@ export interface HowItWorksCopy {
 
 export interface HowItWorksSectionConfig {
   readonly videoUrl: string;
+  readonly mobileVideoUrl?: string;
   readonly fps: number;
   readonly totalFrames: number;
   readonly videoDuration: number;

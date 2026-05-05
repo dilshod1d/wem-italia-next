@@ -1,8 +1,12 @@
 import type { HowItWorksSectionConfig } from "../types/how-it-works-section";
+import { getMobileOptimizedVideoUrl } from "../utils/video-url";
+
+const videoUrl =
+  "https://res.cloudinary.com/dcderdzpp/video/upload/v1776167362/v4_cv51vo.mp4";
 
 export const howItWorksSectionConfig = {
-  videoUrl:
-    "https://res.cloudinary.com/dcderdzpp/video/upload/v1776167362/v4_cv51vo.mp4",
+  videoUrl,
+  mobileVideoUrl: getMobileOptimizedVideoUrl(videoUrl),
   fps: 30,
   totalFrames: 150,
   videoDuration: 5,

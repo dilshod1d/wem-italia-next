@@ -1,8 +1,12 @@
 import type { HeroSectionConfig } from "../types/hero-section";
+import { getMobileOptimizedVideoUrl } from "../utils/video-url";
+
+const videoUrl =
+  "https://res.cloudinary.com/dcderdzpp/video/upload/v1776096629/output_af6jf5.mp4";
 
 export const heroStoryConfig = {
-  videoUrl:
-    "https://res.cloudinary.com/dcderdzpp/video/upload/v1776096629/output_af6jf5.mp4",
+  videoUrl,
+  mobileVideoUrl: getMobileOptimizedVideoUrl(videoUrl),
   fps: 30,
   totalFrames: 150,
   videoDuration: 5,
