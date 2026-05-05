@@ -16,7 +16,7 @@ export const portfolioResultsSectionConfig = {
   mobileVideoPan: [
     {
       startFrame: 0,
-      endFrame: 40, // 1 second hold at 30fps
+      endFrame: 40,
       fromX: 0,
       toX: 0,
       fromY: 0,
