@@ -8,7 +8,7 @@ import type {
   HeroSectionConfig,
   HeroSupportCardItem,
 } from "../types/hero-section";
-import { useBufferedScrollVideo } from "./use-buffered-scroll-video";
+import { useScrollVideoScrubber } from "./use-scroll-video-scrubber";
 import { useVideoDebugLogger } from "./use-video-debug-logger";
 
 interface HeroVideoState {
@@ -108,7 +108,7 @@ export function useHeroSectionVideo(
 ) {
   const { fps, stages, totalFrames, videoDuration, videoUrl } = config;
   const videoRef = useRef<HTMLVideoElement | null>(null);
-  const scrubVideo = useBufferedScrollVideo(videoRef);
+  const scrubVideo = useScrollVideoScrubber(videoRef);
 
   const stateRef = useRef<HeroVideoState>({
     lastStageId: stages[0]?.id ?? 0,
@@ -168,7 +168,7 @@ export function useHeroSectionVideo(
         applyMobileVideoPan(video, mobilePan);
       }
 
-      scrubVideo(currentTime);
+      scrubVideo(currentFrame / fps);
 
       const { lastStageId } = stateRef.current;
       const visibleBodies = config.bodyItems

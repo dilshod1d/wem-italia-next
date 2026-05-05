@@ -8,7 +8,7 @@ import type {
   PortfolioResultsSectionConfig,
   PortfolioResultsStageKey,
 } from "../types/portfolio-results-section";
-import { useBufferedScrollVideo } from "./use-buffered-scroll-video";
+import { useScrollVideoScrubber } from "./use-scroll-video-scrubber";
 import { useVideoDebugLogger } from "./use-video-debug-logger";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -122,7 +122,7 @@ export function usePortfolioResultsHybridVideo(
   const { fps, stages, totalFrames, videoDuration, videoUrl } = config;
   const sectionRef = useRef<HTMLElement | null>(null);
   const videoRef = useRef<HTMLVideoElement | null>(null);
-  const scrubVideo = useBufferedScrollVideo(videoRef);
+  const scrubVideo = useScrollVideoScrubber(videoRef);
   const enterRef = useRef(options.onEnter);
   const enterBackRef = useRef(options.onEnterBack);
   const progressRef = useRef(options.onProgress);
@@ -211,7 +211,7 @@ export function usePortfolioResultsHybridVideo(
 
         applyMobileVideoPan(video, mobilePan);
 
-        scrubVideo(currentTime);
+        scrubVideo(currentFrame / fps);
 
         const activeStage = stages.find(
           (stage) =>
