@@ -107,10 +107,24 @@ function applyMobileVideoPan(
 }
 
 function getHeroTimelineStepFrames(config: HeroSectionConfig) {
+  const titleStageFrames = config.stages
+    .filter(
+      (stage, index, stages) =>
+        stage.placementKey !== "blank" &&
+        stage.placementKey !== "ecosystemRaised" &&
+        (index === 0 ||
+          stage.eyebrowKey !== stages[index - 1]?.eyebrowKey ||
+          stage.titleKey !== stages[index - 1]?.titleKey),
+    )
+    .map((stage) => stage.startFrame);
+  const bodyStepFrames = config.bodyItems
+    .filter((item) => item.key !== "ecosystem-no-handoffs")
+    .map((item) => item.fromFrame);
+
   return normalizeTimelineStepFrames(
     [
-      ...config.stages.map((stage) => stage.startFrame),
-      ...config.bodyItems.map((item) => item.fromFrame),
+      ...titleStageFrames,
+      ...bodyStepFrames,
       ...config.supportCardItems.map((item) => item.fromFrame),
     ],
     config.totalFrames,
