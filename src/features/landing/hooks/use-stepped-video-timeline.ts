@@ -192,14 +192,14 @@ export function useSteppedVideoTimeline({
     [fps, normalizedStepFrames, totalFrames, videoDuration],
   );
 
-  const syncScrollAfterLastStep = useCallback(
+  const getReleasedScrollRange = useCallback(
     (scroll: number) => {
-      if (!continueWithScrollAfterLastStep || !isActive) return;
+      if (!continueWithScrollAfterLastStep) return null;
 
       const section = sectionRef.current;
       const lastIndex = normalizedStepFrames.length - 1;
 
-      if (!section || activeStepIndexRef.current !== lastIndex) return;
+      if (!section) return null;
 
       const sectionTop = scroll + section.getBoundingClientRect().top;
       const scrollSlots = reserveExitScroll
@@ -209,16 +209,50 @@ export function useSteppedVideoTimeline({
         sectionTop + pinDistance * clamp(lastIndex / scrollSlots, 0, 1);
       const sectionEndScroll = sectionTop + pinDistance;
 
-      if (sectionEndScroll <= lastStepScroll || scroll < lastStepScroll) {
-        return;
-      }
+      if (sectionEndScroll <= lastStepScroll) return null;
+
+      return {
+        lastIndex,
+        lastStepScroll,
+        sectionEndScroll,
+      };
+    },
+    [
+      continueWithScrollAfterLastStep,
+      normalizedStepFrames.length,
+      pinDistance,
+      reserveExitScroll,
+      sectionRef,
+    ],
+  );
+
+  const isInReleasedScrollRange = useCallback(() => {
+    const range = getReleasedScrollRange(window.scrollY);
+
+    return (
+      range !== null &&
+      window.scrollY > range.lastStepScroll + 2 &&
+      window.scrollY < range.sectionEndScroll - 1
+    );
+  }, [getReleasedScrollRange]);
+
+  const syncScrollAfterLastStep = useCallback(
+    (scroll: number) => {
+      if (!continueWithScrollAfterLastStep || !isActive) return;
+
+      const range = getReleasedScrollRange(scroll);
+
+      if (range === null || scroll < range.lastStepScroll) return;
+
+      activeStepIndexRef.current = range.lastIndex;
 
       const releasedProgress = clamp(
-        (scroll - lastStepScroll) / (sectionEndScroll - lastStepScroll),
+        (scroll - range.lastStepScroll) /
+          (range.sectionEndScroll - range.lastStepScroll),
         0,
         1,
       );
-      const startFrame = normalizedStepFrames[lastIndex] ?? 0;
+      const startFrame = normalizedStepFrames[range.lastIndex] ?? 0;
       const endFrame = Math.max(totalFrames - 1, startFrame);
       const currentFrame = Math.round(
         startFrame + (endFrame - startFrame) * releasedProgress,
@@ -236,11 +270,9 @@ export function useSteppedVideoTimeline({
     [
       continueWithScrollAfterLastStep,
       fps,
+      getReleasedScrollRange,
       isActive,
       normalizedStepFrames,
-      pinDistance,
-      reserveExitScroll,
-      sectionRef,
       totalFrames,
       videoDuration,
     ],
@@ -336,6 +368,8 @@ export function useSteppedVideoTimeline({
 
       const direction = event.deltaY > 0 ? 1 : -1;
 
+      if (isInReleasedScrollRange()) return;
+
       if (!canMoveInDirection(direction)) return;
 
       preventTimelineScroll(event);
@@ -354,6 +388,8 @@ export function useSteppedVideoTimeline({
       if (Math.abs(delta) < TOUCH_MOVE_THRESHOLD) return;
 
       const direction = delta > 0 ? 1 : -1;
+
+      if (isInReleasedScrollRange()) return;
 
       if (isTransitioningRef.current || canMoveInDirection(direction)) {
         preventTimelineScroll(event);
@@ -378,6 +414,8 @@ export function useSteppedVideoTimeline({
       if (Math.abs(delta) < TOUCH_STEP_THRESHOLD) return;
 
       const direction = delta > 0 ? 1 : -1;
+
+      if (isInReleasedScrollRange()) return;
 
       if (!canMoveInDirection(direction)) return;
 
@@ -418,6 +456,7 @@ export function useSteppedVideoTimeline({
     };
   }, [
     canMoveInDirection,
+    isInReleasedScrollRange,
     isActive,
     keepTransitionLockedUntilInputIdle,
     moveInDirection,
