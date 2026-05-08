@@ -165,6 +165,15 @@ export function useSteppedVideoTimeline({
     scheduleTransitionUnlock();
   }, [scheduleTransitionUnlock]);
 
+  const releaseTouchTransitionLock = useCallback(() => {
+    if (unlockTimerRef.current !== null) {
+      window.clearTimeout(unlockTimerRef.current);
+      unlockTimerRef.current = null;
+    }
+
+    isTransitioningRef.current = false;
+  }, []);
+
   const syncFrame = useCallback(
     (index: number) => {
       const currentFrame = normalizedStepFrames[index] ?? 0;
@@ -271,6 +280,7 @@ export function useSteppedVideoTimeline({
     };
 
     const handleTouchStart = (event: TouchEvent) => {
+      releaseTouchTransitionLock();
       touchStartYRef.current = event.touches[0]?.clientY ?? 0;
     };
 
@@ -348,5 +358,6 @@ export function useSteppedVideoTimeline({
     isActive,
     keepTransitionLockedUntilInputIdle,
     moveInDirection,
+    releaseTouchTransitionLock,
   ]);
 }
