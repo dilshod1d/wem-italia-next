@@ -118,12 +118,18 @@ function getHeroTimelineStepFrames(config: HeroSectionConfig) {
     )
     .map((stage) => stage.startFrame);
   const bodyStepFrames = config.bodyItems.map((item) => item.fromFrame);
+  const finalContentHoldFrame = Math.max(
+    ...[...config.bodyItems, ...config.supportCardItems].map(
+      (item) => item.toFrame - 1,
+    ),
+  );
 
   return normalizeTimelineStepFrames(
     [
       ...titleStageFrames,
       ...bodyStepFrames,
       ...config.supportCardItems.map((item) => item.fromFrame),
+      finalContentHoldFrame,
     ],
     config.totalFrames,
   );
