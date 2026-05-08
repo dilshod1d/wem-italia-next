@@ -31,8 +31,9 @@ interface UseSteppedVideoTimelineOptions {
 const WHEEL_THRESHOLD = 10;
 const TOUCH_MOVE_THRESHOLD = 8;
 const TOUCH_STEP_THRESHOLD = 50;
-const STEP_LOCK_MS = 1000;
 const STEP_SCROLL_DURATION = 0.72;
+const STEP_MIN_LOCK_MS = 760;
+const STEP_INPUT_IDLE_MS = 180;
 
 function clamp(value: number, min: number, max: number) {
   return Math.min(Math.max(value, min), max);
@@ -83,7 +84,9 @@ export function useSteppedVideoTimeline({
   }, [stepFrames, totalFrames]);
   const activeStepIndexRef = useRef(0);
   const isTransitioningRef = useRef(false);
-  const releaseTimerRef = useRef<number | null>(null);
+  const unlockTimerRef = useRef<number | null>(null);
+  const transitionStartAtRef = useRef(0);
+  const lastInputAtRef = useRef(0);
   const touchStartYRef = useRef(0);
   const onFrameRef = useRef(onFrame);
 
@@ -113,16 +116,54 @@ export function useSteppedVideoTimeline({
     [normalizedStepFrames.length, pinDistance, reserveExitScroll, sectionRef],
   );
 
-  const releaseTransitionLock = useCallback(() => {
-    if (releaseTimerRef.current !== null) {
-      window.clearTimeout(releaseTimerRef.current);
+  const scheduleTransitionUnlock = useCallback(() => {
+    if (unlockTimerRef.current !== null) {
+      window.clearTimeout(unlockTimerRef.current);
     }
 
-    releaseTimerRef.current = window.setTimeout(() => {
+    function queueUnlockCheck() {
+      const nextNow = performance.now();
+      const minLockRemaining =
+        STEP_MIN_LOCK_MS - (nextNow - transitionStartAtRef.current);
+      const idleRemaining =
+        STEP_INPUT_IDLE_MS - (nextNow - lastInputAtRef.current);
+      const delay = Math.max(minLockRemaining, idleRemaining, 0);
+
+      unlockTimerRef.current = window.setTimeout(checkUnlock, delay);
+    }
+
+    function checkUnlock() {
+      const nextNow = performance.now();
+      const hasMetMinLock =
+        nextNow - transitionStartAtRef.current >= STEP_MIN_LOCK_MS;
+      const hasIdleInput =
+        nextNow - lastInputAtRef.current >= STEP_INPUT_IDLE_MS;
+
+      if (!hasMetMinLock || !hasIdleInput) {
+        queueUnlockCheck();
+        return;
+      }
+
       isTransitioningRef.current = false;
-      releaseTimerRef.current = null;
-    }, STEP_LOCK_MS);
+      unlockTimerRef.current = null;
+    }
+
+    queueUnlockCheck();
   }, []);
+
+  const startTransitionLock = useCallback(() => {
+    const now = performance.now();
+
+    isTransitioningRef.current = true;
+    transitionStartAtRef.current = now;
+    lastInputAtRef.current = now;
+    scheduleTransitionUnlock();
+  }, [scheduleTransitionUnlock]);
+
+  const keepTransitionLockedUntilInputIdle = useCallback(() => {
+    lastInputAtRef.current = performance.now();
+    scheduleTransitionUnlock();
+  }, [scheduleTransitionUnlock]);
 
   const syncFrame = useCallback(
     (index: number) => {
@@ -169,12 +210,11 @@ export function useSteppedVideoTimeline({
       const nextIndex = clamp(index, 0, lastIndex);
 
       activeStepIndexRef.current = nextIndex;
-      isTransitioningRef.current = true;
+      startTransitionLock();
       syncFrame(nextIndex);
       scrollToStep(nextIndex);
-      releaseTransitionLock();
     },
-    [normalizedStepFrames.length, releaseTransitionLock, scrollToStep, syncFrame],
+    [normalizedStepFrames.length, scrollToStep, startTransitionLock, syncFrame],
   );
 
   const canMoveInDirection = useCallback(
@@ -218,6 +258,7 @@ export function useSteppedVideoTimeline({
 
       if (isTransitioningRef.current) {
         preventTimelineScroll(event);
+        keepTransitionLockedUntilInputIdle();
         return;
       }
 
@@ -243,11 +284,19 @@ export function useSteppedVideoTimeline({
 
       if (isTransitioningRef.current || canMoveInDirection(direction)) {
         preventTimelineScroll(event);
+
+        if (isTransitioningRef.current) {
+          keepTransitionLockedUntilInputIdle();
+        }
       }
     };
 
     const handleTouchEnd = (event: TouchEvent) => {
-      if (isTransitioningRef.current) return;
+      if (isTransitioningRef.current) {
+        preventTimelineScroll(event);
+        keepTransitionLockedUntilInputIdle();
+        return;
+      }
 
       const touchEndY =
         event.changedTouches[0]?.clientY ?? touchStartYRef.current;
@@ -287,12 +336,17 @@ export function useSteppedVideoTimeline({
         capture: true,
       });
 
-      if (releaseTimerRef.current !== null) {
-        window.clearTimeout(releaseTimerRef.current);
-        releaseTimerRef.current = null;
+      if (unlockTimerRef.current !== null) {
+        window.clearTimeout(unlockTimerRef.current);
+        unlockTimerRef.current = null;
       }
 
       isTransitioningRef.current = false;
     };
-  }, [canMoveInDirection, isActive, moveInDirection]);
+  }, [
+    canMoveInDirection,
+    isActive,
+    keepTransitionLockedUntilInputIdle,
+    moveInDirection,
+  ]);
 }
