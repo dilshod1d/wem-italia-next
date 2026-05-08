@@ -30,13 +30,22 @@ function getMobileVideoPanTransform(
 
   if (!activePan) return null;
 
+  // const progress =
+  //   activePan.endFrame === activePan.startFrame
+  //     ? 1
+  //     : (currentFrame - activePan.startFrame) /
+  //       (activePan.endFrame - activePan.startFrame);
+
+  // const easedProgress = 1 - Math.pow(1 - progress, 3);
   const progress =
     activePan.endFrame === activePan.startFrame
       ? 1
       : (currentFrame - activePan.startFrame) /
         (activePan.endFrame - activePan.startFrame);
 
-  const easedProgress = 1 - Math.pow(1 - progress, 3);
+  const easeOutCubic = (t: number) => 1 - (1 - t) ** 3;
+
+  const easedProgress = easeOutCubic(progress);
 
   const fromY = activePan.fromY ?? 0;
   const toY = activePan.toY ?? fromY;

@@ -12,7 +12,7 @@ export const systemFlowSectionConfig = {
   videoDuration: 5,
   mobileVideoConfig: {
     objectFit: "cover",
-    objectPosition: "center bottom",
+    objectPosition: "center top",
     widthPercent: 240,
     heightPercent: 75,
     verticalAnchor: "bottom",
@@ -21,8 +21,8 @@ export const systemFlowSectionConfig = {
     {
       startFrame: 0,
       endFrame: 30,
-      fromX: 0,
-      toX: 0,
+      fromX: -10,
+      toX: -10,
       fromY: 0,
       toY: 0,
       fromScale: 1,
@@ -31,7 +31,7 @@ export const systemFlowSectionConfig = {
     {
       startFrame: 30,
       endFrame: 90,
-      fromX: 0,
+      fromX: -10,
       toX: -58,
       fromY: 0,
       toY: 0,
