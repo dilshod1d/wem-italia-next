@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { useSectionPin } from "@/components/Chapter/useSectionPin";
 
 import type {
@@ -8,6 +8,10 @@ import type {
   HowItWorksStageKey,
 } from "../types/how-it-works-section";
 import { useScrollVideoScrubber } from "./use-scroll-video-scrubber";
+import {
+  normalizeTimelineStepFrames,
+  useSteppedVideoTimeline,
+} from "./use-stepped-video-timeline";
 import { useVideoDebugLogger } from "./use-video-debug-logger";
 
 interface HowItWorksVideoState {
@@ -106,6 +110,15 @@ function applyMobileVideoPan(
   }
 }
 
+function getHowItWorksTimelineStepFrames(config: HowItWorksSectionConfig) {
+  return normalizeTimelineStepFrames(
+    config.stages
+      .filter((stage) => stage.key !== "intro" && stage.key !== "blank")
+      .map((stage) => stage.startFrame),
+    config.totalFrames,
+  );
+}
+
 export function useHowItWorksVideo(
   config: HowItWorksSectionConfig,
   options: HowItWorksVideoOptions = {},
@@ -129,20 +142,29 @@ export function useHowItWorksVideo(
   const { sectionRef, isScrolled, isActive, isAtHandoff } = useSectionPin({
     onEnter: options.onEnter,
     onEnterBack: options.onEnterBack,
-    onUpdate: (progress) => {
-      const video = videoRef.current;
-      const currentTime = videoDuration * Math.min(Math.max(progress, 0), 1);
-      const currentFrame = Math.round(
-        Math.min(Math.max(currentTime * fps, 0), totalFrames),
-      );
+  });
 
+  const timelineStepFrames = useMemo(
+    () => getHowItWorksTimelineStepFrames(config),
+    [config],
+  );
+
+  useSteppedVideoTimeline({
+    sectionRef,
+    isActive,
+    fps,
+    totalFrames,
+    videoDuration,
+    stepFrames: timelineStepFrames,
+    onFrame: ({ progress, currentFrame, currentTime }) => {
+      const video = videoRef.current;
       const mobilePan = getMobileVideoPanTransform(
         currentFrame,
         config.mobileVideoPan,
         config.mobileVideoConfig,
       );
 
-      scrubVideo(currentFrame / fps);
+      scrubVideo(currentTime);
 
       applyMobileVideoPan(video, mobilePan);
 

@@ -3,7 +3,8 @@
 import { useCallback, useEffect, useRef, type RefObject } from "react";
 
 const HAVE_METADATA = 1;
-const SEEK_EPSILON_SECONDS = 0.018;
+const SEEK_EPSILON_SECONDS = 0.001;
+const SEEK_LERP = 0.1;
 
 function clamp(value: number, min: number, max: number) {
   return Math.min(Math.max(value, min), max);
@@ -22,27 +23,35 @@ export function useScrollVideoScrubber(
 ) {
   const desiredTimeRef = useRef(0);
   const frameIdRef = useRef(0);
+  const flushRef = useRef<() => void>(() => undefined);
 
-  const flush = useCallback(() => {
-    frameIdRef.current = 0;
+  useEffect(() => {
+    flushRef.current = () => {
+      const video = videoRef.current;
+      if (!video || video.readyState < HAVE_METADATA) {
+        frameIdRef.current = 0;
+        return;
+      }
 
-    const video = videoRef.current;
-    if (!video || video.readyState < HAVE_METADATA) return;
+      const nextTime = getSeekTime(video, desiredTimeRef.current);
+      const diff = nextTime - video.currentTime;
 
-    const nextTime = getSeekTime(video, desiredTimeRef.current);
+      if (Math.abs(diff) < SEEK_EPSILON_SECONDS) {
+        video.currentTime = nextTime;
+        frameIdRef.current = 0;
+        return;
+      }
 
-    if (Math.abs(video.currentTime - nextTime) < SEEK_EPSILON_SECONDS) {
-      return;
-    }
-
-    video.currentTime = nextTime;
+      video.currentTime += diff * SEEK_LERP;
+      frameIdRef.current = requestAnimationFrame(() => flushRef.current());
+    };
   }, [videoRef]);
 
   const scheduleFlush = useCallback(() => {
     if (frameIdRef.current) return;
 
-    frameIdRef.current = requestAnimationFrame(flush);
-  }, [flush]);
+    frameIdRef.current = requestAnimationFrame(() => flushRef.current());
+  }, []);
 
   useEffect(() => {
     const video = videoRef.current;

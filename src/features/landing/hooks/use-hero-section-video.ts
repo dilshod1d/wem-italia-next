@@ -1,6 +1,6 @@
 "use client";
 
-import { useLayoutEffect, useRef, useState } from "react";
+import { useLayoutEffect, useMemo, useRef, useState } from "react";
 import { useSectionPin } from "@/components/Chapter/useSectionPin";
 
 import type {
@@ -9,6 +9,10 @@ import type {
   HeroSupportCardItem,
 } from "../types/hero-section";
 import { useScrollVideoScrubber } from "./use-scroll-video-scrubber";
+import {
+  normalizeTimelineStepFrames,
+  useSteppedVideoTimeline,
+} from "./use-stepped-video-timeline";
 import { useVideoDebugLogger } from "./use-video-debug-logger";
 
 interface HeroVideoState {
@@ -102,6 +106,17 @@ function applyMobileVideoPan(
   }
 }
 
+function getHeroTimelineStepFrames(config: HeroSectionConfig) {
+  return normalizeTimelineStepFrames(
+    [
+      ...config.stages.map((stage) => stage.startFrame),
+      ...config.bodyItems.map((item) => item.fromFrame),
+      ...config.supportCardItems.map((item) => item.fromFrame),
+    ],
+    config.totalFrames,
+  );
+}
+
 export function useHeroSectionVideo(
   config: HeroSectionConfig,
   options: HeroSectionVideoOptions = {},
@@ -151,13 +166,22 @@ export function useHeroSectionVideo(
   const { sectionRef, isScrolled, isActive, isAtHandoff } = useSectionPin({
     onEnter: options.onEnter,
     onEnterBack: options.onEnterBack,
-    onUpdate: (progress) => {
-      const video = videoRef.current;
-      const currentTime = videoDuration * Math.min(Math.max(progress, 0), 1);
-      const currentFrame = Math.round(
-        Math.min(Math.max(currentTime * fps, 0), totalFrames),
-      );
+  });
 
+  const timelineStepFrames = useMemo(
+    () => getHeroTimelineStepFrames(config),
+    [config],
+  );
+
+  useSteppedVideoTimeline({
+    sectionRef,
+    isActive,
+    fps,
+    totalFrames,
+    videoDuration,
+    stepFrames: timelineStepFrames,
+    onFrame: ({ progress, currentFrame, currentTime }) => {
+      const video = videoRef.current;
       const mobilePan = getMobileVideoPanTransform(
         currentFrame,
         config.mobileVideoPan,
@@ -168,7 +192,7 @@ export function useHeroSectionVideo(
         applyMobileVideoPan(video, mobilePan);
       }
 
-      scrubVideo(currentFrame / fps);
+      scrubVideo(currentTime);
 
       const { lastStageId } = stateRef.current;
       const visibleBodies = config.bodyItems

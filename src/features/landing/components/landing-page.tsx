@@ -13,6 +13,7 @@ import { SystemFlowSection } from "./sections/system-flow-section";
 import { WhoWeSupportSection } from "./sections/who-we-support-section";
 import { WhyWemWorksSection } from "./sections/why-wem-works-section";
 import { useDynamicViewportHeight } from "../hooks/use-dynamic-viewport-height";
+import { SmoothScrollProvider } from "./smooth-scroll-provider";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -50,7 +51,7 @@ export function LandingPage() {
   }, [resetScrollPosition]);
 
   return (
-    <>
+    <SmoothScrollProvider>
       <LandingNavbar logoTheme={logoTheme} onHomeClick={resetToLandingStart} />
       <main className="relative bg-background">
         <HeroSection setLogoTheme={setLogoTheme} />
@@ -61,6 +62,6 @@ export function LandingPage() {
         <WhoWeSupportSection />
         <FooterSection setLogoTheme={setLogoTheme} />
       </main>
-    </>
+    </SmoothScrollProvider>
   );
 }

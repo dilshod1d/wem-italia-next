@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { useSectionPin } from "@/components/Chapter/useSectionPin";
 
 import type {
@@ -8,6 +8,10 @@ import type {
   SystemFlowStageKey,
 } from "../types/system-flow-section";
 import { useScrollVideoScrubber } from "./use-scroll-video-scrubber";
+import {
+  normalizeTimelineStepFrames,
+  useSteppedVideoTimeline,
+} from "./use-stepped-video-timeline";
 import { useVideoDebugLogger } from "./use-video-debug-logger";
 
 interface SystemFlowVideoState {
@@ -106,6 +110,15 @@ function applyMobileVideoPan(
   }
 }
 
+function getSystemFlowTimelineStepFrames(config: SystemFlowSectionConfig) {
+  return normalizeTimelineStepFrames(
+    config.stages
+      .filter((stage) => stage.key !== "intro")
+      .map((stage) => stage.startFrame),
+    config.totalFrames,
+  );
+}
+
 export function useSystemFlowVideo(
   config: SystemFlowSectionConfig,
   options: SystemFlowVideoOptions = {},
@@ -132,13 +145,22 @@ export function useSystemFlowVideo(
   const { sectionRef, isScrolled, isActive, isAtHandoff } = useSectionPin({
     onEnter: options.onEnter,
     onEnterBack: options.onEnterBack,
-    onUpdate: (progress) => {
-      const video = videoRef.current;
-      const currentTime = videoDuration * Math.min(Math.max(progress, 0), 1);
-      const currentFrame = Math.round(
-        Math.min(Math.max(currentTime * fps, 0), totalFrames),
-      );
+  });
 
+  const timelineStepFrames = useMemo(
+    () => getSystemFlowTimelineStepFrames(config),
+    [config],
+  );
+
+  useSteppedVideoTimeline({
+    sectionRef,
+    isActive,
+    fps,
+    totalFrames,
+    videoDuration,
+    stepFrames: timelineStepFrames,
+    onFrame: ({ progress, currentFrame, currentTime }) => {
+      const video = videoRef.current;
       const mobilePan = getMobileVideoPanTransform(
         currentFrame,
         config.mobileVideoPan,
@@ -150,7 +172,7 @@ export function useSystemFlowVideo(
       const nextLogoTheme =
         currentFrame < lightSurfaceStartFrame ? "light" : "dark";
 
-      scrubVideo(currentFrame / fps);
+      scrubVideo(currentTime);
 
       const { lastLogoTheme, lastStageKey } = stateRef.current;
       const activeStage = stages.find(

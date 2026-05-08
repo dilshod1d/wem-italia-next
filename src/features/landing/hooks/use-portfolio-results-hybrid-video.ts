@@ -1,20 +1,18 @@
 "use client";
 
-import { useLayoutEffect, useRef, useState } from "react";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { useSectionPin } from "@/components/Chapter/useSectionPin";
 
 import type {
   PortfolioResultsSectionConfig,
   PortfolioResultsStageKey,
 } from "../types/portfolio-results-section";
 import { useScrollVideoScrubber } from "./use-scroll-video-scrubber";
+import {
+  normalizeTimelineStepFrames,
+  useSteppedVideoTimeline,
+} from "./use-stepped-video-timeline";
 import { useVideoDebugLogger } from "./use-video-debug-logger";
-
-gsap.registerPlugin(ScrollTrigger);
-
-const PORTFOLIO_RESULTS_SCROLL_DISTANCE = 1800;
-const PORTFOLIO_RESULTS_HANDOFF_PROGRESS = 0.985;
 
 interface PortfolioResultsHybridVideoState {
   lastStageKey: PortfolioResultsStageKey;
@@ -107,6 +105,17 @@ function applyMobileVideoPan(
   }
 }
 
+function getPortfolioResultsTimelineStepFrames(
+  config: PortfolioResultsSectionConfig,
+) {
+  return normalizeTimelineStepFrames(
+    config.stages
+      .filter((stage) => stage.key !== "intro")
+      .map((stage) => stage.startFrame),
+    config.totalFrames,
+  );
+}
+
 export function usePortfolioResultsHybridVideo(
   config: PortfolioResultsSectionConfig,
   options: {
@@ -120,23 +129,14 @@ export function usePortfolioResultsHybridVideo(
   } = {},
 ) {
   const { fps, stages, totalFrames, videoDuration, videoUrl } = config;
-  const sectionRef = useRef<HTMLElement | null>(null);
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const scrubVideo = useScrollVideoScrubber(videoRef);
-  const enterRef = useRef(options.onEnter);
-  const enterBackRef = useRef(options.onEnterBack);
   const progressRef = useRef(options.onProgress);
   const stateRef = useRef<PortfolioResultsHybridVideoState>({
     lastStageKey: stages[0]?.key ?? "intro",
   });
   const [activeStageKey, setActiveStageKey] =
     useState<PortfolioResultsStageKey>(stages[0]?.key ?? "intro");
-  const [isScrolled, setIsScrolled] = useState(false);
-  const activeRef = useRef(true);
-  const handoffRef = useRef(false);
-  const [isActive, setIsActive] = useState(true);
-  const [isAtHandoff, setIsAtHandoff] = useState(false);
-  const scrolledRef = useRef(false);
   const debugLogger = useVideoDebugLogger({
     label: "Portfolio Results",
     videoSrc: videoUrl,
@@ -144,126 +144,62 @@ export function usePortfolioResultsHybridVideo(
     videoRef,
   });
 
-  useLayoutEffect(() => {
-    enterRef.current = options.onEnter;
-    enterBackRef.current = options.onEnterBack;
+  useEffect(() => {
     progressRef.current = options.onProgress;
-  }, [options.onEnter, options.onEnterBack, options.onProgress]);
+  }, [options.onProgress]);
 
-  useLayoutEffect(() => {
-    const section = sectionRef.current;
-    const pinTarget = section?.firstElementChild;
+  const { sectionRef, isScrolled, isActive, isAtHandoff } = useSectionPin({
+    onEnter: options.onEnter,
+    onEnterBack: options.onEnterBack,
+  });
 
-    if (!section || !(pinTarget instanceof HTMLElement)) return;
+  const timelineStepFrames = useMemo(
+    () => getPortfolioResultsTimelineStepFrames(config),
+    [config],
+  );
 
-    const syncActive = (active: boolean) => {
-      section.style.zIndex = active ? "30" : "0";
-
-      if (active === activeRef.current) return;
-
-      activeRef.current = active;
-      setIsActive(active);
-    };
-
-    const syncHandoff = (handoff: boolean) => {
-      if (handoff === handoffRef.current) return;
-
-      handoffRef.current = handoff;
-      setIsAtHandoff(handoff);
-    };
-
-    const trigger = ScrollTrigger.create({
-      trigger: section,
-      start: "top top",
-      end: `+=${PORTFOLIO_RESULTS_SCROLL_DISTANCE}`,
-      scrub: true,
-      pin: pinTarget,
-      pinSpacing: true,
-      onEnter: () => {
-        enterRef.current?.();
-      },
-      onEnterBack: () => {
-        enterBackRef.current?.();
-      },
-      onToggle: (self) => {
-        syncActive(self.isActive);
-        if (!self.isActive) syncHandoff(false);
-      },
-      onRefresh: (self) => {
-        syncActive(self.isActive);
-        syncHandoff(
-          self.isActive && self.progress >= PORTFOLIO_RESULTS_HANDOFF_PROGRESS,
-        );
-      },
-      onUpdate: (self) => {
-        const progress = self.progress;
-        const currentTime = videoDuration * Math.min(Math.max(progress, 0), 1);
-        const currentFrame = Math.round(
-          Math.min(Math.max(currentTime * fps, 0), totalFrames),
-        );
-        const video = videoRef.current;
-
-        const mobilePan = getMobileVideoPanTransform(
-          currentFrame,
-          config.mobileVideoPan,
-          config.mobileVideoConfig,
-        );
-
-        applyMobileVideoPan(video, mobilePan);
-
-        scrubVideo(currentFrame / fps);
-
-        const activeStage = stages.find(
-          (stage) =>
-            currentFrame >= stage.startFrame && currentFrame < stage.endFrame,
-        );
-        const nextStageKey = activeStage?.key ?? stateRef.current.lastStageKey;
-
-        debugLogger.logProgress({
-          progress,
-          currentTime,
-          marker: `${nextStageKey}@f${currentFrame}`,
-        });
-
-        progressRef.current?.({
-          progress,
-          currentFrame,
-          currentTime,
-        });
-
-        if (activeStage && activeStage.key !== stateRef.current.lastStageKey) {
-          stateRef.current.lastStageKey = activeStage.key;
-          setActiveStageKey(activeStage.key);
-        }
-
-        const nextScrolled = progress > 0.02;
-        syncHandoff(
-          self.isActive && progress >= PORTFOLIO_RESULTS_HANDOFF_PROGRESS,
-        );
-
-        if (nextScrolled !== scrolledRef.current) {
-          scrolledRef.current = nextScrolled;
-          setIsScrolled(nextScrolled);
-        }
-      },
-    });
-
-    syncActive(trigger.isActive);
-
-    return () => {
-      section.style.zIndex = "0";
-      trigger.kill();
-    };
-  }, [
+  useSteppedVideoTimeline({
+    sectionRef,
+    isActive,
     fps,
-    stages,
     totalFrames,
     videoDuration,
-    debugLogger,
-    config.mobileVideoConfig,
-    config.mobileVideoPan,
-    scrubVideo,
-  ]);
+    stepFrames: timelineStepFrames,
+    onFrame: ({ progress, currentFrame, currentTime }) => {
+      const video = videoRef.current;
+      const mobilePan = getMobileVideoPanTransform(
+        currentFrame,
+        config.mobileVideoPan,
+        config.mobileVideoConfig,
+      );
+
+      applyMobileVideoPan(video, mobilePan);
+      scrubVideo(currentTime);
+
+      const activeStage = stages.find(
+        (stage) =>
+          currentFrame >= stage.startFrame && currentFrame < stage.endFrame,
+      );
+      const nextStageKey = activeStage?.key ?? stateRef.current.lastStageKey;
+
+      debugLogger.logProgress({
+        progress,
+        currentTime,
+        marker: `${nextStageKey}@f${currentFrame}`,
+      });
+
+      progressRef.current?.({
+        progress,
+        currentFrame,
+        currentTime,
+      });
+
+      if (activeStage && activeStage.key !== stateRef.current.lastStageKey) {
+        stateRef.current.lastStageKey = activeStage.key;
+        setActiveStageKey(activeStage.key);
+      }
+    },
+  });
 
   return {
     sectionRef,
