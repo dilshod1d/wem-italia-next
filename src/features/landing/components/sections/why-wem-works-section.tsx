@@ -293,7 +293,7 @@ export function WhyWemWorksSection({ setLogoTheme }: WhyWemWorksSectionProps) {
 
                   {showInsightBlocks ? (
                     <div className="landing-card-gap">
-                      <div className="landing-right-rail flex flex-col items-center sm:items-end">
+                      <div className="ml-auto flex w-full max-w-[92%] flex-col items-end sm:max-w-[68%] lg:max-w-[60%]">
                         {blocks.map((block, index) => (
                           <InsightBlock
                             key={block.stage}
