@@ -68,8 +68,6 @@ interface PortfolioCardProps {
   item: PortfolioResultsItem;
   index: number;
   visible: boolean;
-  distanceFromFocus: number;
-  focusMode: boolean;
   active: boolean;
   delayMs: number;
 }
@@ -78,23 +76,18 @@ function PortfolioCard({
   item,
   index,
   visible,
-  distanceFromFocus,
-  focusMode,
   active,
   delayMs,
 }: PortfolioCardProps) {
-  const sizeClassName = getPortfolioCardSizeClass(distanceFromFocus);
+  const sizeClassName = getPortfolioCardSizeClass();
   const imageHeightClassName = getPortfolioCardImageHeightClass();
-
-  const focusStateClassName = getPortfolioCardFocusStateClass(
-    distanceFromFocus,
-    focusMode,
-  );
+  const focusStateClassName = getPortfolioCardFocusStateClass(active);
 
   return (
     <article
       className={cx(
         "group relative shrink-0 cursor-pointer transition-[opacity,transform,filter,height,width] duration-700",
+        "motion-safe:hover:scale-[1.03]",
         active ? "z-40" : "z-30",
         visible
           ? "translate-x-0 opacity-100"
@@ -154,47 +147,18 @@ function PortfolioCard({
   );
 }
 
-function getPortfolioCardSizeClass(distanceFromFocus: number) {
-  if (distanceFromFocus === 0) {
-    return "aspect-[9/16] h-[calc(100%-5rem)]";
-  }
-
-  if (distanceFromFocus === 1) {
-    return "aspect-[9/16] h-[calc(95%-5rem)]";
-  }
-
-  if (distanceFromFocus === 2) {
-    return "aspect-[9/16] h-[calc(90%-5rem)]";
-  }
-
-  return "aspect-[9/16] h-[calc(85%-5rem)]";
+function getPortfolioCardSizeClass() {
+  return "aspect-[9/16] h-[calc(100%-5rem)]";
 }
 
 function getPortfolioCardImageHeightClass() {
   return "h-full";
 }
 
-function getPortfolioCardFocusStateClass(
-  distanceFromFocus: number,
-  focusMode: boolean,
-) {
-  if (!focusMode) {
-    return "opacity-95 blur-0";
-  }
-
-  if (distanceFromFocus === 0) {
-    return "opacity-100 blur-0";
-  }
-
-  if (distanceFromFocus === 1) {
-    return "opacity-95 blur-0";
-  }
-
-  if (distanceFromFocus === 2) {
-    return "opacity-90 blur-0";
-  }
-
-  return "opacity-80 blur-0";
+function getPortfolioCardFocusStateClass(active: boolean) {
+  return active
+    ? "scale-[1.03] opacity-100 blur-0"
+    : "scale-100 opacity-100 blur-0";
 }
 
 interface ProofMetricCardProps {
@@ -766,13 +730,7 @@ export function PortfolioResultsHybridSection({
                       item={item}
                       index={index}
                       visible={showSharedPortfolio}
-                      focusMode={showSharedPortfolio}
                       active={index === visualFocusIndex}
-                      distanceFromFocus={
-                        PORTFOLIO_ROW_CENTER_INDEX === -1
-                          ? 0
-                          : Math.abs(index - PORTFOLIO_ROW_CENTER_INDEX)
-                      }
                       delayMs={index * 85}
                     />
                   ))}
