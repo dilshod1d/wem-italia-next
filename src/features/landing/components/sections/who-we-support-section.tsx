@@ -106,16 +106,6 @@ function AudienceCard({
         <Icon />
       </div>
 
-      <p
-        className={cx(
-          "mt-3 font-sans text-[0.66rem] font-semibold uppercase tracking-[0.24em]",
-          "sm:text-[0.72rem] md:text-[0.78rem]",
-          accent.tag,
-        )}
-      >
-        {card.tag}
-      </p>
-
       <h3
         className={cx(
           "font-sans font-semibold tracking-tight text-black",
@@ -132,11 +122,7 @@ function AudienceCard({
       <p
         className={cx(
           "text-body text-black/70",
-          stackedMobile
-            ? "mt-2"
-            : compact
-              ? "mt-2.5 sm:mt-3"
-              : "mt-4",
+          stackedMobile ? "mt-2" : compact ? "mt-2.5 sm:mt-3" : "mt-4",
         )}
       >
         {card.body}

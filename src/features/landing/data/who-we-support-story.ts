@@ -19,21 +19,18 @@ export const whoWeSupportSectionConfig = {
   cards: [
     {
       stage: "startups",
-      tag: "Di partenza",
       title: "Startups",
       body: "Per partire bene, anche con budget da gestire con attenzione.",
       icon: "startup",
     },
     {
       stage: "professionals",
-      tag: "Posizionamento",
       title: "Professionisti",
       body: "Per una presenza digitale coerente con il proprio valore.",
       icon: "professional",
     },
     {
       stage: "smes",
-      tag: "Scalatura",
       title: "PMI",
       body: "Per una struttura più solida, meno improvvisata, più utile alla crescita.",
       icon: "sme",

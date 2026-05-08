@@ -325,7 +325,7 @@ function ProofMetricCard({ metric, visible, delayMs }: ProofMetricCardProps) {
       />
 
       <div className="relative z-10 flex w-full flex-col">
-        <div className="flex items-start justify-between gap-4">
+        <div className="flex items-start">
           <span
             className={cx(
               "rounded-full px-3 py-1.5 font-sans text-[0.72rem] font-semibold uppercase tracking-[0.14em] shadow-[0_10px_24px_rgba(0,0,0,0.08)] sm:text-[0.78rem] md:px-4 md:py-2 md:text-[0.86rem] 2xl:text-[0.98rem]",
@@ -333,22 +333,6 @@ function ProofMetricCard({ metric, visible, delayMs }: ProofMetricCardProps) {
             )}
           >
             {metric.label}
-          </span>
-
-          <span
-            aria-hidden
-            className="mt-2 flex items-center gap-1.5 opacity-55 transition-opacity duration-500 group-hover:opacity-85"
-          >
-            {[0, 1, 2].map((dot) => (
-              <span
-                key={dot}
-                className={cx(
-                  "block rounded-full",
-                  dot === 0 ? "h-2 w-2" : "h-1.5 w-1.5",
-                  metric.bandClassName,
-                )}
-              />
-            ))}
           </span>
         </div>
 
