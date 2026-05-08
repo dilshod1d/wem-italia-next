@@ -561,7 +561,9 @@ export function PortfolioResultsHybridSection({
     (activeStageKey === "portfolio" ||
       activeStageKey === "focus" ||
       activeStageKey === "proof");
-  const showSharedPortfolio = showVideoPortfolio || isFlowPortfolioActive;
+  const showSharedPortfolio =
+    showVideoPortfolio || isFlowPortfolioActive;
+  const showSharedPortfolioHeader = !isVideoActive && isFlowPortfolioActive;
   const useFixedPortfolio = showVideoPortfolio;
   const isVideoFocusStage =
     isVideoActive && (activeStageKey === "focus" || activeStageKey === "proof");
@@ -745,7 +747,7 @@ export function PortfolioResultsHybridSection({
           <div
             className={cx(
               "max-w-[70rem] text-black shrink-0",
-              showSharedPortfolio
+              showSharedPortfolioHeader
                 ? "opacity-100"
                 : "pointer-events-none opacity-0",
             )}
