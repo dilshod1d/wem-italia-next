@@ -744,7 +744,7 @@ export function PortfolioResultsHybridSection({
         >
           <div
             className={cx(
-              "max-w-[70rem] text-black shrink-0",
+              "max-w-[70rem] shrink-0 text-center text-black sm:text-left",
               showSharedPortfolio
                 ? "opacity-100"
                 : "pointer-events-none opacity-0",
@@ -803,7 +803,10 @@ export function PortfolioResultsHybridSection({
         className="relative bg-white py-6 sm:py-8 lg:py-10 2xl:py-12 pt-12 sm:pt-16 lg:pt-20 2xl:pt-24"
       >
         <div className="landing-frame">
-          <div ref={metricsHeadingRef} className="text-black">
+          <div
+            ref={metricsHeadingRef}
+            className="text-center text-black sm:text-left"
+          >
             <p className="text-eyebrow text-black/25">{copy.eyebrow}</p>
             <h2 className="heading">{copy.proofTitle}</h2>
           </div>

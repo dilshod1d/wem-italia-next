@@ -313,7 +313,10 @@ export function WhoWeSupportSection() {
       className="relative bg-white pb-44 pt-12 sm:pb-48 sm:pt-16 lg:pb-52 lg:pt-20 2xl:pb-56 2xl:pt-24"
     >
       <div className="landing-frame">
-        <div ref={headingRef} className="w-full sm:w-[90%] lg:w-[85%]">
+        <div
+          ref={headingRef}
+          className="w-full text-center sm:w-[90%] sm:text-left lg:w-[85%]"
+        >
           <p className="text-eyebrow text-black/28">{copy.eyebrow}</p>
           <h2 className="heading text-black">{copy.title}</h2>
         </div>

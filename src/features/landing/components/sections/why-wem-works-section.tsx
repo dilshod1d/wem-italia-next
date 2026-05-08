@@ -62,7 +62,7 @@ function InsightBlock({
     <article
       className={cx(
         `
-        w-[58%] text-left sm:w-full
+        w-[58%] text-center sm:w-full sm:text-left
         rounded-[1.25rem] p-4
         sm:rounded-[1.75rem] sm:p-5
         md:rounded-[2.25rem] md:p-10
@@ -97,9 +97,10 @@ function InsightBlock({
           text-white
 
           text-[0.9rem] leading-6
+          mx-auto
           max-w-[95%]
 
-          sm:mt-3 sm:text-[1rem] sm:max-w-[85%]
+          sm:mt-3 sm:mx-0 sm:text-[1rem] sm:max-w-[85%]
           md:mt-4 md:text-[1.15rem] md:max-w-4xl
           2xl:text-[1.35rem]
         "
@@ -231,7 +232,7 @@ export function WhyWemWorksSection({ setLogoTheme }: WhyWemWorksSectionProps) {
                       ))}
                     </h2>
 
-                    <div className="body-stack mt-2 max-w-[92%] text-body text-white sm:mt-5">
+                    <div className="body-stack mx-auto mt-2 max-w-[92%] text-body text-white sm:mx-0 sm:mt-5">
                       {opening.paragraphs.map((paragraph) => (
                         <p key={paragraph}>{paragraph}</p>
                       ))}
@@ -255,7 +256,9 @@ export function WhyWemWorksSection({ setLogoTheme }: WhyWemWorksSectionProps) {
                     <div
                       className={cx(
                         "hero-slot-in z-10 w-full",
-                        activeStageKey === "intro" ? "text-left" : "text-right",
+                        activeStageKey === "intro"
+                          ? "text-center sm:text-left"
+                          : "text-center sm:text-right",
                       )}
                     >
                       <h3 className="heading text-white">{introTitle}</h3>
@@ -290,7 +293,7 @@ export function WhyWemWorksSection({ setLogoTheme }: WhyWemWorksSectionProps) {
 
                   {showInsightBlocks ? (
                     <div className="landing-card-gap">
-                      <div className="landing-right-rail flex flex-col items-end">
+                      <div className="landing-right-rail flex flex-col items-center sm:items-end">
                         {blocks.map((block, index) => (
                           <InsightBlock
                             key={block.stage}

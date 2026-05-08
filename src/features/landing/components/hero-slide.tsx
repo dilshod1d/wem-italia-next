@@ -42,7 +42,7 @@ function renderTitle(title: HeroTitle) {
 
 function renderBodyItems(items: readonly HeroBodyItem[]) {
   return (
-    <div className="hero-slot-in body-stack text-body text-white max-w-[92%]">
+    <div className="hero-slot-in body-stack mx-auto max-w-[92%] text-body text-white sm:mx-0">
       {items.map((item) => (
         <p key={item.key}>{item.text}</p>
       ))}
@@ -104,7 +104,12 @@ export function HeroSlide({
       className="landing-copy-panel"
       style={{ textShadow: "0 8px 30px rgba(0, 0, 0, 0.32)" }}
     >
-      <div className={cx("w-full text-left", placement.copyClassName)}>
+      <div
+        className={cx(
+          "w-full text-center sm:text-left",
+          placement.copyClassName,
+        )}
+      >
         {shouldShowHeader ? (
           <>
             <KeyedSlot

@@ -50,7 +50,7 @@ export default function HowItWorksStepCard({
       className={cx(
         // mobile
         "relative w-full overflow-hidden rounded-[1.3rem]",
-        "px-3.5 py-3 text-left",
+        "px-3.5 py-3 text-center sm:text-left",
 
         // tablet / desktop
         "sm:max-w-[84%] sm:rounded-[2.2rem] sm:px-7 sm:py-5",

@@ -205,7 +205,7 @@ html::-webkit-scrollbar-thumb:hover {
 }
 
 @utility landing-right-rail {
-  @apply ml-auto w-full max-w-[92%] text-right sm:max-w-[68%] lg:max-w-[60%];
+  @apply mx-auto w-full max-w-[92%] text-center sm:ml-auto sm:mr-0 sm:max-w-[68%] sm:text-right lg:max-w-[60%];
 }
 
 @utility landing-frame {
@@ -234,14 +234,14 @@ html::-webkit-scrollbar-thumb:hover {
 }
 
 @utility landing-copy-panel {
-  @apply absolute left-[4%] top-landing-copy-base z-20 w-full
-         sm:left-[5%] sm:top-landing-copy-sm sm:w-[75%]
+  @apply absolute inset-x-[4%] top-landing-copy-base z-20 w-auto text-center
+         sm:inset-x-auto sm:left-[5%] sm:top-landing-copy-sm sm:w-[75%] sm:text-left
          lg:left-[5%] lg:top-landing-copy-lg lg:w-[55%]
          2xl:top-landing-copy-wide;
 }
 
 @utility landing-copy-panel-alt {
-  @apply relative z-20 w-full;
+  @apply relative z-20 w-full text-center sm:text-left;
 }
 
 @utility landing-copy-start {
