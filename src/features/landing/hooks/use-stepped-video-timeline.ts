@@ -25,6 +25,7 @@ interface UseSteppedVideoTimelineOptions {
   stepFrames: readonly number[];
   pinDistance?: number;
   reserveExitScroll?: boolean;
+  continueWithScrollAfterLastStep?: boolean;
   onFrame: (state: TimelineFrameState) => void;
 }
 
@@ -74,6 +75,7 @@ export function useSteppedVideoTimeline({
   stepFrames,
   pinDistance = CHAPTER_SCROLL_DISTANCE,
   reserveExitScroll = false,
+  continueWithScrollAfterLastStep = false,
   onFrame,
 }: UseSteppedVideoTimelineOptions) {
   const lenis = useLenis();
@@ -188,6 +190,67 @@ export function useSteppedVideoTimeline({
       });
     },
     [fps, normalizedStepFrames, totalFrames, videoDuration],
+  );
+
+  const syncScrollAfterLastStep = useCallback(
+    (scroll: number) => {
+      if (!continueWithScrollAfterLastStep || !isActive) return;
+
+      const section = sectionRef.current;
+      const lastIndex = normalizedStepFrames.length - 1;
+
+      if (!section || activeStepIndexRef.current !== lastIndex) return;
+
+      const sectionTop = scroll + section.getBoundingClientRect().top;
+      const scrollSlots = reserveExitScroll
+        ? Math.max(normalizedStepFrames.length, 1)
+        : Math.max(lastIndex, 1);
+      const lastStepScroll =
+        sectionTop + pinDistance * clamp(lastIndex / scrollSlots, 0, 1);
+      const sectionEndScroll = sectionTop + pinDistance;
+
+      if (sectionEndScroll <= lastStepScroll || scroll < lastStepScroll) {
+        return;
+      }
+
+      const releasedProgress = clamp(
+        (scroll - lastStepScroll) / (sectionEndScroll - lastStepScroll),
+        0,
+        1,
+      );
+      const startFrame = normalizedStepFrames[lastIndex] ?? 0;
+      const endFrame = Math.max(totalFrames - 1, startFrame);
+      const currentFrame = Math.round(
+        startFrame + (endFrame - startFrame) * releasedProgress,
+      );
+      const progress =
+        totalFrames > 0 ? clamp(currentFrame / totalFrames, 0, 1) : 0;
+      const currentTime = clamp(currentFrame / fps, 0, videoDuration);
+
+      onFrameRef.current({
+        progress,
+        currentFrame,
+        currentTime,
+      });
+    },
+    [
+      continueWithScrollAfterLastStep,
+      fps,
+      isActive,
+      normalizedStepFrames,
+      pinDistance,
+      reserveExitScroll,
+      sectionRef,
+      totalFrames,
+      videoDuration,
+    ],
+  );
+
+  useLenis(
+    ({ scroll }) => {
+      syncScrollAfterLastStep(scroll);
+    },
+    [syncScrollAfterLastStep],
   );
 
   const scrollToStep = useCallback(

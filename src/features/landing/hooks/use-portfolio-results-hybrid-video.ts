@@ -108,9 +108,15 @@ function applyMobileVideoPan(
 function getPortfolioResultsTimelineStepFrames(
   config: PortfolioResultsSectionConfig,
 ) {
+  const compactStoryStops = new Set<PortfolioResultsStageKey>([
+    "headline",
+    "narrative",
+    "portfolio",
+  ]);
+
   return normalizeTimelineStepFrames(
     config.stages
-      .filter((stage) => stage.key !== "intro")
+      .filter((stage) => compactStoryStops.has(stage.key))
       .map((stage) => stage.startFrame),
     config.totalFrames,
   );
@@ -165,6 +171,8 @@ export function usePortfolioResultsHybridVideo(
     totalFrames,
     videoDuration,
     stepFrames: timelineStepFrames,
+    reserveExitScroll: true,
+    continueWithScrollAfterLastStep: true,
     onFrame: ({ progress, currentFrame, currentTime }) => {
       const video = videoRef.current;
       const mobilePan = getMobileVideoPanTransform(
