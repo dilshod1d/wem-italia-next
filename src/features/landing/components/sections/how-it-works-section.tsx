@@ -6,6 +6,12 @@ import { useHowItWorksVideo } from "../../hooks/use-how-it-works-video";
 import { useIsMobile } from "../../hooks/use-is-mobile";
 import type { HowItWorksStageKey } from "../../types/how-it-works-section";
 import { CinematicVideoSection } from "../cinematic-video-section";
+import {
+  getRevealTransitionStyle,
+  REVEAL_HIDDEN_CLASS,
+  REVEAL_TRANSITION_STYLE,
+  REVEAL_VISIBLE_CLASS,
+} from "../reveal-motion";
 
 const { videoUrl, copy, steps } = howItWorksSectionConfig;
 
@@ -82,12 +88,10 @@ export default function HowItWorksStepCard({
        translateY(${index * -OVERLAP}px)
        `
           : `translateX(${index * X_OFFSET + (isMobile ? 0 : 5)}%)
-       translateY(${index * -OVERLAP + (isMobile ? 12 : 20)}px)
-       scale(${isMobile ? 0.985 : 0.96})`,
+       translateY(${index * -OVERLAP + (isMobile ? 16 : 24)}px)`,
 
         zIndex: isMobile ? 20 + index : 20 - index,
-        transitionDelay: visible ? `${delayMs}ms` : "0ms",
-        transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)",
+        ...getRevealTransitionStyle(visible ? delayMs : 0),
       }}
     >
       <div className="min-w-0">
@@ -151,22 +155,20 @@ export function HowItWorksSection({ setLogoTheme }: HowItWorksSectionProps) {
           <div className="landing-copy-panel-alt text-black">
             <p
               className={cx(
-                "text-eyebrow text-black/28 transition-all duration-700",
-                showHeading
-                  ? "translate-y-0 opacity-100"
-                  : "translate-y-8 opacity-0",
+                "text-eyebrow text-black/28 transition-all duration-700 will-change-transform",
+                showHeading ? REVEAL_VISIBLE_CLASS : REVEAL_HIDDEN_CLASS,
               )}
+              style={REVEAL_TRANSITION_STYLE}
             >
               {copy.eyebrow}
             </p>
 
             <h2
               className={cx(
-                "heading transition-all duration-700",
-                showHeading
-                  ? "translate-y-0 opacity-100"
-                  : "translate-y-8 opacity-0",
+                "heading transition-all duration-700 will-change-transform",
+                showHeading ? REVEAL_VISIBLE_CLASS : REVEAL_HIDDEN_CLASS,
               )}
+              style={REVEAL_TRANSITION_STYLE}
             >
               {copy.initialHeadline}
             </h2>
@@ -174,25 +176,19 @@ export function HowItWorksSection({ setLogoTheme }: HowItWorksSectionProps) {
             <div
               className={cx(
                 "landing-copy-gap landing-paragraph-stack text-body landing-body-copy text-black transition-all duration-1000",
-                showHeading
-                  ? "translate-y-0 opacity-100"
-                  : "translate-y-6 opacity-0",
+                showHeading ? REVEAL_VISIBLE_CLASS : REVEAL_HIDDEN_CLASS,
               )}
-              style={{
-                transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)",
-              }}
+              style={REVEAL_TRANSITION_STYLE}
             >
               <p>{copy.subtitle}</p>
               <p
                 className={cx(
                   "transition-all duration-700",
                   showDescription
-                    ? "translate-y-0 opacity-100"
-                    : "translate-y-5 opacity-0",
+                    ? REVEAL_VISIBLE_CLASS
+                    : REVEAL_HIDDEN_CLASS,
                 )}
-                style={{
-                  transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)",
-                }}
+                style={REVEAL_TRANSITION_STYLE}
               >
                 {copy.description}
               </p>

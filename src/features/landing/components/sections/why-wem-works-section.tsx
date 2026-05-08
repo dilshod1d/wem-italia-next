@@ -17,6 +17,13 @@ import type {
 } from "../../types/why-wem-works-section";
 import { CinematicVideoSection } from "../cinematic-video-section";
 import { HeroSupportCard } from "../hero-support-card";
+import {
+  getRevealAnimationStyle,
+  getRevealTransitionStyle,
+  REVEAL_HIDDEN_CLASS,
+  REVEAL_TRANSITION_STYLE,
+  REVEAL_VISIBLE_CLASS,
+} from "../reveal-motion";
 
 const {
   videoUrl,
@@ -24,6 +31,7 @@ const {
   introTitle,
   leadParagraph,
   resultParagraph,
+  resultParagraphFrame,
   blocks,
   proofPoints,
 } = whyWemWorksSectionConfig;
@@ -69,14 +77,13 @@ function InsightBlock({
         2xl:rounded-[2.5rem] 2xl:p-12
 
         shadow-[0_20px_60px_rgba(0,0,0,0.25)]
-        transition-all duration-700
+        transition-[opacity,transform] duration-700 will-change-transform
         `,
         toneClassName,
         className,
-        visible
-          ? "translate-y-0 opacity-100"
-          : "pointer-events-none translate-y-4 sm:translate-y-6 md:translate-y-8 opacity-0",
+        visible ? cx(REVEAL_VISIBLE_CLASS, "hero-slot-in") : REVEAL_HIDDEN_CLASS,
       )}
+      style={REVEAL_TRANSITION_STYLE}
     >
       <h3
         className="
@@ -132,13 +139,11 @@ function ProofPointCard({
       className={cx(
         "flex min-h-0 flex-col items-center justify-center rounded-[1.65rem] p-5 text-center text-white shadow-[0_24px_78px_rgba(0,0,0,0.28)] transition-[opacity,transform] duration-700 will-change-transform sm:rounded-[1.9rem] md:rounded-[2rem] md:p-6 2xl:rounded-[2.35rem] 2xl:p-8",
         color,
-        visible
-          ? "translate-y-0 scale-100 rotate-0 opacity-100"
-          : "pointer-events-none translate-y-14 scale-[0.78] opacity-0",
+        visible ? cx(REVEAL_VISIBLE_CLASS, "hero-slot-in") : REVEAL_HIDDEN_CLASS,
       )}
       style={{
-        transitionDelay: visible ? `${delayMs}ms` : "0ms",
-        transitionTimingFunction: "cubic-bezier(0.16, 1.2, 0.3, 1)",
+        ...getRevealTransitionStyle(visible ? delayMs : 0),
+        ...getRevealAnimationStyle(visible ? delayMs : 0),
       }}
     >
       <div className="mb-4 h-12 w-12 text-white sm:h-14 sm:w-14 md:h-[4.5rem] md:w-[4.5rem] 2xl:mb-5 2xl:h-[5.25rem] 2xl:w-[5.25rem]">
@@ -161,6 +166,7 @@ export function WhyWemWorksSection({ setLogoTheme }: WhyWemWorksSectionProps) {
     videoRef,
     activeStageKey,
     openingPhase,
+    currentFrame,
     isScrolled,
     isActive,
     isAtHandoff,
@@ -200,7 +206,9 @@ export function WhyWemWorksSection({ setLogoTheme }: WhyWemWorksSectionProps) {
 
         const showSecondParagraph =
           openingPhase === "done" &&
-          (activeStageKey === "method" || activeStageKey === "ai");
+          currentFrame >= resultParagraphFrame &&
+          activeStageKey !== "intro" &&
+          activeStageKey !== "proof";
 
         const showProofGrid =
           openingPhase === "done" && activeStageKey === "proof";
@@ -215,15 +223,21 @@ export function WhyWemWorksSection({ setLogoTheme }: WhyWemWorksSectionProps) {
             <div className="landing-shell-tall">
               {showOpening ? (
                 <div
-                  className="landing-copy-panel hero-slot-in"
+                  className="landing-copy-panel"
                   style={{ textShadow: "0 8px 30px rgba(0, 0, 0, 0.32)" }}
                 >
                   <div>
-                    <p className="text-eyebrow text-dark-gray">
+                    <p
+                      className="hero-slot-in text-eyebrow text-dark-gray"
+                      style={getRevealAnimationStyle()}
+                    >
                       {opening.eyebrow}
                     </p>
 
-                    <h2 className="heading text-white">
+                    <h2
+                      className="hero-slot-in heading text-white"
+                      style={getRevealAnimationStyle(80)}
+                    >
                       {opening.titleLines.map((line) => (
                         <span key={line} className="block">
                           {line}
@@ -232,14 +246,23 @@ export function WhyWemWorksSection({ setLogoTheme }: WhyWemWorksSectionProps) {
                     </h2>
 
                     <div className="body-stack mt-2 max-w-[92%] text-body text-white sm:mt-5">
-                      {opening.paragraphs.map((paragraph) => (
-                        <p key={paragraph}>{paragraph}</p>
+                      {opening.paragraphs.map((paragraph, index) => (
+                        <p
+                          key={paragraph}
+                          className="hero-slot-in"
+                          style={getRevealAnimationStyle(160 + index * 80)}
+                        >
+                          {paragraph}
+                        </p>
                       ))}
                     </div>
                   </div>
 
                   {openingPhase === "card" ? (
-                    <div className="hero-slot-in mt-4 sm:mt-7 md:mt-8">
+                    <div
+                      className="hero-slot-in mt-4 sm:mt-7 md:mt-8"
+                      style={getRevealAnimationStyle(120)}
+                    >
                       <HeroSupportCard
                         card={opening.supportCard}
                         isActive={openingPhase === "card"}
@@ -257,29 +280,26 @@ export function WhyWemWorksSection({ setLogoTheme }: WhyWemWorksSectionProps) {
                         "hero-slot-in z-10 w-full",
                         activeStageKey === "intro" ? "text-left" : "text-right",
                       )}
+                      style={getRevealAnimationStyle()}
                     >
                       <h3 className="heading text-white">{introTitle}</h3>
                     </div>
                   ) : null}
 
                   {showNarrativeCopy ? (
-                    <div
-                      className="hero-slot-in landing-copy-gap flex w-full flex-col items-end"
-                      style={{
-                        transitionTimingFunction:
-                          "cubic-bezier(0.16, 1, 0.3, 1)",
-                      }}
-                    >
+                    <div className="landing-copy-gap flex w-full flex-col items-end">
                       <div className="landing-right-rail landing-paragraph-stack text-body landing-body-copy text-white">
-                        <p>{leadParagraph}</p>
+                        <p
+                          className="hero-slot-in"
+                          style={getRevealAnimationStyle()}
+                        >
+                          {leadParagraph}
+                        </p>
 
                         {showSecondParagraph ? (
                           <p
                             className="hero-slot-in"
-                            style={{
-                              transitionTimingFunction:
-                                "cubic-bezier(0.16, 1, 0.3, 1)",
-                            }}
+                            style={getRevealAnimationStyle(80)}
                           >
                             {resultParagraph}
                           </p>

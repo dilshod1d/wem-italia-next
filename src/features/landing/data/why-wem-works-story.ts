@@ -75,6 +75,7 @@ export const whyWemWorksSectionConfig = {
     "Gestione e Operatività sono semplificati da AI, strumenti evoluti e la rete di professionisti WEM.",
   resultParagraph:
     "Il risultato è un lavoro più efficiente e budget ottimizzato.",
+  resultParagraphFrame: 45,
   blocks: [
     {
       stage: "method",

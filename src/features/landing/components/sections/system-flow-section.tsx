@@ -11,6 +11,12 @@ import type {
   SystemFlowStageKey,
 } from "../../types/system-flow-section";
 import { CinematicVideoSection } from "../cinematic-video-section";
+import {
+  getRevealTransitionStyle,
+  REVEAL_HIDDEN_CLASS,
+  REVEAL_TRANSITION_STYLE,
+  REVEAL_VISIBLE_CLASS,
+} from "../reveal-motion";
 
 const { videoUrl, eyebrow, title, paragraphs, cards } = systemFlowSectionConfig;
 
@@ -54,7 +60,7 @@ function BenefitCard({
   return (
     <article
       className={cx(
-        "group absolute flex min-h-[6.1rem] flex-col overflow-hidden rounded-[1.45rem] px-4 py-4 text-white shadow-[0_18px_44px_rgba(0,0,0,0.12)] transition-[opacity,transform] duration-700",
+        "group absolute flex min-h-[6.1rem] flex-col overflow-hidden rounded-[1.45rem] px-4 py-4 text-white shadow-[0_18px_44px_rgba(0,0,0,0.12)] transition-[opacity,transform] duration-700 will-change-transform",
         "before:pointer-events-none before:absolute before:inset-x-5 before:top-0 before:h-px before:bg-white/35 before:content-['']",
         "after:pointer-events-none after:absolute after:-right-10 after:-top-10 after:size-24 after:rounded-full after:bg-white/10 after:blur-2xl after:content-['']",
         "sm:min-h-[6rem] sm:rounded-[1.55rem] sm:px-5 sm:py-4",
@@ -65,14 +71,9 @@ function BenefitCard({
         toneClassName,
         placementClassName,
         zIndexClassName,
-        visible
-          ? "translate-y-0 scale-100 opacity-100"
-          : "pointer-events-none translate-y-10 scale-[0.94] opacity-0",
+        visible ? REVEAL_VISIBLE_CLASS : REVEAL_HIDDEN_CLASS,
       )}
-      style={{
-        transitionDelay: visible ? `${delayMs}ms` : "0ms",
-        transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)",
-      }}
+      style={getRevealTransitionStyle(visible ? delayMs : 0)}
     >
       <span
         aria-hidden="true"
@@ -154,34 +155,28 @@ export function SystemFlowSection({ setLogoTheme }: SystemFlowSectionProps) {
             <div className="shrink-0">
               <p
                 className={cx(
-                  "text-eyebrow text-black/28 transition-all duration-700",
-                  showEyebrow
-                    ? "translate-y-0 opacity-100"
-                    : "translate-y-6 opacity-0",
+                  "text-eyebrow text-black/28 transition-all duration-700 will-change-transform",
+                  showEyebrow ? REVEAL_VISIBLE_CLASS : REVEAL_HIDDEN_CLASS,
                 )}
+                style={REVEAL_TRANSITION_STYLE}
               >
                 {eyebrow}
               </p>
               <h2
                 className={cx(
-                  "heading transition-all duration-700",
-                  showTitle
-                    ? "translate-y-0 opacity-100"
-                    : "translate-y-8 opacity-0",
+                  "heading transition-all duration-700 will-change-transform",
+                  showTitle ? REVEAL_VISIBLE_CLASS : REVEAL_HIDDEN_CLASS,
                 )}
+                style={REVEAL_TRANSITION_STYLE}
               >
                 {title}
               </h2>
               <div
                 className={cx(
                   "landing-copy-gap landing-paragraph-stack text-body landing-body-copy text-black/85 transition-all duration-1000",
-                  showParagraphs
-                    ? "translate-y-0 opacity-100"
-                    : "translate-y-6 opacity-0",
+                  showParagraphs ? REVEAL_VISIBLE_CLASS : REVEAL_HIDDEN_CLASS,
                 )}
-                style={{
-                  transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)",
-                }}
+                style={REVEAL_TRANSITION_STYLE}
               >
                 {paragraphs.map((paragraph) => (
                   <p key={paragraph}>{paragraph}</p>

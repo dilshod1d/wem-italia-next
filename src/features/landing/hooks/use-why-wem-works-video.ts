@@ -18,6 +18,7 @@ import { useVideoDebugLogger } from "./use-video-debug-logger";
 interface WhyWemWorksVideoState {
   lastStageKey: WhyWemWorksStageKey;
   lastOpeningPhase: WhyWemWorksOpeningPhase;
+  lastCurrentFrame: number;
 }
 
 interface WhyWemWorksVideoOptions {
@@ -114,6 +115,7 @@ function getWhyWemWorksTimelineStepFrames(config: WhyWemWorksSectionConfig) {
       0,
       config.opening.cardAppearFrame,
       config.opening.endFrame,
+      config.resultParagraphFrame,
       ...config.stages
         .filter((stage) => stage.key !== "intro")
         .map((stage) => Math.max(stage.startFrame, config.opening.endFrame)),
@@ -132,12 +134,14 @@ export function useWhyWemWorksVideo(
   const stateRef = useRef<WhyWemWorksVideoState>({
     lastStageKey: stages[0]?.key ?? "intro",
     lastOpeningPhase: "copy",
+    lastCurrentFrame: 0,
   });
   const [activeStageKey, setActiveStageKey] = useState<WhyWemWorksStageKey>(
     stages[0]?.key ?? "intro",
   );
   const [openingPhase, setOpeningPhase] =
     useState<WhyWemWorksOpeningPhase>("copy");
+  const [currentFrame, setCurrentFrame] = useState(0);
   const debugLogger = useVideoDebugLogger({
     label: "Perché Funziona",
     videoSrc: videoUrl,
@@ -174,7 +178,8 @@ export function useWhyWemWorksVideo(
 
       scrubVideo(currentTime);
 
-      const { lastOpeningPhase, lastStageKey } = stateRef.current;
+      const { lastCurrentFrame, lastOpeningPhase, lastStageKey } =
+        stateRef.current;
       let nextOpeningPhase: WhyWemWorksOpeningPhase = "done";
 
       if (currentFrame < opening.cardAppearFrame) {
@@ -199,6 +204,11 @@ export function useWhyWemWorksVideo(
         setActiveStageKey(activeStage.key);
       }
 
+      if (currentFrame !== lastCurrentFrame) {
+        stateRef.current.lastCurrentFrame = currentFrame;
+        setCurrentFrame(currentFrame);
+      }
+
       if (nextOpeningPhase !== lastOpeningPhase) {
         stateRef.current.lastOpeningPhase = nextOpeningPhase;
         setOpeningPhase(nextOpeningPhase);
@@ -209,6 +219,7 @@ export function useWhyWemWorksVideo(
   return {
     sectionRef,
     videoRef,
+    currentFrame,
     activeStageKey,
     openingPhase,
     isScrolled,

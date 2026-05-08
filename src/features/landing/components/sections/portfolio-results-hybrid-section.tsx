@@ -19,6 +19,12 @@ import type {
   PortfolioResultsMetric,
 } from "../../types/portfolio-results-section";
 import { CinematicVideoSection } from "../cinematic-video-section";
+import {
+  getRevealTransitionStyle,
+  REVEAL_HIDDEN_CLASS,
+  REVEAL_TRANSITION_STYLE,
+  REVEAL_VISIBLE_CLASS,
+} from "../reveal-motion";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -95,12 +101,11 @@ function PortfolioCard({
       className={cx(
         "group relative shrink-0 cursor-pointer transition-[opacity,transform,filter,height,width] duration-700",
         active ? "z-40" : "z-30",
-        visible
-          ? "translate-x-0 opacity-100"
-          : "pointer-events-none translate-x-20 opacity-0",
+        visible ? REVEAL_VISIBLE_CLASS : REVEAL_HIDDEN_CLASS,
         sizeClassName,
         focusStateClassName,
       )}
+      style={getRevealTransitionStyle(visible ? delayMs : 0)}
       aria-hidden={!visible}
     >
       <div
@@ -112,10 +117,7 @@ function PortfolioCard({
           item.wrapperClassName,
           item.shellClassName,
         )}
-        style={{
-          transitionDelay: visible ? `${delayMs}ms` : "0ms",
-          transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)",
-        }}
+        style={REVEAL_TRANSITION_STYLE}
       >
         <div className="z-31 absolute left-0 top-0 flex h-10 w-[82%] items-center justify-center rounded-t-2xl rounded-br-2xl bg-inherit md:h-12 2xl:h-14">
           <h3 className="px-3 text-center font-sans text-[0.72rem] font-semibold tracking-tight sm:text-[0.78rem] md:text-[1rem] 2xl:text-[1.2rem]">
@@ -692,22 +694,20 @@ export function PortfolioResultsHybridSection({
             <div className={cx("landing-copy-panel-alt text-black")}>
               <p
                 className={cx(
-                  "text-eyebrow text-black/25 transition-all duration-700 ",
-                  showTitle
-                    ? "translate-y-0 opacity-100"
-                    : "translate-y-8 opacity-0",
+                  "text-eyebrow text-black/25 transition-all duration-700 will-change-transform",
+                  showTitle ? REVEAL_VISIBLE_CLASS : REVEAL_HIDDEN_CLASS,
                 )}
+                style={REVEAL_TRANSITION_STYLE}
               >
                 {copy.eyebrow}
               </p>
 
               <h2
                 className={cx(
-                  "heading transition-all duration-700",
-                  showTitle
-                    ? "translate-y-0 opacity-100"
-                    : "translate-y-8 opacity-0",
+                  "heading transition-all duration-700 will-change-transform",
+                  showTitle ? REVEAL_VISIBLE_CLASS : REVEAL_HIDDEN_CLASS,
                 )}
+                style={REVEAL_TRANSITION_STYLE}
               >
                 {copy.title}
               </h2>
@@ -716,12 +716,10 @@ export function PortfolioResultsHybridSection({
                 className={cx(
                   "landing-copy-gap landing-paragraph-stack text-body landing-body-copy transition-all duration-1000",
                   showDescription
-                    ? "translate-y-0 opacity-100"
-                    : "pointer-events-none translate-y-6 opacity-0",
+                    ? REVEAL_VISIBLE_CLASS
+                    : REVEAL_HIDDEN_CLASS,
                 )}
-                style={{
-                  transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)",
-                }}
+                style={REVEAL_TRANSITION_STYLE}
               >
                 {copy.descriptionLines.map((line) => (
                   <p key={line}>{line}</p>
@@ -747,10 +745,12 @@ export function PortfolioResultsHybridSection({
           <div
             className={cx(
               "max-w-[70rem] text-black shrink-0",
+              "transition-[opacity,transform] duration-700 will-change-transform",
               showSharedPortfolioHeader
-                ? "opacity-100"
-                : "pointer-events-none opacity-0",
+                ? REVEAL_VISIBLE_CLASS
+                : REVEAL_HIDDEN_CLASS,
             )}
+            style={REVEAL_TRANSITION_STYLE}
           >
             <p className="text-eyebrow text-black/25">{copy.eyebrow}</p>
             <h2 className="heading">{copy.title}</h2>

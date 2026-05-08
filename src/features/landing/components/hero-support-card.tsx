@@ -5,6 +5,11 @@ import type {
   HeroSupportCardTone,
 } from "../types/hero-section";
 import WemAIIcon from "./icons/WemAIIcon";
+import {
+  REVEAL_HIDDEN_CLASS,
+  REVEAL_TRANSITION_STYLE,
+  REVEAL_VISIBLE_CLASS,
+} from "./reveal-motion";
 
 interface HeroSupportCardProps {
   card: HeroSupportCardData;
@@ -42,13 +47,11 @@ export function HeroSupportCard({ card, isActive }: HeroSupportCardProps) {
         "w-1/2 self-start",
         "sm:w-auto sm:self-auto",
         "rounded-[1.5rem] px-4 py-4 text-white shadow-[0_30px_60px_rgba(0,0,0,0.35)] sm:rounded-[1.75rem] sm:px-5 2xl:rounded-[2rem] 2xl:px-7 2xl:py-6",
-        "transition-all duration-500",
+        "transition-all duration-700 will-change-transform",
         getToneClasses(card.tone),
-        isActive
-          ? "translate-y-0 scale-100 opacity-100"
-          : "translate-y-5 scale-[0.965] opacity-0",
+        isActive ? REVEAL_VISIBLE_CLASS : REVEAL_HIDDEN_CLASS,
       ].join(" ")}
-      style={{ transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)" }}
+      style={REVEAL_TRANSITION_STYLE}
     >
       <div className="flex flex-col items-center gap-3 text-center sm:flex-row sm:items-center sm:justify-between sm:gap-4 sm:text-left">
         <div className="min-w-0">

@@ -58,6 +58,7 @@ export interface WhyWemWorksSectionConfig {
   readonly title: string;
   readonly leadParagraph: string;
   readonly resultParagraph: string;
+  readonly resultParagraphFrame: number;
   readonly blocks: readonly WhyWemWorksInsightBlock[];
   readonly proofPoints: readonly WhyWemWorksProofPoint[];
   readonly mobileVideoConfig?: MobileVideoConfig;

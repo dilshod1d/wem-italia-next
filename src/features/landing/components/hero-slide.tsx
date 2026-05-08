@@ -11,6 +11,7 @@ import type {
   HeroTitle,
 } from "../types/hero-section";
 import { HeroSupportCard as HeroSupportCardBlock } from "./hero-support-card";
+import { getRevealAnimationStyle } from "./reveal-motion";
 
 interface HeroSlideProps {
   stage: HeroStage;
@@ -42,9 +43,15 @@ function renderTitle(title: HeroTitle) {
 
 function renderBodyItems(items: readonly HeroBodyItem[]) {
   return (
-    <div className="hero-slot-in body-stack text-body text-white max-w-[92%]">
-      {items.map((item) => (
-        <p key={item.key}>{item.text}</p>
+    <div className="body-stack max-w-[92%] text-body text-white">
+      {items.map((item, index) => (
+        <p
+          key={item.key}
+          className="hero-slot-in"
+          style={getRevealAnimationStyle(index * 80)}
+        >
+          {item.text}
+        </p>
       ))}
     </div>
   );
@@ -57,11 +64,13 @@ function renderCard(card: HeroSupportCard) {
 function KeyedSlot<T>({
   slotKey,
   className,
+  delayMs = 0,
   render,
   value,
 }: {
   slotKey?: string;
   className?: string;
+  delayMs?: number;
   render: (value: T) => ReactNode;
   value?: T;
 }) {
@@ -70,7 +79,11 @@ function KeyedSlot<T>({
   }
 
   return (
-    <div key={slotKey} className={cx("hero-slot-in", className)}>
+    <div
+      key={slotKey}
+      className={cx("hero-slot-in", className)}
+      style={getRevealAnimationStyle(delayMs)}
+    >
       {render(value)}
     </div>
   );
@@ -117,6 +130,7 @@ export function HeroSlide({
               slotKey={stage.titleKey}
               value={title}
               render={renderTitle}
+              delayMs={80}
             />
           </>
         ) : null}
@@ -129,6 +143,7 @@ export function HeroSlide({
           slotKey={visibleSupportCard?.key}
           value={card}
           render={renderCard}
+          delayMs={120}
           className={cardPlacement.cardWrapClassName ?? "mt-6"}
         />
       </div>
