@@ -39,7 +39,7 @@ export function HeroSupportCard({ card, isActive }: HeroSupportCardProps) {
   return (
     <div
       className={[
-        "w-1/2 self-start",
+        "w-[60%] self-start",
         "sm:w-auto sm:self-auto",
         "rounded-[1.5rem] px-4 py-4 text-white shadow-[0_30px_60px_rgba(0,0,0,0.35)] sm:rounded-[1.75rem] sm:px-5 2xl:rounded-[2rem] 2xl:px-7 2xl:py-6",
         "transition-all duration-500",
@@ -50,12 +50,12 @@ export function HeroSupportCard({ card, isActive }: HeroSupportCardProps) {
       ].join(" ")}
       style={{ transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)" }}
     >
-      <div className="flex flex-col items-center gap-3 text-center sm:flex-row sm:items-center sm:justify-between sm:gap-4 sm:text-left">
-        <div className="min-w-0">
+      <div className="flex flex-col items-center gap-4 text-center sm:flex-row sm:items-center sm:justify-between sm:gap-4 sm:text-left">
+        <div className="flex min-w-0 flex-col gap-2 sm:gap-3">
           <p className="font-sans text-[1.7rem] font-semibold uppercase leading-[0.94] sm:text-[2rem] sm:leading-[0.96] md:text-[2.4rem] 2xl:text-[2.9rem]">
             {card.title}
           </p>
-          <p className="mt-4 font-body text-[0.95rem] leading-[1.35] text-white sm:mt-8 sm:text-[1.15rem] md:text-2xl 2xl:text-[1.6rem]">
+          <p className="text-body text-white">
             {card.description}
           </p>
         </div>

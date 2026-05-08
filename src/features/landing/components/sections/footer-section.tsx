@@ -97,7 +97,7 @@ function FooterFaqRow({ item, open, onToggle }: FooterFaqRowProps) {
         )}
       >
         <div className="overflow-hidden">
-          <p className="max-w-5xl font-body text-[0.96rem] leading-[1.5] text-dark-gray md:text-[1.05rem]">
+          <p className="max-w-5xl text-body text-dark-gray">
             {item.answer}
           </p>
         </div>
@@ -265,7 +265,7 @@ export function FooterSection({ setLogoTheme }: FooterSectionProps) {
           <h2 className="mx-auto max-w-4xl font-sans text-[1.55rem] font-semibold leading-[1.08] tracking-tight text-white sm:text-[2rem] md:text-[2.5rem] lg:text-[3rem]">
             {ctaTitle}
           </h2>
-          <p className="mx-auto mt-3 max-w-4xl font-body text-[0.95rem] leading-[1.55] text-light-gray sm:mt-4 sm:text-[1rem] md:text-[1.08rem] lg:text-[1.18rem]">
+          <p className="mx-auto mt-3 max-w-4xl text-body text-light-gray sm:mt-4">
             {ctaBody}
           </p>
           <div className="mt-5 flex flex-col items-center justify-center gap-3 sm:mt-6 sm:flex-row sm:gap-4">

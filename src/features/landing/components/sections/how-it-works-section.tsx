@@ -5,6 +5,7 @@ import { portfolioResultsSectionConfig } from "../../data/portfolio-results-stor
 import { useHowItWorksVideo } from "../../hooks/use-how-it-works-video";
 import { useIsMobile } from "../../hooks/use-is-mobile";
 import type { HowItWorksStageKey } from "../../types/how-it-works-section";
+import { BodyCopyText } from "../body-copy-text";
 import { CinematicVideoSection } from "../cinematic-video-section";
 
 const { videoUrl, copy, steps } = howItWorksSectionConfig;
@@ -41,7 +42,6 @@ export default function HowItWorksStepCard({
   index,
   isMobile,
 }: HowItWorksStepCardProps) {
-  const OVERLAP = isMobile ? 10 : 5;
   const X_OFFSET = isMobile ? 0 : 8;
   const WIDTH_STEP = isMobile ? 0 : 4;
 
@@ -50,14 +50,23 @@ export default function HowItWorksStepCard({
       className={cx(
         // mobile
         "relative w-full overflow-hidden rounded-[1.3rem]",
-        "px-3.5 py-3 text-center sm:text-left",
+        "px-3 py-3 text-center sm:text-left",
+
+        // overlap control per screen
+        "[--step-overlap:60%]",
+        "xs:[--step-overlap:50%]",
+        "sm:[--step-overlap:45%]",
+        "md:[--step-overlap:26%]",
+        "lg:[--step-overlap:16%]",
+        "xl:[--step-overlap:14%]",
+        "2xl:[--step-overlap:12%]",
 
         // tablet / desktop
         "sm:max-w-[84%] sm:rounded-[2.2rem] sm:px-7 sm:py-5",
         "md:max-w-[740px] md:rounded-[6rem] md:px-9",
-        "lg:max-w-none lg:px-[3.4%] lg:py-3",
-        "xl:max-w-[880px] xl:px-[3.8%] xl:py-3.5",
-        "2xl:max-w-[960px] 2xl:px-[4%] 2xl:py-4",
+        "lg:max-w-none lg:px-[2.4%] lg:py-3",
+        "xl:max-w-[880px] xl:px-[2.8%] xl:py-3.5",
+        "2xl:max-w-[960px] 2xl:px-[3%] 2xl:py-4",
 
         "text-white shadow-[0_24px_65px_rgba(0,0,0,0.12)]",
         "transition-[opacity,transform,box-shadow,width] duration-700 will-change-transform",
@@ -79,13 +88,12 @@ export default function HowItWorksStepCard({
         width: `${100 - index * WIDTH_STEP}%`,
         transform: visible
           ? `translateX(${index * X_OFFSET}%)
-       translateY(${index * -OVERLAP}px)
-       `
+             translateY(calc(${index} * -1 * var(--step-overlap)))`
           : `translateX(${index * X_OFFSET + (isMobile ? 0 : 5)}%)
-       translateY(${index * -OVERLAP + (isMobile ? 12 : 20)}px)
-       scale(${isMobile ? 0.985 : 0.96})`,
+             translateY(calc(${index} * -1 * var(--step-overlap) + 8%))
+             scale(${isMobile ? 0.985 : 0.96})`,
 
-        zIndex: isMobile ? 20 + index : 20 - index,
+        zIndex: index + 1,
         transitionDelay: visible ? `${delayMs}ms` : "0ms",
         transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)",
       }}
@@ -95,13 +103,79 @@ export default function HowItWorksStepCard({
           {step.title}
         </h3>
 
-        <p className="mt-2 max-w-full font-body text-[0.78rem] leading-[1.2] text-white sm:mt-1.5 sm:max-w-[94%] sm:text-[1rem] md:mt-4 md:text-[1.12rem] lg:mt-3 lg:max-w-[86%] lg:text-[1.02rem] lg:leading-[1.16] xl:text-[1.14rem] 2xl:text-[1.34rem]">
-          {step.body}
-        </p>
+        <p className="min-w-full text-body text-white">{step.body}</p>
       </div>
     </article>
   );
 }
+
+// export default function HowItWorksStepCard({
+//   step,
+//   visible,
+//   delayMs,
+//   highlighted,
+//   index,
+//   isMobile,
+// }: HowItWorksStepCardProps) {
+//   const OVERLAP = isMobile ? 60 : 20;
+//   const X_OFFSET = isMobile ? 0 : 8;
+//   const WIDTH_STEP = isMobile ? 0 : 4;
+
+//   return (
+//     <article
+//       className={cx(
+//         // mobile
+//         "relative w-full overflow-hidden rounded-[1.3rem]",
+//         "px-3 py-3 text-center sm:text-left",
+
+//         // tablet / desktop
+//         "sm:max-w-[84%] sm:rounded-[2.2rem] sm:px-7 sm:py-5",
+//         "md:max-w-[740px] md:rounded-[6rem] md:px-9",
+//         "lg:max-w-none lg:px-[2.4%] lg:py-3",
+//         "xl:max-w-[880px] xl:px-[2.8%] xl:py-3.5",
+//         "2xl:max-w-[960px] 2xl:px-[3%] 2xl:py-4",
+
+//         "text-white shadow-[0_24px_65px_rgba(0,0,0,0.12)]",
+//         "transition-[opacity,transform,box-shadow,width] duration-700 will-change-transform",
+
+//         "before:pointer-events-none before:absolute before:inset-x-5 before:top-0 before:h-px before:bg-white/35 before:content-['']",
+//         "sm:before:inset-x-10 sm:before:bg-white/42",
+
+//         "after:pointer-events-none after:absolute after:-right-14 after:-top-14 after:size-32 after:rounded-full after:bg-white/10 after:blur-2xl after:content-['']",
+//         "sm:after:size-40",
+
+//         step.toneClassName,
+
+//         highlighted &&
+//           "shadow-[0_22px_70px_rgba(0,0,0,0.16),0_0_0_1px_rgba(255,255,255,0.08)]",
+
+//         visible ? "opacity-100" : "pointer-events-none opacity-0",
+//       )}
+//       style={{
+//         width: `${100 - index * WIDTH_STEP}%`,
+//         transform: visible
+//           ? `translateX(${index * X_OFFSET}%)
+//        translateY(${index * -OVERLAP}px)
+//        `
+//           : `translateX(${index * X_OFFSET + (isMobile ? 0 : 5)}%)
+//        translateY(${index * -OVERLAP + (isMobile ? 12 : 20)}px)
+//        scale(${isMobile ? 0.985 : 0.96})`,
+
+//         zIndex: index + 1,
+//         transitionDelay: visible ? `${delayMs}ms` : "0ms",
+//         transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)",
+//       }}
+//     >
+//       <div className="min-w-0">
+//         <h3 className="font-sans text-[1.12rem] font-bold uppercase leading-[0.98] tracking-[-0.015em] text-white sm:text-[2rem] md:text-[2.48rem] lg:text-[2.18rem] xl:text-[2.46rem] 2xl:text-[2.82rem]">
+//           {step.title}
+//         </h3>
+
+//         <p className="min-w-full text-body text-white">{step.body}</p>
+//       </div>
+//     </article>
+//   );
+// }
 
 export function HowItWorksSection({ setLogoTheme }: HowItWorksSectionProps) {
   const {
@@ -173,7 +247,7 @@ export function HowItWorksSection({ setLogoTheme }: HowItWorksSectionProps) {
 
             <div
               className={cx(
-                "landing-copy-gap landing-paragraph-stack text-body landing-body-copy text-black transition-all duration-1000",
+                "landing-copy-gap text-black transition-all duration-1000",
                 showHeading
                   ? "translate-y-0 opacity-100"
                   : "translate-y-6 opacity-0",
@@ -182,20 +256,13 @@ export function HowItWorksSection({ setLogoTheme }: HowItWorksSectionProps) {
                 transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)",
               }}
             >
-              <p>{copy.subtitle}</p>
-              <p
-                className={cx(
-                  "transition-all duration-700",
-                  showDescription
-                    ? "translate-y-0 opacity-100"
-                    : "translate-y-5 opacity-0",
-                )}
-                style={{
-                  transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)",
-                }}
-              >
-                {copy.description}
-              </p>
+              <BodyCopyText
+                lines={[
+                  copy.subtitle,
+                  showDescription ? copy.description : null,
+                ]}
+                className="text-black"
+              />
             </div>
           </div>
 

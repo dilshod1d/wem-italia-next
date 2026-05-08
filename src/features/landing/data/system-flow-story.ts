@@ -79,7 +79,7 @@ export const systemFlowSectionConfig = {
       body: "Ogni fase viene definita e approvata in anticipo.",
       toneClassName: "bg-brand-green",
       placementClassName:
-        "left-0 right-0 top-0 w-full lg:left-0 lg:right-auto lg:top-0 lg:h-[42%] lg:w-[48%]",
+        "left-0 right-0 top-0 w-full lg:left-0 lg:right-auto lg:top-0  lg:w-[58%]",
       zIndexClassName: "z-10",
     },
     {
@@ -89,7 +89,7 @@ export const systemFlowSectionConfig = {
       body: "La gestione del budget è legata ai risultati e approvata ad ogni step",
       toneClassName: "bg-brand-red",
       placementClassName:
-        "left-0 right-0 top-[3.9rem] w-full lg:left-[28%] lg:right-auto lg:top-[28%] lg:h-[43%] lg:w-[64%]",
+        "left-0 right-0 top-[3.9rem] w-full lg:left-[28%] lg:right-auto lg:top-[28%] lg:w-[75%]",
       zIndexClassName: "z-20",
     },
     {
@@ -99,7 +99,7 @@ export const systemFlowSectionConfig = {
       body: "Su specialisti e strumenti WEM si investe solo quando servono davvero.",
       toneClassName: "bg-brand-blue",
       placementClassName:
-        "left-0 right-0 top-[7.8rem] w-full lg:left-[6%] lg:right-auto lg:top-[58%] lg:h-[42%] lg:w-[66%]",
+        "left-0 right-0 top-[7.8rem] w-full lg:left-[6%] lg:right-auto lg:top-[58%] lg:w-[75%]",
       zIndexClassName: "z-30",
     },
   ],

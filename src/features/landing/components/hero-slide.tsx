@@ -10,6 +10,7 @@ import type {
   HeroSupportCard,
   HeroTitle,
 } from "../types/hero-section";
+import { BodyCopyText } from "./body-copy-text";
 import { HeroSupportCard as HeroSupportCardBlock } from "./hero-support-card";
 
 interface HeroSlideProps {
@@ -42,11 +43,10 @@ function renderTitle(title: HeroTitle) {
 
 function renderBodyItems(items: readonly HeroBodyItem[]) {
   return (
-    <div className="hero-slot-in body-stack mx-auto max-w-[92%] text-body text-white sm:mx-0">
-      {items.map((item) => (
-        <p key={item.key}>{item.text}</p>
-      ))}
-    </div>
+    <BodyCopyText
+      lines={items.map((item) => item.text)}
+      className="hero-slot-in mx-auto max-w-full text-white sm:mx-0"
+    />
   );
 }
 

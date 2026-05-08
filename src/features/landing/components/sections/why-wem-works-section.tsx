@@ -15,6 +15,7 @@ import type {
   WhyWemWorksProofPointIcon,
   WhyWemWorksStageKey,
 } from "../../types/why-wem-works-section";
+import { BodyCopyText } from "../body-copy-text";
 import { CinematicVideoSection } from "../cinematic-video-section";
 import { HeroSupportCard } from "../hero-support-card";
 
@@ -81,30 +82,12 @@ function InsightBlock({
       <h3
         className="
           landing-title-md uppercase text-white
-          text-[1.5rem] leading-[0.98]
-          sm:text-[1.4rem]
-          md:text-[2.2rem]
-          2xl:text-[2.75rem]
         "
       >
         {title}
       </h3>
 
-      <p
-        className="
-          landing-body-sm
-          mt-2
-          text-white
-
-          text-[0.9rem] leading-6
-          mx-auto
-          max-w-[95%]
-
-          sm:mt-3 sm:mx-0 sm:text-[1rem] sm:max-w-[85%]
-          md:mt-4 md:text-[1.15rem] md:max-w-4xl
-          2xl:text-[1.35rem]
-        "
-      >
+      <p className="mt-2 mx-auto max-w-[95%] text-body text-white sm:mt-3 sm:mx-0 sm:max-w-[85%] md:mt-4 md:max-w-4xl">
         {body}
       </p>
     </article>
@@ -232,11 +215,10 @@ export function WhyWemWorksSection({ setLogoTheme }: WhyWemWorksSectionProps) {
                       ))}
                     </h2>
 
-                    <div className="body-stack mx-auto mt-2 max-w-[92%] text-body text-white sm:mx-0 sm:mt-5">
-                      {opening.paragraphs.map((paragraph) => (
-                        <p key={paragraph}>{paragraph}</p>
-                      ))}
-                    </div>
+                    <BodyCopyText
+                      lines={opening.paragraphs}
+                      className="mx-auto mt-2 max-w-full text-white sm:mx-0 sm:mt-5"
+                    />
                   </div>
 
                   {openingPhase === "card" ? (
@@ -273,21 +255,13 @@ export function WhyWemWorksSection({ setLogoTheme }: WhyWemWorksSectionProps) {
                           "cubic-bezier(0.16, 1, 0.3, 1)",
                       }}
                     >
-                      <div className="landing-right-rail landing-paragraph-stack text-body landing-body-copy text-white">
-                        <p>{leadParagraph}</p>
-
-                        {showSecondParagraph ? (
-                          <p
-                            className="hero-slot-in"
-                            style={{
-                              transitionTimingFunction:
-                                "cubic-bezier(0.16, 1, 0.3, 1)",
-                            }}
-                          >
-                            {resultParagraph}
-                          </p>
-                        ) : null}
-                      </div>
+                      <BodyCopyText
+                        lines={[
+                          leadParagraph,
+                          showSecondParagraph ? resultParagraph : null,
+                        ]}
+                        className="landing-right-rail text-white"
+                      />
                     </div>
                   ) : null}
 
@@ -306,7 +280,7 @@ export function WhyWemWorksSection({ setLogoTheme }: WhyWemWorksSectionProps) {
                             )}
                             className={cx(
                               block.offsetClassName,
-                              index !== 0 && "-mt-9 sm:-mt-10 lg:-mt-16",
+                              index !== 0 && "-mt-24 sm:-mt-36 lg:-mt-24",
                             )}
                           />
                         ))}

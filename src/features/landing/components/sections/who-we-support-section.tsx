@@ -131,12 +131,12 @@ function AudienceCard({
 
       <p
         className={cx(
-          "font-body leading-[1.5] text-black/70",
+          "text-body text-black/70",
           stackedMobile
-            ? "mt-2 text-[0.94rem]"
+            ? "mt-2"
             : compact
-              ? "mt-2.5 text-[1rem] sm:mt-3 sm:text-[1.18rem] md:text-[1.6rem]"
-              : "mt-4 text-[1.6rem] md:text-[2rem]",
+              ? "mt-2.5 sm:mt-3"
+              : "mt-4",
         )}
       >
         {card.body}
@@ -219,10 +219,10 @@ function WarningCard({
             <p
               className={cx(
                 stackedMobile
-                  ? "text-[1rem] font-semibold leading-[1.35] tracking-tight text-black"
+                  ? "mt-2 text-body text-black/68"
                   : mobile
-                    ? "text-[1.55rem] font-semibold leading-[1.28] tracking-tight text-black"
-                    : "mt-1 text-[1rem] leading-[1.45] text-black/68 md:text-[1.15rem]",
+                    ? "mt-2 text-body text-black/68"
+                    : "mt-1 text-body text-black/68",
               )}
             >
               {mobile ? warningSentence : copy.warningBody}

@@ -18,6 +18,7 @@ import type {
   PortfolioResultsItem,
   PortfolioResultsMetric,
 } from "../../types/portfolio-results-section";
+import { BodyCopyText } from "../body-copy-text";
 import { CinematicVideoSection } from "../cinematic-video-section";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -361,7 +362,7 @@ function ProofMetricCard({ metric, visible, delayMs }: ProofMetricCardProps) {
           </div>
         </div>
 
-        <p className="border-t border-black/8 pt-4 text-center font-body text-[0.98rem] font-medium leading-[1.28] text-black/70 sm:text-[1.05rem] md:pt-5 md:text-[1.42rem] 2xl:text-[1.62rem]">
+        <p className="border-t border-black/8 pt-4 text-center text-body text-black/70 md:pt-5">
           {metric.body}
         </p>
       </div>
@@ -712,7 +713,7 @@ export function PortfolioResultsHybridSection({
 
               <div
                 className={cx(
-                  "landing-copy-gap landing-paragraph-stack text-body landing-body-copy transition-all duration-1000",
+                  "landing-copy-gap transition-all duration-1000",
                   showDescription
                     ? "translate-y-0 opacity-100"
                     : "pointer-events-none translate-y-6 opacity-0",
@@ -721,9 +722,10 @@ export function PortfolioResultsHybridSection({
                   transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)",
                 }}
               >
-                {copy.descriptionLines.map((line) => (
-                  <p key={line}>{line}</p>
-                ))}
+                <BodyCopyText
+                  lines={copy.descriptionLines}
+                  className="text-black"
+                />
               </div>
             </div>
           </div>
