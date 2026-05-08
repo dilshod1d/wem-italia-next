@@ -62,7 +62,7 @@ function InsightBlock({
     <article
       className={cx(
         `
-        w-[58%] text-center sm:w-full sm:text-left
+        w-[65%] text-center sm:w-full sm:text-left
         rounded-[1.25rem] p-4
         sm:rounded-[1.75rem] sm:p-5
         md:rounded-[2.25rem] md:p-10
@@ -81,7 +81,7 @@ function InsightBlock({
       <h3
         className="
           landing-title-md uppercase text-white
-          text-[1.1rem] leading-snug
+          text-[1.5rem] leading-[0.98]
           sm:text-[1.4rem]
           md:text-[2.2rem]
           2xl:text-[2.75rem]
@@ -306,7 +306,7 @@ export function WhyWemWorksSection({ setLogoTheme }: WhyWemWorksSectionProps) {
                             )}
                             className={cx(
                               block.offsetClassName,
-                              index !== 0 && "-mt-6 sm:-mt-10 lg:-mt-16",
+                              index !== 0 && "-mt-9 sm:-mt-10 lg:-mt-16",
                             )}
                           />
                         ))}
