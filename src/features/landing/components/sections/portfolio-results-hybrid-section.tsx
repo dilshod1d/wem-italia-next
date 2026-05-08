@@ -137,7 +137,7 @@ function PortfolioCard({
             )}
           />
         </div>
-        <div className="absolute -bottom-6 left-0 flex h-[2.5rem] w-[82%] items-center justify-center rounded-b-2xl rounded-r-2xl bg-inherit md:-bottom-8 md:h-[3rem] 2xl:-bottom-16 2xl:h-[4rem]">
+        <div className="absolute -bottom-8 left-0 flex h-[2.5rem] w-[82%] items-center justify-center rounded-b-2xl bg-inherit md:-bottom-8 md:h-[3rem] 2xl:-bottom-16 2xl:h-[4rem]">
           <p className="px-3 text-center font-sans text-[0.72rem] font-semibold tracking-tight sm:text-[0.78rem] md:text-[1rem] 2xl:text-[1.2rem]">
             {item.footerLabel}
           </p>
