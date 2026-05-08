@@ -117,9 +117,7 @@ function getHeroTimelineStepFrames(config: HeroSectionConfig) {
           stage.titleKey !== stages[index - 1]?.titleKey),
     )
     .map((stage) => stage.startFrame);
-  const bodyStepFrames = config.bodyItems
-    .filter((item) => item.key !== "ecosystem-no-handoffs")
-    .map((item) => item.fromFrame);
+  const bodyStepFrames = config.bodyItems.map((item) => item.fromFrame);
 
   return normalizeTimelineStepFrames(
     [
