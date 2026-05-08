@@ -24,6 +24,7 @@ interface UseSteppedVideoTimelineOptions {
   videoDuration: number;
   stepFrames: readonly number[];
   pinDistance?: number;
+  reserveExitScroll?: boolean;
   onFrame: (state: TimelineFrameState) => void;
 }
 
@@ -71,6 +72,7 @@ export function useSteppedVideoTimeline({
   videoDuration,
   stepFrames,
   pinDistance = CHAPTER_SCROLL_DISTANCE,
+  reserveExitScroll = false,
   onFrame,
 }: UseSteppedVideoTimelineOptions) {
   const lenis = useLenis();
@@ -97,13 +99,18 @@ export function useSteppedVideoTimeline({
 
       const sectionTop = window.scrollY + section.getBoundingClientRect().top;
       const maxIndex = Math.max(normalizedStepFrames.length - 1, 1);
-      const progress = clamp(index / maxIndex, 0, 1);
+      const scrollSlots = reserveExitScroll
+        ? Math.max(normalizedStepFrames.length, 1)
+        : maxIndex;
+      const progress = clamp(index / scrollSlots, 0, 1);
       const scrollDistance =
-        progress >= 1 ? Math.max(pinDistance - 1, 0) : pinDistance * progress;
+        !reserveExitScroll && progress >= 1
+          ? Math.max(pinDistance - 1, 0)
+          : pinDistance * progress;
 
       return sectionTop + scrollDistance;
     },
-    [normalizedStepFrames.length, pinDistance, sectionRef],
+    [normalizedStepFrames.length, pinDistance, reserveExitScroll, sectionRef],
   );
 
   const releaseTransitionLock = useCallback(() => {

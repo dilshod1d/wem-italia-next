@@ -194,6 +194,7 @@ export function useHeroSectionVideo(
     totalFrames,
     videoDuration,
     stepFrames: timelineStepFrames,
+    reserveExitScroll: true,
     onFrame: ({ progress, currentFrame, currentTime }) => {
       const video = videoRef.current;
       const mobilePan = getMobileVideoPanTransform(
