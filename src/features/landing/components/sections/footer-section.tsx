@@ -144,12 +144,67 @@ interface FooterSectionProps {
 
 export function FooterSection({ setLogoTheme }: FooterSectionProps) {
   const footerRef = useRef<HTMLElement | null>(null);
+  const footerFrameRef = useRef<HTMLDivElement | null>(null);
   const footerCtaRef = useRef<HTMLDivElement | null>(null);
+  const footerContentRef = useRef<HTMLDivElement | null>(null);
   const footerFaqHeadingRef = useRef<HTMLDivElement | null>(null);
   const footerFaqListRef = useRef<HTMLDivElement | null>(null);
   const footerTalkRef = useRef<HTMLDivElement | null>(null);
   const footerPanelRef = useRef<HTMLDivElement | null>(null);
   const [openFaqId, setOpenFaqId] = useState<string | null>(null);
+
+  useLayoutEffect(() => {
+    const frame = footerFrameRef.current;
+    const cta = footerCtaRef.current;
+    const content = footerContentRef.current;
+
+    if (!frame || !cta || !content) return;
+
+    let frameId = 0;
+
+    const getFooterContentGap = () => {
+      if (window.matchMedia("(min-width: 1280px)").matches) return 32;
+      if (window.matchMedia("(min-width: 768px)").matches) return 28;
+      return 24;
+    };
+
+    const syncContentOffset = () => {
+      frameId = 0;
+
+      if (getComputedStyle(cta).position !== "absolute") {
+        content.style.paddingTop = "";
+        return;
+      }
+
+      const frameRect = frame.getBoundingClientRect();
+      const ctaRect = cta.getBoundingClientRect();
+      const overlap = Math.max(0, ctaRect.bottom - frameRect.top);
+
+      content.style.paddingTop = `${Math.round(overlap + getFooterContentGap())}px`;
+    };
+
+    const scheduleSync = () => {
+      if (frameId) return;
+
+      frameId = requestAnimationFrame(syncContentOffset);
+    };
+
+    scheduleSync();
+
+    const resizeObserver = new ResizeObserver(scheduleSync);
+
+    resizeObserver.observe(frame);
+    resizeObserver.observe(cta);
+    window.addEventListener("resize", scheduleSync);
+
+    return () => {
+      if (frameId) cancelAnimationFrame(frameId);
+
+      resizeObserver.disconnect();
+      window.removeEventListener("resize", scheduleSync);
+      content.style.paddingTop = "";
+    };
+  }, []);
 
   useLayoutEffect(() => {
     const footer = footerRef.current;
@@ -257,7 +312,7 @@ export function FooterSection({ setLogoTheme }: FooterSectionProps) {
       data-nav-theme="dark"
       className="relative z-30 overflow-visible bg-footer-bg pb-10 pt-44 text-white sm:pt-48 md:pt-52 lg:pt-44"
     >
-      <div className="landing-frame relative">
+      <div ref={footerFrameRef} className="landing-frame relative">
         <div
           ref={footerCtaRef}
           className="relative z-20 -mt-[18rem] mb-12 rounded-[1rem] bg-gradient-to-r from-footer-cta-start to-brand-cyan px-5 py-6 text-center shadow-[0_26px_70px_rgba(26,119,254,0.26)] ring-1 ring-white/18 sm:absolute sm:-top-[20rem] sm:left-[5%] sm:right-[5%] sm:mt-0 sm:mb-0 sm:px-6 sm:py-7 md:-top-[22rem] md:px-10 md:py-8 lg:-top-[21rem] lg:rounded-[1.1rem] lg:px-12"
@@ -286,7 +341,7 @@ export function FooterSection({ setLogoTheme }: FooterSectionProps) {
           </div>
         </div>
 
-        <div className="w-full">
+        <div ref={footerContentRef} className="w-full">
           <div ref={footerFaqHeadingRef} className="text-center">
             <h3 className="font-sans text-[2rem] font-semibold tracking-tight text-white sm:text-[2.3rem] md:text-[3rem] lg:text-[4rem]">
               FAQ
