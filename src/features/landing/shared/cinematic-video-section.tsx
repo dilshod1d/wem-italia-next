@@ -8,6 +8,7 @@ interface CinematicVideoSectionProps {
   sectionRef: RefObject<HTMLElement | null>;
   videoRef: RefObject<HTMLVideoElement | null>;
   videoUrl: string;
+  sectionAriaLabel?: string;
   mobileVideoUrl?: string;
   nextVideoSrc?: string;
   nextMobileVideoSrc?: string;
@@ -33,6 +34,7 @@ export function CinematicVideoSection({
   sectionRef,
   videoRef,
   videoUrl,
+  sectionAriaLabel,
   mobileVideoUrl,
   nextVideoSrc,
   nextMobileVideoSrc,
@@ -57,6 +59,7 @@ export function CinematicVideoSection({
     <Chapter
       sectionRef={sectionRef}
       sectionId={sectionId}
+      sectionAriaLabel={sectionAriaLabel}
       navTheme={navTheme}
       surfaceTheme={surfaceTheme}
       videoRef={videoRef}

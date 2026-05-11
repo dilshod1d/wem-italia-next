@@ -47,6 +47,7 @@ export function HeroSection({ setLogoTheme }: HeroSectionProps) {
   return (
     <CinematicVideoSection
       sectionId="who-we-are"
+      sectionAriaLabel="WEM Italia: agenzia AI, SEO, web design e automazione per aziende italiane"
       sectionRef={sectionRef}
       videoRef={videoRef}
       videoUrl={heroStoryConfig.videoUrl}

@@ -86,6 +86,7 @@ export function PortfolioCard({
             width={300}
             height={400}
             priority={index < 3}
+            sizes="(max-width: 640px) 44vw, (max-width: 1024px) 30vw, 20vw"
             className={cx(
               "h-full w-full object-cover object-top transition-[transform,filter] duration-700",
               active

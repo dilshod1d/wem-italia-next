@@ -40,6 +40,7 @@ export function HowItWorksSection({ setLogoTheme }: HowItWorksSectionProps) {
 
   return (
     <CinematicVideoSection
+      sectionAriaLabel="Processo operativo WEM Italia: analisi, direzione, costruzione ed evoluzione del progetto"
       sectionRef={sectionRef}
       videoRef={videoRef}
       videoUrl={videoUrl}

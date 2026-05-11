@@ -52,7 +52,7 @@ export function LandingPage() {
   return (
     <>
       <LandingNavbar logoTheme={logoTheme} onHomeClick={resetToLandingStart} />
-      <main className="relative bg-background">
+      <main id="main-content" className="relative bg-background">
         <HeroSection setLogoTheme={setLogoTheme} />
         <WhyWemWorksSection setLogoTheme={setLogoTheme} />
         <SystemFlowSection setLogoTheme={setLogoTheme} />

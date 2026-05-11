@@ -15,6 +15,7 @@ import cx from "../utils/cx";
 interface ChapterProps {
   sectionRef: RefObject<HTMLElement | null>;
   sectionId?: string;
+  sectionAriaLabel?: string;
   navTheme?: "light" | "dark";
   surfaceTheme?: "light" | "dark";
   videoRef?: RefObject<HTMLVideoElement | null>;
@@ -58,6 +59,7 @@ function getServerHydratedSnapshot() {
 export function Chapter({
   sectionRef,
   sectionId,
+  sectionAriaLabel,
   navTheme = "dark",
   surfaceTheme = navTheme,
   videoRef,
@@ -106,6 +108,7 @@ export function Chapter({
     <section
       id={sectionId}
       ref={sectionRef}
+      aria-label={sectionAriaLabel}
       data-nav-theme={navTheme}
       className={cx("relative", sectionClassName)}
       style={{ height: `${CHAPTER_SCROLL_DISTANCE}px` }}
@@ -123,6 +126,8 @@ export function Chapter({
           {videoSrc ? (
             <video
               ref={videoRef}
+              aria-hidden="true"
+              tabIndex={-1}
               className={cx(
                 "absolute inset-0 h-full w-full object-cover",
                 videoClassName,
@@ -147,6 +152,7 @@ export function Chapter({
             // the pinned handoff happens.
             <video
               aria-hidden="true"
+              tabIndex={-1}
               className="hidden"
               muted
               playsInline

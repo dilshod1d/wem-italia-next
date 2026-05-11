@@ -40,6 +40,7 @@ export function SystemFlowSection({ setLogoTheme }: SystemFlowSectionProps) {
   return (
     <CinematicVideoSection
       sectionId="how-it-works"
+      sectionAriaLabel="Processo trasparente WEM Italia: step chiari, budget trasparente e supporto continuo"
       sectionRef={sectionRef}
       videoRef={videoRef}
       videoUrl={videoUrl}

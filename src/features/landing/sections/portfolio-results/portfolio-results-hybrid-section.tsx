@@ -340,6 +340,7 @@ export function PortfolioResultsHybridSection({
     <>
       <CinematicVideoSection
         sectionId="results"
+        sectionAriaLabel="Risultati WEM Italia: portfolio, casi studio e metriche di crescita"
         sectionRef={sectionRef}
         videoRef={videoRef}
         videoUrl={videoUrl}
@@ -404,6 +405,7 @@ export function PortfolioResultsHybridSection({
 
       <section
         ref={flowPortfolioSectionRef}
+        aria-label="Portfolio WEM Italia con casi studio in diversi settori"
         data-nav-theme="light"
         className="relative h-screen"
         style={{ height: "var(--landing-viewport-height, 100vh)" }}
@@ -465,6 +467,7 @@ export function PortfolioResultsHybridSection({
 
       <section
         ref={metricsSectionRef}
+        aria-label="Metriche di risultato e proof points di WEM Italia"
         data-nav-theme="light"
         className="relative bg-white py-6 sm:py-8 lg:py-10 2xl:py-12 pt-12 sm:pt-16 lg:pt-20 2xl:pt-24"
       >

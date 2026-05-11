@@ -3,7 +3,7 @@ import type { FooterSectionConfig } from "./footer-section.types";
 export const footerSectionConfig = {
   ctaTitle: "Vuoi una base solida per far crescere il tuo progetto?",
   ctaBody:
-    "Parliamo del tuo progetto, dei tuoi obiettivi e del budget disponibile.Capirò subito da dove partire e quale percorso può funzionare meglio.",
+    "Parliamo del tuo progetto, dei tuoi obiettivi e del budget disponibile. Capirò subito da dove partire e quale percorso può funzionare meglio.",
   ctaButtons: [
     {
       label: "Chiamami Subito",

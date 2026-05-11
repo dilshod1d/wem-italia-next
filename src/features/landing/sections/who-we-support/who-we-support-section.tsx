@@ -1,7 +1,6 @@
 "use client";
 
 import { useLayoutEffect, useRef } from "react";
-import { FaTriangleExclamation } from "react-icons/fa6";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { whoWeSupportSectionConfig } from "./who-we-support-story";
@@ -87,6 +86,7 @@ export function WhoWeSupportSection() {
     <section
       id="who-we-support"
       ref={sectionRef}
+      aria-label="Chi supportiamo: startup, professionisti e PMI"
       data-nav-theme="light"
       className="relative bg-white pb-44 pt-12 sm:pb-48 sm:pt-16 lg:pb-52 lg:pt-20 2xl:pb-56 2xl:pt-24"
     >

@@ -41,6 +41,7 @@ export function WhyWemWorksSection({ setLogoTheme }: WhyWemWorksSectionProps) {
   return (
     <CinematicVideoSection
       sectionId="why-it-works"
+      sectionAriaLabel="Perché WEM Italia funziona: metodo, consulenza e AI per la crescita digitale"
       sectionRef={sectionRef}
       videoRef={videoRef}
       videoUrl={videoUrl}
