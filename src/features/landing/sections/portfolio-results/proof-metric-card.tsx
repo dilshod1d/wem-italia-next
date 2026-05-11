@@ -114,7 +114,12 @@ function AnimatedMetricValue({
     };
   }, [delayMs, value, visible]);
 
-  return <span aria-label={value}>{displayValue}</span>;
+  return (
+    <>
+      <span aria-hidden="true">{displayValue}</span>
+      <span className="sr-only">{value}</span>
+    </>
+  );
 }
 
 export function ProofMetricCard({
