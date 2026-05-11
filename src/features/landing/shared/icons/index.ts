@@ -1,0 +1,10 @@
+export { default as GiovanniIcon } from "./GiovanniIcon";
+export { default as GiovanniLogo } from "./GiovanniLogo";
+export { default as MenuIcon } from "./MenuIcon";
+export { default as OfficeWorkerIcon } from "./OfficeWorkerIcon";
+export { default as RocketIcon } from "./RocketIcon";
+export { default as StoreIcon } from "./StoreIcon";
+export { default as WemAIIcon } from "./WemAIIcon";
+export { default as WemAILogo } from "./WemAILogo";
+export { default as WemAgencyIcon } from "./WemAgencyIcon";
+export { default as WemAgencyLogo } from "./WemAgencyLogo";
