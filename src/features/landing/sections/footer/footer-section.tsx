@@ -202,7 +202,6 @@ export function FooterSection({ setLogoTheme }: FooterSectionProps) {
     <footer
       ref={footerRef}
       id="footer"
-      aria-label="Contatti, FAQ e call to action di WEM Italia"
       data-nav-theme="dark"
       className="relative z-30 overflow-visible bg-footer-bg pb-10 pt-44 text-white sm:pt-48 md:pt-52 lg:pt-44"
     >
