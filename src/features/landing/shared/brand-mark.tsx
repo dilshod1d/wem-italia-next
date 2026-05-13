@@ -26,6 +26,7 @@ export function BrandMark({
           alt="WEM Italia logo"
           loading="eager"
           fill
+          priority
           sizes="(min-width: 1024px) 250px, (min-width: 640px) 180px, 140px"
           className={cx(
             "object-contain transition-opacity duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]",
@@ -36,6 +37,7 @@ export function BrandMark({
           src="/logo-dark.svg"
           alt="WEM Italia logo"
           fill
+          priority
           sizes="(min-width: 1024px) 250px, (min-width: 640px) 180px, 140px"
           className={cx(
             "object-contain transition-opacity duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]",

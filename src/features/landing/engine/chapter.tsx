@@ -2,8 +2,9 @@
 
 import {
   useEffect,
+  useLayoutEffect,
   useMemo,
-  useSyncExternalStore,
+  useState,
   type ReactNode,
   type RefObject,
 } from "react";
@@ -37,21 +38,17 @@ interface ChapterProps {
   contentClassName?: string;
   preloadStrategy?: "eager" | "active";
 }
+function getResolvedVideoSrc(
+  videoSrc: string | undefined,
+  mobileVideoSrc: string | undefined,
+) {
+  if (typeof window === "undefined") return videoSrc;
 
+  const isMobileViewport =
+    window.matchMedia?.("(max-width: 767px)").matches ??
+    window.innerWidth < 768;
 
-
-function subscribeToHydration(onStoreChange: () => void) {
-  const timeoutId = window.setTimeout(onStoreChange, 0);
-
-  return () => window.clearTimeout(timeoutId);
-}
-
-function getHydratedSnapshot() {
-  return true;
-}
-
-function getServerHydratedSnapshot() {
-  return false;
+  return isMobileViewport && mobileVideoSrc ? mobileVideoSrc : videoSrc;
 }
 
 export function Chapter({
@@ -77,15 +74,19 @@ export function Chapter({
   contentClassName,
   preloadStrategy = "active",
 }: ChapterProps) {
-  const hasMounted = useSyncExternalStore(
-    subscribeToHydration,
-    getHydratedSnapshot,
-    getServerHydratedSnapshot,
-  );
   const isIOS = useMemo(() => {
     if (typeof window === "undefined") return false;
     return /iPhone|iPad|iPod/.test(navigator.userAgent);
   }, []);
+  const [isNearViewport, setIsNearViewport] = useState(
+    preloadStrategy === "eager",
+  );
+  const [resolvedVideoSrc, setResolvedVideoSrc] = useState<string | undefined>(
+    () =>
+      preloadStrategy === "eager"
+        ? getResolvedVideoSrc(videoSrc, mobileVideoSrc)
+        : undefined,
+  );
 
   useIOSVideoUnlock(videoRef, isIOS && isActive);
 
@@ -95,9 +96,59 @@ export function Chapter({
     videoRef?.current?.pause();
   }, [isActive, videoRef]);
 
+  useEffect(() => {
+    if (preloadStrategy === "eager") return;
+
+    const section = sectionRef.current;
+    if (!section || typeof IntersectionObserver === "undefined") return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const nextIsNearViewport = entries.some((entry) => entry.isIntersecting);
+
+        if (nextIsNearViewport) {
+          setIsNearViewport(true);
+        }
+      },
+      {
+        rootMargin: "300% 0px 300% 0px",
+        threshold: 0,
+      },
+    );
+
+    observer.observe(section);
+
+    return () => observer.disconnect();
+  }, [preloadStrategy, sectionRef]);
+
+  useLayoutEffect(() => {
+    if (!videoSrc) return;
+
+    if (!isNearViewport && !isActive && preloadStrategy !== "eager") {
+      return;
+    }
+
+    const syncResolvedSrc = () => {
+      setResolvedVideoSrc(getResolvedVideoSrc(videoSrc, mobileVideoSrc));
+    };
+
+    syncResolvedSrc();
+
+    if (typeof window === "undefined" || !window.matchMedia) return;
+
+    const mediaQuery = window.matchMedia("(max-width: 767px)");
+    const handleChange = () => syncResolvedSrc();
+
+    mediaQuery.addEventListener("change", handleChange);
+
+    return () => mediaQuery.removeEventListener("change", handleChange);
+  }, [isActive, isNearViewport, mobileVideoSrc, preloadStrategy, videoSrc]);
+
   const isPanelVisible = !isolateWhenInactive || isActive;
-  const shouldAutoPreload =
-    preloadStrategy === "eager" || (hasMounted && isActive);
+  const shouldAttachVideo =
+    Boolean(videoSrc) &&
+    (preloadStrategy === "eager" || isNearViewport || isActive);
+  const shouldAutoPreload = preloadStrategy === "eager" || isActive;
 
   return (
     <section
@@ -118,7 +169,7 @@ export function Chapter({
           )}
           style={{ height: "var(--landing-viewport-height, 100vh)" }}
         >
-          {videoSrc ? (
+          {shouldAttachVideo && resolvedVideoSrc ? (
             <video
               ref={videoRef}
               aria-hidden="true"
@@ -130,16 +181,8 @@ export function Chapter({
               playsInline
               muted
               preload={shouldAutoPreload ? "auto" : "metadata"}
-            >
-              {mobileVideoSrc ? (
-                <source
-                  src={mobileVideoSrc}
-                  media="(max-width: 767px)"
-                  type="video/mp4"
-                />
-              ) : null}
-              <source src={videoSrc} type="video/mp4" />
-            </video>
+              src={resolvedVideoSrc}
+            />
           ) : null}
 
           <div className="absolute inset-0 z-[5]">{overlay}</div>
