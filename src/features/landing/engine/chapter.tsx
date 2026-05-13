@@ -161,44 +161,50 @@ export function Chapter({
     >
       <div className="relative z-20 h-screen w-full overflow-visible">
         <div
-          aria-hidden={!isPanelVisible}
           className={cx(
             "relative w-full overflow-hidden",
             surfaceTheme === "light" ? "bg-white" : "bg-black",
-            isPanelVisible ? "visible" : "invisible",
           )}
           style={{ height: "var(--landing-viewport-height, 100vh)" }}
         >
-          {shouldAttachVideo && resolvedVideoSrc ? (
-            <video
-              ref={videoRef}
-              aria-hidden="true"
-              tabIndex={-1}
-              className={cx(
-                "absolute inset-0 h-full w-full object-cover",
-                videoClassName,
-              )}
-              playsInline
-              muted
-              preload={shouldAutoPreload ? "auto" : "metadata"}
-              src={resolvedVideoSrc}
+          <div
+            aria-hidden={!isPanelVisible}
+            className={cx(
+              "relative h-full w-full",
+              isPanelVisible ? "visible" : "invisible",
+            )}
+          >
+            {shouldAttachVideo && resolvedVideoSrc ? (
+              <video
+                ref={videoRef}
+                aria-hidden="true"
+                tabIndex={-1}
+                className={cx(
+                  "absolute inset-0 h-full w-full object-cover",
+                  videoClassName,
+                )}
+                playsInline
+                muted
+                preload={shouldAutoPreload ? "auto" : "metadata"}
+                src={resolvedVideoSrc}
+              />
+            ) : null}
+
+            <div className="absolute inset-0 z-[5]">{overlay}</div>
+
+            <div className={cx("relative z-10 h-full w-full", contentClassName)}>
+              {children}
+            </div>
+
+            <ScrollIndicator
+              hidden={isScrolled}
+              label={indicatorLabel}
+              theme={navTheme}
+              labelClassName={indicatorLabelClassName}
+              mouseClassName={indicatorMouseClassName}
+              wheelClassName={indicatorWheelClassName}
             />
-          ) : null}
-
-          <div className="absolute inset-0 z-[5]">{overlay}</div>
-
-          <div className={cx("relative z-10 h-full w-full", contentClassName)}>
-            {children}
           </div>
-
-          <ScrollIndicator
-            hidden={isScrolled}
-            label={indicatorLabel}
-            theme={navTheme}
-            labelClassName={indicatorLabelClassName}
-            mouseClassName={indicatorMouseClassName}
-            wheelClassName={indicatorWheelClassName}
-          />
         </div>
       </div>
     </section>
