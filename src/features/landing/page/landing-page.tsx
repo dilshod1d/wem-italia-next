@@ -1,20 +1,63 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 import { useDynamicViewportHeight } from "../engine";
-import { FooterSection } from "../sections/footer";
 import { HeroSection } from "../sections/hero";
 import { HowItWorksSection } from "../sections/how-it-works";
-import { PortfolioResultsHybridSection } from "../sections/portfolio-results";
 import { SystemFlowSection } from "../sections/system-flow";
-import { WhoWeSupportSection } from "../sections/who-we-support";
 import { WhyWemWorksSection } from "../sections/why-wem-works";
 import { LandingNavbar } from "../shared";
 
 gsap.registerPlugin(ScrollTrigger);
+
+const PortfolioResultsHybridSection = dynamic(
+  () =>
+    import("../sections/portfolio-results").then(
+      (mod) => mod.PortfolioResultsHybridSection,
+    ),
+  {
+    loading: () => (
+      <section
+        aria-hidden="true"
+        className="relative bg-black"
+        style={{ height: "2600px" }}
+      />
+    ),
+  },
+);
+
+const WhoWeSupportSection = dynamic(
+  () =>
+    import("../sections/who-we-support").then(
+      (mod) => mod.WhoWeSupportSection,
+    ),
+  {
+    loading: () => (
+      <section
+        aria-hidden="true"
+        className="relative bg-white"
+        style={{ minHeight: "1100px" }}
+      />
+    ),
+  },
+);
+
+const FooterSection = dynamic(
+  () => import("../sections/footer").then((mod) => mod.FooterSection),
+  {
+    loading: () => (
+      <footer
+        aria-hidden="true"
+        className="relative bg-footer-bg"
+        style={{ minHeight: "960px" }}
+      />
+    ),
+  },
+);
 
 export function LandingPage() {
   const [logoTheme, setLogoTheme] = useState<"light" | "dark">("light");

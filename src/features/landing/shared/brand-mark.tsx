@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 import cx from "../utils/cx";
 
@@ -23,15 +22,13 @@ export function BrandMark({
           className,
         )}
       >
-        <Image
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
           src={logoSrc}
           alt="WEM Italia logo"
-          fill
-          unoptimized
-          priority
           fetchPriority="high"
+          loading="eager"
           decoding="async"
-          sizes="(min-width: 1024px) 250px, (min-width: 640px) 180px, 140px"
           className="absolute inset-0 h-full w-full object-contain transition-opacity duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]"
         />
       </div>
