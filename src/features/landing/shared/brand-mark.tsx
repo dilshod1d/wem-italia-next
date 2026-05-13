@@ -13,6 +13,8 @@ export function BrandMark({
   theme = "light",
   onClick,
 }: BrandMarkProps) {
+  const logoSrc = theme === "light" ? "/logo-light.svg" : "/logo-dark.svg";
+
   return (
     <Link href="/" aria-label="Go to homepage" scroll={false} onClick={onClick}>
       <div
@@ -22,27 +24,15 @@ export function BrandMark({
         )}
       >
         <Image
-          src="/logo-light.svg"
-          alt="WEM Italia logo"
-          loading="eager"
-          fill
-          priority
-          sizes="(min-width: 1024px) 250px, (min-width: 640px) 180px, 140px"
-          className={cx(
-            "object-contain transition-opacity duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]",
-            theme === "light" ? "opacity-100" : "opacity-0",
-          )}
-        />
-        <Image
-          src="/logo-dark.svg"
+          src={logoSrc}
           alt="WEM Italia logo"
           fill
+          unoptimized
           priority
+          fetchPriority="high"
+          decoding="async"
           sizes="(min-width: 1024px) 250px, (min-width: 640px) 180px, 140px"
-          className={cx(
-            "object-contain transition-opacity duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]",
-            theme === "dark" ? "opacity-100" : "opacity-0",
-          )}
+          className="absolute inset-0 h-full w-full object-contain transition-opacity duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]"
         />
       </div>
     </Link>

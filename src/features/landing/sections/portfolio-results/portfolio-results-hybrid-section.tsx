@@ -452,7 +452,6 @@ export function PortfolioResultsHybridSection({
                     <PortfolioCard
                       key={item.id}
                       item={item}
-                      index={index}
                       visible={showSharedPortfolio}
                       active={index === visualFocusIndex}
                       delayMs={index * 85}
