@@ -131,7 +131,10 @@ export function HeroSlide({
           slotKey={visibleSupportCard?.key}
           value={card}
           render={renderCard}
-          className={cardPlacement.cardWrapClassName ?? "mt-6"}
+          className={cx(
+            "landing-hero-support-slot",
+            cardPlacement.cardWrapClassName ?? "mt-6",
+          )}
         />
       </div>
     </div>

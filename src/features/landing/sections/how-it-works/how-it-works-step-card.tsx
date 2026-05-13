@@ -30,6 +30,7 @@ export default function HowItWorksStepCard({
   return (
     <article
       className={cx(
+        "landing-step-card",
         // mobile
         "relative w-full overflow-hidden rounded-[1.3rem]",
         "px-3 py-3 text-center sm:text-left",
@@ -81,11 +82,13 @@ export default function HowItWorksStepCard({
       }}
     >
       <div className="min-w-0">
-        <h3 className="font-sans text-[1.12rem] font-bold uppercase leading-[0.98] tracking-[-0.015em] text-white sm:text-[2rem] md:text-[2.48rem] lg:text-[2.18rem] xl:text-[2.46rem] 2xl:text-[2.82rem]">
+        <h3 className="landing-step-card-title font-sans text-[1.12rem] font-bold uppercase leading-[0.98] tracking-[-0.015em] text-white sm:text-[2rem] md:text-[2.48rem] lg:text-[2.18rem] xl:text-[2.46rem] 2xl:text-[2.82rem]">
           {step.title}
         </h3>
 
-        <p className="min-w-full text-body text-white">{step.body}</p>
+        <p className="landing-step-card-copy min-w-full text-body text-white">
+          {step.body}
+        </p>
       </div>
     </article>
   );

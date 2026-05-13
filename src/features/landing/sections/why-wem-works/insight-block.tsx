@@ -18,6 +18,7 @@ export default function InsightBlock({
   return (
     <article
       className={cx(
+        "landing-insight-block",
         `
         w-[65%] text-center sm:w-full sm:text-left
         rounded-[1.25rem] p-4
@@ -37,13 +38,14 @@ export default function InsightBlock({
     >
       <h3
         className="
+          landing-insight-block-title
           landing-title-md uppercase text-white
         "
       >
         {title}
       </h3>
 
-      <p className="mt-2 mx-auto max-w-[95%] text-body text-white sm:mt-3 sm:mx-0 sm:max-w-[85%] md:mt-4 md:max-w-4xl">
+      <p className="landing-insight-block-copy mt-2 mx-auto max-w-[95%] text-body text-white sm:mt-3 sm:mx-0 sm:max-w-[85%] md:mt-4 md:max-w-4xl">
         {body}
       </p>
     </article>

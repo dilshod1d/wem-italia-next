@@ -107,7 +107,7 @@ export function HowItWorksSection({ setLogoTheme }: HowItWorksSectionProps) {
           {showStepCards ? (
             <div
               className="
-                landing-card-gap relative flex w-full flex-col overflow-visible
+                landing-step-rail landing-card-gap relative flex w-full flex-col overflow-visible
                 lg:ml-auto lg:w-[82%]
                 min-[1200px]:w-[86%]
                 min-[1400px]:w-full min-[1400px]:max-w-[68rem]
