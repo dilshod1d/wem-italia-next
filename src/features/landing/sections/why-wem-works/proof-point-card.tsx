@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import type { IconType } from "react-icons";
 import {
   FaBriefcase,
@@ -30,7 +31,18 @@ export default function ProofPointCard({
   visible,
   delayMs,
 }: ProofPointCardProps) {
+  const [isEntered, setIsEntered] = useState(false);
   const Icon = proofPointIcons[iconName];
+
+  useEffect(() => {
+    if (!visible) return;
+
+    const frameId = requestAnimationFrame(() => {
+      setIsEntered(true);
+    });
+
+    return () => cancelAnimationFrame(frameId);
+  }, [visible]);
 
   return (
     <article
@@ -38,12 +50,12 @@ export default function ProofPointCard({
         "landing-proof-card",
         "flex min-h-0 flex-col items-center justify-center rounded-[1.65rem] p-5 text-center text-white shadow-[0_24px_78px_rgba(0,0,0,0.28)] transition-[opacity,transform] duration-700 will-change-transform sm:rounded-[1.9rem] md:rounded-[2rem] md:p-6 2xl:rounded-[2.35rem] 2xl:p-8",
         color,
-        visible
+        isEntered
           ? "translate-y-0 scale-100 rotate-0 opacity-100"
           : "pointer-events-none translate-y-14 scale-[0.78] opacity-0",
       )}
       style={{
-        transitionDelay: visible ? `${delayMs}ms` : "0ms",
+        transitionDelay: isEntered ? `${delayMs}ms` : "0ms",
         transitionTimingFunction: "cubic-bezier(0.16, 1.2, 0.3, 1)",
       }}
     >
