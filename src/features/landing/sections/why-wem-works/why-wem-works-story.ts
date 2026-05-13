@@ -2,7 +2,7 @@ import { getMobileOptimizedVideoUrl } from "../../utils/video-url";
 import type { WhyWemWorksSectionConfig } from "./why-wem-works.types";
 
 const videoUrl =
-  "https://res.cloudinary.com/dcderdzpp/video/upload/v1776161487/v2_ic3fty.mp4";
+  "https://res.cloudinary.com/dcderdzpp/video/upload/v1778653613/video2v2_gi85w7.mp4";
 
 export const whyWemWorksSectionConfig = {
   videoUrl,

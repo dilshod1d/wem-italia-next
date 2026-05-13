@@ -2,7 +2,7 @@ import { getMobileOptimizedVideoUrl } from "../../utils/video-url";
 import type { HeroSectionConfig } from "./hero.types";
 
 const videoUrl =
-  "https://res.cloudinary.com/dcderdzpp/video/upload/v1776096629/output_af6jf5.mp4";
+  "https://res.cloudinary.com/dcderdzpp/video/upload/v1778653602/video1v2_df9r9a.mp4";
 
 export const heroStoryConfig = {
   videoUrl,

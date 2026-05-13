@@ -2,7 +2,7 @@ import type { HowItWorksSectionConfig } from "./how-it-works.types";
 import { getMobileOptimizedVideoUrl } from "../../utils/video-url";
 
 const videoUrl =
-  "https://res.cloudinary.com/dcderdzpp/video/upload/v1776167362/v4_cv51vo.mp4";
+  "https://res.cloudinary.com/dcderdzpp/video/upload/v1778653607/video4v2_qtbu47.mp4";
 
 export const howItWorksSectionConfig = {
   videoUrl,

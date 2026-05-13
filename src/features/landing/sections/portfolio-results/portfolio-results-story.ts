@@ -2,7 +2,7 @@ import type { PortfolioResultsSectionConfig } from "./portfolio-results.types";
 import { getMobileOptimizedVideoUrl } from "../../utils/video-url";
 
 const videoUrl =
-  "https://res.cloudinary.com/dcderdzpp/video/upload/v1776169273/v5_wlotyd.mp4";
+  "https://res.cloudinary.com/dcderdzpp/video/upload/v1778653606/video5v2_nybafe.mp4";
 
 export const portfolioResultsSectionConfig = {
   videoUrl,
