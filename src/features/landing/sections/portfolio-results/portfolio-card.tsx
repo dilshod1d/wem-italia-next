@@ -54,10 +54,10 @@ export function PortfolioCard({
     >
       <div
         className={cx(
-          "relative h-full w-full rounded-xl rounded-bl-none p-2.5 text-white shadow-[0_14px_38px_rgba(0,0,0,0.14)] transition-[filter,transform,box-shadow] duration-500 md:rounded-2xl md:rounded-bl-none md:p-4 2xl:p-5 motion-safe:hover:-translate-y-1.5",
+          "relative h-full w-full rounded-xl rounded-bl-none p-2.5 text-white transition-[filter,transform] duration-500 md:rounded-2xl md:rounded-bl-none md:p-4 2xl:p-5 motion-safe:hover:-translate-y-1.5",
           active
-            ? "shadow-[0_30px_72px_rgba(0,0,0,0.24)] ring-2 ring-white/65 motion-safe:hover:shadow-[0_36px_82px_rgba(0,0,0,0.28)]"
-            : "motion-safe:hover:shadow-[0_24px_58px_rgba(0,0,0,0.2)]",
+            ? "ring-2 ring-white/65"
+            : "",
           item.wrapperClassName,
           item.shellClassName,
         )}

@@ -75,8 +75,7 @@ export const portfolioResultsSectionConfig = {
       imageAlt: "Anteprima del sito portfolio per una clinica del benessere",
       footerLabel: "Marketing a 360°",
       wrapperClassName: "bg-brand-red",
-      shellClassName:
-        "shadow-[0_28px_70px_rgba(237,45,50,0.26)] ring-1 ring-brand-red/20",
+      shellClassName: "ring-1 ring-brand-red/20",
     },
     {
       id: "legal-bridge",
@@ -85,8 +84,7 @@ export const portfolioResultsSectionConfig = {
       imageAlt: "Anteprima del sito portfolio per servizi legali",
       footerLabel: "Sito Web e SEO",
       wrapperClassName: "bg-portfolio-blue",
-      shellClassName:
-        "shadow-[0_28px_70px_rgba(49,121,246,0.24)] ring-1 ring-portfolio-blue/18",
+      shellClassName: "ring-1 ring-portfolio-blue/18",
     },
     {
       id: "training",
@@ -95,8 +93,7 @@ export const portfolioResultsSectionConfig = {
       imageAlt: "Anteprima del sito portfolio per la formazione",
       footerLabel: "Sito Web e SEO",
       wrapperClassName: "bg-brand-purple",
-      shellClassName:
-        "shadow-[0_28px_70px_rgba(109,60,219,0.26)] ring-1 ring-brand-purple/20",
+      shellClassName: "ring-1 ring-brand-purple/20",
     },
     {
       id: "architecture",
@@ -105,8 +102,7 @@ export const portfolioResultsSectionConfig = {
       imageAlt: "Anteprima del sito portfolio per l'architettura",
       footerLabel: "Sito Web e SEO",
       wrapperClassName: "bg-brand-yellow",
-      shellClassName:
-        "shadow-[0_28px_70px_rgba(234,186,43,0.28)] ring-1 ring-brand-yellow/20",
+      shellClassName: "ring-1 ring-brand-yellow/20",
     },
     {
       id: "consulting",
@@ -115,8 +111,7 @@ export const portfolioResultsSectionConfig = {
       imageAlt: "Anteprima del sito portfolio per la consulenza",
       footerLabel: "Sito Web e SEO",
       wrapperClassName: "bg-brand-red-alt",
-      shellClassName:
-        "shadow-[0_28px_70px_rgba(225,62,70,0.25)] ring-1 ring-brand-red-alt/18",
+      shellClassName: "ring-1 ring-brand-red-alt/18",
     },
     {
       id: "creative-satire",
@@ -125,8 +120,7 @@ export const portfolioResultsSectionConfig = {
       imageAlt: "Anteprima del sito portfolio per satira creativa",
       footerLabel: "Social Media",
       wrapperClassName: "bg-portfolio-blue",
-      shellClassName:
-        "shadow-[0_28px_70px_rgba(49,121,246,0.24)] ring-1 ring-portfolio-blue/18",
+      shellClassName: "ring-1 ring-portfolio-blue/18",
     },
     {
       id: "beauty",
@@ -135,8 +129,7 @@ export const portfolioResultsSectionConfig = {
       imageAlt: "Anteprima del sito portfolio per il settore beauty",
       footerLabel: "Identita del brand",
       wrapperClassName: "bg-brand-purple",
-      shellClassName:
-        "shadow-[0_28px_70px_rgba(109,60,219,0.24)] ring-1 ring-brand-purple/18",
+      shellClassName: "ring-1 ring-brand-purple/18",
     },
   ],
   metrics: [
