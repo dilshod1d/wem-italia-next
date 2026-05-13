@@ -113,7 +113,7 @@ export function useSystemFlowVideo(
   const lightSurfaceStartFrame =
     stages.find((stage) => stage.key === "body")?.startFrame ?? totalFrames;
   const videoRef = useRef<HTMLVideoElement | null>(null);
-  const scrubVideo = useScrollVideoScrubber(videoRef);
+  const scrubVideo = useScrollVideoScrubber(videoRef, { fps });
   const stateRef = useRef<SystemFlowVideoState>({
     lastStageKey: stages[0]?.key ?? "intro",
     lastLogoTheme: "light",

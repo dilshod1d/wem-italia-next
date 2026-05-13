@@ -10,8 +10,6 @@ interface CinematicVideoSectionProps {
   videoUrl: string;
   sectionAriaLabel?: string;
   mobileVideoUrl?: string;
-  nextVideoSrc?: string;
-  nextMobileVideoSrc?: string;
   isActive?: boolean;
   isAtHandoff?: boolean;
   isolateWhenInactive?: boolean;
@@ -36,8 +34,6 @@ export function CinematicVideoSection({
   videoUrl,
   sectionAriaLabel,
   mobileVideoUrl,
-  nextVideoSrc,
-  nextMobileVideoSrc,
   isActive,
   isAtHandoff,
   isolateWhenInactive,
@@ -65,8 +61,6 @@ export function CinematicVideoSection({
       videoRef={videoRef}
       videoSrc={videoUrl}
       mobileVideoSrc={mobileVideoUrl}
-      nextVideoSrc={nextVideoSrc}
-      nextMobileVideoSrc={nextMobileVideoSrc}
       isActive={isActive}
       isAtHandoff={isAtHandoff}
       isolateWhenInactive={isolateWhenInactive}

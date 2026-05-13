@@ -1,6 +1,5 @@
 "use client";
 
-import { howItWorksSectionConfig } from "../how-it-works/how-it-works-story";
 import type { SystemFlowStageKey } from "./system-flow.types";
 import { BodyCopyText, CinematicVideoSection } from "../../shared";
 import { systemFlowSectionConfig } from "./system-flow-story";
@@ -45,8 +44,6 @@ export function SystemFlowSection({ setLogoTheme }: SystemFlowSectionProps) {
       videoRef={videoRef}
       videoUrl={videoUrl}
       mobileVideoUrl={systemFlowSectionConfig.mobileVideoUrl}
-      nextVideoSrc={howItWorksSectionConfig.videoUrl}
-      nextMobileVideoSrc={howItWorksSectionConfig.mobileVideoUrl}
       isActive={isActive}
       isAtHandoff={isAtHandoff}
       isScrolled={isScrolled}

@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useLayoutEffect, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -18,10 +18,40 @@ gsap.registerPlugin(ScrollTrigger);
 
 export function LandingPage() {
   const [logoTheme, setLogoTheme] = useState<"light" | "dark">("light");
+  const refreshFrameRef = useRef(0);
+  const refreshTimeoutRef = useRef(0);
+
+  const queueScrollTriggerRefresh = useCallback((delayMs = 0) => {
+    if (refreshTimeoutRef.current) {
+      window.clearTimeout(refreshTimeoutRef.current);
+      refreshTimeoutRef.current = 0;
+    }
+
+    const scheduleRefresh = () => {
+      if (refreshFrameRef.current) {
+        cancelAnimationFrame(refreshFrameRef.current);
+      }
+
+      refreshFrameRef.current = requestAnimationFrame(() => {
+        refreshFrameRef.current = 0;
+        ScrollTrigger.refresh();
+      });
+    };
+
+    if (delayMs <= 0) {
+      scheduleRefresh();
+      return;
+    }
+
+    refreshTimeoutRef.current = window.setTimeout(() => {
+      refreshTimeoutRef.current = 0;
+      scheduleRefresh();
+    }, delayMs);
+  }, []);
 
   const refreshScrollTriggers = useCallback(() => {
-    requestAnimationFrame(() => ScrollTrigger.refresh());
-  }, []);
+    queueScrollTriggerRefresh(120);
+  }, [queueScrollTriggerRefresh]);
 
   useDynamicViewportHeight(undefined, {
     onHeightChange: refreshScrollTriggers,
@@ -30,8 +60,8 @@ export function LandingPage() {
   const resetScrollPosition = useCallback(() => {
     ScrollTrigger.clearScrollMemory("manual");
     window.scrollTo(0, 0);
-    requestAnimationFrame(() => ScrollTrigger.refresh());
-  }, []);
+    queueScrollTriggerRefresh();
+  }, [queueScrollTriggerRefresh]);
 
   const resetToLandingStart = useCallback(() => {
     setLogoTheme("light");
@@ -48,6 +78,18 @@ export function LandingPage() {
       window.history.scrollRestoration = previousScrollRestoration;
     };
   }, [resetScrollPosition]);
+
+  useEffect(() => {
+    return () => {
+      if (refreshTimeoutRef.current) {
+        window.clearTimeout(refreshTimeoutRef.current);
+      }
+
+      if (refreshFrameRef.current) {
+        cancelAnimationFrame(refreshFrameRef.current);
+      }
+    };
+  }, []);
 
   return (
     <>

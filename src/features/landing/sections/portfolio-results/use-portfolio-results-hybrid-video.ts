@@ -121,7 +121,7 @@ export function usePortfolioResultsHybridVideo(
   const { fps, stages, totalFrames, videoDuration, videoUrl } = config;
   const sectionRef = useRef<HTMLElement | null>(null);
   const videoRef = useRef<HTMLVideoElement | null>(null);
-  const scrubVideo = useScrollVideoScrubber(videoRef);
+  const scrubVideo = useScrollVideoScrubber(videoRef, { fps });
   const enterRef = useRef(options.onEnter);
   const enterBackRef = useRef(options.onEnterBack);
   const progressRef = useRef(options.onProgress);

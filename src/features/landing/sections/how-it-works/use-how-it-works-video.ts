@@ -120,7 +120,7 @@ export function useHowItWorksVideo(
 ) {
   const { fps, stages, totalFrames, videoDuration, videoUrl } = config;
   const videoRef = useRef<HTMLVideoElement | null>(null);
-  const scrubVideo = useScrollVideoScrubber(videoRef);
+  const scrubVideo = useScrollVideoScrubber(videoRef, { fps });
   const stateRef = useRef<HowItWorksVideoState>({
     lastStageKey: stages[0]?.key ?? "intro",
   });

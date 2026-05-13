@@ -6,7 +6,6 @@ import { CinematicVideoSection } from "../../shared";
 import { heroStoryConfig } from "./hero-story";
 import { HeroSlide } from "./hero-slide";
 import { useHeroSectionVideo } from "./use-hero-section-video";
-import { whyWemWorksSectionConfig } from "../why-wem-works/why-wem-works-story";
 
 interface HeroSectionProps {
   setLogoTheme: (theme: "light" | "dark") => void;
@@ -52,8 +51,6 @@ export function HeroSection({ setLogoTheme }: HeroSectionProps) {
       videoRef={videoRef}
       videoUrl={heroStoryConfig.videoUrl}
       mobileVideoUrl={heroStoryConfig.mobileVideoUrl}
-      nextVideoSrc={whyWemWorksSectionConfig.videoUrl}
-      nextMobileVideoSrc={whyWemWorksSectionConfig.mobileVideoUrl}
       isActive={isActive}
       isAtHandoff={isAtHandoff}
       isScrolled={isScrolled}

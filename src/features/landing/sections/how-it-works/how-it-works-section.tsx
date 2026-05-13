@@ -1,7 +1,6 @@
 "use client";
 
 import { howItWorksSectionConfig } from "./how-it-works-story";
-import { portfolioResultsSectionConfig } from "../portfolio-results/portfolio-results-story";
 import { useHowItWorksVideo } from "./use-how-it-works-video";
 import { useIsMobile } from "../../hooks/use-is-mobile";
 import type { HowItWorksStageKey } from "./how-it-works.types";
@@ -45,8 +44,6 @@ export function HowItWorksSection({ setLogoTheme }: HowItWorksSectionProps) {
       videoRef={videoRef}
       videoUrl={videoUrl}
       mobileVideoUrl={howItWorksSectionConfig.mobileVideoUrl}
-      nextVideoSrc={portfolioResultsSectionConfig.videoUrl}
-      nextMobileVideoSrc={portfolioResultsSectionConfig.mobileVideoUrl}
       isActive={isActive}
       isAtHandoff={isAtHandoff}
       isScrolled={isScrolled}

@@ -109,7 +109,7 @@ export function useWhyWemWorksVideo(
 ) {
   const { fps, opening, stages, totalFrames, videoDuration, videoUrl } = config;
   const videoRef = useRef<HTMLVideoElement | null>(null);
-  const scrubVideo = useScrollVideoScrubber(videoRef);
+  const scrubVideo = useScrollVideoScrubber(videoRef, { fps });
   const stateRef = useRef<WhyWemWorksVideoState>({
     lastStageKey: stages[0]?.key ?? "intro",
     lastOpeningPhase: "copy",

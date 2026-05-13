@@ -3,7 +3,6 @@
 import type { WhyWemWorksStageKey } from "./why-wem-works.types";
 import { BodyCopyText, CinematicVideoSection } from "../../shared";
 import { HeroSupportCard } from "../hero";
-import { systemFlowSectionConfig } from "../system-flow/system-flow-story";
 import { useWhyWemWorksVideo } from "./use-why-wem-works-video";
 import { whyWemWorksSectionConfig } from "./why-wem-works-story";
 import cx from "../../utils/cx";
@@ -46,8 +45,6 @@ export function WhyWemWorksSection({ setLogoTheme }: WhyWemWorksSectionProps) {
       videoRef={videoRef}
       videoUrl={videoUrl}
       mobileVideoUrl={whyWemWorksSectionConfig.mobileVideoUrl}
-      nextVideoSrc={systemFlowSectionConfig.videoUrl}
-      nextMobileVideoSrc={systemFlowSectionConfig.mobileVideoUrl}
       isActive={isActive}
       isAtHandoff={isAtHandoff}
       isScrolled={isScrolled}

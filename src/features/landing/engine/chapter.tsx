@@ -21,8 +21,6 @@ interface ChapterProps {
   videoRef?: RefObject<HTMLVideoElement | null>;
   videoSrc?: string;
   mobileVideoSrc?: string;
-  nextVideoSrc?: string;
-  nextMobileVideoSrc?: string;
   isActive?: boolean;
   isAtHandoff?: boolean;
   isolateWhenInactive?: boolean;
@@ -65,8 +63,6 @@ export function Chapter({
   videoRef,
   videoSrc,
   mobileVideoSrc,
-  nextVideoSrc,
-  nextMobileVideoSrc,
   isActive = true,
   isolateWhenInactive = true,
   isScrolled = false,
@@ -102,7 +98,6 @@ export function Chapter({
   const isPanelVisible = !isolateWhenInactive || isActive;
   const shouldAutoPreload =
     preloadStrategy === "eager" || (hasMounted && isActive);
-  const shouldPreloadNext = Boolean(hasMounted && isActive && nextVideoSrc);
 
   return (
     <section
@@ -144,28 +139,6 @@ export function Chapter({
                 />
               ) : null}
               <source src={videoSrc} type="video/mp4" />
-            </video>
-          ) : null}
-
-          {shouldPreloadNext && nextVideoSrc ? (
-            // Hidden preload lets the next chapter start seeking immediately when
-            // the pinned handoff happens.
-            <video
-              aria-hidden="true"
-              tabIndex={-1}
-              className="hidden"
-              muted
-              playsInline
-              preload="auto"
-            >
-              {nextMobileVideoSrc ? (
-                <source
-                  src={nextMobileVideoSrc}
-                  media="(max-width: 767px)"
-                  type="video/mp4"
-                />
-              ) : null}
-              <source src={nextVideoSrc} type="video/mp4" />
             </video>
           ) : null}
 

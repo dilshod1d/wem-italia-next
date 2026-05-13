@@ -107,7 +107,7 @@ export function useHeroSectionVideo(
 ) {
   const { fps, stages, totalFrames, videoDuration, videoUrl } = config;
   const videoRef = useRef<HTMLVideoElement | null>(null);
-  const scrubVideo = useScrollVideoScrubber(videoRef);
+  const scrubVideo = useScrollVideoScrubber(videoRef, { fps });
 
   const stateRef = useRef<HeroVideoState>({
     lastStageId: stages[0]?.id ?? 0,
