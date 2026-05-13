@@ -131,9 +131,9 @@ export function usePortfolioResultsHybridVideo(
   const [activeStageKey, setActiveStageKey] =
     useState<PortfolioResultsStageKey>(stages[0]?.key ?? "intro");
   const [isScrolled, setIsScrolled] = useState(false);
-  const activeRef = useRef(true);
+  const activeRef = useRef(false);
   const handoffRef = useRef(false);
-  const [isActive, setIsActive] = useState(true);
+  const [isActive, setIsActive] = useState(false);
   const [isAtHandoff, setIsAtHandoff] = useState(false);
   const scrolledRef = useRef(false);
   const debugLogger = useVideoDebugLogger({

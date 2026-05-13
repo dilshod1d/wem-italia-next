@@ -60,7 +60,7 @@ export function Chapter({
   videoRef,
   videoSrc,
   mobileVideoSrc,
-  isActive = true,
+  isActive = false,
   isolateWhenInactive = true,
   isScrolled = false,
   children,
@@ -111,7 +111,7 @@ export function Chapter({
         }
       },
       {
-        rootMargin: "300% 0px 300% 0px",
+        rootMargin: "150% 0px 150% 0px",
         threshold: 0,
       },
     );

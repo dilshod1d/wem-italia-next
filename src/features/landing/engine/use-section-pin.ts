@@ -27,10 +27,10 @@ export function useSectionPin({
   const updateRef = useRef(onUpdate);
   const enterRef = useRef(onEnter);
   const enterBackRef = useRef(onEnterBack);
-  const activeRef = useRef(true);
+  const activeRef = useRef(false);
   const handoffRef = useRef(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const [isActive, setIsActive] = useState(true);
+  const [isActive, setIsActive] = useState(false);
   const [isAtHandoff, setIsAtHandoff] = useState(false);
 
   useEffect(() => {
