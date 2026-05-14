@@ -44,7 +44,7 @@ export function ScrollIndicator({
       <span
         className={cx(
           "text-[10px] font-medium uppercase tracking-[0.3em] transition-colors duration-500",
-          isLight ? "text-black/50" : "text-white/50",
+          isLight ? "text-black/70" : "text-white/70",
           labelClassName,
         )}
       >

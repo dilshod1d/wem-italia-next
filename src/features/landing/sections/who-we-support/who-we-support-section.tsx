@@ -95,7 +95,7 @@ export function WhoWeSupportSection() {
           ref={headingRef}
           className="w-full text-center sm:w-[90%] sm:text-left lg:w-[85%]"
         >
-          <p className="text-eyebrow text-black/28">{copy.eyebrow}</p>
+          <p className="text-eyebrow text-black/25">{copy.eyebrow}</p>
           <h2 className="heading text-black">{copy.title}</h2>
         </div>
 

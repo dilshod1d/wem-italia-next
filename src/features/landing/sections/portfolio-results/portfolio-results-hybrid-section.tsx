@@ -352,7 +352,7 @@ export function PortfolioResultsHybridSection({
         navTheme="light"
         indicatorLabel="Scroll Down"
         indicatorPersistent
-        indicatorLabelClassName="normal-case text-[1.05rem] font-medium tracking-normal text-sky-200/75"
+        indicatorLabelClassName="normal-case text-[1.05rem] font-medium tracking-normal"
         indicatorMouseClassName="border-sky-200/55"
         indicatorWheelClassName="bg-sky-200/80"
         videoClassName="md:object-[center_78%] object-[center_0%]"

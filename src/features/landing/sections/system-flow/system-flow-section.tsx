@@ -51,7 +51,7 @@ export function SystemFlowSection({ setLogoTheme }: SystemFlowSectionProps) {
       surfaceTheme={surfaceTheme}
       indicatorLabel="Scroll Down"
       indicatorPersistent
-      indicatorLabelClassName="normal-case text-[1.05rem] font-medium tracking-normal text-sky-200/75"
+      indicatorLabelClassName="normal-case text-[1.05rem] font-medium tracking-normal"
       indicatorMouseClassName="border-sky-200/55"
       indicatorWheelClassName="bg-sky-200/80"
       videoClassName="md:object-[center_58%] object-[center_0%]"
@@ -67,7 +67,7 @@ export function SystemFlowSection({ setLogoTheme }: SystemFlowSectionProps) {
             <div className="shrink-0">
               <p
                 className={cx(
-                  "text-eyebrow text-black/28 transition-all duration-700",
+                  "text-eyebrow text-black/25 transition-all duration-700",
                   showEyebrow
                     ? "translate-y-0 opacity-100"
                     : "translate-y-6 opacity-0",

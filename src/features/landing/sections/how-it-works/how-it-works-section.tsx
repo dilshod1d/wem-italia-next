@@ -50,7 +50,7 @@ export function HowItWorksSection({ setLogoTheme }: HowItWorksSectionProps) {
       navTheme="light"
       indicatorLabel="Scroll Down"
       indicatorPersistent
-      indicatorLabelClassName="normal-case text-[1.05rem] font-medium tracking-normal text-sky-200/75"
+      indicatorLabelClassName="normal-case text-[1.05rem] font-medium tracking-normal"
       indicatorMouseClassName="border-sky-200/55"
       indicatorWheelClassName="bg-sky-200/80"
       videoClassName="md:object-[center_86%] object-[center_0%]"
@@ -60,7 +60,7 @@ export function HowItWorksSection({ setLogoTheme }: HowItWorksSectionProps) {
           <div className="landing-copy-panel-alt text-black">
             <p
               className={cx(
-                "text-eyebrow text-black/28 transition-all duration-700",
+                "text-eyebrow text-black/25 transition-all duration-700",
                 showHeading
                   ? "translate-y-0 opacity-100"
                   : "translate-y-8 opacity-0",
