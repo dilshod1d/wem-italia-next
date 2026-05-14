@@ -19,7 +19,6 @@ interface HeroSlideProps {
   visibleBodyItems: readonly HeroBodyItem[];
   visibleSupportCardItems: readonly HeroSupportCardItem[];
   config: HeroSectionConfig;
-  showInitialHeader: boolean;
 }
 
 function renderEyebrow(eyebrow: HeroEyebrow) {
@@ -78,7 +77,6 @@ export function HeroSlide({
   visibleBodyItems,
   visibleSupportCardItems,
   config,
-  showInitialHeader,
 }: HeroSlideProps) {
   const placement = config.placements[stage.placementKey];
   const eyebrow = stage.eyebrowKey
@@ -92,9 +90,6 @@ export function HeroSlide({
   const cardPlacement = visibleSupportCard?.placementKey
     ? config.placements[visibleSupportCard.placementKey]
     : placement;
-  const isInitialHeader =
-    stage.eyebrowKey === "intro" && stage.titleKey === "intro";
-  const shouldShowHeader = !isInitialHeader || showInitialHeader;
 
   return (
     <div
@@ -107,21 +102,17 @@ export function HeroSlide({
           placement.copyClassName,
         )}
       >
-        {shouldShowHeader ? (
-          <>
-            <KeyedSlot
-              slotKey={stage.eyebrowKey}
-              value={eyebrow}
-              render={renderEyebrow}
-              className="min-h-[1rem]"
-            />
-            <KeyedSlot
-              slotKey={stage.titleKey}
-              value={title}
-              render={renderTitle}
-            />
-          </>
-        ) : null}
+        <KeyedSlot
+          slotKey={stage.eyebrowKey}
+          value={eyebrow}
+          render={renderEyebrow}
+          className="min-h-[1rem]"
+        />
+        <KeyedSlot
+          slotKey={stage.titleKey}
+          value={title}
+          render={renderTitle}
+        />
         {visibleBodyItems.length > 0 ? (
           <div className={cx("mt-2 sm:mt-5", placement.bodyClassName)}>
             {renderBodyItems(visibleBodyItems)}

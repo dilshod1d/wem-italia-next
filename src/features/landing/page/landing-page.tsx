@@ -7,12 +7,57 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 import { useDynamicViewportHeight } from "../engine";
 import { HeroSection } from "../sections/hero";
-import { HowItWorksSection } from "../sections/how-it-works";
-import { SystemFlowSection } from "../sections/system-flow";
-import { WhyWemWorksSection } from "../sections/why-wem-works";
 import { LandingNavbar, type VideoPreloadStrategy } from "../shared";
 
 gsap.registerPlugin(ScrollTrigger);
+
+const WhyWemWorksSection = dynamic(
+  () =>
+    import("../sections/why-wem-works").then(
+      (mod) => mod.WhyWemWorksSection,
+    ),
+  {
+    loading: () => (
+      <section
+        aria-hidden="true"
+        className="relative bg-black"
+        style={{ height: "1800px" }}
+      />
+    ),
+  },
+);
+
+const SystemFlowSection = dynamic(
+  () =>
+    import("../sections/system-flow").then(
+      (mod) => mod.SystemFlowSection,
+    ),
+  {
+    loading: () => (
+      <section
+        aria-hidden="true"
+        className="relative bg-white"
+        style={{ height: "1800px" }}
+      />
+    ),
+  },
+);
+
+const HowItWorksSection = dynamic(
+  () =>
+    import("../sections/how-it-works").then(
+      (mod) => mod.HowItWorksSection,
+    ),
+  {
+    loading: () => (
+      <section
+        aria-hidden="true"
+        className="relative bg-white"
+        style={{ height: "1800px" }}
+      />
+    ),
+  },
+);
 
 const PortfolioResultsHybridSection = dynamic(
   () =>
