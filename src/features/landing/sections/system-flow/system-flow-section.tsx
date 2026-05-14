@@ -1,7 +1,11 @@
 "use client";
 
 import type { SystemFlowStageKey } from "./system-flow.types";
-import { BodyCopyText, CinematicVideoSection } from "../../shared";
+import {
+  BodyCopyText,
+  CinematicVideoSection,
+  type VideoPreloadStrategy,
+} from "../../shared";
 import { systemFlowSectionConfig } from "./system-flow-story";
 import { useSystemFlowVideo } from "./use-system-flow-video";
 import cx from "../../utils/cx";
@@ -11,9 +15,15 @@ const { videoUrl, eyebrow, title, paragraphs, cards } = systemFlowSectionConfig;
 
 interface SystemFlowSectionProps {
   setLogoTheme: (theme: "light" | "dark") => void;
+  onSectionActive?: () => void;
+  preloadStrategy?: VideoPreloadStrategy;
 }
 
-export function SystemFlowSection({ setLogoTheme }: SystemFlowSectionProps) {
+export function SystemFlowSection({
+  setLogoTheme,
+  onSectionActive,
+  preloadStrategy = "none",
+}: SystemFlowSectionProps) {
   const {
     sectionRef,
     videoRef,
@@ -22,6 +32,8 @@ export function SystemFlowSection({ setLogoTheme }: SystemFlowSectionProps) {
     isActive,
     isAtHandoff,
   } = useSystemFlowVideo(systemFlowSectionConfig, {
+    onEnter: onSectionActive,
+    onEnterBack: onSectionActive,
     onLogoThemeChange: setLogoTheme,
   });
 
@@ -49,6 +61,7 @@ export function SystemFlowSection({ setLogoTheme }: SystemFlowSectionProps) {
       isScrolled={isScrolled}
       navTheme="light"
       surfaceTheme={surfaceTheme}
+      preloadStrategy={preloadStrategy}
       indicatorLabel="Scroll Down"
       indicatorPersistent
       indicatorLabelClassName="normal-case text-[1.05rem] font-medium tracking-normal"

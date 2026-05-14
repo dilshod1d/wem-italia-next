@@ -25,7 +25,11 @@ import {
 } from "./portfolio-track-motion";
 import { ProofMetricCard } from "./proof-metric-card";
 import { usePortfolioResultsHybridVideo } from "./use-portfolio-results-hybrid-video";
-import { BodyCopyText, CinematicVideoSection } from "../../shared";
+import {
+  BodyCopyText,
+  CinematicVideoSection,
+  type VideoPreloadStrategy,
+} from "../../shared";
 import cx from "../../utils/cx";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -38,10 +42,14 @@ const PORTFOLIO_ROW_CENTER_INDEX = getPortfolioRowCenterIndex(
 
 interface PortfolioResultsHybridSectionProps {
   setLogoTheme: (theme: "light" | "dark") => void;
+  onSectionActive?: () => void;
+  preloadStrategy?: VideoPreloadStrategy;
 }
 
 export function PortfolioResultsHybridSection({
   setLogoTheme,
+  onSectionActive,
+  preloadStrategy = "none",
 }: PortfolioResultsHybridSectionProps) {
   const [activePortfolioIndex, setActivePortfolioIndex] = useState(
     PORTFOLIO_ROW_CENTER_INDEX,
@@ -78,8 +86,14 @@ export function PortfolioResultsHybridSection({
     isActive: isVideoActive,
     isAtHandoff,
   } = usePortfolioResultsHybridVideo(portfolioResultsSectionConfig, {
-    onEnter: () => setLogoTheme("dark"),
-    onEnterBack: () => setLogoTheme("dark"),
+    onEnter: () => {
+      setLogoTheme("dark");
+      onSectionActive?.();
+    },
+    onEnterBack: () => {
+      setLogoTheme("dark");
+      onSectionActive?.();
+    },
     onProgress: ({ currentFrame }) => {
       updatePortfolioTrackScrollPosition(
         portfolioTrackRef.current,
@@ -349,6 +363,7 @@ export function PortfolioResultsHybridSection({
         isAtHandoff={isAtHandoff}
         isolateWhenInactive={false}
         isScrolled={isScrolled}
+        preloadStrategy={preloadStrategy}
         navTheme="light"
         indicatorLabel="Scroll Down"
         indicatorPersistent

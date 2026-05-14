@@ -10,7 +10,7 @@ import { HeroSection } from "../sections/hero";
 import { HowItWorksSection } from "../sections/how-it-works";
 import { SystemFlowSection } from "../sections/system-flow";
 import { WhyWemWorksSection } from "../sections/why-wem-works";
-import { LandingNavbar } from "../shared";
+import { LandingNavbar, type VideoPreloadStrategy } from "../shared";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -61,6 +61,8 @@ const FooterSection = dynamic(
 
 export function LandingPage() {
   const [logoTheme, setLogoTheme] = useState<"light" | "dark">("light");
+  const [hasInteracted, setHasInteracted] = useState(false);
+  const [activeVideoSectionIndex, setActiveVideoSectionIndex] = useState(0);
   const refreshFrameRef = useRef(0);
   const refreshTimeoutRef = useRef(0);
 
@@ -123,6 +125,36 @@ export function LandingPage() {
   }, [resetScrollPosition]);
 
   useEffect(() => {
+    if (hasInteracted) return;
+
+    const markInteracted = () => {
+      setHasInteracted(true);
+    };
+
+    const interactionOptions: AddEventListenerOptions = { passive: true };
+
+    window.addEventListener("wheel", markInteracted, interactionOptions);
+    window.addEventListener("touchstart", markInteracted, interactionOptions);
+    window.addEventListener("pointerdown", markInteracted, interactionOptions);
+    window.addEventListener("keydown", markInteracted);
+
+    return () => {
+      window.removeEventListener("wheel", markInteracted, interactionOptions);
+      window.removeEventListener(
+        "touchstart",
+        markInteracted,
+        interactionOptions,
+      );
+      window.removeEventListener(
+        "pointerdown",
+        markInteracted,
+        interactionOptions,
+      );
+      window.removeEventListener("keydown", markInteracted);
+    };
+  }, [hasInteracted]);
+
+  useEffect(() => {
     return () => {
       if (refreshTimeoutRef.current) {
         window.clearTimeout(refreshTimeoutRef.current);
@@ -134,15 +166,54 @@ export function LandingPage() {
     };
   }, []);
 
+  const getVideoPreloadStrategy = useCallback(
+    (sectionIndex: number): VideoPreloadStrategy => {
+      if (!hasInteracted) {
+        return sectionIndex === 0 ? "eager" : "none";
+      }
+
+      if (sectionIndex === 0 && activeVideoSectionIndex === 0) {
+        return "eager";
+      }
+
+      if (Math.abs(sectionIndex - activeVideoSectionIndex) <= 1) {
+        return "warm";
+      }
+
+      return "none";
+    },
+    [activeVideoSectionIndex, hasInteracted],
+  );
+
   return (
     <>
       <LandingNavbar logoTheme={logoTheme} onHomeClick={resetToLandingStart} />
       <main id="main-content" className="relative bg-background">
-        <HeroSection setLogoTheme={setLogoTheme} />
-        <WhyWemWorksSection setLogoTheme={setLogoTheme} />
-        <SystemFlowSection setLogoTheme={setLogoTheme} />
-        <HowItWorksSection setLogoTheme={setLogoTheme} />
-        <PortfolioResultsHybridSection setLogoTheme={setLogoTheme} />
+        <HeroSection
+          setLogoTheme={setLogoTheme}
+          onSectionActive={() => setActiveVideoSectionIndex(0)}
+          preloadStrategy={getVideoPreloadStrategy(0)}
+        />
+        <WhyWemWorksSection
+          setLogoTheme={setLogoTheme}
+          onSectionActive={() => setActiveVideoSectionIndex(1)}
+          preloadStrategy={getVideoPreloadStrategy(1)}
+        />
+        <SystemFlowSection
+          setLogoTheme={setLogoTheme}
+          onSectionActive={() => setActiveVideoSectionIndex(2)}
+          preloadStrategy={getVideoPreloadStrategy(2)}
+        />
+        <HowItWorksSection
+          setLogoTheme={setLogoTheme}
+          onSectionActive={() => setActiveVideoSectionIndex(3)}
+          preloadStrategy={getVideoPreloadStrategy(3)}
+        />
+        <PortfolioResultsHybridSection
+          setLogoTheme={setLogoTheme}
+          onSectionActive={() => setActiveVideoSectionIndex(4)}
+          preloadStrategy={getVideoPreloadStrategy(4)}
+        />
         <WhoWeSupportSection />
         <FooterSection setLogoTheme={setLogoTheme} />
       </main>

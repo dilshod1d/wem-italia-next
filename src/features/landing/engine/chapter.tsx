@@ -9,6 +9,7 @@ import {
   type RefObject,
 } from "react";
 import { ScrollIndicator } from "@/features/landing/shared/scroll-indicator";
+import type { VideoPreloadStrategy } from "@/features/landing/shared/cinematic-video-section";
 import { CHAPTER_SCROLL_DISTANCE } from "./use-section-pin";
 import { useIOSVideoUnlock } from "./use-ios-video-unlock";
 import cx from "../utils/cx";
@@ -36,7 +37,7 @@ interface ChapterProps {
   sectionClassName?: string;
   videoClassName?: string;
   contentClassName?: string;
-  preloadStrategy?: "eager" | "active";
+  preloadStrategy?: VideoPreloadStrategy;
 }
 function getResolvedVideoSrc(
   videoSrc: string | undefined,
@@ -72,18 +73,15 @@ export function Chapter({
   sectionClassName,
   videoClassName,
   contentClassName,
-  preloadStrategy = "active",
+  preloadStrategy = "none",
 }: ChapterProps) {
   const isIOS = useMemo(() => {
     if (typeof window === "undefined") return false;
     return /iPhone|iPad|iPod/.test(navigator.userAgent);
   }, []);
-  const [isNearViewport, setIsNearViewport] = useState(
-    preloadStrategy === "eager",
-  );
   const [resolvedVideoSrc, setResolvedVideoSrc] = useState<string | undefined>(
     () =>
-      preloadStrategy === "eager"
+      preloadStrategy !== "none"
         ? getResolvedVideoSrc(videoSrc, mobileVideoSrc)
         : undefined,
   );
@@ -96,37 +94,11 @@ export function Chapter({
     videoRef?.current?.pause();
   }, [isActive, videoRef]);
 
-  useEffect(() => {
-    if (preloadStrategy === "eager") return;
-
-    const section = sectionRef.current;
-    if (!section || typeof IntersectionObserver === "undefined") return;
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const nextIsNearViewport = entries.some((entry) => entry.isIntersecting);
-
-        if (nextIsNearViewport) {
-          setIsNearViewport(true);
-        }
-      },
-      {
-        rootMargin: "150% 0px 150% 0px",
-        threshold: 0,
-      },
-    );
-
-    observer.observe(section);
-
-    return () => observer.disconnect();
-  }, [preloadStrategy, sectionRef]);
+  const shouldAttachVideo =
+    Boolean(videoSrc) && (preloadStrategy !== "none" || isActive);
 
   useLayoutEffect(() => {
-    if (!videoSrc) return;
-
-    if (!isNearViewport && !isActive && preloadStrategy !== "eager") {
-      return;
-    }
+    if (!videoSrc || !shouldAttachVideo) return;
 
     const syncResolvedSrc = () => {
       setResolvedVideoSrc(getResolvedVideoSrc(videoSrc, mobileVideoSrc));
@@ -142,13 +114,11 @@ export function Chapter({
     mediaQuery.addEventListener("change", handleChange);
 
     return () => mediaQuery.removeEventListener("change", handleChange);
-  }, [isActive, isNearViewport, mobileVideoSrc, preloadStrategy, videoSrc]);
+  }, [mobileVideoSrc, shouldAttachVideo, videoSrc]);
 
   const isPanelVisible = !isolateWhenInactive || isActive;
-  const shouldAttachVideo =
-    Boolean(videoSrc) &&
-    (preloadStrategy === "eager" || isNearViewport || isActive);
   const shouldAutoPreload = preloadStrategy === "eager" || isActive;
+  const attachedVideoSrc = shouldAttachVideo ? resolvedVideoSrc : undefined;
 
   return (
     <section
@@ -174,7 +144,7 @@ export function Chapter({
               isPanelVisible ? "visible" : "invisible",
             )}
           >
-            {shouldAttachVideo && resolvedVideoSrc ? (
+            {attachedVideoSrc ? (
               <video
                 ref={videoRef}
                 aria-hidden="true"
@@ -186,7 +156,7 @@ export function Chapter({
                 playsInline
                 muted
                 preload={shouldAutoPreload ? "auto" : "metadata"}
-                src={resolvedVideoSrc}
+                src={attachedVideoSrc}
               />
             ) : null}
 

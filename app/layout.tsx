@@ -29,13 +29,6 @@ export default function RootLayout({
     <html lang="it" className={`${poppins.className} antialiased`}>
       <head>
         <link
-          rel="preload"
-          as="image"
-          href="/logo-light.svg"
-          type="image/svg+xml"
-          fetchPriority="high"
-        />
-        <link
           rel="preconnect"
           href="https://res.cloudinary.com"
           crossOrigin="anonymous"

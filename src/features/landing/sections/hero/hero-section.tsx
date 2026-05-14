@@ -2,16 +2,25 @@
 
 import { useEffect, useState } from "react";
 
-import { CinematicVideoSection } from "../../shared";
+import {
+  CinematicVideoSection,
+  type VideoPreloadStrategy,
+} from "../../shared";
 import { heroStoryConfig } from "./hero-story";
 import { HeroSlide } from "./hero-slide";
 import { useHeroSectionVideo } from "./use-hero-section-video";
 
 interface HeroSectionProps {
   setLogoTheme: (theme: "light" | "dark") => void;
+  onSectionActive?: () => void;
+  preloadStrategy?: VideoPreloadStrategy;
 }
 
-export function HeroSection({ setLogoTheme }: HeroSectionProps) {
+export function HeroSection({
+  setLogoTheme,
+  onSectionActive,
+  preloadStrategy = "eager",
+}: HeroSectionProps) {
   const [showInitialHeader, setShowInitialHeader] = useState(false);
   const {
     sectionRef,
@@ -23,8 +32,14 @@ export function HeroSection({ setLogoTheme }: HeroSectionProps) {
     isActive,
     isAtHandoff,
   } = useHeroSectionVideo(heroStoryConfig, {
-    onEnter: () => setLogoTheme("light"),
-    onEnterBack: () => setLogoTheme("light"),
+    onEnter: () => {
+      setLogoTheme("light");
+      onSectionActive?.();
+    },
+    onEnterBack: () => {
+      setLogoTheme("light");
+      onSectionActive?.();
+    },
   });
   const activeStage =
     heroStoryConfig.stages.find((stage) => stage.id === activeStageId) ??
@@ -55,7 +70,7 @@ export function HeroSection({ setLogoTheme }: HeroSectionProps) {
       isAtHandoff={isAtHandoff}
       isScrolled={isScrolled}
       navTheme="dark"
-      preloadStrategy="eager"
+      preloadStrategy={preloadStrategy}
       videoClassName="hero-mobile-pan md:object-[center_58%] object-[center_0%]"
     >
       <div className="landing-stage flex items-center justify-center">

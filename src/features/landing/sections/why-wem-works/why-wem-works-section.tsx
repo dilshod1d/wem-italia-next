@@ -1,7 +1,11 @@
 "use client";
 
 import type { WhyWemWorksStageKey } from "./why-wem-works.types";
-import { BodyCopyText, CinematicVideoSection } from "../../shared";
+import {
+  BodyCopyText,
+  CinematicVideoSection,
+  type VideoPreloadStrategy,
+} from "../../shared";
 import { HeroSupportCard } from "../hero";
 import { useWhyWemWorksVideo } from "./use-why-wem-works-video";
 import { whyWemWorksSectionConfig } from "./why-wem-works-story";
@@ -21,9 +25,15 @@ const {
 
 interface WhyWemWorksSectionProps {
   setLogoTheme: (theme: "light" | "dark") => void;
+  onSectionActive?: () => void;
+  preloadStrategy?: VideoPreloadStrategy;
 }
 
-export function WhyWemWorksSection({ setLogoTheme }: WhyWemWorksSectionProps) {
+export function WhyWemWorksSection({
+  setLogoTheme,
+  onSectionActive,
+  preloadStrategy = "none",
+}: WhyWemWorksSectionProps) {
   const {
     sectionRef,
     videoRef,
@@ -33,8 +43,14 @@ export function WhyWemWorksSection({ setLogoTheme }: WhyWemWorksSectionProps) {
     isActive,
     isAtHandoff,
   } = useWhyWemWorksVideo(whyWemWorksSectionConfig, {
-    onEnter: () => setLogoTheme("light"),
-    onEnterBack: () => setLogoTheme("light"),
+    onEnter: () => {
+      setLogoTheme("light");
+      onSectionActive?.();
+    },
+    onEnterBack: () => {
+      setLogoTheme("light");
+      onSectionActive?.();
+    },
   });
 
   return (
@@ -49,6 +65,7 @@ export function WhyWemWorksSection({ setLogoTheme }: WhyWemWorksSectionProps) {
       isAtHandoff={isAtHandoff}
       isScrolled={isScrolled}
       navTheme="dark"
+      preloadStrategy={preloadStrategy}
       indicatorLabel="Scroll Down"
       indicatorPersistent
       indicatorLabelClassName="normal-case text-[1.05rem] font-medium tracking-normal text-white"

@@ -1,4 +1,9 @@
+import { memo, useId, useMemo } from "react";
 import Link from "next/link";
+import {
+  BRAND_MARK_DARK_SVG,
+  BRAND_MARK_LIGHT_SVG,
+} from "./brand-mark-svgs";
 import cx from "../utils/cx";
 
 interface BrandMarkProps {
@@ -7,31 +12,60 @@ interface BrandMarkProps {
   onClick?: () => void;
 }
 
-export function BrandMark({
+function scopeSvgMarkup(svgMarkup: string, idPrefix: string) {
+  const idMap = new Map<string, string>();
+
+  let scopedMarkup = svgMarkup.replace(/\bid="([^"]+)"/g, (_, id: string) => {
+    const scopedId = `${idPrefix}-${id}`;
+
+    idMap.set(id, scopedId);
+    return `id="${scopedId}"`;
+  });
+
+  for (const [id, scopedId] of idMap) {
+    const escapedId = id.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+
+    scopedMarkup = scopedMarkup
+      .replace(new RegExp(`url\\(#${escapedId}\\)`, "g"), `url(#${scopedId})`)
+      .replace(
+        new RegExp(`xlink:href="#${escapedId}"`, "g"),
+        `xlink:href="#${scopedId}"`,
+      )
+      .replace(
+        new RegExp(`xlinkHref="#${escapedId}"`, "g"),
+        `xlinkHref="#${scopedId}"`,
+      )
+      .replace(new RegExp(`href="#${escapedId}"`, "g"), `href="#${scopedId}"`);
+  }
+
+  return scopedMarkup;
+}
+
+export const BrandMark = memo(function BrandMark({
   className = "",
   theme = "light",
   onClick,
 }: BrandMarkProps) {
-  const logoSrc = theme === "light" ? "/logo-light.svg" : "/logo-dark.svg";
+  const instanceId = useId().replace(/:/g, "");
+  const logoMarkup = useMemo(
+    () =>
+      scopeSvgMarkup(
+        theme === "light" ? BRAND_MARK_LIGHT_SVG : BRAND_MARK_DARK_SVG,
+        `brand-mark-${instanceId}`,
+      ),
+    [instanceId, theme],
+  );
 
   return (
     <Link href="/" aria-label="Go to homepage" scroll={false} onClick={onClick}>
-      <div
+      <span
         className={cx(
-          "relative h-[56px] w-[140px] sm:h-[72px] sm:w-[180px] lg:h-[100px] lg:w-[250px]",
+          "relative block h-[56px] w-[140px] sm:h-[72px] sm:w-[180px] lg:h-[100px] lg:w-[250px] [&>svg]:h-full [&>svg]:w-full",
           className,
         )}
-      >
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src={logoSrc}
-          alt="WEM Italia logo"
-          fetchPriority="high"
-          loading="eager"
-          decoding="async"
-          className="absolute inset-0 h-full w-full object-contain transition-opacity duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]"
-        />
-      </div>
+        aria-hidden="true"
+        dangerouslySetInnerHTML={{ __html: logoMarkup }}
+      />
     </Link>
   );
-}
+});

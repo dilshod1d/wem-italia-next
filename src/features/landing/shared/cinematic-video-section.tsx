@@ -4,6 +4,8 @@ import type { ReactNode, RefObject } from "react";
 import { Chapter } from "../engine";
 import cx from "../utils/cx";
 
+export type VideoPreloadStrategy = "eager" | "warm" | "none";
+
 interface CinematicVideoSectionProps {
   sectionRef: RefObject<HTMLElement | null>;
   videoRef: RefObject<HTMLVideoElement | null>;
@@ -25,7 +27,7 @@ interface CinematicVideoSectionProps {
   indicatorWheelClassName?: string;
   sectionClassName?: string;
   videoClassName?: string;
-  preloadStrategy?: "eager" | "active";
+  preloadStrategy?: VideoPreloadStrategy;
 }
 
 export function CinematicVideoSection({

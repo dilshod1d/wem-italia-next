@@ -4,7 +4,11 @@ import { howItWorksSectionConfig } from "./how-it-works-story";
 import { useHowItWorksVideo } from "./use-how-it-works-video";
 import { useIsMobile } from "../../hooks/use-is-mobile";
 import type { HowItWorksStageKey } from "./how-it-works.types";
-import { BodyCopyText, CinematicVideoSection } from "../../shared";
+import {
+  BodyCopyText,
+  CinematicVideoSection,
+  type VideoPreloadStrategy,
+} from "../../shared";
 import HowItWorksStepCard from "./how-it-works-step-card";
 import cx from "../../utils/cx";
 
@@ -12,9 +16,15 @@ const { videoUrl, copy, steps } = howItWorksSectionConfig;
 
 interface HowItWorksSectionProps {
   setLogoTheme: (theme: "light" | "dark") => void;
+  onSectionActive?: () => void;
+  preloadStrategy?: VideoPreloadStrategy;
 }
 
-export function HowItWorksSection({ setLogoTheme }: HowItWorksSectionProps) {
+export function HowItWorksSection({
+  setLogoTheme,
+  onSectionActive,
+  preloadStrategy = "none",
+}: HowItWorksSectionProps) {
   const isMobile = useIsMobile();
   const {
     sectionRef,
@@ -24,8 +34,14 @@ export function HowItWorksSection({ setLogoTheme }: HowItWorksSectionProps) {
     isActive,
     isAtHandoff,
   } = useHowItWorksVideo(howItWorksSectionConfig, {
-    onEnter: () => setLogoTheme("dark"),
-    onEnterBack: () => setLogoTheme("dark"),
+    onEnter: () => {
+      setLogoTheme("dark");
+      onSectionActive?.();
+    },
+    onEnterBack: () => {
+      setLogoTheme("dark");
+      onSectionActive?.();
+    },
   });
 
   const showHeading = activeStageKey !== "intro" && activeStageKey !== "blank";
@@ -47,6 +63,7 @@ export function HowItWorksSection({ setLogoTheme }: HowItWorksSectionProps) {
       isActive={isActive}
       isAtHandoff={isAtHandoff}
       isScrolled={isScrolled}
+      preloadStrategy={preloadStrategy}
       navTheme="light"
       indicatorLabel="Scroll Down"
       indicatorPersistent
