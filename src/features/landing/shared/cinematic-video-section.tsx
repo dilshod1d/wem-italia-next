@@ -25,6 +25,7 @@ interface CinematicVideoSectionProps {
   indicatorLabelClassName?: string;
   indicatorMouseClassName?: string;
   indicatorWheelClassName?: string;
+  indicatorDelayMs?: number;
   sectionClassName?: string;
   videoClassName?: string;
   preloadStrategy?: VideoPreloadStrategy;
@@ -49,6 +50,7 @@ export function CinematicVideoSection({
   indicatorLabelClassName,
   indicatorMouseClassName,
   indicatorWheelClassName,
+  indicatorDelayMs,
   sectionClassName,
   videoClassName,
   preloadStrategy,
@@ -72,6 +74,7 @@ export function CinematicVideoSection({
       indicatorLabelClassName={indicatorLabelClassName}
       indicatorMouseClassName={indicatorMouseClassName}
       indicatorWheelClassName={indicatorWheelClassName}
+      indicatorDelayMs={indicatorDelayMs}
       sectionClassName={cx("relative", sectionClassName)}
       videoClassName={videoClassName}
       preloadStrategy={preloadStrategy}

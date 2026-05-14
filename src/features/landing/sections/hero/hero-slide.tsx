@@ -55,18 +55,20 @@ function KeyedSlot<T>({
   className,
   render,
   value,
+  animate = true,
 }: {
   slotKey?: string;
   className?: string;
   render: (value: T) => ReactNode;
   value?: T;
+  animate?: boolean;
 }) {
   if (!slotKey || !value) {
     return null;
   }
 
   return (
-    <div key={slotKey} className={cx("hero-slot-in", className)}>
+    <div key={slotKey} className={cx(animate && "hero-slot-in", className)}>
       {render(value)}
     </div>
   );
@@ -90,6 +92,7 @@ export function HeroSlide({
   const cardPlacement = visibleSupportCard?.placementKey
     ? config.placements[visibleSupportCard.placementKey]
     : placement;
+  const isInitialStage = stage.id === config.stages[0]?.id;
 
   return (
     <div
@@ -107,11 +110,13 @@ export function HeroSlide({
           value={eyebrow}
           render={renderEyebrow}
           className="min-h-[1rem]"
+          animate={!isInitialStage}
         />
         <KeyedSlot
           slotKey={stage.titleKey}
           value={title}
           render={renderTitle}
+          animate={!isInitialStage}
         />
         {visibleBodyItems.length > 0 ? (
           <div className={cx("mt-2 sm:mt-5", placement.bodyClassName)}>

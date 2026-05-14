@@ -33,6 +33,7 @@ interface ChapterProps {
   indicatorLabelClassName?: string;
   indicatorMouseClassName?: string;
   indicatorWheelClassName?: string;
+  indicatorDelayMs?: number;
   overlay?: ReactNode;
   sectionClassName?: string;
   videoClassName?: string;
@@ -69,6 +70,7 @@ export function Chapter({
   indicatorLabelClassName,
   indicatorMouseClassName,
   indicatorWheelClassName,
+  indicatorDelayMs,
   overlay,
   sectionClassName,
   videoClassName,
@@ -173,6 +175,7 @@ export function Chapter({
               labelClassName={indicatorLabelClassName}
               mouseClassName={indicatorMouseClassName}
               wheelClassName={indicatorWheelClassName}
+              delayMs={indicatorDelayMs}
             />
           </div>
         </div>

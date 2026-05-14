@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import cx from "../utils/cx";
 
 interface ScrollIndicatorProps {
@@ -7,6 +8,7 @@ interface ScrollIndicatorProps {
   mouseClassName?: string;
   wheelClassName?: string;
   theme?: "light" | "dark";
+  delayMs?: number;
 }
 
 export function ScrollIndicator({
@@ -16,13 +18,26 @@ export function ScrollIndicator({
   mouseClassName,
   wheelClassName,
   theme = "light",
+  delayMs = 0,
 }: ScrollIndicatorProps) {
   const isLight = theme === "light";
+  const [isReady, setIsReady] = useState(delayMs <= 0);
+
+  useEffect(() => {
+    if (delayMs <= 0 || isReady) return;
+
+    const timeoutId = window.setTimeout(() => {
+      setIsReady(true);
+    }, delayMs);
+
+    return () => window.clearTimeout(timeoutId);
+  }, [delayMs, isReady]);
+
   return (
     <div
       className={cx(
         "absolute bottom-12 left-1/2 z-20 flex -translate-x-1/2 flex-col items-center gap-3 transition-opacity duration-500",
-        hidden ? "pointer-events-none opacity-0" : "opacity-100",
+        hidden || !isReady ? "pointer-events-none opacity-0" : "opacity-100",
       )}
     >
       <div

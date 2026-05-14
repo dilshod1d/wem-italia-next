@@ -52,7 +52,7 @@ export default function HowItWorksStepCard({
         "2xl:max-w-[960px] 2xl:px-[3%] 2xl:py-4",
 
         "text-white shadow-[0_24px_65px_rgba(0,0,0,0.12)]",
-        "transition-[opacity,transform,box-shadow,width] duration-700 will-change-transform",
+        "transition-[opacity,transform,box-shadow] duration-700 will-change-transform",
 
         "before:pointer-events-none before:absolute before:inset-x-5 before:top-0 before:h-px before:bg-white/35 before:content-['']",
         "sm:before:inset-x-10 sm:before:bg-white/42",
