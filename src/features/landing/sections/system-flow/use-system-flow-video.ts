@@ -1,24 +1,25 @@
 "use client";
 
-import { useLayoutEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 
 import type {
+  SystemFlowCard,
   SystemFlowSectionConfig,
-  SystemFlowStageKey,
 } from "./system-flow.types";
 import {
-  applyMobileVideoLayout,
-  applyMobileVideoTransform,
-  getResolvedMobileVideoLayout,
-  resolveMobileVideoPanTransform,
-  useScrollVideoScrubber,
-  useSectionPin,
-  useVideoDebugLogger,
+  getFrameWindowVisibility,
+  getVisibleFrameItemsWithSignature,
+} from "../../utils/frame-window";
+import {
+  useFrameDrivenVideoSection,
+  useSignatureCommit,
 } from "../../engine";
 
-interface SystemFlowVideoState {
-  lastStageKey: SystemFlowStageKey;
-  lastLogoTheme: "light" | "dark";
+interface SystemFlowContentVisibility {
+  showHeader: boolean;
+  showBody: boolean;
+  isLightSurface: boolean;
+  isFinalPulse: boolean;
 }
 
 interface SystemFlowVideoOptions {
@@ -31,106 +32,90 @@ export function useSystemFlowVideo(
   config: SystemFlowSectionConfig,
   options: SystemFlowVideoOptions = {},
 ) {
-  const { fps, stages, totalFrames, videoDuration, videoUrl } = config;
-  const lightSurfaceStartFrame =
-    stages.find((stage) => stage.key === "body")?.startFrame ?? totalFrames;
-  const videoRef = useRef<HTMLVideoElement | null>(null);
-  const scrubVideo = useScrollVideoScrubber(videoRef, { fps });
-  const isMobileViewportRef = useRef(false);
-  const lastFrameRef = useRef(-1);
-  const stateRef = useRef<SystemFlowVideoState>({
-    lastStageKey: stages[0]?.key ?? "intro",
-    lastLogoTheme: "light",
-  });
-  const [activeStageKey, setActiveStageKey] = useState<SystemFlowStageKey>(
-    stages[0]?.key ?? "intro",
+  const { fps, totalFrames, videoDuration, videoUrl } = config;
+  const { header, body, cards } = config.contentItems;
+  const commitIfChanged = useSignatureCommit<"content" | "cards">();
+  const logoThemeRef = useRef<"light" | "dark">("light");
+  const [contentVisibility, setContentVisibility] =
+    useState<SystemFlowContentVisibility>({
+      showHeader: false,
+      showBody: false,
+      isLightSurface: false,
+      isFinalPulse: false,
+    });
+  const [visibleCards, setVisibleCards] = useState<readonly SystemFlowCard[]>(
+    [],
   );
-  const debugLogger = useVideoDebugLogger({
-    label: "System Flow",
-    videoSrc: videoUrl,
-    configuredDuration: videoDuration,
-    videoRef,
-  });
+  const { sectionRef, videoRef, isScrolled, isActive, isAtHandoff } =
+    useFrameDrivenVideoSection({
+      label: "System Flow",
+      videoSrc: videoUrl,
+      configuredDuration: videoDuration,
+      fps,
+      totalFrames,
+      videoDuration,
+      mobileVideoConfig: config.mobileVideoConfig,
+      mobileVideoPan: config.mobileVideoPan,
+      pinOptions: {
+        onEnter: options.onEnter,
+        onEnterBack: options.onEnterBack,
+      },
+      onFrame: ({ currentFrame }) => {
+        const {
+          items: nextVisibleCards,
+          signature: nextCardSignature,
+        } = getVisibleFrameItemsWithSignature(currentFrame, cards, {
+          getSignaturePart: (card) => card.stage,
+        });
+        const {
+          visibility: baseContentVisibility,
+          signature: baseContentSignature,
+        } = getFrameWindowVisibility(currentFrame, {
+          showHeader: header,
+          showBody: body,
+          isLightSurface: body,
+        });
+        const nextContentVisibility = {
+          ...baseContentVisibility,
+          isFinalPulse: nextVisibleCards.some(
+            (card) => card.stage === "support",
+          ),
+        };
+        const nextContentSignature = `${baseContentSignature}:${nextContentVisibility.isFinalPulse ? "1" : "0"}`;
+        const nextLogoTheme = nextContentVisibility.isLightSurface
+          ? "dark"
+          : "light";
 
-  const { sectionRef, isScrolled, isActive, isAtHandoff } = useSectionPin({
-    onEnter: options.onEnter,
-    onEnterBack: options.onEnterBack,
-    onUpdate: (progress) => {
-      const video = videoRef.current;
-      const currentTime = videoDuration * Math.min(Math.max(progress, 0), 1);
-      const currentFrame = Math.round(
-        Math.min(Math.max(currentTime * fps, 0), totalFrames),
-      );
-      if (currentFrame === lastFrameRef.current) return;
-      lastFrameRef.current = currentFrame;
+        if (nextLogoTheme !== logoThemeRef.current) {
+          logoThemeRef.current = nextLogoTheme;
+          options.onLogoThemeChange?.(nextLogoTheme);
+        }
 
-      applyMobileVideoTransform(
-        video,
-        resolveMobileVideoPanTransform(currentFrame, config.mobileVideoPan),
-        isMobileViewportRef.current,
-      );
+        commitIfChanged("content", nextContentSignature, () => {
+          setContentVisibility(nextContentVisibility);
+        });
 
-      const nextLogoTheme =
-        currentFrame < lightSurfaceStartFrame ? "light" : "dark";
+        commitIfChanged("cards", nextCardSignature, () => {
+          setVisibleCards(nextVisibleCards);
+        });
 
-      scrubVideo(currentFrame / fps);
+        const marker =
+          nextVisibleCards.map((card) => card.stage).join("+") ||
+          (nextContentVisibility.showBody
+            ? "body"
+            : nextContentVisibility.showHeader
+              ? "header"
+              : "intro");
 
-      const { lastLogoTheme, lastStageKey } = stateRef.current;
-      const activeStage = stages.find(
-        (stage) =>
-          currentFrame >= stage.startFrame && currentFrame < stage.endFrame,
-      );
-
-      debugLogger.logProgress({
-        progress,
-        currentTime,
-        marker: `${activeStage?.key ?? lastStageKey}@f${currentFrame}`,
-      });
-
-      if (activeStage && activeStage.key !== lastStageKey) {
-        stateRef.current.lastStageKey = activeStage.key;
-        setActiveStageKey(activeStage.key);
-      }
-
-      if (nextLogoTheme !== lastLogoTheme) {
-        stateRef.current.lastLogoTheme = nextLogoTheme;
-        options.onLogoThemeChange?.(nextLogoTheme);
-      }
-    },
-  });
-
-  useLayoutEffect(() => {
-    const video = videoRef.current;
-    const mobileLayout = getResolvedMobileVideoLayout(config.mobileVideoConfig);
-    const initialFrame = config.mobileVideoPan?.[0]?.startFrame ?? 0;
-    const syncLayout = (matches: boolean) => {
-      isMobileViewportRef.current = matches;
-      applyMobileVideoLayout(video, mobileLayout, matches);
-      applyMobileVideoTransform(
-        video,
-        resolveMobileVideoPanTransform(initialFrame, config.mobileVideoPan),
-        matches,
-      );
-    };
-
-    syncLayout(window.matchMedia("(max-width: 767px)").matches);
-
-    const mediaQuery = window.matchMedia("(max-width: 767px)");
-    const handleChange = (event: MediaQueryListEvent) => {
-      syncLayout(event.matches);
-    };
-
-    mediaQuery.addEventListener("change", handleChange);
-
-    return () => {
-      mediaQuery.removeEventListener("change", handleChange);
-    };
-  }, [config.mobileVideoConfig, config.mobileVideoPan, isActive]);
+        return `${marker}@f${currentFrame}`;
+      },
+    });
 
   return {
     sectionRef,
     videoRef,
-    activeStageKey,
+    contentVisibility,
+    visibleCards,
     isScrolled,
     isActive,
     isAtHandoff,

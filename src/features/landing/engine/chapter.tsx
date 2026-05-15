@@ -29,10 +29,6 @@ interface ChapterProps {
   isScrolled?: boolean;
   children: ReactNode;
   indicatorLabel?: string;
-  indicatorPersistent?: boolean;
-  indicatorLabelClassName?: string;
-  indicatorMouseClassName?: string;
-  indicatorWheelClassName?: string;
   indicatorDelayMs?: number;
   overlay?: ReactNode;
   sectionClassName?: string;
@@ -53,6 +49,14 @@ function getResolvedVideoSrc(
   return isMobileViewport && mobileVideoSrc ? mobileVideoSrc : videoSrc;
 }
 
+function getInitialResolvedVideoSrc(
+  videoSrc: string | undefined,
+  preloadStrategy: VideoPreloadStrategy,
+) {
+  if (preloadStrategy === "none") return undefined;
+  return videoSrc;
+}
+
 export function Chapter({
   sectionRef,
   sectionId,
@@ -66,10 +70,7 @@ export function Chapter({
   isolateWhenInactive = true,
   isScrolled = false,
   children,
-  indicatorLabel = "Scroll to explore",
-  indicatorLabelClassName,
-  indicatorMouseClassName,
-  indicatorWheelClassName,
+  indicatorLabel,
   indicatorDelayMs,
   overlay,
   sectionClassName,
@@ -82,10 +83,7 @@ export function Chapter({
     return /iPhone|iPad|iPod/.test(navigator.userAgent);
   }, []);
   const [resolvedVideoSrc, setResolvedVideoSrc] = useState<string | undefined>(
-    () =>
-      preloadStrategy !== "none"
-        ? getResolvedVideoSrc(videoSrc, mobileVideoSrc)
-        : undefined,
+    () => getInitialResolvedVideoSrc(videoSrc, preloadStrategy),
   );
 
   useIOSVideoUnlock(videoRef, isIOS && isActive);
@@ -168,15 +166,14 @@ export function Chapter({
               {children}
             </div>
 
-            <ScrollIndicator
-              hidden={isScrolled}
-              label={indicatorLabel}
-              theme={navTheme}
-              labelClassName={indicatorLabelClassName}
-              mouseClassName={indicatorMouseClassName}
-              wheelClassName={indicatorWheelClassName}
-              delayMs={indicatorDelayMs}
-            />
+            {indicatorLabel ? (
+              <ScrollIndicator
+                hidden={isScrolled}
+                label={indicatorLabel}
+                theme={navTheme}
+                delayMs={indicatorDelayMs}
+              />
+            ) : null}
           </div>
         </div>
       </div>

@@ -1,26 +1,22 @@
 "use client";
 
-import { useLayoutEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 
 import type {
   HeroBodyItem,
+  HeroHeaderItem,
   HeroSectionConfig,
   HeroSupportCardItem,
 } from "./hero.types";
+import { getVisibleFrameItemsWithSignature } from "../../utils/frame-window";
+import { getActiveFrameWindowItem } from "../../utils/frame-window";
 import {
-  applyMobileVideoLayout,
-  applyMobileVideoTransform,
-  getResolvedMobileVideoLayout,
-  resolveMobileVideoPanTransform,
-  useScrollVideoScrubber,
-  useSectionPin,
-  useVideoDebugLogger,
+  useFrameDrivenVideoSection,
+  useSignatureCommit,
 } from "../../engine";
 
 interface HeroVideoState {
-  lastStageId: number;
-  lastBodySignature: string;
-  lastSupportCardSignature: string;
+  lastHeaderKey: string;
 }
 
 interface HeroSectionVideoOptions {
@@ -32,20 +28,17 @@ export function useHeroSectionVideo(
   config: HeroSectionConfig,
   options: HeroSectionVideoOptions = {},
 ) {
-  const { fps, stages, totalFrames, videoDuration, videoUrl } = config;
-  const videoRef = useRef<HTMLVideoElement | null>(null);
-  const scrubVideo = useScrollVideoScrubber(videoRef, { fps });
-  const isMobileViewportRef = useRef(false);
-  const lastFrameRef = useRef(-1);
-
+  const { fps, totalFrames, videoDuration, videoUrl } = config;
+  const { headers, body, supportCards } = config.contentItems;
+  const commitIfChanged = useSignatureCommit<
+    "header" | "body" | "support-cards"
+  >();
   const stateRef = useRef<HeroVideoState>({
-    lastStageId: stages[0]?.id ?? 0,
-    lastBodySignature: "",
-    lastSupportCardSignature: "",
+    lastHeaderKey: headers[0]?.key ?? "",
   });
-  const [activeStageId, setActiveStageId] = useState<number>(
-    stages[0]?.id ?? 0,
-  );
+  const [activeHeaderItem, setActiveHeaderItem] = useState<
+    HeroHeaderItem | undefined
+  >(headers[0]);
   const [visibleBodyItems, setVisibleBodyItems] = useState<
     readonly HeroBodyItem[]
   >([]);
@@ -53,117 +46,64 @@ export function useHeroSectionVideo(
   const [visibleSupportCardItems, setVisibleSupportCardItems] = useState<
     readonly HeroSupportCardItem[]
   >([]);
+  const { sectionRef, videoRef, isScrolled, isActive, isAtHandoff } =
+    useFrameDrivenVideoSection({
+      label: "Hero",
+      videoSrc: videoUrl,
+      configuredDuration: videoDuration,
+      fps,
+      totalFrames,
+      videoDuration,
+      mobileVideoConfig: config.mobileVideoConfig,
+      mobileVideoPan: config.mobileVideoPan,
+      mobileVideoLayoutDefaults: { widthPercent: 150 },
+      pinOptions: {
+        armImmediately: true,
+        onEnter: options.onEnter,
+        onEnterBack: options.onEnterBack,
+      },
+      onFrame: ({ currentFrame }) => {
+        const { lastHeaderKey } = stateRef.current;
+        const nextHeaderItem = getActiveFrameWindowItem(currentFrame, headers);
+        const nextHeaderKey = nextHeaderItem?.key ?? "";
+        const {
+          items: visibleBodies,
+          signature: nextBodySignature,
+        } = getVisibleFrameItemsWithSignature(currentFrame, body, {
+          sort: (a, b) => a.order - b.order,
+          getSignaturePart: (item) => item.key,
+        });
+        const {
+          items: visibleSupportCards,
+          signature: nextSupportCardSignature,
+        } = getVisibleFrameItemsWithSignature(
+          currentFrame,
+          supportCards,
+          {
+            sort: (a, b) => a.order - b.order,
+            getSignaturePart: (item) => item.key,
+          },
+        );
+        commitIfChanged("header", nextHeaderKey, () => {
+          stateRef.current.lastHeaderKey = nextHeaderKey;
+          setActiveHeaderItem(nextHeaderItem);
+        });
 
-  const debugLogger = useVideoDebugLogger({
-    label: "Hero",
-    videoSrc: videoUrl,
-    configuredDuration: videoDuration,
-    videoRef,
-  });
+        commitIfChanged("body", nextBodySignature, () => {
+          setVisibleBodyItems(visibleBodies);
+        });
 
-  const { sectionRef, isScrolled, isActive, isAtHandoff } = useSectionPin({
-    armImmediately: true,
-    onEnter: options.onEnter,
-    onEnterBack: options.onEnterBack,
-    onUpdate: (progress) => {
-      const video = videoRef.current;
-      const currentTime = videoDuration * Math.min(Math.max(progress, 0), 1);
-      const currentFrame = Math.round(
-        Math.min(Math.max(currentTime * fps, 0), totalFrames),
-      );
-      if (currentFrame === lastFrameRef.current) return;
-      lastFrameRef.current = currentFrame;
-
-      applyMobileVideoTransform(
-        video,
-        resolveMobileVideoPanTransform(currentFrame, config.mobileVideoPan),
-        isMobileViewportRef.current,
-      );
-
-      scrubVideo(currentFrame / fps);
-
-      const { lastStageId } = stateRef.current;
-      const visibleBodies = config.bodyItems
-        .filter(
-          (item) =>
-            currentFrame >= item.fromFrame && currentFrame < item.toFrame,
-        )
-        .sort((a, b) => a.order - b.order);
-      const nextBodySignature = visibleBodies.map((item) => item.key).join("|");
-      const visibleSupportCards = config.supportCardItems
-        .filter(
-          (item) =>
-            currentFrame >= item.fromFrame && currentFrame < item.toFrame,
-        )
-        .sort((a, b) => a.order - b.order);
-      const nextSupportCardSignature = visibleSupportCards
-        .map((item) => item.key)
-        .join("|");
-      const activeStage = stages.find(
-        (stage) =>
-          currentFrame >= stage.startFrame && currentFrame < stage.endFrame,
-      );
-
-      debugLogger.logProgress({
-        progress,
-        currentTime,
-        marker: `${activeStage?.id ?? lastStageId}@f${currentFrame}`,
-      });
-
-      if (activeStage && activeStage.id !== lastStageId) {
-        stateRef.current.lastStageId = activeStage.id;
-        setActiveStageId(activeStage.id);
-      }
-
-      if (nextBodySignature !== stateRef.current.lastBodySignature) {
-        stateRef.current.lastBodySignature = nextBodySignature;
-        setVisibleBodyItems(visibleBodies);
-      }
-
-      if (
-        nextSupportCardSignature !== stateRef.current.lastSupportCardSignature
-      ) {
-        stateRef.current.lastSupportCardSignature = nextSupportCardSignature;
-        setVisibleSupportCardItems(visibleSupportCards);
-      }
-    },
-  });
-
-  useLayoutEffect(() => {
-    const video = videoRef.current;
-    const mobileLayout = getResolvedMobileVideoLayout(
-      config.mobileVideoConfig,
-      { widthPercent: 150 },
-    );
-    const initialFrame = config.mobileVideoPan?.[0]?.startFrame ?? 0;
-    const syncLayout = (matches: boolean) => {
-      isMobileViewportRef.current = matches;
-      applyMobileVideoLayout(video, mobileLayout, matches);
-      applyMobileVideoTransform(
-        video,
-        resolveMobileVideoPanTransform(initialFrame, config.mobileVideoPan),
-        matches,
-      );
-    };
-
-    syncLayout(window.matchMedia("(max-width: 767px)").matches);
-
-    const mediaQuery = window.matchMedia("(max-width: 767px)");
-    const handleChange = (event: MediaQueryListEvent) => {
-      syncLayout(event.matches);
-    };
-
-    mediaQuery.addEventListener("change", handleChange);
-
-    return () => {
-      mediaQuery.removeEventListener("change", handleChange);
-    };
-  }, [config.mobileVideoConfig, config.mobileVideoPan, isActive]);
+        commitIfChanged("support-cards", nextSupportCardSignature, () => {
+          setVisibleSupportCardItems(visibleSupportCards);
+        });
+        return `${nextHeaderKey || visibleSupportCards[0]?.key || visibleBodies[0]?.key || lastHeaderKey || "idle"}@f${currentFrame}`;
+      },
+    });
 
   return {
     sectionRef,
     videoRef,
-    activeStageId,
+    activeHeaderItem,
     visibleBodyItems,
     visibleSupportCardItems,
     isScrolled,

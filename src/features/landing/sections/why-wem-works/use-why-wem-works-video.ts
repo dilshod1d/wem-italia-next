@@ -1,25 +1,26 @@
 "use client";
 
-import { useLayoutEffect, useRef, useState } from "react";
+import { useState } from "react";
 
 import type {
-  WhyWemWorksOpeningPhase,
+  WhyWemWorksCopyItem,
+  WhyWemWorksInsightBlock,
+  WhyWemWorksProofPoint,
   WhyWemWorksSectionConfig,
-  WhyWemWorksStageKey,
 } from "./why-wem-works.types";
 import {
-  applyMobileVideoLayout,
-  applyMobileVideoTransform,
-  getResolvedMobileVideoLayout,
-  resolveMobileVideoPanTransform,
-  useScrollVideoScrubber,
-  useSectionPin,
-  useVideoDebugLogger,
+  getFrameWindowVisibility,
+  getVisibleFrameItemsWithSignature,
+} from "../../utils/frame-window";
+import {
+  useFrameDrivenVideoSection,
+  useSignatureCommit,
 } from "../../engine";
 
-interface WhyWemWorksVideoState {
-  lastStageKey: WhyWemWorksStageKey;
-  lastOpeningPhase: WhyWemWorksOpeningPhase;
+interface WhyWemWorksContentVisibility {
+  showOpeningCopy: boolean;
+  showOpeningCard: boolean;
+  showSectionTitle: boolean;
 }
 
 interface WhyWemWorksVideoOptions {
@@ -31,112 +32,115 @@ export function useWhyWemWorksVideo(
   config: WhyWemWorksSectionConfig,
   options: WhyWemWorksVideoOptions = {},
 ) {
-  const { fps, opening, stages, totalFrames, videoDuration, videoUrl } = config;
-  const videoRef = useRef<HTMLVideoElement | null>(null);
-  const scrubVideo = useScrollVideoScrubber(videoRef, { fps });
-  const isMobileViewportRef = useRef(false);
-  const lastFrameRef = useRef(-1);
-  const stateRef = useRef<WhyWemWorksVideoState>({
-    lastStageKey: stages[0]?.key ?? "intro",
-    lastOpeningPhase: "copy",
-  });
-  const [activeStageKey, setActiveStageKey] = useState<WhyWemWorksStageKey>(
-    stages[0]?.key ?? "intro",
-  );
-  const [openingPhase, setOpeningPhase] =
-    useState<WhyWemWorksOpeningPhase>("copy");
-  const debugLogger = useVideoDebugLogger({
-    label: "Perché Funziona",
-    videoSrc: videoUrl,
-    configuredDuration: videoDuration,
-    videoRef,
-  });
+  const { fps, totalFrames, videoDuration, videoUrl } = config;
+  const {
+    opening,
+    sectionTitle,
+    copy,
+    insightBlocks,
+    proofPoints,
+  } = config.contentItems;
+  const commitIfChanged = useSignatureCommit<
+    "content" | "blocks" | "copy" | "proof"
+  >();
+  const [contentVisibility, setContentVisibility] =
+    useState<WhyWemWorksContentVisibility>({
+      showOpeningCopy: true,
+      showOpeningCard: false,
+      showSectionTitle: false,
+    });
+  const [visibleCopyItems, setVisibleCopyItems] = useState<
+    readonly WhyWemWorksCopyItem[]
+  >([]);
+  const [visibleBlocks, setVisibleBlocks] = useState<
+    readonly WhyWemWorksInsightBlock[]
+  >([]);
+  const [visibleProofPoints, setVisibleProofPoints] = useState<
+    readonly WhyWemWorksProofPoint[]
+  >([]);
+  const { sectionRef, videoRef, isScrolled, isActive, isAtHandoff } =
+    useFrameDrivenVideoSection({
+      label: "Perché Funziona",
+      videoSrc: videoUrl,
+      configuredDuration: videoDuration,
+      fps,
+      totalFrames,
+      videoDuration,
+      mobileVideoConfig: config.mobileVideoConfig,
+      mobileVideoPan: config.mobileVideoPan,
+      pinOptions: {
+        onEnter: options.onEnter,
+        onEnterBack: options.onEnterBack,
+      },
+      onFrame: ({ currentFrame }) => {
+        const {
+          visibility: nextContentVisibility,
+          signature: nextContentSignature,
+        } = getFrameWindowVisibility(currentFrame, {
+          showOpeningCopy: opening.copy,
+          showOpeningCard: opening.card,
+          showSectionTitle: sectionTitle,
+        });
+        const {
+          items: nextVisibleCopyItems,
+          signature: nextCopySignature,
+        } = getVisibleFrameItemsWithSignature(currentFrame, copy, {
+          sort: (a, b) => a.order - b.order,
+          getSignaturePart: (item) => item.key,
+        });
+        const {
+          items: nextVisibleBlocks,
+          signature: nextBlockSignature,
+        } = getVisibleFrameItemsWithSignature(currentFrame, insightBlocks, {
+          getSignaturePart: (block) => block.stage,
+        });
+        const {
+          items: nextVisibleProofPoints,
+          signature: nextProofSignature,
+        } = getVisibleFrameItemsWithSignature(currentFrame, proofPoints, {
+          getSignaturePart: (item) => item.titleLines.join("|"),
+        });
 
-  const { sectionRef, isScrolled, isActive, isAtHandoff } = useSectionPin({
-    onEnter: options.onEnter,
-    onEnterBack: options.onEnterBack,
-    onUpdate: (progress) => {
-      const video = videoRef.current;
-      const currentTime = videoDuration * Math.min(Math.max(progress, 0), 1);
-      const currentFrame = Math.round(
-        Math.min(Math.max(currentTime * fps, 0), totalFrames),
-      );
-      if (currentFrame === lastFrameRef.current) return;
-      lastFrameRef.current = currentFrame;
+        commitIfChanged("content", nextContentSignature, () => {
+          setContentVisibility(nextContentVisibility);
+        });
 
-      applyMobileVideoTransform(
-        video,
-        resolveMobileVideoPanTransform(currentFrame, config.mobileVideoPan),
-        isMobileViewportRef.current,
-      );
+        commitIfChanged("blocks", nextBlockSignature, () => {
+          setVisibleBlocks(nextVisibleBlocks);
+        });
 
-      scrubVideo(currentFrame / fps);
+        commitIfChanged("copy", nextCopySignature, () => {
+          setVisibleCopyItems(nextVisibleCopyItems);
+        });
 
-      const { lastOpeningPhase, lastStageKey } = stateRef.current;
-      let nextOpeningPhase: WhyWemWorksOpeningPhase = "done";
+        commitIfChanged("proof", nextProofSignature, () => {
+          setVisibleProofPoints(nextVisibleProofPoints);
+        });
 
-      if (currentFrame < opening.cardAppearFrame) {
-        nextOpeningPhase = "copy";
-      } else if (currentFrame < opening.endFrame) {
-        nextOpeningPhase = "card";
-      }
+        const marker =
+          nextVisibleProofPoints.length > 0
+            ? "proof"
+            : nextVisibleBlocks.map((block) => block.stage).join("+") ||
+              nextVisibleCopyItems.map((item) => item.key).join("+") ||
+              (nextContentVisibility.showOpeningCard
+                ? "opening-card"
+                : nextContentVisibility.showOpeningCopy
+                  ? "opening-copy"
+                  : nextContentVisibility.showSectionTitle
+                    ? "section-title"
+                    : "idle");
 
-      const activeStage = stages.find(
-        (stage) =>
-          currentFrame >= stage.startFrame && currentFrame < stage.endFrame,
-      );
-
-      debugLogger.logProgress({
-        progress,
-        currentTime,
-        marker: `${activeStage?.key ?? nextOpeningPhase ?? lastStageKey}@f${currentFrame}`,
-      });
-
-      if (activeStage && activeStage.key !== lastStageKey) {
-        stateRef.current.lastStageKey = activeStage.key;
-        setActiveStageKey(activeStage.key);
-      }
-
-      if (nextOpeningPhase !== lastOpeningPhase) {
-        stateRef.current.lastOpeningPhase = nextOpeningPhase;
-        setOpeningPhase(nextOpeningPhase);
-      }
-    },
-  });
-
-  useLayoutEffect(() => {
-    const video = videoRef.current;
-    const mobileLayout = getResolvedMobileVideoLayout(config.mobileVideoConfig);
-    const initialFrame = config.mobileVideoPan?.[0]?.startFrame ?? 0;
-    const syncLayout = (matches: boolean) => {
-      isMobileViewportRef.current = matches;
-      applyMobileVideoLayout(video, mobileLayout, matches);
-      applyMobileVideoTransform(
-        video,
-        resolveMobileVideoPanTransform(initialFrame, config.mobileVideoPan),
-        matches,
-      );
-    };
-
-    syncLayout(window.matchMedia("(max-width: 767px)").matches);
-
-    const mediaQuery = window.matchMedia("(max-width: 767px)");
-    const handleChange = (event: MediaQueryListEvent) => {
-      syncLayout(event.matches);
-    };
-
-    mediaQuery.addEventListener("change", handleChange);
-
-    return () => {
-      mediaQuery.removeEventListener("change", handleChange);
-    };
-  }, [config.mobileVideoConfig, config.mobileVideoPan, isActive]);
+        return `${marker}@f${currentFrame}`;
+      },
+    });
 
   return {
     sectionRef,
     videoRef,
-    activeStageKey,
-    openingPhase,
+    contentVisibility,
+    visibleCopyItems,
+    visibleBlocks,
+    visibleProofPoints,
     isScrolled,
     isActive,
     isAtHandoff,

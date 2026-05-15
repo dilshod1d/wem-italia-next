@@ -3,32 +3,29 @@
 import type { ReactNode } from "react";
 import type {
   HeroBodyItem,
-  HeroEyebrow,
-  HeroSectionConfig,
-  HeroStage,
+  HeroHeaderItem,
   HeroSupportCardItem,
   HeroSupportCard,
-  HeroTitle,
 } from "./hero.types";
 import { BodyCopyText } from "../../shared";
 import { HeroSupportCard as HeroSupportCardBlock } from "./hero-support-card";
 import cx from "../../utils/cx";
 
 interface HeroSlideProps {
-  stage: HeroStage;
+  headerItem?: HeroHeaderItem;
   visibleBodyItems: readonly HeroBodyItem[];
   visibleSupportCardItems: readonly HeroSupportCardItem[];
-  config: HeroSectionConfig;
+  isInitialHeader: boolean;
 }
 
-function renderEyebrow(eyebrow: HeroEyebrow) {
-  return <p className="text-eyebrow">{eyebrow.text}</p>;
+function renderEyebrow(eyebrow: string) {
+  return <p className="text-eyebrow">{eyebrow}</p>;
 }
 
-function renderTitle(title: HeroTitle) {
+function renderTitle(titleLines: readonly string[]) {
   return (
     <h1 className="heading text-white">
-      {title.lines.map((line) => (
+      {titleLines.map((line) => (
         <span key={line} className="block">
           {line}
         </span>
@@ -75,24 +72,15 @@ function KeyedSlot<T>({
 }
 
 export function HeroSlide({
-  stage,
+  headerItem,
   visibleBodyItems,
   visibleSupportCardItems,
-  config,
+  isInitialHeader,
 }: HeroSlideProps) {
-  const placement = config.placements[stage.placementKey];
-  const eyebrow = stage.eyebrowKey
-    ? config.eyebrows[stage.eyebrowKey]
-    : undefined;
-  const title = stage.titleKey ? config.titles[stage.titleKey] : undefined;
+  const eyebrow = headerItem?.eyebrow;
+  const titleLines = headerItem?.titleLines;
   const visibleSupportCard = visibleSupportCardItems[0];
-  const card = visibleSupportCard
-    ? config.supportCards[visibleSupportCard.supportCardKey]
-    : undefined;
-  const cardPlacement = visibleSupportCard?.placementKey
-    ? config.placements[visibleSupportCard.placementKey]
-    : placement;
-  const isInitialStage = stage.id === config.stages[0]?.id;
+  const card = visibleSupportCard?.card;
 
   return (
     <div
@@ -102,24 +90,24 @@ export function HeroSlide({
       <div
         className={cx(
           "w-full text-center sm:text-left",
-          placement.copyClassName,
+          headerItem?.copyClassName ?? "w-full",
         )}
       >
         <KeyedSlot
-          slotKey={stage.eyebrowKey}
+          slotKey={eyebrow}
           value={eyebrow}
           render={renderEyebrow}
           className="min-h-[1rem]"
-          animate={!isInitialStage}
+          animate={!isInitialHeader}
         />
         <KeyedSlot
-          slotKey={stage.titleKey}
-          value={title}
+          slotKey={titleLines?.join("|")}
+          value={titleLines}
           render={renderTitle}
-          animate={!isInitialStage}
+          animate={!isInitialHeader}
         />
         {visibleBodyItems.length > 0 ? (
-          <div className={cx("mt-2 sm:mt-5", placement.bodyClassName)}>
+          <div className={cx("mt-2 sm:mt-5", headerItem?.bodyClassName)}>
             {renderBodyItems(visibleBodyItems)}
           </div>
         ) : null}
@@ -129,7 +117,7 @@ export function HeroSlide({
           render={renderCard}
           className={cx(
             "landing-hero-support-slot",
-            cardPlacement.cardWrapClassName ?? "mt-6",
+            visibleSupportCard?.cardWrapClassName ?? "mt-6",
           )}
         />
       </div>

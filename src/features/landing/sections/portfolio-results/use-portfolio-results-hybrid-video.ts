@@ -2,22 +2,18 @@
 
 import { useLayoutEffect, useRef, useState } from "react";
 
-import type {
-  PortfolioResultsSectionConfig,
-  PortfolioResultsStageKey,
-} from "./portfolio-results.types";
+import type { PortfolioResultsSectionConfig } from "./portfolio-results.types";
+import { getFrameWindowVisibility } from "../../utils/frame-window";
 import {
-  applyMobileVideoLayout,
-  applyMobileVideoTransform,
-  getResolvedMobileVideoLayout,
-  resolveMobileVideoPanTransform,
-  useScrollVideoScrubber,
-  useSectionPin,
-  useVideoDebugLogger,
+  useFrameDrivenVideoSection,
+  useSignatureCommit,
 } from "../../engine";
 
-interface PortfolioResultsHybridVideoState {
-  lastStageKey: PortfolioResultsStageKey;
+interface PortfolioResultsContentVisibility {
+  showHeader: boolean;
+  showDescription: boolean;
+  showPortfolio: boolean;
+  showFocus: boolean;
 }
 
 export function usePortfolioResultsHybridVideo(
@@ -32,25 +28,23 @@ export function usePortfolioResultsHybridVideo(
     }) => void;
   } = {},
 ) {
-  const { fps, stages, totalFrames, videoDuration, videoUrl } = config;
-  const videoRef = useRef<HTMLVideoElement | null>(null);
-  const scrubVideo = useScrollVideoScrubber(videoRef, { fps });
+  const { fps, totalFrames, videoDuration, videoUrl } = config;
+  const {
+    header,
+    description,
+    portfolio: { rail, focusItem },
+  } = config.contentItems;
+  const commitIfChanged = useSignatureCommit<"content">();
   const enterRef = useRef(options.onEnter);
   const enterBackRef = useRef(options.onEnterBack);
   const progressRef = useRef(options.onProgress);
-  const isMobileViewportRef = useRef(false);
-  const lastFrameRef = useRef(-1);
-  const stateRef = useRef<PortfolioResultsHybridVideoState>({
-    lastStageKey: stages[0]?.key ?? "intro",
-  });
-  const [activeStageKey, setActiveStageKey] =
-    useState<PortfolioResultsStageKey>(stages[0]?.key ?? "intro");
-  const debugLogger = useVideoDebugLogger({
-    label: "Portfolio Results",
-    videoSrc: videoUrl,
-    configuredDuration: videoDuration,
-    videoRef,
-  });
+  const [contentVisibility, setContentVisibility] =
+    useState<PortfolioResultsContentVisibility>({
+      showHeader: false,
+      showDescription: false,
+      showPortfolio: false,
+      showFocus: false,
+    });
 
   useLayoutEffect(() => {
     enterRef.current = options.onEnter;
@@ -58,89 +52,64 @@ export function usePortfolioResultsHybridVideo(
     progressRef.current = options.onProgress;
   }, [options.onEnter, options.onEnterBack, options.onProgress]);
 
-  const { sectionRef, isScrolled, isActive, isAtHandoff } = useSectionPin({
-    armMargin: "100% 0px",
-    onEnter: () => {
-      enterRef.current?.();
-    },
-    onEnterBack: () => {
-      enterBackRef.current?.();
-    },
-    onUpdate: (progress) => {
-      const video = videoRef.current;
-      const currentTime = videoDuration * Math.min(Math.max(progress, 0), 1);
-      const currentFrame = Math.round(
-        Math.min(Math.max(currentTime * fps, 0), totalFrames),
-      );
+  const { sectionRef, videoRef, isScrolled, isActive, isAtHandoff } =
+    useFrameDrivenVideoSection({
+      label: "Portfolio Results",
+      videoSrc: videoUrl,
+      configuredDuration: videoDuration,
+      fps,
+      totalFrames,
+      videoDuration,
+      mobileVideoConfig: config.mobileVideoConfig,
+      mobileVideoPan: config.mobileVideoPan,
+      pinOptions: {
+        armMargin: "100% 0px",
+        onEnter: () => {
+          enterRef.current?.();
+        },
+        onEnterBack: () => {
+          enterBackRef.current?.();
+        },
+      },
+      onFrame: ({ progress, currentTime, currentFrame }) => {
+        const {
+          visibility: nextContentVisibility,
+          signature: nextVisibilitySignature,
+        } = getFrameWindowVisibility(currentFrame, {
+          showHeader: header,
+          showDescription: description,
+          showPortfolio: rail,
+          showFocus: focusItem,
+        });
 
-      if (currentFrame === lastFrameRef.current) return;
-      lastFrameRef.current = currentFrame;
+        progressRef.current?.({
+          progress,
+          currentFrame,
+          currentTime,
+        });
 
-      applyMobileVideoTransform(
-        video,
-        resolveMobileVideoPanTransform(currentFrame, config.mobileVideoPan),
-        isMobileViewportRef.current,
-      );
+        commitIfChanged("content", nextVisibilitySignature, () => {
+          setContentVisibility(nextContentVisibility);
+        });
 
-      scrubVideo(currentFrame / fps);
+        const marker = nextContentVisibility.showFocus
+          ? "focus"
+          : nextContentVisibility.showPortfolio
+            ? "portfolio"
+            : nextContentVisibility.showDescription
+              ? "description"
+              : nextContentVisibility.showHeader
+                ? "header"
+                : "intro";
 
-      const activeStage = stages.find(
-        (stage) =>
-          currentFrame >= stage.startFrame && currentFrame < stage.endFrame,
-      );
-      const nextStageKey = activeStage?.key ?? stateRef.current.lastStageKey;
-
-      debugLogger.logProgress({
-        progress,
-        currentTime,
-        marker: `${nextStageKey}@f${currentFrame}`,
-      });
-
-      progressRef.current?.({
-        progress,
-        currentFrame,
-        currentTime,
-      });
-
-      if (activeStage && activeStage.key !== stateRef.current.lastStageKey) {
-        stateRef.current.lastStageKey = activeStage.key;
-        setActiveStageKey(activeStage.key);
-      }
-    },
-  });
-
-  useLayoutEffect(() => {
-    const video = videoRef.current;
-    const mobileLayout = getResolvedMobileVideoLayout(config.mobileVideoConfig);
-    const initialFrame = config.mobileVideoPan?.[0]?.startFrame ?? 0;
-    const syncLayout = (matches: boolean) => {
-      isMobileViewportRef.current = matches;
-      applyMobileVideoLayout(video, mobileLayout, matches);
-      applyMobileVideoTransform(
-        video,
-        resolveMobileVideoPanTransform(initialFrame, config.mobileVideoPan),
-        matches,
-      );
-    };
-
-    syncLayout(window.matchMedia("(max-width: 767px)").matches);
-
-    const mediaQuery = window.matchMedia("(max-width: 767px)");
-    const handleChange = (event: MediaQueryListEvent) => {
-      syncLayout(event.matches);
-    };
-
-    mediaQuery.addEventListener("change", handleChange);
-
-    return () => {
-      mediaQuery.removeEventListener("change", handleChange);
-    };
-  }, [config.mobileVideoConfig, config.mobileVideoPan, isActive]);
+        return `${marker}@f${currentFrame}`;
+      },
+    });
 
   return {
     sectionRef,
     videoRef,
-    activeStageKey,
+    contentVisibility,
     isScrolled,
     isActive,
     isAtHandoff,

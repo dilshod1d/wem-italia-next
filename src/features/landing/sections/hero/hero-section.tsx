@@ -22,7 +22,7 @@ export function HeroSection({
   const {
     sectionRef,
     videoRef,
-    activeStageId,
+    activeHeaderItem,
     visibleBodyItems,
     visibleSupportCardItems,
     isScrolled,
@@ -38,9 +38,6 @@ export function HeroSection({
       onSectionActive?.();
     },
   });
-  const activeStage =
-    heroStoryConfig.stages.find((stage) => stage.id === activeStageId) ??
-    heroStoryConfig.stages[0];
 
   return (
     <CinematicVideoSection
@@ -55,15 +52,18 @@ export function HeroSection({
       isScrolled={isScrolled}
       navTheme="dark"
       preloadStrategy={preloadStrategy}
+      indicatorLabel="Scroll to explore"
       indicatorDelayMs={1800}
       videoClassName="hero-mobile-pan md:object-[center_58%] object-[center_0%]"
     >
       <div className="landing-stage flex items-center justify-center">
         <HeroSlide
-          stage={activeStage}
+          headerItem={activeHeaderItem}
           visibleBodyItems={visibleBodyItems}
           visibleSupportCardItems={visibleSupportCardItems}
-          config={heroStoryConfig}
+          isInitialHeader={
+            activeHeaderItem?.key === heroStoryConfig.contentItems.headers[0]?.key
+          }
         />
       </div>
     </CinematicVideoSection>

@@ -2,29 +2,16 @@ import type {
   MobileVideoConfig,
   MobileVideoPan,
 } from "../../types/mobile-frame-types";
+import type { FrameWindow } from "../../utils/frame-window";
 
-export type HowItWorksStageKey =
-  | "intro"
-  | "headline"
-  | "context"
+export type HowItWorksStepStage =
   | "analysis"
   | "direction"
   | "build"
-  | "evolution"
-  | "blank";
+  | "evolution";
 
-export interface HowItWorksStage {
-  readonly id: number;
-  readonly key: HowItWorksStageKey;
-  readonly startFrame: number;
-  readonly endFrame: number;
-}
-
-export interface HowItWorksStep {
-  readonly stage: Extract<
-    HowItWorksStageKey,
-    "analysis" | "direction" | "build" | "evolution"
-  >;
+export interface HowItWorksStep extends FrameWindow {
+  readonly stage: HowItWorksStepStage;
   readonly title: string;
   readonly body: string;
   readonly toneClassName: string;
@@ -32,11 +19,21 @@ export interface HowItWorksStep {
   readonly zIndexClassName: string;
 }
 
-export interface HowItWorksCopy {
+export interface HowItWorksHeaderItem extends FrameWindow {
   readonly eyebrow: string;
-  readonly initialHeadline: string;
+  readonly title: string;
   readonly subtitle: string;
-  readonly description: string;
+}
+
+export interface HowItWorksDescriptionItem extends FrameWindow {
+  readonly text: string;
+}
+
+export interface HowItWorksContentItems {
+  readonly header: HowItWorksHeaderItem;
+  readonly description: HowItWorksDescriptionItem;
+  readonly stepRail: FrameWindow;
+  readonly steps: readonly HowItWorksStep[];
 }
 
 export interface HowItWorksSectionConfig {
@@ -45,9 +42,7 @@ export interface HowItWorksSectionConfig {
   readonly fps: number;
   readonly totalFrames: number;
   readonly videoDuration: number;
-  readonly stages: readonly HowItWorksStage[];
-  readonly copy: HowItWorksCopy;
-  readonly steps: readonly HowItWorksStep[];
+  readonly contentItems: HowItWorksContentItems;
   readonly mobileVideoConfig?: MobileVideoConfig;
   readonly mobileVideoPan?: readonly MobileVideoPan[];
 }

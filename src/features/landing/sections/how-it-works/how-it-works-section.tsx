@@ -3,7 +3,6 @@
 import { howItWorksSectionConfig } from "./how-it-works-story";
 import { useHowItWorksVideo } from "./use-how-it-works-video";
 import { useIsMobile } from "../../hooks/use-is-mobile";
-import type { HowItWorksStageKey } from "./how-it-works.types";
 import {
   BodyCopyText,
   CinematicVideoSection,
@@ -12,7 +11,10 @@ import {
 import HowItWorksStepCard from "./how-it-works-step-card";
 import cx from "../../utils/cx";
 
-const { videoUrl, copy, steps } = howItWorksSectionConfig;
+const {
+  videoUrl,
+  contentItems: { header, description, steps },
+} = howItWorksSectionConfig;
 
 interface HowItWorksSectionProps {
   setLogoTheme: (theme: "light" | "dark") => void;
@@ -29,7 +31,8 @@ export function HowItWorksSection({
   const {
     sectionRef,
     videoRef,
-    activeStageKey,
+    contentVisibility,
+    visibleSteps,
     isScrolled,
     isActive,
     isAtHandoff,
@@ -44,14 +47,9 @@ export function HowItWorksSection({
     },
   });
 
-  const showHeading = activeStageKey !== "intro" && activeStageKey !== "blank";
-  const showDescription =
-    activeStageKey === "context" ||
-    activeStageKey === "analysis" ||
-    activeStageKey === "direction" ||
-    activeStageKey === "build" ||
-    activeStageKey === "evolution";
-  const showStepCards = activeStageKey !== "blank";
+  const showHeading = contentVisibility.showHeading;
+  const showDescription = contentVisibility.showDescription;
+  const showStepCards = contentVisibility.showStepRail;
 
   return (
     <CinematicVideoSection
@@ -65,11 +63,6 @@ export function HowItWorksSection({
       isScrolled={isScrolled}
       preloadStrategy={preloadStrategy}
       navTheme="light"
-      indicatorLabel="Scroll Down"
-      indicatorPersistent
-      indicatorLabelClassName="normal-case text-[1.05rem] font-medium tracking-normal"
-      indicatorMouseClassName="border-sky-200/55"
-      indicatorWheelClassName="bg-sky-200/80"
       videoClassName="md:object-[center_86%] object-[center_0%]"
     >
       <div className="relative h-full w-full">
@@ -83,7 +76,7 @@ export function HowItWorksSection({
                   : "translate-y-8 opacity-0",
               )}
             >
-              {copy.eyebrow}
+              {header.eyebrow}
             </p>
 
             <h2
@@ -94,7 +87,7 @@ export function HowItWorksSection({
                   : "translate-y-8 opacity-0",
               )}
             >
-              {copy.initialHeadline}
+              {header.title}
             </h2>
 
             <div
@@ -110,8 +103,8 @@ export function HowItWorksSection({
             >
               <BodyCopyText
                 lines={[
-                  copy.subtitle,
-                  showDescription ? copy.description : null,
+                  header.subtitle,
+                  showDescription ? description.text : null,
                 ]}
                 className="text-black"
               />
@@ -132,7 +125,9 @@ export function HowItWorksSection({
                 <HowItWorksStepCard
                   key={step.stage}
                   step={step}
-                  visible={isStepVisible(activeStageKey, step.stage)}
+                  visible={visibleSteps.some(
+                    (visibleStep) => visibleStep.stage === step.stage,
+                  )}
                   delayMs={index * 120}
                   highlighted={false}
                   index={index}
@@ -145,32 +140,4 @@ export function HowItWorksSection({
       </div>
     </CinematicVideoSection>
   );
-}
-
-function isStepVisible(
-  activeStage: HowItWorksStageKey,
-  stepStage: HowItWorksStageKey,
-) {
-  if (stepStage === "analysis") {
-    return (
-      activeStage === "analysis" ||
-      activeStage === "direction" ||
-      activeStage === "build" ||
-      activeStage === "evolution"
-    );
-  }
-
-  if (stepStage === "direction") {
-    return (
-      activeStage === "direction" ||
-      activeStage === "build" ||
-      activeStage === "evolution"
-    );
-  }
-
-  if (stepStage === "build") {
-    return activeStage === "build" || activeStage === "evolution";
-  }
-
-  return activeStage === stepStage;
 }

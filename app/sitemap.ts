@@ -22,7 +22,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
       },
       images: [
         absoluteUrl(siteConfig.ogImagePath),
-        ...portfolioResultsSectionConfig.portfolioItems.map((item) =>
+        ...portfolioResultsSectionConfig.contentItems.portfolio.rail.items.map(
+          (item) =>
           absoluteUrl(item.imageSrc),
         ),
       ],

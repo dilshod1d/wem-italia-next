@@ -2,18 +2,11 @@ import type {
   MobileVideoConfig,
   MobileVideoPan,
 } from "../../types/mobile-frame-types";
+import type { FrameWindow } from "../../utils/frame-window";
 
 export type HeroSupportCardTone = "blue" | "orange" | "purple";
 
 export type HeroSupportCardIcon = "giovanni" | "wem-ai" | "wem-agency";
-
-export interface HeroEyebrow {
-  readonly text: string;
-}
-
-export interface HeroTitle {
-  readonly lines: readonly string[];
-}
 
 export interface HeroSupportCard {
   readonly title: string;
@@ -22,36 +15,31 @@ export interface HeroSupportCard {
   readonly icon: HeroSupportCardIcon;
 }
 
-export interface HeroBodyItem {
+export interface HeroBodyItem extends FrameWindow {
   readonly key: string;
   readonly text: string;
-  readonly fromFrame: number;
-  readonly toFrame: number;
   readonly order: number;
 }
 
-export interface HeroSupportCardItem {
+export interface HeroSupportCardItem extends FrameWindow {
   readonly key: string;
-  readonly supportCardKey: string;
-  readonly fromFrame: number;
-  readonly toFrame: number;
+  readonly card: HeroSupportCard;
   readonly order: number;
-  readonly placementKey?: string;
-}
-
-export interface HeroStagePlacement {
-  readonly copyClassName: string;
-  readonly bodyClassName?: string;
   readonly cardWrapClassName?: string;
 }
 
-export interface HeroStage {
-  readonly id: number;
-  readonly startFrame: number;
-  readonly endFrame: number;
-  readonly eyebrowKey?: string;
-  readonly titleKey?: string;
-  readonly placementKey: string;
+export interface HeroHeaderItem extends FrameWindow {
+  readonly key: string;
+  readonly eyebrow?: string;
+  readonly titleLines?: readonly string[];
+  readonly copyClassName: string;
+  readonly bodyClassName?: string;
+}
+
+export interface HeroContentItems {
+  readonly headers: readonly HeroHeaderItem[];
+  readonly body: readonly HeroBodyItem[];
+  readonly supportCards: readonly HeroSupportCardItem[];
 }
 
 export interface HeroSectionConfig {
@@ -60,13 +48,7 @@ export interface HeroSectionConfig {
   readonly fps: number;
   readonly totalFrames: number;
   readonly videoDuration: number;
-  readonly eyebrows: Readonly<Record<string, HeroEyebrow>>;
-  readonly titles: Readonly<Record<string, HeroTitle>>;
-  readonly bodyItems: readonly HeroBodyItem[];
-  readonly supportCardItems: readonly HeroSupportCardItem[];
-  readonly supportCards: Readonly<Record<string, HeroSupportCard>>;
-  readonly placements: Readonly<Record<string, HeroStagePlacement>>;
-  readonly stages: readonly HeroStage[];
+  readonly contentItems: HeroContentItems;
   readonly mobileVideoConfig?: MobileVideoConfig;
   readonly mobileVideoPan?: readonly MobileVideoPan[];
 }

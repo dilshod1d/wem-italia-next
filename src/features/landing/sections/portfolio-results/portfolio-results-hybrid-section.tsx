@@ -32,10 +32,18 @@ import {
 import { ensureGsap } from "../../engine";
 import cx from "../../utils/cx";
 
-const { videoUrl, copy, portfolioItems, metrics, focusItemId } =
+const {
+  videoUrl,
+  contentItems: {
+    header,
+    description,
+    portfolio: { rail, focusItem },
+    proof: { section: proofSection, metrics },
+  },
+} =
   portfolioResultsSectionConfig;
 const PORTFOLIO_ROW_CENTER_INDEX = getPortfolioRowCenterIndex(
-  portfolioItems.length,
+  rail.items.length,
 );
 
 interface PortfolioResultsHybridSectionProps {
@@ -62,8 +70,8 @@ export function PortfolioResultsHybridSection({
   const metricsHeadingRef = useRef<HTMLDivElement | null>(null);
   const metricsGridRef = useRef<HTMLDivElement | null>(null);
   const metricsCtaRef = useRef<HTMLDivElement | null>(null);
-  const focusIndex = portfolioItems.findIndex(
-    (item) => item.id === focusItemId,
+  const focusIndex = rail.items.findIndex(
+    (item) => item.id === focusItem.itemId,
   );
   const portfolioMotionRef = useRef<PortfolioTrackMotionState>({
     scrollOffset: 0,
@@ -80,7 +88,7 @@ export function PortfolioResultsHybridSection({
   const {
     sectionRef,
     videoRef,
-    activeStageKey,
+    contentVisibility,
     isScrolled,
     isActive: isVideoActive,
     isAtHandoff,
@@ -280,20 +288,15 @@ export function PortfolioResultsHybridSection({
     };
   }, []);
 
+  const showVideoHeader = isVideoActive && contentVisibility.showHeader;
   const showUnifiedHeader =
-    isScrolled && (!isVideoActive || activeStageKey !== "intro");
-  const showVideoPortfolio =
-    isVideoActive &&
-    (activeStageKey === "portfolio" ||
-      activeStageKey === "focus" ||
-      activeStageKey === "proof");
+    isScrolled && (showVideoHeader || (!isVideoActive && isFlowPortfolioActive));
+  const showVideoPortfolio = isVideoActive && contentVisibility.showPortfolio;
   const showSharedPortfolio =
     showVideoPortfolio || (!isVideoActive && isFlowPortfolioActive);
-  const showDescription =
-    !showSharedPortfolio && isVideoActive && activeStageKey === "narrative";
+  const showDescription = isVideoActive && contentVisibility.showDescription;
   const useFixedPortfolio = isVideoActive;
-  const isVideoFocusStage =
-    isVideoActive && (activeStageKey === "focus" || activeStageKey === "proof");
+  const isVideoFocusStage = isVideoActive && contentVisibility.showFocus;
   const visualFocusIndex =
     isVideoFocusStage && focusIndex !== -1 ? focusIndex : activePortfolioIndex;
   const handlePortfolioPointerMove = (event: PointerEvent<HTMLDivElement>) => {
@@ -409,11 +412,6 @@ export function PortfolioResultsHybridSection({
         isScrolled={isScrolled}
         preloadStrategy={preloadStrategy}
         navTheme="light"
-        indicatorLabel="Scroll Down"
-        indicatorPersistent
-        indicatorLabelClassName="normal-case text-[1.05rem] font-medium tracking-normal"
-        indicatorMouseClassName="border-sky-200/55"
-        indicatorWheelClassName="bg-sky-200/80"
         videoClassName="md:object-[center_78%] object-[center_0%]"
       >
         <div className="relative h-full w-full" />
@@ -441,7 +439,7 @@ export function PortfolioResultsHybridSection({
                   : "translate-y-8 opacity-0",
               )}
             >
-              {copy.eyebrow}
+              {header.eyebrow}
             </p>
             <h2
               className={cx(
@@ -451,7 +449,7 @@ export function PortfolioResultsHybridSection({
                   : "translate-y-8 opacity-0",
               )}
             >
-              {copy.title}
+              {header.title}
             </h2>
             {showDescription ? (
               <div
@@ -461,7 +459,7 @@ export function PortfolioResultsHybridSection({
                 }}
               >
                 <BodyCopyText
-                  lines={copy.descriptionLines}
+                lines={description.lines}
                   className="text-black"
                 />
               </div>
@@ -491,7 +489,7 @@ export function PortfolioResultsHybridSection({
                     transform: "translate3d(calc(-50% + 0px), 0, 0)",
                   }}
                 >
-                  {portfolioItems.map((item, index) => (
+                  {rail.items.map((item, index) => (
                     <PortfolioCard
                       key={item.id}
                       item={item}
@@ -517,8 +515,8 @@ export function PortfolioResultsHybridSection({
             ref={metricsHeadingRef}
             className="text-center text-black sm:text-left"
           >
-            <p className="text-eyebrow text-black/25">{copy.eyebrow}</p>
-            <h2 className="heading">{copy.proofTitle}</h2>
+            <p className="text-eyebrow text-black/25">{proofSection.eyebrow}</p>
+            <h2 className="heading">{proofSection.title}</h2>
           </div>
 
           <div
@@ -543,7 +541,7 @@ export function PortfolioResultsHybridSection({
               href="#footer"
               className="group/cta inline-flex items-center gap-3 rounded-full border border-black/12 bg-white/82 px-6 py-3 font-body text-[1.05rem] font-medium tracking-tight text-black/86 shadow-[0_16px_40px_rgba(0,0,0,0.07)] backdrop-blur-sm transition-[transform,box-shadow,border-color] duration-300 hover:-translate-y-0.5 hover:border-black/22 hover:shadow-[0_22px_54px_rgba(0,0,0,0.1)] md:px-8 md:py-3.5 md:text-[1.35rem]"
             >
-              <span>{copy.proofCta.replace(/\s*->$/, "")}</span>
+              <span>{proofSection.cta.replace(/\s*->$/, "")}</span>
               <FiArrowRight
                 aria-hidden
                 className="text-[1.2em] transition-transform duration-300 group-hover/cta:translate-x-1"

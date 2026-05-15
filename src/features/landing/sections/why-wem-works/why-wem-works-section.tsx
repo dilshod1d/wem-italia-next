@@ -1,6 +1,4 @@
 "use client";
-
-import type { WhyWemWorksStageKey } from "./why-wem-works.types";
 import {
   BodyCopyText,
   CinematicVideoSection,
@@ -15,12 +13,7 @@ import InsightBlock from "./insight-block";
 
 const {
   videoUrl,
-  opening,
-  introTitle,
-  leadParagraph,
-  resultParagraph,
-  blocks,
-  proofPoints,
+  contentItems: { opening, sectionTitle, insightBlocks },
 } = whyWemWorksSectionConfig;
 
 interface WhyWemWorksSectionProps {
@@ -37,8 +30,10 @@ export function WhyWemWorksSection({
   const {
     sectionRef,
     videoRef,
-    activeStageKey,
-    openingPhase,
+    contentVisibility,
+    visibleCopyItems,
+    visibleBlocks,
+    visibleProofPoints,
     isScrolled,
     isActive,
     isAtHandoff,
@@ -66,33 +61,15 @@ export function WhyWemWorksSection({
       isScrolled={isScrolled}
       navTheme="dark"
       preloadStrategy={preloadStrategy}
-      indicatorLabel="Scroll Down"
-      indicatorPersistent
-      indicatorLabelClassName="normal-case text-[1.05rem] font-medium tracking-normal text-white"
       videoClassName="md:object-[center_58%] object-[center_0%]"
     >
       {(() => {
-        const showOpening = openingPhase !== "done";
-
-        const showSectionTitle =
-          openingPhase === "done" && activeStageKey !== "proof";
-
-        const showNarrativeCopy =
-          openingPhase === "done" &&
-          activeStageKey !== "intro" &&
-          activeStageKey !== "proof";
-
-        const showSecondParagraph =
-          openingPhase === "done" &&
-          (activeStageKey === "method" || activeStageKey === "ai");
-
-        const showProofGrid =
-          openingPhase === "done" && activeStageKey === "proof";
-
-        const showInsightBlocks =
-          openingPhase === "done" &&
-          activeStageKey !== "intro" &&
-          activeStageKey !== "proof";
+        const showOpening =
+          contentVisibility.showOpeningCopy || contentVisibility.showOpeningCard;
+        const showSectionTitle = contentVisibility.showSectionTitle;
+        const showNarrativeCopy = visibleCopyItems.length > 0;
+        const showProofGrid = visibleProofPoints.length > 0;
+        const showInsightBlocks = visibleBlocks.length > 0;
 
         return (
           <div className="relative h-full w-full">
@@ -104,11 +81,11 @@ export function WhyWemWorksSection({
                 >
                   <div>
                     <p className="text-eyebrow text-dark-gray">
-                      {opening.eyebrow}
+                      {opening.copy.eyebrow}
                     </p>
 
                     <h2 className="heading text-white">
-                      {opening.titleLines.map((line) => (
+                      {opening.copy.titleLines.map((line) => (
                         <span key={line} className="block">
                           {line}
                         </span>
@@ -116,16 +93,16 @@ export function WhyWemWorksSection({
                     </h2>
 
                     <BodyCopyText
-                      lines={opening.paragraphs}
+                      lines={opening.copy.paragraphs}
                       className="mx-auto mt-2 max-w-full text-white sm:mx-0 sm:mt-5"
                     />
                   </div>
 
-                  {openingPhase === "card" ? (
+                  {contentVisibility.showOpeningCard ? (
                     <div className="landing-hero-support-slot hero-slot-in mt-4 sm:mt-7 md:mt-8">
                       <HeroSupportCard
-                        card={opening.supportCard}
-                        isActive={openingPhase === "card"}
+                        card={opening.card.card}
+                        isActive={contentVisibility.showOpeningCard}
                       />
                     </div>
                   ) : null}
@@ -136,14 +113,11 @@ export function WhyWemWorksSection({
                 <div className="w-full">
                   {showSectionTitle ? (
                     <div
-                      className={cx(
-                        "hero-slot-in z-10 w-full",
-                        activeStageKey === "intro"
-                          ? "text-center sm:text-left"
-                          : "text-center sm:text-right",
-                      )}
+                      className="hero-slot-in z-10 w-full text-center sm:text-right"
                     >
-                      <h3 className="heading text-white">{introTitle}</h3>
+                      <h3 className="heading text-white">
+                        {sectionTitle.text}
+                      </h3>
                     </div>
                   ) : null}
 
@@ -156,10 +130,7 @@ export function WhyWemWorksSection({
                       }}
                     >
                       <BodyCopyText
-                        lines={[
-                          leadParagraph,
-                          showSecondParagraph ? resultParagraph : null,
-                        ]}
+                        lines={visibleCopyItems.map((item) => item.text)}
                         className="landing-right-rail text-white"
                       />
                     </div>
@@ -168,15 +139,14 @@ export function WhyWemWorksSection({
                   {showInsightBlocks ? (
                     <div className="landing-card-gap">
                       <div className="ml-auto flex w-full max-w-[92%] flex-col items-end sm:max-w-[68%] lg:max-w-[60%]">
-                        {blocks.map((block, index) => (
+                        {insightBlocks.map((block, index) => (
                           <InsightBlock
                             key={block.stage}
                             title={block.title}
                             body={block.body}
                             toneClassName={block.toneClassName}
-                            visible={isStageVisible(
-                              activeStageKey,
-                              block.stage,
+                            visible={visibleBlocks.some(
+                              (visibleBlock) => visibleBlock.stage === block.stage,
                             )}
                             className={cx(
                               block.offsetClassName,
@@ -193,7 +163,7 @@ export function WhyWemWorksSection({
               {showProofGrid ? (
                 <div className="flex w-full flex-col items-end justify-end w-full">
                   <div className="landing-proof-grid ml-auto flex w-[50%] max-w-[28rem] flex-col gap-3 sm:mx-0 sm:grid sm:h-full sm:w-full sm:max-h-[27rem] sm:max-w-[27rem] sm:grid-cols-2 sm:grid-rows-2 sm:gap-5 md:max-h-[31rem] md:max-w-[31rem] lg:max-h-[34rem] lg:max-w-[34rem] xl:max-h-[37rem] xl:max-w-[37rem] 2xl:max-h-[40rem] 2xl:max-w-[40rem]">
-                    {proofPoints.map((item, index) => (
+                    {visibleProofPoints.map((item, index) => (
                       <ProofPointCard
                         key={item.titleLines.join("-")}
                         titleLines={item.titleLines}
@@ -212,19 +182,4 @@ export function WhyWemWorksSection({
       })()}
     </CinematicVideoSection>
   );
-}
-
-function isStageVisible(
-  activeStage: WhyWemWorksStageKey,
-  blockStage: WhyWemWorksStageKey,
-) {
-  if (blockStage === "method") {
-    return activeStage === "method" || activeStage === "ai";
-  }
-
-  if (blockStage === "ai") {
-    return activeStage === "ai";
-  }
-
-  return activeStage === blockStage;
 }

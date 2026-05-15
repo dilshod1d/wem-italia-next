@@ -1,23 +1,21 @@
 "use client";
 
-import { useLayoutEffect, useRef, useState } from "react";
+import { useState } from "react";
 
-import type {
-  HowItWorksSectionConfig,
-  HowItWorksStageKey,
-} from "./how-it-works.types";
+import type { HowItWorksSectionConfig, HowItWorksStep } from "./how-it-works.types";
 import {
-  applyMobileVideoLayout,
-  applyMobileVideoTransform,
-  getResolvedMobileVideoLayout,
-  resolveMobileVideoPanTransform,
-  useScrollVideoScrubber,
-  useSectionPin,
-  useVideoDebugLogger,
+  getFrameWindowVisibility,
+  getVisibleFrameItemsWithSignature,
+} from "../../utils/frame-window";
+import {
+  useFrameDrivenVideoSection,
+  useSignatureCommit,
 } from "../../engine";
 
-interface HowItWorksVideoState {
-  lastStageKey: HowItWorksStageKey;
+interface HowItWorksContentVisibility {
+  showHeading: boolean;
+  showDescription: boolean;
+  showStepRail: boolean;
 }
 
 interface HowItWorksVideoOptions {
@@ -29,103 +27,74 @@ export function useHowItWorksVideo(
   config: HowItWorksSectionConfig,
   options: HowItWorksVideoOptions = {},
 ) {
-  const { fps, stages, totalFrames, videoDuration, videoUrl } = config;
-  const videoRef = useRef<HTMLVideoElement | null>(null);
-  const scrubVideo = useScrollVideoScrubber(videoRef, { fps });
-  const isMobileViewportRef = useRef(false);
-  const lastFrameRef = useRef(-1);
-  const stateRef = useRef<HowItWorksVideoState>({
-    lastStageKey: stages[0]?.key ?? "intro",
-  });
-  const [activeStageKey, setActiveStageKey] = useState<HowItWorksStageKey>(
-    stages[0]?.key ?? "intro",
+  const { fps, totalFrames, videoDuration, videoUrl } = config;
+  const { header, description, stepRail, steps } = config.contentItems;
+  const commitIfChanged = useSignatureCommit<"content" | "steps">();
+  const [contentVisibility, setContentVisibility] =
+    useState<HowItWorksContentVisibility>({
+      showHeading: true,
+      showDescription: false,
+      showStepRail: true,
+    });
+  const [visibleSteps, setVisibleSteps] = useState<readonly HowItWorksStep[]>(
+    [],
   );
-  const debugLogger = useVideoDebugLogger({
-    label: "How It Works",
-    videoSrc: videoUrl,
-    configuredDuration: videoDuration,
-    videoRef,
-  });
+  const { sectionRef, videoRef, isScrolled, isActive, isAtHandoff } =
+    useFrameDrivenVideoSection({
+      label: "How It Works",
+      videoSrc: videoUrl,
+      configuredDuration: videoDuration,
+      fps,
+      totalFrames,
+      videoDuration,
+      mobileVideoConfig: config.mobileVideoConfig,
+      mobileVideoPan: config.mobileVideoPan,
+      mobilePanEasing: (value) => 1 - (1 - value) ** 3,
+      pinOptions: {
+        onEnter: options.onEnter,
+        onEnterBack: options.onEnterBack,
+      },
+      onFrame: ({ currentFrame }) => {
+        const {
+          visibility: nextContentVisibility,
+          signature: nextContentSignature,
+        } = getFrameWindowVisibility(currentFrame, {
+          showHeading: header,
+          showDescription: description,
+          showStepRail: stepRail,
+        });
+        const {
+          items: nextVisibleSteps,
+          signature: nextStepSignature,
+        } = getVisibleFrameItemsWithSignature(currentFrame, steps, {
+          getSignaturePart: (step) => step.stage,
+        });
 
-  const { sectionRef, isScrolled, isActive, isAtHandoff } = useSectionPin({
-    onEnter: options.onEnter,
-    onEnterBack: options.onEnterBack,
-    onUpdate: (progress) => {
-      const video = videoRef.current;
-      const currentTime = videoDuration * Math.min(Math.max(progress, 0), 1);
-      const currentFrame = Math.round(
-        Math.min(Math.max(currentTime * fps, 0), totalFrames),
-      );
-      if (currentFrame === lastFrameRef.current) return;
-      lastFrameRef.current = currentFrame;
+        commitIfChanged("content", nextContentSignature, () => {
+          setContentVisibility(nextContentVisibility);
+        });
 
-      scrubVideo(currentFrame / fps);
+        commitIfChanged("steps", nextStepSignature, () => {
+          setVisibleSteps(nextVisibleSteps);
+        });
 
-      applyMobileVideoTransform(
-        video,
-        resolveMobileVideoPanTransform(
-          currentFrame,
-          config.mobileVideoPan,
-          (value) => 1 - (1 - value) ** 3,
-        ),
-        isMobileViewportRef.current,
-      );
+        const marker =
+          nextVisibleSteps.map((step) => step.stage).join("+") ||
+          (nextContentVisibility.showDescription
+            ? "description"
+            : nextContentVisibility.showHeading
+              ? "header"
+              : "idle");
 
-      const { lastStageKey } = stateRef.current;
-      const activeStage = stages.find(
-        (stage) =>
-          currentFrame >= stage.startFrame && currentFrame < stage.endFrame,
-      );
-
-      debugLogger.logProgress({
-        progress,
-        currentTime,
-        marker: `${activeStage?.key ?? lastStageKey}@f${currentFrame}`,
-      });
-
-      if (activeStage && activeStage.key !== lastStageKey) {
-        stateRef.current.lastStageKey = activeStage.key;
-        setActiveStageKey(activeStage.key);
-      }
-    },
-  });
-
-  useLayoutEffect(() => {
-    const video = videoRef.current;
-    const mobileLayout = getResolvedMobileVideoLayout(config.mobileVideoConfig);
-    const initialFrame = config.mobileVideoPan?.[0]?.startFrame ?? 0;
-    const syncLayout = (matches: boolean) => {
-      isMobileViewportRef.current = matches;
-      applyMobileVideoLayout(video, mobileLayout, matches);
-      applyMobileVideoTransform(
-        video,
-        resolveMobileVideoPanTransform(
-          initialFrame,
-          config.mobileVideoPan,
-          (progress) => 1 - (1 - progress) ** 3,
-        ),
-        matches,
-      );
-    };
-
-    syncLayout(window.matchMedia("(max-width: 767px)").matches);
-
-    const mediaQuery = window.matchMedia("(max-width: 767px)");
-    const handleChange = (event: MediaQueryListEvent) => {
-      syncLayout(event.matches);
-    };
-
-    mediaQuery.addEventListener("change", handleChange);
-
-    return () => {
-      mediaQuery.removeEventListener("change", handleChange);
-    };
-  }, [config.mobileVideoConfig, config.mobileVideoPan, isActive]);
+        return `${marker}@f${currentFrame}`;
+      },
+    });
 
   return {
     sectionRef,
     videoRef,
-    activeStageKey,
+    contentVisibility,
+    visibleSteps,
     isScrolled,
     isActive,
     isAtHandoff,

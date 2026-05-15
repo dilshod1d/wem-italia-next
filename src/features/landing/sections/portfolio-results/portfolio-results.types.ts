@@ -2,28 +2,15 @@ import type {
   MobileVideoConfig,
   MobileVideoPan,
 } from "../../types/mobile-frame-types";
+import type { FrameWindow } from "../../utils/frame-window";
 
-export type PortfolioResultsStageKey =
-  | "intro"
-  | "headline"
-  | "narrative"
-  | "portfolio"
-  | "focus"
-  | "proof";
-
-export interface PortfolioResultsStage {
-  readonly id: number;
-  readonly key: PortfolioResultsStageKey;
-  readonly startFrame: number;
-  readonly endFrame: number;
-}
-
-export interface PortfolioResultsCopy {
+export interface PortfolioResultsHeaderItem extends FrameWindow {
   readonly eyebrow: string;
   readonly title: string;
-  readonly descriptionLines: readonly string[];
-  readonly proofTitle: string;
-  readonly proofCta: string;
+}
+
+export interface PortfolioResultsDescriptionItem extends FrameWindow {
+  readonly lines: readonly string[];
 }
 
 export interface PortfolioResultsItem {
@@ -44,17 +31,40 @@ export interface PortfolioResultsMetric {
   readonly bandClassName: string;
 }
 
+export interface PortfolioResultsPortfolioRail extends FrameWindow {
+  readonly items: readonly PortfolioResultsItem[];
+}
+
+export interface PortfolioResultsFocusItem extends FrameWindow {
+  readonly itemId: string;
+}
+
+export interface PortfolioResultsProofSection {
+  readonly eyebrow: string;
+  readonly title: string;
+  readonly cta: string;
+}
+
+export interface PortfolioResultsContentItems {
+  readonly header: PortfolioResultsHeaderItem;
+  readonly description: PortfolioResultsDescriptionItem;
+  readonly portfolio: {
+    readonly rail: PortfolioResultsPortfolioRail;
+    readonly focusItem: PortfolioResultsFocusItem;
+  };
+  readonly proof: {
+    readonly section: PortfolioResultsProofSection;
+    readonly metrics: readonly PortfolioResultsMetric[];
+  };
+}
+
 export interface PortfolioResultsSectionConfig {
   readonly videoUrl: string;
   readonly mobileVideoUrl?: string;
   readonly fps: number;
   readonly totalFrames: number;
   readonly videoDuration: number;
-  readonly focusItemId: string;
-  readonly stages: readonly PortfolioResultsStage[];
-  readonly copy: PortfolioResultsCopy;
-  readonly portfolioItems: readonly PortfolioResultsItem[];
-  readonly metrics: readonly PortfolioResultsMetric[];
+  readonly contentItems: PortfolioResultsContentItems;
   readonly mobileVideoConfig?: MobileVideoConfig;
   readonly mobileVideoPan?: readonly MobileVideoPan[];
 }

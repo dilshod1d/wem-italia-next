@@ -4,9 +4,6 @@ import cx from "../utils/cx";
 interface ScrollIndicatorProps {
   hidden: boolean;
   label?: string;
-  labelClassName?: string;
-  mouseClassName?: string;
-  wheelClassName?: string;
   theme?: "light" | "dark";
   delayMs?: number;
 }
@@ -14,9 +11,6 @@ interface ScrollIndicatorProps {
 export function ScrollIndicator({
   hidden,
   label = "Scroll to explore",
-  labelClassName,
-  mouseClassName,
-  wheelClassName,
   theme = "light",
   delayMs = 0,
 }: ScrollIndicatorProps) {
@@ -44,15 +38,12 @@ export function ScrollIndicator({
         className={cx(
           "relative h-10 w-6 rounded-full border-2 transition-colors duration-500",
           isLight ? "border-black/30" : "border-white/30",
-
-          mouseClassName,
         )}
       >
         <div
           className={cx(
             "absolute top-2 left-1/2 h-2 w-1 -translate-x-1/2 animate-bounce rounded-full transition-colors duration-500",
             isLight ? "bg-black" : "bg-white",
-            wheelClassName,
           )}
         />
       </div>
@@ -60,7 +51,6 @@ export function ScrollIndicator({
         className={cx(
           "text-[10px] font-medium uppercase tracking-[0.3em] transition-colors duration-500",
           isLight ? "text-black/70" : "text-white/70",
-          labelClassName,
         )}
       >
         {label}

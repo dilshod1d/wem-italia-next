@@ -161,18 +161,19 @@ export function getHomepageJsonLd() {
         "@type": "ItemList",
         "@id": absoluteUrl("/#portfolio"),
         name: "Portfolio WEM Italia",
-        itemListElement: portfolioResultsSectionConfig.portfolioItems.map(
-          (item, index) => ({
-            "@type": "ListItem",
-            position: index + 1,
-            item: {
-              "@type": "CreativeWork",
-              name: item.title,
-              image: absoluteUrl(item.imageSrc),
-              description: item.footerLabel,
-            },
-          }),
-        ),
+        itemListElement:
+          portfolioResultsSectionConfig.contentItems.portfolio.rail.items.map(
+            (item, index) => ({
+              "@type": "ListItem",
+              position: index + 1,
+              item: {
+                "@type": "CreativeWork",
+                name: item.title,
+                image: absoluteUrl(item.imageSrc),
+                description: item.footerLabel,
+              },
+            }),
+          ),
       },
     ],
   };

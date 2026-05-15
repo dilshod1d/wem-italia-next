@@ -21,10 +21,6 @@ interface CinematicVideoSectionProps {
   surfaceTheme?: "light" | "dark";
   children: ReactNode;
   indicatorLabel?: string;
-  indicatorPersistent?: boolean;
-  indicatorLabelClassName?: string;
-  indicatorMouseClassName?: string;
-  indicatorWheelClassName?: string;
   indicatorDelayMs?: number;
   sectionClassName?: string;
   videoClassName?: string;
@@ -45,11 +41,7 @@ export function CinematicVideoSection({
   navTheme = "dark",
   surfaceTheme,
   children,
-  indicatorLabel = "Scroll to explore",
-  indicatorPersistent = false,
-  indicatorLabelClassName,
-  indicatorMouseClassName,
-  indicatorWheelClassName,
+  indicatorLabel,
   indicatorDelayMs,
   sectionClassName,
   videoClassName,
@@ -70,10 +62,6 @@ export function CinematicVideoSection({
       isolateWhenInactive={isolateWhenInactive}
       isScrolled={isScrolled}
       indicatorLabel={indicatorLabel}
-      indicatorPersistent={indicatorPersistent}
-      indicatorLabelClassName={indicatorLabelClassName}
-      indicatorMouseClassName={indicatorMouseClassName}
-      indicatorWheelClassName={indicatorWheelClassName}
       indicatorDelayMs={indicatorDelayMs}
       sectionClassName={cx("relative", sectionClassName)}
       videoClassName={videoClassName}
