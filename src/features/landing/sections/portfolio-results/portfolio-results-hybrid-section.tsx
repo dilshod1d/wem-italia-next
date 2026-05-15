@@ -424,7 +424,7 @@ export function PortfolioResultsHybridSection({
         aria-label="Portfolio WEM Italia con casi studio in diversi settori"
         data-nav-theme="light"
         className="relative h-screen"
-        style={{ height: "var(--landing-viewport-height, 100dvh)" }}
+        style={{ height: "var(--landing-viewport-height, 100vh)" }}
       >
         <div
           className={cx(

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useLayoutEffect, useRef } from "react";
 
 import type {
   MobileVideoConfig,
@@ -123,7 +123,7 @@ export function useFrameDrivenVideoSection({
     },
   });
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const video = videoRef.current;
     const mobileLayout = getResolvedMobileVideoLayout(
       mobileVideoConfig,
