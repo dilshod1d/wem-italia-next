@@ -3,6 +3,7 @@ import { useEffect, RefObject } from "react";
 export function useIOSVideoUnlock(
   videoRef: RefObject<HTMLVideoElement | null> | undefined,
   enabled: boolean,
+  sourceKey?: string,
 ) {
   useEffect(() => {
     if (!enabled) return;
@@ -33,5 +34,5 @@ export function useIOSVideoUnlock(
     return () => {
       cancelled = true;
     };
-  }, [enabled, videoRef]);
+  }, [enabled, sourceKey, videoRef]);
 }

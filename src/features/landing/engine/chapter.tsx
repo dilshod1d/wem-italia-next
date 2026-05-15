@@ -2,7 +2,9 @@
 
 import {
   useEffect,
+  useLayoutEffect,
   useMemo,
+  useState,
   type ReactNode,
   type RefObject,
 } from "react";
@@ -61,8 +63,48 @@ export function Chapter({
     return /iPhone|iPad|iPod/.test(navigator.userAgent);
   }, []);
   const fallbackVideoSrc = videoSrc ?? mobileVideoSrc;
+  // Keep one concrete asset attached per device class. Safari can still
+  // inspect or preload fallback <source> entries even when media matches.
+  const [resolvedVideoSrc, setResolvedVideoSrc] = useState<string | undefined>(
+    undefined,
+  );
 
-  useIOSVideoUnlock(videoRef, isIOS && isActive);
+  useIOSVideoUnlock(videoRef, isIOS && isActive, resolvedVideoSrc);
+
+  useLayoutEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const mediaQuery = window.matchMedia("(max-width: 767px)");
+
+    const syncVideoSrc = () => {
+      const nextVideoSrc =
+        mediaQuery.matches && mobileVideoSrc ? mobileVideoSrc : fallbackVideoSrc;
+
+      setResolvedVideoSrc((currentVideoSrc) =>
+        currentVideoSrc === nextVideoSrc ? currentVideoSrc : nextVideoSrc,
+      );
+    };
+
+    syncVideoSrc();
+
+    const handleChange = () => {
+      syncVideoSrc();
+    };
+
+    if (typeof mediaQuery.addEventListener === "function") {
+      mediaQuery.addEventListener("change", handleChange);
+
+      return () => {
+        mediaQuery.removeEventListener("change", handleChange);
+      };
+    }
+
+    mediaQuery.addListener(handleChange);
+
+    return () => {
+      mediaQuery.removeListener(handleChange);
+    };
+  }, [fallbackVideoSrc, mobileVideoSrc]);
 
   useEffect(() => {
     if (isActive) return;
@@ -71,12 +113,10 @@ export function Chapter({
   }, [isActive, videoRef]);
 
   const shouldAttachVideo =
-    Boolean(fallbackVideoSrc) && (preloadStrategy !== "none" || isActive);
+    Boolean(resolvedVideoSrc) && (preloadStrategy !== "none" || isActive);
 
   const isPanelVisible = !isolateWhenInactive || isActive;
   const shouldAutoPreload = preloadStrategy === "eager" || isActive;
-  const shouldRenderMobileSource = Boolean(mobileVideoSrc && videoSrc);
-  const shouldRenderFallbackSource = Boolean(fallbackVideoSrc);
 
   return (
     <section
@@ -114,18 +154,8 @@ export function Chapter({
                 playsInline
                 muted
                 preload={shouldAutoPreload ? "auto" : "metadata"}
-              >
-                {shouldRenderMobileSource ? (
-                  <source
-                    media="(max-width: 767px)"
-                    src={mobileVideoSrc}
-                    type="video/mp4"
-                  />
-                ) : null}
-                {shouldRenderFallbackSource ? (
-                  <source src={fallbackVideoSrc} type="video/mp4" />
-                ) : null}
-              </video>
+                src={resolvedVideoSrc}
+              />
             ) : null}
 
             <div className="absolute inset-0 z-[5]">{overlay}</div>
