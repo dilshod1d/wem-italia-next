@@ -1,12 +1,11 @@
-import { getMobileOptimizedVideoUrl } from "../../utils/video-url";
+import { landingVideoAssets } from "../../assets/video-assets";
 import type { HeroSectionConfig } from "./hero.types";
 
-const videoUrl =
-  "https://res.cloudinary.com/dcderdzpp/video/upload/v1778653602/video1v2_df9r9a.mp4";
+const { desktop: videoUrl, mobile: mobileVideoUrl } = landingVideoAssets.hero;
 
 export const heroStoryConfig = {
   videoUrl,
-  mobileVideoUrl: getMobileOptimizedVideoUrl(videoUrl),
+  mobileVideoUrl,
   fps: 30,
   totalFrames: 150,
   videoDuration: 5,

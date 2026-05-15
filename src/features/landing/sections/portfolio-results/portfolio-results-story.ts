@@ -1,12 +1,12 @@
+import { landingVideoAssets } from "../../assets/video-assets";
 import type { PortfolioResultsSectionConfig } from "./portfolio-results.types";
-import { getMobileOptimizedVideoUrl } from "../../utils/video-url";
 
-const videoUrl =
-  "https://res.cloudinary.com/dcderdzpp/video/upload/v1778653606/video5v2_nybafe.mp4";
+const { desktop: videoUrl, mobile: mobileVideoUrl } =
+  landingVideoAssets.portfolioResults;
 
 export const portfolioResultsSectionConfig = {
   videoUrl,
-  mobileVideoUrl: getMobileOptimizedVideoUrl(videoUrl),
+  mobileVideoUrl,
   fps: 30,
   totalFrames: 150,
   videoDuration: 5,
@@ -75,7 +75,8 @@ export const portfolioResultsSectionConfig = {
             id: "wellness",
             title: "Benessere",
             imageSrc: "/portfolio/health.png",
-            imageAlt: "Anteprima del sito portfolio per una clinica del benessere",
+            imageAlt:
+              "Anteprima del sito portfolio per una clinica del benessere",
             footerLabel: "Marketing a 360°",
             wrapperClassName: "bg-brand-red",
             shellClassName: "ring-1 ring-brand-red/20",

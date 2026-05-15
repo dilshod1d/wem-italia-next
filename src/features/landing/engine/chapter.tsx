@@ -2,9 +2,7 @@
 
 import {
   useEffect,
-  useLayoutEffect,
   useMemo,
-  useState,
   type ReactNode,
   type RefObject,
 } from "react";
@@ -36,26 +34,6 @@ interface ChapterProps {
   contentClassName?: string;
   preloadStrategy?: VideoPreloadStrategy;
 }
-function getResolvedVideoSrc(
-  videoSrc: string | undefined,
-  mobileVideoSrc: string | undefined,
-) {
-  if (typeof window === "undefined") return videoSrc;
-
-  const isMobileViewport =
-    window.matchMedia?.("(max-width: 767px)").matches ??
-    window.innerWidth < 768;
-
-  return isMobileViewport && mobileVideoSrc ? mobileVideoSrc : videoSrc;
-}
-
-function getInitialResolvedVideoSrc(
-  videoSrc: string | undefined,
-  preloadStrategy: VideoPreloadStrategy,
-) {
-  if (preloadStrategy === "none") return undefined;
-  return videoSrc;
-}
 
 export function Chapter({
   sectionRef,
@@ -82,9 +60,7 @@ export function Chapter({
     if (typeof window === "undefined") return false;
     return /iPhone|iPad|iPod/.test(navigator.userAgent);
   }, []);
-  const [resolvedVideoSrc, setResolvedVideoSrc] = useState<string | undefined>(
-    () => getInitialResolvedVideoSrc(videoSrc, preloadStrategy),
-  );
+  const fallbackVideoSrc = videoSrc ?? mobileVideoSrc;
 
   useIOSVideoUnlock(videoRef, isIOS && isActive);
 
@@ -95,30 +71,12 @@ export function Chapter({
   }, [isActive, videoRef]);
 
   const shouldAttachVideo =
-    Boolean(videoSrc) && (preloadStrategy !== "none" || isActive);
-
-  useLayoutEffect(() => {
-    if (!videoSrc || !shouldAttachVideo) return;
-
-    const syncResolvedSrc = () => {
-      setResolvedVideoSrc(getResolvedVideoSrc(videoSrc, mobileVideoSrc));
-    };
-
-    syncResolvedSrc();
-
-    if (typeof window === "undefined" || !window.matchMedia) return;
-
-    const mediaQuery = window.matchMedia("(max-width: 767px)");
-    const handleChange = () => syncResolvedSrc();
-
-    mediaQuery.addEventListener("change", handleChange);
-
-    return () => mediaQuery.removeEventListener("change", handleChange);
-  }, [mobileVideoSrc, shouldAttachVideo, videoSrc]);
+    Boolean(fallbackVideoSrc) && (preloadStrategy !== "none" || isActive);
 
   const isPanelVisible = !isolateWhenInactive || isActive;
   const shouldAutoPreload = preloadStrategy === "eager" || isActive;
-  const attachedVideoSrc = shouldAttachVideo ? resolvedVideoSrc : undefined;
+  const shouldRenderMobileSource = Boolean(mobileVideoSrc && videoSrc);
+  const shouldRenderFallbackSource = Boolean(fallbackVideoSrc);
 
   return (
     <section
@@ -144,7 +102,7 @@ export function Chapter({
               isPanelVisible ? "visible" : "invisible",
             )}
           >
-            {attachedVideoSrc ? (
+            {shouldAttachVideo ? (
               <video
                 ref={videoRef}
                 aria-hidden="true"
@@ -156,8 +114,18 @@ export function Chapter({
                 playsInline
                 muted
                 preload={shouldAutoPreload ? "auto" : "metadata"}
-                src={attachedVideoSrc}
-              />
+              >
+                {shouldRenderMobileSource ? (
+                  <source
+                    media="(max-width: 767px)"
+                    src={mobileVideoSrc}
+                    type="video/mp4"
+                  />
+                ) : null}
+                {shouldRenderFallbackSource ? (
+                  <source src={fallbackVideoSrc} type="video/mp4" />
+                ) : null}
+              </video>
             ) : null}
 
             <div className="absolute inset-0 z-[5]">{overlay}</div>

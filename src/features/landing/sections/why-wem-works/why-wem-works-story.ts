@@ -1,12 +1,12 @@
-import { getMobileOptimizedVideoUrl } from "../../utils/video-url";
+import { landingVideoAssets } from "../../assets/video-assets";
 import type { WhyWemWorksSectionConfig } from "./why-wem-works.types";
 
-const videoUrl =
-  "https://res.cloudinary.com/dcderdzpp/video/upload/v1778653613/video2v2_gi85w7.mp4";
+const { desktop: videoUrl, mobile: mobileVideoUrl } =
+  landingVideoAssets.whyWemWorks;
 
 export const whyWemWorksSectionConfig = {
   videoUrl,
-  mobileVideoUrl: getMobileOptimizedVideoUrl(videoUrl),
+  mobileVideoUrl,
   fps: 30,
   totalFrames: 150,
   videoDuration: 5,
@@ -66,7 +66,8 @@ export const whyWemWorksSectionConfig = {
           tone: "purple",
           icon: "wem-agency",
           title: "WEM Agency",
-          description: "Specialisti WEM attivati in base a ciò che serve davvero.",
+          description:
+            "Specialisti WEM attivati in base a ciò che serve davvero.",
         },
       },
     },

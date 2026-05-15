@@ -1,12 +1,12 @@
+import { landingVideoAssets } from "../../assets/video-assets";
 import type { HowItWorksSectionConfig } from "./how-it-works.types";
-import { getMobileOptimizedVideoUrl } from "../../utils/video-url";
 
-const videoUrl =
-  "https://res.cloudinary.com/dcderdzpp/video/upload/v1778653607/video4v2_qtbu47.mp4";
+const { desktop: videoUrl, mobile: mobileVideoUrl } =
+  landingVideoAssets.howItWorks;
 
 export const howItWorksSectionConfig = {
   videoUrl,
-  mobileVideoUrl: getMobileOptimizedVideoUrl(videoUrl),
+  mobileVideoUrl,
   fps: 30,
   totalFrames: 150,
   videoDuration: 5,
@@ -62,8 +62,7 @@ export const howItWorksSectionConfig = {
         key: "description",
         fromFrame: 47,
         toFrame: 146,
-        text:
-          "Si parte dal tuo contesto reale, si definisce direzione e strategia, si costruisce la crescita.",
+        text: "Si parte dal tuo contesto reale, si definisce direzione e strategia, si costruisce la crescita.",
         order: 2,
       },
     ],
