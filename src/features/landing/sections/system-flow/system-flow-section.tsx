@@ -11,7 +11,7 @@ import BenefitCard from "./benefit-card";
 
 const {
   videoUrl,
-  contentItems: { header, body, cards },
+  contentItems: { header, cards },
 } = systemFlowSectionConfig;
 
 interface SystemFlowSectionProps {
@@ -29,6 +29,7 @@ export function SystemFlowSection({
     sectionRef,
     videoRef,
     contentVisibility,
+    visibleBodyItems,
     visibleCards,
     isScrolled,
     isActive,
@@ -102,7 +103,7 @@ export function SystemFlowSection({
                 }}
               >
                 <BodyCopyText
-                  lines={body.paragraphs}
+                  lines={visibleBodyItems.map((item) => item.text)}
                   className="text-black/85"
                 />
               </div>

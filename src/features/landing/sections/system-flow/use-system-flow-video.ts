@@ -3,6 +3,7 @@
 import { useRef, useState } from "react";
 
 import type {
+  SystemFlowBodyItem,
   SystemFlowCard,
   SystemFlowSectionConfig,
 } from "./system-flow.types";
@@ -46,6 +47,9 @@ export function useSystemFlowVideo(
   const [visibleCards, setVisibleCards] = useState<readonly SystemFlowCard[]>(
     [],
   );
+  const [visibleBodyItems, setVisibleBodyItems] = useState<
+    readonly SystemFlowBodyItem[]
+  >([]);
   const { sectionRef, videoRef, isScrolled, isActive, isAtHandoff } =
     useFrameDrivenVideoSection({
       label: "System Flow",
@@ -62,6 +66,13 @@ export function useSystemFlowVideo(
       },
       onFrame: ({ currentFrame }) => {
         const {
+          items: nextVisibleBodyItems,
+          signature: nextBodySignature,
+        } = getVisibleFrameItemsWithSignature(currentFrame, body, {
+          getSignaturePart: (item) => item.key,
+          sort: (left, right) => left.order - right.order,
+        });
+        const {
           items: nextVisibleCards,
           signature: nextCardSignature,
         } = getVisibleFrameItemsWithSignature(currentFrame, cards, {
@@ -70,18 +81,16 @@ export function useSystemFlowVideo(
         const {
           visibility: baseContentVisibility,
           signature: baseContentSignature,
-        } = getFrameWindowVisibility(currentFrame, {
-          showHeader: header,
-          showBody: body,
-          isLightSurface: body,
-        });
+        } = getFrameWindowVisibility(currentFrame, { showHeader: header });
         const nextContentVisibility = {
-          ...baseContentVisibility,
+          showHeader: baseContentVisibility.showHeader,
+          showBody: nextVisibleBodyItems.length > 0,
+          isLightSurface: nextVisibleBodyItems.length > 0,
           isFinalPulse: nextVisibleCards.some(
             (card) => card.stage === "support",
           ),
         };
-        const nextContentSignature = `${baseContentSignature}:${nextContentVisibility.isFinalPulse ? "1" : "0"}`;
+        const nextContentSignature = `${baseContentSignature}:${nextContentVisibility.showBody ? "1" : "0"}:${nextContentVisibility.isLightSurface ? "1" : "0"}:${nextBodySignature}:${nextContentVisibility.isFinalPulse ? "1" : "0"}`;
         const nextLogoTheme = nextContentVisibility.isLightSurface
           ? "dark"
           : "light";
@@ -93,6 +102,7 @@ export function useSystemFlowVideo(
 
         commitIfChanged("content", nextContentSignature, () => {
           setContentVisibility(nextContentVisibility);
+          setVisibleBodyItems(nextVisibleBodyItems);
         });
 
         commitIfChanged("cards", nextCardSignature, () => {
@@ -115,6 +125,7 @@ export function useSystemFlowVideo(
     sectionRef,
     videoRef,
     contentVisibility,
+    visibleBodyItems,
     visibleCards,
     isScrolled,
     isActive,

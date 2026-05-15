@@ -22,12 +22,14 @@ export interface SystemFlowHeaderItem extends FrameWindow {
 }
 
 export interface SystemFlowBodyItem extends FrameWindow {
-  readonly paragraphs: readonly string[];
+  readonly key: string;
+  readonly text: string;
+  readonly order: number;
 }
 
 export interface SystemFlowContentItems {
   readonly header: SystemFlowHeaderItem;
-  readonly body: SystemFlowBodyItem;
+  readonly body: readonly SystemFlowBodyItem[];
   readonly cards: readonly SystemFlowCard[];
 }
 

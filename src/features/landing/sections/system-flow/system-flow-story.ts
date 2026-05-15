@@ -58,14 +58,22 @@ export const systemFlowSectionConfig = {
       eyebrow: "Come Funziona",
       title: "Paghi a Step. \nNo Vincoli - No Abbonamenti",
     },
-    body: {
-      fromFrame: 75,
-      toFrame: Number.POSITIVE_INFINITY,
-      paragraphs: [
-        "La continuità si costruisce con il valore, non con i vincoli.",
-        "Lavoriamo per costruire fiducia e risultati passo dopo passo.",
-      ],
-    },
+    body: [
+      {
+        key: "value",
+        fromFrame: 75,
+        toFrame: Number.POSITIVE_INFINITY,
+        text: "La continuità si costruisce con il valore, non con i vincoli.",
+        order: 1,
+      },
+      {
+        key: "trust",
+        fromFrame: 90,
+        toFrame: Number.POSITIVE_INFINITY,
+        text: "Lavoriamo per costruire fiducia e risultati passo dopo passo.",
+        order: 2,
+      },
+    ],
     cards: [
       {
         stage: "step",
