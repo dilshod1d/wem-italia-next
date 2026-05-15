@@ -49,6 +49,7 @@ export function HeroSection({
       mobileVideoUrl={heroStoryConfig.mobileVideoUrl}
       isActive={isActive}
       isAtHandoff={isAtHandoff}
+      isolateWhenInactive={isScrolled || isActive}
       isScrolled={isScrolled}
       navTheme="dark"
       preloadStrategy={preloadStrategy}
