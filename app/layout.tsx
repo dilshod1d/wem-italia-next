@@ -6,8 +6,10 @@ import { buildRootMetadata } from "@/features/landing/seo";
 const poppins = Poppins({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
+  display: "optional",
   preload: true,
   adjustFontFallback: true,
+  variable: "--font-poppins",
 });
 
 export const metadata = buildRootMetadata();
@@ -26,7 +28,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="it" className={`${poppins.className} antialiased`}>
+    <html
+      lang="it"
+      className={`${poppins.className} ${poppins.variable} antialiased`}
+    >
       <head>
         <link
           rel="preconnect"
