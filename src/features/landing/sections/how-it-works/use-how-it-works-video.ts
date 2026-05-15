@@ -2,9 +2,14 @@
 
 import { useState } from "react";
 
-import type { HowItWorksSectionConfig, HowItWorksStep } from "./how-it-works.types";
+import type {
+  HowItWorksCopyItem,
+  HowItWorksHeaderItem,
+  HowItWorksSectionConfig,
+  HowItWorksStep,
+} from "./how-it-works.types";
 import {
-  getFrameWindowVisibility,
+  getActiveFrameWindowItem,
   getVisibleFrameItemsWithSignature,
 } from "../../utils/frame-window";
 import {
@@ -12,10 +17,9 @@ import {
   useSignatureCommit,
 } from "../../engine";
 
-interface HowItWorksContentVisibility {
-  showHeading: boolean;
-  showDescription: boolean;
-  showStepRail: boolean;
+interface HowItWorksVisualState {
+  activeHeaderItem: HowItWorksHeaderItem | null;
+  isStepRailVisible: boolean;
 }
 
 interface HowItWorksVideoOptions {
@@ -28,17 +32,19 @@ export function useHowItWorksVideo(
   options: HowItWorksVideoOptions = {},
 ) {
   const { fps, totalFrames, videoDuration, videoUrl } = config;
-  const { header, description, stepRail, steps } = config.contentItems;
+  const { header, copy, stepRail, steps } = config.contentItems;
   const commitIfChanged = useSignatureCommit<"content" | "steps">();
-  const [contentVisibility, setContentVisibility] =
-    useState<HowItWorksContentVisibility>({
-      showHeading: true,
-      showDescription: false,
-      showStepRail: true,
-    });
+  const [visualState, setVisualState] = useState<HowItWorksVisualState>({
+    activeHeaderItem: header,
+    isStepRailVisible: true,
+  });
+  const [visibleCopyItems, setVisibleCopyItems] = useState<
+    readonly HowItWorksCopyItem[]
+  >([]);
   const [visibleSteps, setVisibleSteps] = useState<readonly HowItWorksStep[]>(
     [],
   );
+
   const { sectionRef, videoRef, isScrolled, isActive, isAtHandoff } =
     useFrameDrivenVideoSection({
       label: "How It Works",
@@ -55,23 +61,36 @@ export function useHowItWorksVideo(
         onEnterBack: options.onEnterBack,
       },
       onFrame: ({ currentFrame }) => {
+        const nextActiveHeaderItem =
+          getActiveFrameWindowItem(currentFrame, [header]) ?? null;
         const {
-          visibility: nextContentVisibility,
-          signature: nextContentSignature,
-        } = getFrameWindowVisibility(currentFrame, {
-          showHeading: header,
-          showDescription: description,
-          showStepRail: stepRail,
+          items: nextVisibleCopyItems,
+          signature: nextCopySignature,
+        } = getVisibleFrameItemsWithSignature(currentFrame, copy, {
+          getSignaturePart: (item) => item.key,
+          sort: (left, right) => left.order - right.order,
         });
+        const nextIsStepRailVisible = Boolean(
+          getActiveFrameWindowItem(currentFrame, [stepRail]),
+        );
         const {
           items: nextVisibleSteps,
           signature: nextStepSignature,
         } = getVisibleFrameItemsWithSignature(currentFrame, steps, {
           getSignaturePart: (step) => step.stage,
         });
+        const nextContentSignature = [
+          nextActiveHeaderItem?.title ?? "",
+          nextCopySignature,
+          nextIsStepRailVisible ? "1" : "0",
+        ].join(":");
 
         commitIfChanged("content", nextContentSignature, () => {
-          setContentVisibility(nextContentVisibility);
+          setVisualState({
+            activeHeaderItem: nextActiveHeaderItem,
+            isStepRailVisible: nextIsStepRailVisible,
+          });
+          setVisibleCopyItems(nextVisibleCopyItems);
         });
 
         commitIfChanged("steps", nextStepSignature, () => {
@@ -80,9 +99,9 @@ export function useHowItWorksVideo(
 
         const marker =
           nextVisibleSteps.map((step) => step.stage).join("+") ||
-          (nextContentVisibility.showDescription
+          (nextVisibleCopyItems.length > 0
             ? "description"
-            : nextContentVisibility.showHeading
+            : nextActiveHeaderItem
               ? "header"
               : "idle");
 
@@ -93,7 +112,9 @@ export function useHowItWorksVideo(
   return {
     sectionRef,
     videoRef,
-    contentVisibility,
+    activeHeaderItem: visualState.activeHeaderItem,
+    isStepRailVisible: visualState.isStepRailVisible,
+    visibleCopyItems,
     visibleSteps,
     isScrolled,
     isActive,

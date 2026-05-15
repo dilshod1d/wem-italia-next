@@ -36,7 +36,6 @@ const {
   videoUrl,
   contentItems: {
     header,
-    description,
     portfolio: { rail, focusItem },
     proof: { section: proofSection, metrics },
   },
@@ -88,7 +87,10 @@ export function PortfolioResultsHybridSection({
   const {
     sectionRef,
     videoRef,
-    contentVisibility,
+    activeHeaderItem,
+    activePortfolioRail,
+    activeFocusItem,
+    visibleDescriptionItems,
     isScrolled,
     isActive: isVideoActive,
     isAtHandoff,
@@ -288,15 +290,15 @@ export function PortfolioResultsHybridSection({
     };
   }, []);
 
-  const showVideoHeader = isVideoActive && contentVisibility.showHeader;
+  const showVideoHeader = isVideoActive && Boolean(activeHeaderItem);
   const showUnifiedHeader =
     isScrolled && (showVideoHeader || (!isVideoActive && isFlowPortfolioActive));
-  const showVideoPortfolio = isVideoActive && contentVisibility.showPortfolio;
+  const showVideoPortfolio = isVideoActive && Boolean(activePortfolioRail);
   const showSharedPortfolio =
     showVideoPortfolio || (!isVideoActive && isFlowPortfolioActive);
-  const showDescription = isVideoActive && contentVisibility.showDescription;
+  const showDescription = isVideoActive && visibleDescriptionItems.length > 0;
   const useFixedPortfolio = isVideoActive;
-  const isVideoFocusStage = isVideoActive && contentVisibility.showFocus;
+  const isVideoFocusStage = isVideoActive && Boolean(activeFocusItem);
   const visualFocusIndex =
     isVideoFocusStage && focusIndex !== -1 ? focusIndex : activePortfolioIndex;
   const handlePortfolioPointerMove = (event: PointerEvent<HTMLDivElement>) => {
@@ -459,7 +461,7 @@ export function PortfolioResultsHybridSection({
                 }}
               >
                 <BodyCopyText
-                lines={description.lines}
+                  lines={visibleDescriptionItems.map((item) => item.text)}
                   className="text-black"
                 />
               </div>

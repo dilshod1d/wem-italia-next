@@ -2,18 +2,26 @@
 
 import { useLayoutEffect, useRef, useState } from "react";
 
-import type { PortfolioResultsSectionConfig } from "./portfolio-results.types";
-import { getFrameWindowVisibility } from "../../utils/frame-window";
+import type {
+  PortfolioResultsFocusItem,
+  PortfolioResultsHeaderItem,
+  PortfolioResultsDescriptionItem,
+  PortfolioResultsPortfolioRail,
+  PortfolioResultsSectionConfig,
+} from "./portfolio-results.types";
+import {
+  getActiveFrameWindowItem,
+  getVisibleFrameItemsWithSignature,
+} from "../../utils/frame-window";
 import {
   useFrameDrivenVideoSection,
   useSignatureCommit,
 } from "../../engine";
 
-interface PortfolioResultsContentVisibility {
-  showHeader: boolean;
-  showDescription: boolean;
-  showPortfolio: boolean;
-  showFocus: boolean;
+interface PortfolioResultsVisualState {
+  activeHeaderItem: PortfolioResultsHeaderItem | null;
+  activePortfolioRail: PortfolioResultsPortfolioRail | null;
+  activeFocusItem: PortfolioResultsFocusItem | null;
 }
 
 export function usePortfolioResultsHybridVideo(
@@ -38,13 +46,14 @@ export function usePortfolioResultsHybridVideo(
   const enterRef = useRef(options.onEnter);
   const enterBackRef = useRef(options.onEnterBack);
   const progressRef = useRef(options.onProgress);
-  const [contentVisibility, setContentVisibility] =
-    useState<PortfolioResultsContentVisibility>({
-      showHeader: false,
-      showDescription: false,
-      showPortfolio: false,
-      showFocus: false,
-    });
+  const [visualState, setVisualState] = useState<PortfolioResultsVisualState>({
+    activeHeaderItem: null,
+    activePortfolioRail: null,
+    activeFocusItem: null,
+  });
+  const [visibleDescriptionItems, setVisibleDescriptionItems] = useState<
+    readonly PortfolioResultsDescriptionItem[]
+  >([]);
 
   useLayoutEffect(() => {
     enterRef.current = options.onEnter;
@@ -72,15 +81,25 @@ export function usePortfolioResultsHybridVideo(
         },
       },
       onFrame: ({ progress, currentTime, currentFrame }) => {
+        const nextActiveHeaderItem =
+          getActiveFrameWindowItem(currentFrame, [header]) ?? null;
         const {
-          visibility: nextContentVisibility,
-          signature: nextVisibilitySignature,
-        } = getFrameWindowVisibility(currentFrame, {
-          showHeader: header,
-          showDescription: description,
-          showPortfolio: rail,
-          showFocus: focusItem,
+          items: nextVisibleDescriptionItems,
+          signature: nextDescriptionSignature,
+        } = getVisibleFrameItemsWithSignature(currentFrame, description, {
+          getSignaturePart: (item) => item.key,
+          sort: (left, right) => left.order - right.order,
         });
+        const nextActivePortfolioRail =
+          getActiveFrameWindowItem(currentFrame, [rail]) ?? null;
+        const nextActiveFocusItem =
+          getActiveFrameWindowItem(currentFrame, [focusItem]) ?? null;
+        const nextVisibilitySignature = [
+          nextActiveHeaderItem?.title ?? "",
+          nextDescriptionSignature,
+          nextActivePortfolioRail ? "1" : "0",
+          nextActiveFocusItem?.itemId ?? "",
+        ].join(":");
 
         progressRef.current?.({
           progress,
@@ -89,16 +108,21 @@ export function usePortfolioResultsHybridVideo(
         });
 
         commitIfChanged("content", nextVisibilitySignature, () => {
-          setContentVisibility(nextContentVisibility);
+          setVisualState({
+            activeHeaderItem: nextActiveHeaderItem,
+            activePortfolioRail: nextActivePortfolioRail,
+            activeFocusItem: nextActiveFocusItem,
+          });
+          setVisibleDescriptionItems(nextVisibleDescriptionItems);
         });
 
-        const marker = nextContentVisibility.showFocus
+        const marker = nextActiveFocusItem
           ? "focus"
-          : nextContentVisibility.showPortfolio
+          : nextActivePortfolioRail
             ? "portfolio"
-            : nextContentVisibility.showDescription
+            : nextVisibleDescriptionItems.length > 0
               ? "description"
-              : nextContentVisibility.showHeader
+              : nextActiveHeaderItem
                 ? "header"
                 : "intro";
 
@@ -109,7 +133,10 @@ export function usePortfolioResultsHybridVideo(
   return {
     sectionRef,
     videoRef,
-    contentVisibility,
+    activeHeaderItem: visualState.activeHeaderItem,
+    activePortfolioRail: visualState.activePortfolioRail,
+    activeFocusItem: visualState.activeFocusItem,
+    visibleDescriptionItems,
     isScrolled,
     isActive,
     isAtHandoff,

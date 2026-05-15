@@ -5,23 +5,21 @@ import { useState } from "react";
 import type {
   WhyWemWorksCopyItem,
   WhyWemWorksInsightBlock,
+  WhyWemWorksOpeningBodyItem,
+  WhyWemWorksOpeningCardItem,
+  WhyWemWorksOpeningCopyItem,
   WhyWemWorksProofPoint,
+  WhyWemWorksSectionTitleItem,
   WhyWemWorksSectionConfig,
 } from "./why-wem-works.types";
 import {
-  getFrameWindowVisibility,
+  getActiveFrameWindowItem,
   getVisibleFrameItemsWithSignature,
 } from "../../utils/frame-window";
 import {
   useFrameDrivenVideoSection,
   useSignatureCommit,
 } from "../../engine";
-
-interface WhyWemWorksContentVisibility {
-  showOpeningCopy: boolean;
-  showOpeningCard: boolean;
-  showSectionTitle: boolean;
-}
 
 interface WhyWemWorksVideoOptions {
   onEnter?: () => void;
@@ -43,12 +41,18 @@ export function useWhyWemWorksVideo(
   const commitIfChanged = useSignatureCommit<
     "content" | "blocks" | "copy" | "proof"
   >();
-  const [contentVisibility, setContentVisibility] =
-    useState<WhyWemWorksContentVisibility>({
-      showOpeningCopy: true,
-      showOpeningCard: false,
-      showSectionTitle: false,
-    });
+  const [activeOpeningHeaderItem, setActiveOpeningHeaderItem] = useState<
+    WhyWemWorksOpeningCopyItem | null
+  >(opening.header);
+  const [activeOpeningCardItem, setActiveOpeningCardItem] = useState<
+    WhyWemWorksOpeningCardItem | null
+  >(null);
+  const [activeSectionTitleItem, setActiveSectionTitleItem] = useState<
+    WhyWemWorksSectionTitleItem | null
+  >(null);
+  const [visibleOpeningBodyItems, setVisibleOpeningBodyItems] = useState<
+    readonly WhyWemWorksOpeningBodyItem[]
+  >([]);
   const [visibleCopyItems, setVisibleCopyItems] = useState<
     readonly WhyWemWorksCopyItem[]
   >([]);
@@ -73,13 +77,18 @@ export function useWhyWemWorksVideo(
         onEnterBack: options.onEnterBack,
       },
       onFrame: ({ currentFrame }) => {
+        const nextActiveOpeningHeaderItem =
+          getActiveFrameWindowItem(currentFrame, [opening.header]) ?? null;
+        const nextActiveOpeningCardItem =
+          getActiveFrameWindowItem(currentFrame, [opening.card]) ?? null;
+        const nextActiveSectionTitleItem =
+          getActiveFrameWindowItem(currentFrame, [sectionTitle]) ?? null;
         const {
-          visibility: nextContentVisibility,
-          signature: nextContentSignature,
-        } = getFrameWindowVisibility(currentFrame, {
-          showOpeningCopy: opening.copy,
-          showOpeningCard: opening.card,
-          showSectionTitle: sectionTitle,
+          items: nextVisibleOpeningBodyItems,
+          signature: nextOpeningBodySignature,
+        } = getVisibleFrameItemsWithSignature(currentFrame, opening.body, {
+          sort: (a, b) => a.order - b.order,
+          getSignaturePart: (item) => item.key,
         });
         const {
           items: nextVisibleCopyItems,
@@ -101,8 +110,18 @@ export function useWhyWemWorksVideo(
           getSignaturePart: (item) => item.titleLines.join("|"),
         });
 
+        const nextContentSignature = [
+          nextActiveOpeningHeaderItem?.titleLines.join("|") ?? "",
+          nextOpeningBodySignature,
+          nextActiveOpeningCardItem?.card.title ?? "",
+          nextActiveSectionTitleItem?.text ?? "",
+        ].join(":");
+
         commitIfChanged("content", nextContentSignature, () => {
-          setContentVisibility(nextContentVisibility);
+          setActiveOpeningHeaderItem(nextActiveOpeningHeaderItem);
+          setVisibleOpeningBodyItems(nextVisibleOpeningBodyItems);
+          setActiveOpeningCardItem(nextActiveOpeningCardItem);
+          setActiveSectionTitleItem(nextActiveSectionTitleItem);
         });
 
         commitIfChanged("blocks", nextBlockSignature, () => {
@@ -122,11 +141,12 @@ export function useWhyWemWorksVideo(
             ? "proof"
             : nextVisibleBlocks.map((block) => block.stage).join("+") ||
               nextVisibleCopyItems.map((item) => item.key).join("+") ||
-              (nextContentVisibility.showOpeningCard
+              nextOpeningBodySignature ||
+              (nextActiveOpeningCardItem
                 ? "opening-card"
-                : nextContentVisibility.showOpeningCopy
+                : nextActiveOpeningHeaderItem
                   ? "opening-copy"
-                  : nextContentVisibility.showSectionTitle
+                  : nextActiveSectionTitleItem
                     ? "section-title"
                     : "idle");
 
@@ -137,7 +157,10 @@ export function useWhyWemWorksVideo(
   return {
     sectionRef,
     videoRef,
-    contentVisibility,
+    activeOpeningHeaderItem,
+    visibleOpeningBodyItems,
+    activeOpeningCardItem,
+    activeSectionTitleItem,
     visibleCopyItems,
     visibleBlocks,
     visibleProofPoints,

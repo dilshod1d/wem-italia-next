@@ -30,11 +30,16 @@ export interface WhyWemWorksProofPoint extends FrameWindow {
 export interface WhyWemWorksOpeningCopyItem extends FrameWindow {
   readonly eyebrow: string;
   readonly titleLines: readonly string[];
-  readonly paragraphs: readonly string[];
 }
 
 export interface WhyWemWorksOpeningCardItem extends FrameWindow {
   readonly card: HeroSupportCard;
+}
+
+export interface WhyWemWorksOpeningBodyItem extends FrameWindow {
+  readonly key: string;
+  readonly text: string;
+  readonly order: number;
 }
 
 export interface WhyWemWorksSectionTitleItem extends FrameWindow {
@@ -49,7 +54,8 @@ export interface WhyWemWorksCopyItem extends FrameWindow {
 
 export interface WhyWemWorksContentItems {
   readonly opening: {
-    readonly copy: WhyWemWorksOpeningCopyItem;
+    readonly header: WhyWemWorksOpeningCopyItem;
+    readonly body: readonly WhyWemWorksOpeningBodyItem[];
     readonly card: WhyWemWorksOpeningCardItem;
   };
   readonly sectionTitle: WhyWemWorksSectionTitleItem;

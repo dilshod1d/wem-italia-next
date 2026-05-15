@@ -5,10 +5,11 @@ import { useRef, useState } from "react";
 import type {
   SystemFlowBodyItem,
   SystemFlowCard,
+  SystemFlowHeaderItem,
   SystemFlowSectionConfig,
 } from "./system-flow.types";
 import {
-  getFrameWindowVisibility,
+  getActiveFrameWindowItem,
   getVisibleFrameItemsWithSignature,
 } from "../../utils/frame-window";
 import {
@@ -16,9 +17,8 @@ import {
   useSignatureCommit,
 } from "../../engine";
 
-interface SystemFlowContentVisibility {
-  showHeader: boolean;
-  showBody: boolean;
+interface SystemFlowVisualState {
+  activeHeaderItem: SystemFlowHeaderItem | null;
   isLightSurface: boolean;
   isFinalPulse: boolean;
 }
@@ -37,19 +37,18 @@ export function useSystemFlowVideo(
   const { header, body, cards } = config.contentItems;
   const commitIfChanged = useSignatureCommit<"content" | "cards">();
   const logoThemeRef = useRef<"light" | "dark">("light");
-  const [contentVisibility, setContentVisibility] =
-    useState<SystemFlowContentVisibility>({
-      showHeader: false,
-      showBody: false,
-      isLightSurface: false,
-      isFinalPulse: false,
-    });
+  const [visualState, setVisualState] = useState<SystemFlowVisualState>({
+    activeHeaderItem: null,
+    isLightSurface: false,
+    isFinalPulse: false,
+  });
   const [visibleCards, setVisibleCards] = useState<readonly SystemFlowCard[]>(
     [],
   );
   const [visibleBodyItems, setVisibleBodyItems] = useState<
     readonly SystemFlowBodyItem[]
   >([]);
+
   const { sectionRef, videoRef, isScrolled, isActive, isAtHandoff } =
     useFrameDrivenVideoSection({
       label: "System Flow",
@@ -78,20 +77,23 @@ export function useSystemFlowVideo(
         } = getVisibleFrameItemsWithSignature(currentFrame, cards, {
           getSignaturePart: (card) => card.stage,
         });
-        const {
-          visibility: baseContentVisibility,
-          signature: baseContentSignature,
-        } = getFrameWindowVisibility(currentFrame, { showHeader: header });
-        const nextContentVisibility = {
-          showHeader: baseContentVisibility.showHeader,
-          showBody: nextVisibleBodyItems.length > 0,
+
+        const nextActiveHeaderItem =
+          getActiveFrameWindowItem(currentFrame, [header]) ?? null;
+        const nextVisualState = {
+          activeHeaderItem: nextActiveHeaderItem,
           isLightSurface: nextVisibleBodyItems.length > 0,
           isFinalPulse: nextVisibleCards.some(
             (card) => card.stage === "support",
           ),
         };
-        const nextContentSignature = `${baseContentSignature}:${nextContentVisibility.showBody ? "1" : "0"}:${nextContentVisibility.isLightSurface ? "1" : "0"}:${nextBodySignature}:${nextContentVisibility.isFinalPulse ? "1" : "0"}`;
-        const nextLogoTheme = nextContentVisibility.isLightSurface
+        const nextContentSignature = [
+          nextActiveHeaderItem?.title ?? "",
+          nextBodySignature,
+          nextVisualState.isLightSurface ? "1" : "0",
+          nextVisualState.isFinalPulse ? "1" : "0",
+        ].join(":");
+        const nextLogoTheme = nextVisualState.isLightSurface
           ? "dark"
           : "light";
 
@@ -101,7 +103,7 @@ export function useSystemFlowVideo(
         }
 
         commitIfChanged("content", nextContentSignature, () => {
-          setContentVisibility(nextContentVisibility);
+          setVisualState(nextVisualState);
           setVisibleBodyItems(nextVisibleBodyItems);
         });
 
@@ -111,9 +113,9 @@ export function useSystemFlowVideo(
 
         const marker =
           nextVisibleCards.map((card) => card.stage).join("+") ||
-          (nextContentVisibility.showBody
+          (nextVisibleBodyItems.length > 0
             ? "body"
-            : nextContentVisibility.showHeader
+            : nextActiveHeaderItem
               ? "header"
               : "intro");
 
@@ -124,7 +126,9 @@ export function useSystemFlowVideo(
   return {
     sectionRef,
     videoRef,
-    contentVisibility,
+    activeHeaderItem: visualState.activeHeaderItem,
+    isLightSurface: visualState.isLightSurface,
+    isFinalPulse: visualState.isFinalPulse,
     visibleBodyItems,
     visibleCards,
     isScrolled,

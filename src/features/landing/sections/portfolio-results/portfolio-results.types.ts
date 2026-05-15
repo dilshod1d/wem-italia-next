@@ -10,7 +10,9 @@ export interface PortfolioResultsHeaderItem extends FrameWindow {
 }
 
 export interface PortfolioResultsDescriptionItem extends FrameWindow {
-  readonly lines: readonly string[];
+  readonly key: string;
+  readonly text: string;
+  readonly order: number;
 }
 
 export interface PortfolioResultsItem {
@@ -47,7 +49,7 @@ export interface PortfolioResultsProofSection {
 
 export interface PortfolioResultsContentItems {
   readonly header: PortfolioResultsHeaderItem;
-  readonly description: PortfolioResultsDescriptionItem;
+  readonly description: readonly PortfolioResultsDescriptionItem[];
   readonly portfolio: {
     readonly rail: PortfolioResultsPortfolioRail;
     readonly focusItem: PortfolioResultsFocusItem;

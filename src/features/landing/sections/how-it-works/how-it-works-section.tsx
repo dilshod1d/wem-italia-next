@@ -13,7 +13,7 @@ import cx from "../../utils/cx";
 
 const {
   videoUrl,
-  contentItems: { header, description, steps },
+  contentItems: { header, steps },
 } = howItWorksSectionConfig;
 
 interface HowItWorksSectionProps {
@@ -31,7 +31,9 @@ export function HowItWorksSection({
   const {
     sectionRef,
     videoRef,
-    contentVisibility,
+    activeHeaderItem,
+    isStepRailVisible,
+    visibleCopyItems,
     visibleSteps,
     isScrolled,
     isActive,
@@ -47,9 +49,7 @@ export function HowItWorksSection({
     },
   });
 
-  const showHeading = contentVisibility.showHeading;
-  const showDescription = contentVisibility.showDescription;
-  const showStepCards = contentVisibility.showStepRail;
+  const showHeading = Boolean(activeHeaderItem);
 
   return (
     <CinematicVideoSection
@@ -102,16 +102,13 @@ export function HowItWorksSection({
               }}
             >
               <BodyCopyText
-                lines={[
-                  header.subtitle,
-                  showDescription ? description.text : null,
-                ]}
+                lines={visibleCopyItems.map((item) => item.text)}
                 className="text-black"
               />
             </div>
           </div>
 
-          {showStepCards ? (
+          {isStepRailVisible ? (
             <div
               className="
                 landing-step-rail landing-card-gap relative flex w-full flex-col overflow-visible

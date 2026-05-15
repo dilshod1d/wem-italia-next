@@ -44,15 +44,21 @@ export const whyWemWorksSectionConfig = {
   ],
   contentItems: {
     opening: {
-      copy: {
+      header: {
         fromFrame: 0,
         toFrame: 32,
         eyebrow: "WEM Enterprise",
         titleLines: ["Una sola Guida un ecosistema alle spalle"],
-        paragraphs: [
-          "A supporto, un ecosistema costruito e validato su scala internazionale.",
-        ],
       },
+      body: [
+        {
+          key: "ecosystem-scale",
+          fromFrame: 0,
+          toFrame: 32,
+          text: "A supporto, un ecosistema costruito e validato su scala internazionale.",
+          order: 1,
+        },
+      ],
       card: {
         fromFrame: 5,
         toFrame: 32,

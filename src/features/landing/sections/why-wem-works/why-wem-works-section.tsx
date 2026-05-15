@@ -30,7 +30,10 @@ export function WhyWemWorksSection({
   const {
     sectionRef,
     videoRef,
-    contentVisibility,
+    activeOpeningHeaderItem,
+    visibleOpeningBodyItems,
+    activeOpeningCardItem,
+    activeSectionTitleItem,
     visibleCopyItems,
     visibleBlocks,
     visibleProofPoints,
@@ -65,8 +68,10 @@ export function WhyWemWorksSection({
     >
       {(() => {
         const showOpening =
-          contentVisibility.showOpeningCopy || contentVisibility.showOpeningCard;
-        const showSectionTitle = contentVisibility.showSectionTitle;
+          Boolean(activeOpeningHeaderItem) ||
+          visibleOpeningBodyItems.length > 0 ||
+          Boolean(activeOpeningCardItem);
+        const showSectionTitle = Boolean(activeSectionTitleItem);
         const showNarrativeCopy = visibleCopyItems.length > 0;
         const showProofGrid = visibleProofPoints.length > 0;
         const showInsightBlocks = visibleBlocks.length > 0;
@@ -81,11 +86,12 @@ export function WhyWemWorksSection({
                 >
                   <div>
                     <p className="text-eyebrow text-dark-gray">
-                      {opening.copy.eyebrow}
+                      {activeOpeningHeaderItem?.eyebrow ?? opening.header.eyebrow}
                     </p>
 
                     <h2 className="heading text-white">
-                      {opening.copy.titleLines.map((line) => (
+                      {(activeOpeningHeaderItem?.titleLines ??
+                        opening.header.titleLines).map((line) => (
                         <span key={line} className="block">
                           {line}
                         </span>
@@ -93,16 +99,16 @@ export function WhyWemWorksSection({
                     </h2>
 
                     <BodyCopyText
-                      lines={opening.copy.paragraphs}
+                      lines={visibleOpeningBodyItems.map((item) => item.text)}
                       className="mx-auto mt-2 max-w-full text-white sm:mx-0 sm:mt-5"
                     />
                   </div>
 
-                  {contentVisibility.showOpeningCard ? (
+                  {activeOpeningCardItem ? (
                     <div className="landing-hero-support-slot hero-slot-in mt-4 sm:mt-7 md:mt-8">
                       <HeroSupportCard
-                        card={opening.card.card}
-                        isActive={contentVisibility.showOpeningCard}
+                        card={activeOpeningCardItem.card}
+                        isActive
                       />
                     </div>
                   ) : null}
@@ -116,7 +122,7 @@ export function WhyWemWorksSection({
                       className="hero-slot-in z-10 w-full text-center sm:text-right"
                     >
                       <h3 className="heading text-white">
-                        {sectionTitle.text}
+                        {activeSectionTitleItem?.text ?? sectionTitle.text}
                       </h3>
                     </div>
                   ) : null}

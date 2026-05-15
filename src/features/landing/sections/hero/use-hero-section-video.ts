@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useState } from "react";
 
 import type {
   HeroBodyItem,
@@ -14,10 +14,6 @@ import {
   useFrameDrivenVideoSection,
   useSignatureCommit,
 } from "../../engine";
-
-interface HeroVideoState {
-  lastHeaderKey: string;
-}
 
 interface HeroSectionVideoOptions {
   onEnter?: () => void;
@@ -33,9 +29,6 @@ export function useHeroSectionVideo(
   const commitIfChanged = useSignatureCommit<
     "header" | "body" | "support-cards"
   >();
-  const stateRef = useRef<HeroVideoState>({
-    lastHeaderKey: headers[0]?.key ?? "",
-  });
   const [activeHeaderItem, setActiveHeaderItem] = useState<
     HeroHeaderItem | undefined
   >(headers[0]);
@@ -63,7 +56,6 @@ export function useHeroSectionVideo(
         onEnterBack: options.onEnterBack,
       },
       onFrame: ({ currentFrame }) => {
-        const { lastHeaderKey } = stateRef.current;
         const nextHeaderItem = getActiveFrameWindowItem(currentFrame, headers);
         const nextHeaderKey = nextHeaderItem?.key ?? "";
         const {
@@ -85,7 +77,6 @@ export function useHeroSectionVideo(
           },
         );
         commitIfChanged("header", nextHeaderKey, () => {
-          stateRef.current.lastHeaderKey = nextHeaderKey;
           setActiveHeaderItem(nextHeaderItem);
         });
 
@@ -96,7 +87,7 @@ export function useHeroSectionVideo(
         commitIfChanged("support-cards", nextSupportCardSignature, () => {
           setVisibleSupportCardItems(visibleSupportCards);
         });
-        return `${nextHeaderKey || visibleSupportCards[0]?.key || visibleBodies[0]?.key || lastHeaderKey || "idle"}@f${currentFrame}`;
+        return `${nextHeaderKey || visibleSupportCards[0]?.key || visibleBodies[0]?.key || "idle"}@f${currentFrame}`;
       },
     });
 

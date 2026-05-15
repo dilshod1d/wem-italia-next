@@ -49,14 +49,24 @@ export const howItWorksSectionConfig = {
       toFrame: 146,
       eyebrow: "Processo trasparente",
       title: "Un Percorso Chiaro, dal punto Giusto",
-      subtitle: "Nessuna Soluzione Standard",
     },
-    description: {
-      fromFrame: 47,
-      toFrame: 146,
-      text:
-        "Si parte dal tuo contesto reale, si definisce direzione e strategia, si costruisce la crescita.",
-    },
+    copy: [
+      {
+        key: "subtitle",
+        fromFrame: 0,
+        toFrame: 146,
+        text: "Nessuna Soluzione Standard",
+        order: 1,
+      },
+      {
+        key: "description",
+        fromFrame: 47,
+        toFrame: 146,
+        text:
+          "Si parte dal tuo contesto reale, si definisce direzione e strategia, si costruisce la crescita.",
+        order: 2,
+      },
+    ],
     stepRail: {
       fromFrame: 0,
       toFrame: 146,

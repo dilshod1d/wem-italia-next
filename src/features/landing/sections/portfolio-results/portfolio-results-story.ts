@@ -50,14 +50,22 @@ export const portfolioResultsSectionConfig = {
       eyebrow: "Risultati Reali",
       title: "Settori Diversi. Stesso Metodo!",
     },
-    description: {
-      fromFrame: 48,
-      toFrame: 88,
-      lines: [
-        "Il metodo si adatta a contesti diversi, ma mantiene la stessa direzione:",
-        "visione, chiarezza, struttura e crescita.",
-      ],
-    },
+    description: [
+      {
+        key: "method-adapts",
+        fromFrame: 48,
+        toFrame: 88,
+        text: "Il metodo si adatta a contesti diversi, ma mantiene la stessa direzione:",
+        order: 1,
+      },
+      {
+        key: "vision-clarity-structure-growth",
+        fromFrame: 58,
+        toFrame: 88,
+        text: "visione, chiarezza, struttura e crescita.",
+        order: 2,
+      },
+    ],
     portfolio: {
       rail: {
         fromFrame: 97,

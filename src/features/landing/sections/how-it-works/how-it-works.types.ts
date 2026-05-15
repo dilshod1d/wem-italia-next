@@ -22,16 +22,17 @@ export interface HowItWorksStep extends FrameWindow {
 export interface HowItWorksHeaderItem extends FrameWindow {
   readonly eyebrow: string;
   readonly title: string;
-  readonly subtitle: string;
 }
 
-export interface HowItWorksDescriptionItem extends FrameWindow {
+export interface HowItWorksCopyItem extends FrameWindow {
+  readonly key: string;
   readonly text: string;
+  readonly order: number;
 }
 
 export interface HowItWorksContentItems {
   readonly header: HowItWorksHeaderItem;
-  readonly description: HowItWorksDescriptionItem;
+  readonly copy: readonly HowItWorksCopyItem[];
   readonly stepRail: FrameWindow;
   readonly steps: readonly HowItWorksStep[];
 }

@@ -28,7 +28,9 @@ export function SystemFlowSection({
   const {
     sectionRef,
     videoRef,
-    contentVisibility,
+    activeHeaderItem,
+    isLightSurface,
+    isFinalPulse,
     visibleBodyItems,
     visibleCards,
     isScrolled,
@@ -40,11 +42,9 @@ export function SystemFlowSection({
     onLogoThemeChange: setLogoTheme,
   });
 
-  const showTitle = contentVisibility.showHeader;
-  const showEyebrow = contentVisibility.showHeader;
-  const showParagraphs = contentVisibility.showBody;
-  const isFinal = contentVisibility.isFinalPulse;
-  const surfaceTheme = contentVisibility.isLightSurface ? "light" : "dark";
+  const showHeader = Boolean(activeHeaderItem);
+  const showParagraphs = visibleBodyItems.length > 0;
+  const surfaceTheme = isLightSurface ? "light" : "dark";
 
   return (
     <CinematicVideoSection
@@ -67,14 +67,14 @@ export function SystemFlowSection({
           <div
             className={cx(
               "landing-copy-panel-alt flex h-full flex-col text-black",
-              isFinal ? "animate-[wem-breathe_5.4s_ease-in-out_infinite]" : "",
+              isFinalPulse ? "animate-[wem-breathe_5.4s_ease-in-out_infinite]" : "",
             )}
           >
             <div className="shrink-0">
               <p
                 className={cx(
                   "text-eyebrow text-black/25 transition-all duration-700",
-                  showEyebrow
+                  showHeader
                     ? "translate-y-0 opacity-100"
                     : "translate-y-6 opacity-0",
                 )}
@@ -84,7 +84,7 @@ export function SystemFlowSection({
               <h2
                 className={cx(
                   "heading transition-all duration-700",
-                  showTitle
+                  showHeader
                     ? "translate-y-0 opacity-100"
                     : "translate-y-8 opacity-0",
                 )}
