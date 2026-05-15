@@ -2,7 +2,6 @@
 
 import {
   useEffect,
-  useLayoutEffect,
   useMemo,
   useState,
   type ReactNode,
@@ -71,7 +70,7 @@ export function Chapter({
 
   useIOSVideoUnlock(videoRef, isIOS && isActive, resolvedVideoSrc);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (typeof window === "undefined") return;
 
     const mediaQuery = window.matchMedia("(max-width: 767px)");
@@ -133,7 +132,7 @@ export function Chapter({
             "relative w-full overflow-hidden",
             surfaceTheme === "light" ? "bg-white" : "bg-black",
           )}
-          style={{ height: "var(--landing-viewport-height, 100vh)" }}
+          style={{ height: "var(--landing-viewport-height, 100dvh)" }}
         >
           <div
             aria-hidden={!isPanelVisible}

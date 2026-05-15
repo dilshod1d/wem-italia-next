@@ -1,7 +1,7 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 import { ensureGsap, useDynamicViewportHeight } from "../engine";
 import { HeroSection } from "../sections/hero";
@@ -158,7 +158,7 @@ export function LandingPage() {
     resetScrollPosition();
   }, [resetScrollPosition]);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     const previousScrollRestoration = window.history.scrollRestoration;
 
     window.history.scrollRestoration = "manual";
