@@ -19,12 +19,12 @@ interface HeroSlideProps {
 }
 
 function renderEyebrow(eyebrow: string) {
-  return <p className="text-eyebrow">{eyebrow}</p>;
+  return <p className="text-eyebrow hero-lcp-system-font">{eyebrow}</p>;
 }
 
 function renderTitle(titleLines: readonly string[]) {
   return (
-    <h1 className="heading text-white">
+    <h1 className="heading hero-lcp-system-font text-white">
       {titleLines.map((line) => (
         <span key={line} className="block">
           {line}
