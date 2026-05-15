@@ -280,21 +280,18 @@ export function PortfolioResultsHybridSection({
     };
   }, []);
 
-  const showTitle =
-    isVideoActive &&
-    (activeStageKey === "headline" ||
-      activeStageKey === "narrative" ||
-      activeStageKey === "portfolio" ||
-      activeStageKey === "focus" ||
-      activeStageKey === "proof");
-  const showDescription = isVideoActive && activeStageKey === "narrative";
+  const showUnifiedHeader =
+    !isVideoActive || activeStageKey !== "intro";
   const showVideoPortfolio =
     isVideoActive &&
     (activeStageKey === "portfolio" ||
       activeStageKey === "focus" ||
       activeStageKey === "proof");
-  const showSharedPortfolio = showVideoPortfolio || isFlowPortfolioActive;
-  const useFixedPortfolio = showVideoPortfolio;
+  const showSharedPortfolio =
+    showVideoPortfolio || (!isVideoActive && isFlowPortfolioActive);
+  const showDescription =
+    !showSharedPortfolio && isVideoActive && activeStageKey === "narrative";
+  const useFixedPortfolio = isVideoActive;
   const isVideoFocusStage =
     isVideoActive && (activeStageKey === "focus" || activeStageKey === "proof");
   const visualFocusIndex =
@@ -419,50 +416,7 @@ export function PortfolioResultsHybridSection({
         indicatorWheelClassName="bg-sky-200/80"
         videoClassName="md:object-[center_78%] object-[center_0%]"
       >
-        <div className="relative h-full w-full">
-          <div className="landing-shell">
-            <div className={cx("landing-copy-panel-alt text-black")}>
-              <p
-                className={cx(
-                  "text-eyebrow text-black/25 transition-all duration-700 ",
-                  showTitle
-                    ? "translate-y-0 opacity-100"
-                    : "translate-y-8 opacity-0",
-                )}
-              >
-                {copy.eyebrow}
-              </p>
-
-              <h2
-                className={cx(
-                  "heading transition-all duration-700",
-                  showTitle
-                    ? "translate-y-0 opacity-100"
-                    : "translate-y-8 opacity-0",
-                )}
-              >
-                {copy.title}
-              </h2>
-
-              <div
-                className={cx(
-                  "landing-copy-gap transition-all duration-1000",
-                  showDescription
-                    ? "translate-y-0 opacity-100"
-                    : "pointer-events-none translate-y-6 opacity-0",
-                )}
-                style={{
-                  transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)",
-                }}
-              >
-                <BodyCopyText
-                  lines={copy.descriptionLines}
-                  className="text-black"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
+        <div className="relative h-full w-full" />
       </CinematicVideoSection>
 
       <section
@@ -478,23 +432,50 @@ export function PortfolioResultsHybridSection({
             useFixedPortfolio && "fixed inset-0 z-100",
           )}
         >
-          <div
-            className={cx(
-              "max-w-[70rem] shrink-0 text-center text-black sm:text-left",
-              showSharedPortfolio
-                ? "opacity-100"
-                : "pointer-events-none opacity-0",
-            )}
-          >
-            <p className="text-eyebrow text-black/25">{copy.eyebrow}</p>
-            <h2 className="heading">{copy.title}</h2>
+          <div className="max-w-[70rem] shrink-0 text-center text-black sm:text-left">
+            <p
+              className={cx(
+                "text-eyebrow text-black/25 transition-all duration-700",
+                showUnifiedHeader
+                  ? "translate-y-0 opacity-100"
+                  : "translate-y-8 opacity-0",
+              )}
+            >
+              {copy.eyebrow}
+            </p>
+            <h2
+              className={cx(
+                "heading transition-all duration-700",
+                showUnifiedHeader
+                  ? "translate-y-0 opacity-100"
+                  : "translate-y-8 opacity-0",
+              )}
+            >
+              {copy.title}
+            </h2>
+            {showDescription ? (
+              <div
+                className="landing-copy-gap translate-y-0 opacity-100 transition-all duration-1000"
+                style={{
+                  transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)",
+                }}
+              >
+                <BodyCopyText
+                  lines={copy.descriptionLines}
+                  className="text-black"
+                />
+              </div>
+            ) : null}
           </div>
 
           <div className="relative flex-1 min-h-0">
             <div
               ref={portfolioInteractionRef}
               className={cx(
-                "z-[32] min-h-full h-full overscroll-x-contain [touch-action:pan-y] transition-[opacity,transform] duration-[900ms]",
+                "z-[32] min-h-full h-full overscroll-x-contain [touch-action:pan-y] transition-[opacity,transform]",
+                showSharedPortfolio
+                  ? "pointer-events-auto visible opacity-100 duration-[900ms]"
+                  : "pointer-events-none invisible opacity-0 duration-0",
               )}
               onPointerMove={handlePortfolioPointerMove}
               onPointerLeave={handlePortfolioPointerLeave}
@@ -516,7 +497,6 @@ export function PortfolioResultsHybridSection({
                       item={item}
                       visible={showSharedPortfolio}
                       active={index === visualFocusIndex}
-                      delayMs={index * 85}
                     />
                   ))}
                 </div>

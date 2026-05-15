@@ -48,7 +48,7 @@ export const portfolioResultsSectionConfig = {
     { id: 1, key: "intro", startFrame: 0, endFrame: 24 },
     { id: 2, key: "headline", startFrame: 24, endFrame: 48 },
     { id: 3, key: "narrative", startFrame: 48, endFrame: 88 },
-    { id: 4, key: "portfolio", startFrame: 88, endFrame: 106 },
+    { id: 4, key: "portfolio", startFrame: 97, endFrame: 106 },
     { id: 5, key: "focus", startFrame: 106, endFrame: 124 },
     {
       id: 6,

@@ -9,7 +9,6 @@ interface PortfolioCardProps {
   item: PortfolioResultsItem;
   visible: boolean;
   active: boolean;
-  delayMs: number;
 }
 
 
@@ -32,7 +31,6 @@ export function PortfolioCard({
   item,
   visible,
   active,
-  delayMs,
 }: PortfolioCardProps) {
   const sizeClassName = getPortfolioCardSizeClass();
   const imageHeightClassName = getPortfolioCardImageHeightClass();
@@ -41,12 +39,12 @@ export function PortfolioCard({
   return (
     <article
       className={cx(
-        "group relative shrink-0 cursor-pointer transition-[opacity,transform,filter,height,width] duration-700",
+        "group relative shrink-0 cursor-pointer transition-[opacity,transform,filter] duration-700",
         "motion-safe:hover:scale-[1.03]",
         active ? "z-40" : "z-30",
         visible
           ? "translate-x-0 opacity-100"
-          : "pointer-events-none translate-x-20 opacity-0",
+          : "pointer-events-none translate-x-0 opacity-0",
         sizeClassName,
         focusStateClassName,
       )}
@@ -62,7 +60,6 @@ export function PortfolioCard({
           item.shellClassName,
         )}
         style={{
-          transitionDelay: visible ? `${delayMs}ms` : "0ms",
           transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)",
         }}
       >

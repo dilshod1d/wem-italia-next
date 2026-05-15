@@ -1,7 +1,7 @@
 const PORTFOLIO_TRACK_START_FRAME = 72;
-const PORTFOLIO_TRACK_CENTER_FRAME = 108;
+const PORTFOLIO_TRACK_CENTER_FRAME = 120;
 const PORTFOLIO_POINTER_MAX_PAN = 460;
-const PORTFOLIO_START_ITEM_ANCHOR = 0.9;
+const PORTFOLIO_START_ITEM_ANCHOR = 1.1;
 const PORTFOLIO_SETTLE_DELAY_MS = 180;
 const PORTFOLIO_TOUCH_DRAG_MULTIPLIER = 1.25;
 
@@ -92,7 +92,10 @@ export function updatePortfolioTrackScrollPosition(
     0,
     1,
   );
-  const easedProgress = progress * progress * (3 - 2 * progress);
+  const easedProgress =
+    progress < 0.5
+      ? 4 * progress * progress * progress
+      : 1 - Math.pow(-2 * progress + 2, 3) / 2;
 
   motionState.scrollOffset = geometry.firstAnchorOffset * (1 - easedProgress);
 
