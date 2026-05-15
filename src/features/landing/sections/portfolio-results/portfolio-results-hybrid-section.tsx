@@ -281,7 +281,7 @@ export function PortfolioResultsHybridSection({
   }, []);
 
   const showUnifiedHeader =
-    !isVideoActive || activeStageKey !== "intro";
+    isScrolled && (!isVideoActive || activeStageKey !== "intro");
   const showVideoPortfolio =
     isVideoActive &&
     (activeStageKey === "portfolio" ||
