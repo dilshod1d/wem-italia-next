@@ -16,6 +16,7 @@ import {
 } from "../../engine";
 
 interface HeroSectionVideoOptions {
+  pinEnabled?: boolean;
   onEnter?: () => void;
   onEnterBack?: () => void;
 }
@@ -51,6 +52,7 @@ export function useHeroSectionVideo(
       mobileVideoPan: config.mobileVideoPan,
       mobileVideoLayoutDefaults: { widthPercent: 150 },
       pinOptions: {
+        enabled: options.pinEnabled,
         armImmediately: true,
         onEnter: options.onEnter,
         onEnterBack: options.onEnterBack,

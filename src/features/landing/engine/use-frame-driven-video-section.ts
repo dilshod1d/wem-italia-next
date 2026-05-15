@@ -25,6 +25,7 @@ interface MobileVideoLayoutDefaults {
 }
 
 interface FrameDrivenSectionPinOptions {
+  enabled?: boolean;
   armImmediately?: boolean;
   armMargin?: string;
   onEnter?: () => void;
@@ -80,6 +81,7 @@ export function useFrameDrivenVideoSection({
   });
 
   const { sectionRef, isScrolled, isActive, isAtHandoff } = useSectionPin({
+    enabled: pinOptions?.enabled,
     armImmediately: pinOptions?.armImmediately,
     armMargin: pinOptions?.armMargin,
     onEnter: pinOptions?.onEnter,

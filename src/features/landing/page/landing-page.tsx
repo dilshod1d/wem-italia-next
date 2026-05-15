@@ -249,6 +249,7 @@ export function LandingPage() {
           setLogoTheme={setLogoTheme}
           onSectionActive={() => setActiveVideoSectionIndex(0)}
           preloadStrategy={getVideoPreloadStrategy(0)}
+          pinEnabled={hasInteracted}
         />
         <WhyWemWorksSection
           setLogoTheme={setLogoTheme}

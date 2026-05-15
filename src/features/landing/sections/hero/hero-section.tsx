@@ -12,12 +12,14 @@ interface HeroSectionProps {
   setLogoTheme: (theme: "light" | "dark") => void;
   onSectionActive?: () => void;
   preloadStrategy?: VideoPreloadStrategy;
+  pinEnabled?: boolean;
 }
 
 export function HeroSection({
   setLogoTheme,
   onSectionActive,
   preloadStrategy = "eager",
+  pinEnabled = true,
 }: HeroSectionProps) {
   const {
     sectionRef,
@@ -29,6 +31,7 @@ export function HeroSection({
     isActive,
     isAtHandoff,
   } = useHeroSectionVideo(heroStoryConfig, {
+    pinEnabled,
     onEnter: () => {
       setLogoTheme("light");
       onSectionActive?.();
