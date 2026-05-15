@@ -160,9 +160,18 @@ export function useScrollVideoScrubber(
 
   return useCallback(
     (time: number) => {
-      desiredTimeRef.current = time;
+      const nextDesiredTime = quantizeTime(time, fps, seekProfile.frameStep);
+
+      if (
+        Math.abs(desiredTimeRef.current - nextDesiredTime) <
+        seekProfile.epsilonSeconds * 0.5
+      ) {
+        return;
+      }
+
+      desiredTimeRef.current = nextDesiredTime;
       scheduleFlush();
     },
-    [scheduleFlush],
+    [fps, scheduleFlush, seekProfile.epsilonSeconds, seekProfile.frameStep],
   );
 }

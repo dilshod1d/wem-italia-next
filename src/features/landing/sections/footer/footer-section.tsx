@@ -7,13 +7,10 @@ import { FaFacebookF, FaLinkedinIn, FaXTwitter } from "react-icons/fa6";
 import { footerSectionConfig } from "./footer-section.data";
 import type { FooterSocialPlatform } from "./footer-section.types";
 import { GiovanniLogo, WemAILogo, WemAgencyLogo } from "../../shared/icons";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { ensureGsap } from "../../engine";
 import cx from "../../utils/cx";
 import FooterFaqRow from "./footer-faq-row";
 import FooterContactRow from "./footer-contact-row";
-
-gsap.registerPlugin(ScrollTrigger);
 
 const socialIcons: Record<FooterSocialPlatform, IconType> = {
   facebook: FaFacebookF,
@@ -109,92 +106,104 @@ export function FooterSection({ setLogoTheme }: FooterSectionProps) {
 
     if (!footer || !cta || !faqHeading || !faqList || !talk || !panel) return;
 
-    const trigger = ScrollTrigger.create({
-      trigger: footer,
-      start: "top top",
-      end: "bottom bottom",
-      onEnter: () => {
-        setLogoTheme("light");
-      },
-      onEnterBack: () => {
-        setLogoTheme("light");
-      },
-      onLeaveBack: () => {
-        setLogoTheme("dark");
-      },
-    });
+    let cancelled = false;
+    let cleanup = () => {};
 
-    const ctx = gsap.context(() => {
-      gsap.set([cta, faqHeading, faqList, talk, panel], {
-        autoAlpha: 0,
-        y: 50,
-        scale: 0.985,
+    void ensureGsap().then(({ gsap, ScrollTrigger }) => {
+      if (cancelled) return;
+
+      const trigger = ScrollTrigger.create({
+        trigger: footer,
+        start: "top top",
+        end: "bottom bottom",
+        onEnter: () => {
+          setLogoTheme("light");
+        },
+        onEnterBack: () => {
+          setLogoTheme("light");
+        },
+        onLeaveBack: () => {
+          setLogoTheme("dark");
+        },
       });
 
-      gsap
-        .timeline({
-          scrollTrigger: {
-            trigger: footer,
-            start: "top 82%",
-            once: true,
-          },
-        })
-        .to(cta, {
-          autoAlpha: 1,
-          y: 0,
-          scale: 1,
-          duration: 0.65,
-          ease: "power3.out",
-        })
-        .to(
-          faqHeading,
-          {
+      const ctx = gsap.context(() => {
+        gsap.set([cta, faqHeading, faqList, talk, panel], {
+          autoAlpha: 0,
+          y: 50,
+          scale: 0.985,
+        });
+
+        gsap
+          .timeline({
+            scrollTrigger: {
+              trigger: footer,
+              start: "top 82%",
+              once: true,
+            },
+          })
+          .to(cta, {
             autoAlpha: 1,
             y: 0,
             scale: 1,
-            duration: 0.58,
+            duration: 0.65,
             ease: "power3.out",
-          },
-          "-=0.2",
-        )
-        .to(
-          faqList,
-          {
-            autoAlpha: 1,
-            y: 0,
-            scale: 1,
-            duration: 0.62,
-            ease: "power3.out",
-          },
-          "-=0.22",
-        )
-        .to(
-          talk,
-          {
-            autoAlpha: 1,
-            y: 0,
-            scale: 1,
-            duration: 0.62,
-            ease: "power3.out",
-          },
-          "-=0.18",
-        )
-        .to(
-          panel,
-          {
-            autoAlpha: 1,
-            y: 0,
-            scale: 1,
-            duration: 0.62,
-            ease: "power3.out",
-          },
-          "-=0.2",
-        );
-    }, footer);
+          })
+          .to(
+            faqHeading,
+            {
+              autoAlpha: 1,
+              y: 0,
+              scale: 1,
+              duration: 0.58,
+              ease: "power3.out",
+            },
+            "-=0.2",
+          )
+          .to(
+            faqList,
+            {
+              autoAlpha: 1,
+              y: 0,
+              scale: 1,
+              duration: 0.62,
+              ease: "power3.out",
+            },
+            "-=0.22",
+          )
+          .to(
+            talk,
+            {
+              autoAlpha: 1,
+              y: 0,
+              scale: 1,
+              duration: 0.62,
+              ease: "power3.out",
+            },
+            "-=0.18",
+          )
+          .to(
+            panel,
+            {
+              autoAlpha: 1,
+              y: 0,
+              scale: 1,
+              duration: 0.62,
+              ease: "power3.out",
+            },
+            "-=0.2",
+          );
+      }, footer);
+
+      cleanup = () => {
+        ctx.revert();
+        trigger.kill();
+      };
+    });
 
     return () => {
-      ctx.revert();
-      trigger.kill();
+      cancelled = true;
+      cleanup();
     };
   }, [setLogoTheme]);
 

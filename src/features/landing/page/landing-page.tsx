@@ -2,14 +2,10 @@
 
 import dynamic from "next/dynamic";
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-import { useDynamicViewportHeight } from "../engine";
+import { ensureGsap, useDynamicViewportHeight } from "../engine";
 import { HeroSection } from "../sections/hero";
 import { LandingNavbar, type VideoPreloadStrategy } from "../shared";
-
-gsap.registerPlugin(ScrollTrigger);
 
 const WhyWemWorksSection = dynamic(
   () =>
@@ -124,7 +120,9 @@ export function LandingPage() {
 
       refreshFrameRef.current = requestAnimationFrame(() => {
         refreshFrameRef.current = 0;
-        ScrollTrigger.refresh();
+        void ensureGsap().then(({ ScrollTrigger }) => {
+          ScrollTrigger.refresh();
+        });
       });
     };
 
@@ -148,9 +146,11 @@ export function LandingPage() {
   });
 
   const resetScrollPosition = useCallback(() => {
-    ScrollTrigger.clearScrollMemory("manual");
     window.scrollTo(0, 0);
-    queueScrollTriggerRefresh();
+    void ensureGsap().then(({ ScrollTrigger }) => {
+      ScrollTrigger.clearScrollMemory("manual");
+      queueScrollTriggerRefresh();
+    });
   }, [queueScrollTriggerRefresh]);
 
   const resetToLandingStart = useCallback(() => {

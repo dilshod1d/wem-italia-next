@@ -8,8 +8,6 @@ import {
   type PointerEvent,
 } from "react";
 import { FiArrowRight } from "react-icons/fi";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 import { PortfolioCard } from "./portfolio-card";
 import { portfolioResultsSectionConfig } from "./portfolio-results-story";
@@ -17,6 +15,7 @@ import {
   getPortfolioRowCenterIndex,
   PORTFOLIO_TOUCH_INTENT_THRESHOLD,
   settleNullablePortfolioTrackToNearestItem,
+  syncPortfolioTrackGeometry,
   type PortfolioTrackMotionState,
   updatePortfolioPointerPosition,
   updatePortfolioTouchDragPosition,
@@ -30,9 +29,8 @@ import {
   CinematicVideoSection,
   type VideoPreloadStrategy,
 } from "../../shared";
+import { ensureGsap } from "../../engine";
 import cx from "../../utils/cx";
-
-gsap.registerPlugin(ScrollTrigger);
 
 const { videoUrl, copy, portfolioItems, metrics, focusItemId } =
   portfolioResultsSectionConfig;
@@ -77,6 +75,7 @@ export function PortfolioResultsHybridSection({
     settleTimer: null,
     activeIndex: PORTFOLIO_ROW_CENTER_INDEX,
     onActiveIndexChange: setActivePortfolioIndex,
+    geometry: null,
   });
   const {
     sectionRef,
@@ -112,6 +111,42 @@ export function PortfolioResultsHybridSection({
       if (motionState.settleTimer !== null) {
         window.clearTimeout(motionState.settleTimer);
       }
+    };
+  }, []);
+
+  useLayoutEffect(() => {
+    const track = portfolioTrackRef.current;
+    const viewport = portfolioViewportRef.current;
+
+    if (!track || !viewport) return;
+
+    let frameId = 0;
+    const syncGeometry = () => {
+      frameId = 0;
+      syncPortfolioTrackGeometry(track, viewport, portfolioMotionRef.current);
+    };
+    const scheduleSync = () => {
+      if (frameId) return;
+      frameId = requestAnimationFrame(syncGeometry);
+    };
+
+    scheduleSync();
+
+    const resizeObserver = new ResizeObserver(scheduleSync);
+    resizeObserver.observe(track);
+    resizeObserver.observe(viewport);
+    window.addEventListener("resize", scheduleSync);
+    const fontsReady = document.fonts?.ready;
+    if (fontsReady) {
+      void fontsReady.then(scheduleSync);
+    }
+
+    return () => {
+      if (frameId) {
+        cancelAnimationFrame(frameId);
+      }
+      resizeObserver.disconnect();
+      window.removeEventListener("resize", scheduleSync);
     };
   }, []);
 
@@ -175,61 +210,73 @@ export function PortfolioResultsHybridSection({
 
     if (!section || !heading || !grid || !cta) return;
 
-    const ctx = gsap.context(() => {
-      const cards = Array.from(
-        grid.querySelectorAll<HTMLElement>("[data-metric-card]"),
-      );
-      const revealTargets = [heading, cta, ...cards];
+    let cancelled = false;
+    let cleanup = () => {};
 
-      gsap.set(revealTargets, {
-        autoAlpha: 0,
-        y: 48,
-        scale: 0.985,
-      });
+    void ensureGsap().then(({ gsap }) => {
+      if (cancelled) return;
 
-      gsap
-        .timeline({
-          scrollTrigger: {
-            trigger: section,
-            start: "top 72%",
-            once: true,
-          },
-        })
-        .to(heading, {
-          autoAlpha: 1,
-          y: 0,
-          scale: 1,
-          duration: 0.7,
-          ease: "power3.out",
-        })
-        .call(() => setAreMetricsVisible(true), [], "-=0.08")
-        .to(
-          cards,
-          {
+      const ctx = gsap.context(() => {
+        const cards = Array.from(
+          grid.querySelectorAll<HTMLElement>("[data-metric-card]"),
+        );
+        const revealTargets = [heading, cta, ...cards];
+
+        gsap.set(revealTargets, {
+          autoAlpha: 0,
+          y: 48,
+          scale: 0.985,
+        });
+
+        gsap
+          .timeline({
+            scrollTrigger: {
+              trigger: section,
+              start: "top 72%",
+              once: true,
+            },
+          })
+          .to(heading, {
             autoAlpha: 1,
             y: 0,
             scale: 1,
             duration: 0.7,
             ease: "power3.out",
-            stagger: 0.12,
-          },
-          "-=0.22",
-        )
-        .to(
-          cta,
-          {
-            autoAlpha: 1,
-            y: 0,
-            scale: 1,
-            duration: 0.5,
-            ease: "power3.out",
-          },
-          "-=0.28",
-        );
-    }, section);
+          })
+          .call(() => setAreMetricsVisible(true), [], "-=0.08")
+          .to(
+            cards,
+            {
+              autoAlpha: 1,
+              y: 0,
+              scale: 1,
+              duration: 0.7,
+              ease: "power3.out",
+              stagger: 0.12,
+            },
+            "-=0.22",
+          )
+          .to(
+            cta,
+            {
+              autoAlpha: 1,
+              y: 0,
+              scale: 1,
+              duration: 0.5,
+              ease: "power3.out",
+            },
+            "-=0.28",
+          );
+      }, section);
+
+      cleanup = () => {
+        ctx.revert();
+      };
+    });
 
     return () => {
-      ctx.revert();
+      cancelled = true;
+      cleanup();
     };
   }, []);
 

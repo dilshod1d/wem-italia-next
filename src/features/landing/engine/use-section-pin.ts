@@ -1,16 +1,16 @@
 "use client";
 
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-
-gsap.registerPlugin(ScrollTrigger);
+import { ensureGsap } from "./ensure-gsap";
 
 export const CHAPTER_SCROLL_DISTANCE = 1800;
 const CHAPTER_HANDOFF_PROGRESS = 0.985;
 
 interface UseSectionPinOptions {
   pinDistance?: number;
+  enabled?: boolean;
+  armImmediately?: boolean;
+  armMargin?: string;
   onUpdate?: (progress: number) => void;
   onEnter?: () => void;
   onEnterBack?: () => void;
@@ -18,6 +18,9 @@ interface UseSectionPinOptions {
 
 export function useSectionPin({
   pinDistance = CHAPTER_SCROLL_DISTANCE,
+  enabled = true,
+  armImmediately = false,
+  armMargin = "100% 0px",
   onUpdate,
   onEnter,
   onEnterBack,
@@ -32,6 +35,7 @@ export function useSectionPin({
   const [isScrolled, setIsScrolled] = useState(false);
   const [isActive, setIsActive] = useState(false);
   const [isAtHandoff, setIsAtHandoff] = useState(false);
+  const [isArmed, setIsArmed] = useState(armImmediately);
 
   useEffect(() => {
     updateRef.current = onUpdate;
@@ -45,11 +49,45 @@ export function useSectionPin({
     enterBackRef.current = onEnterBack;
   }, [onEnterBack]);
 
+  useEffect(() => {
+    if (!enabled) return;
+    if (armImmediately) return;
+
+    const section = sectionRef.current;
+    if (!section || isArmed) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) return;
+
+        setIsArmed(true);
+        observer.disconnect();
+      },
+      {
+        rootMargin: armMargin,
+        threshold: 0.01,
+      },
+    );
+
+    observer.observe(section);
+
+    return () => {
+      observer.disconnect();
+    };
+  }, [armImmediately, armMargin, enabled, isArmed]);
+
   useLayoutEffect(() => {
+    if (!enabled || !isArmed) return;
+
     const section = sectionRef.current;
     const pinTarget = section?.firstElementChild;
 
     if (!section || !(pinTarget instanceof HTMLElement)) return;
+
+    let cleanup = () => {
+      section.style.zIndex = "0";
+    };
+    let cancelled = false;
 
     const syncActive = (active: boolean) => {
       section.style.zIndex = active ? "30" : "0";
@@ -67,47 +105,59 @@ export function useSectionPin({
       setIsAtHandoff(handoff);
     };
 
-    const trigger = ScrollTrigger.create({
-      trigger: section,
-      start: "top top",
-      end: `+=${pinDistance}`,
-      scrub: true,
-      pin: pinTarget,
-      pinSpacing: true,
-      onEnter: () => {
-        enterRef.current?.();
-      },
-      onEnterBack: () => {
-        enterBackRef.current?.();
-      },
-      onToggle: (self) => {
-        syncActive(self.isActive);
-        if (!self.isActive) syncHandoff(false);
-      },
-      onRefresh: (self) => {
-        syncActive(self.isActive);
-        syncHandoff(self.isActive && self.progress >= CHAPTER_HANDOFF_PROGRESS);
-      },
-      onUpdate: (self) => {
-        updateRef.current?.(self.progress);
-        syncHandoff(self.isActive && self.progress >= CHAPTER_HANDOFF_PROGRESS);
+    void ensureGsap().then(({ ScrollTrigger }) => {
+      if (cancelled) return;
 
-        const nextScrolled = self.progress > 0.02;
+      const trigger = ScrollTrigger.create({
+        trigger: section,
+        start: "top top",
+        end: `+=${pinDistance}`,
+        scrub: true,
+        pin: pinTarget,
+        pinSpacing: true,
+        onEnter: () => {
+          enterRef.current?.();
+        },
+        onEnterBack: () => {
+          enterBackRef.current?.();
+        },
+        onToggle: (self) => {
+          syncActive(self.isActive);
+          if (!self.isActive) syncHandoff(false);
+        },
+        onRefresh: (self) => {
+          syncActive(self.isActive);
+          syncHandoff(
+            self.isActive && self.progress >= CHAPTER_HANDOFF_PROGRESS,
+          );
+        },
+        onUpdate: (self) => {
+          updateRef.current?.(self.progress);
+          syncHandoff(
+            self.isActive && self.progress >= CHAPTER_HANDOFF_PROGRESS,
+          );
 
-        if (nextScrolled !== scrolledRef.current) {
-          scrolledRef.current = nextScrolled;
-          setIsScrolled(nextScrolled);
-        }
-      },
+          const nextScrolled = self.progress > 0.02;
+
+          if (nextScrolled !== scrolledRef.current) {
+            scrolledRef.current = nextScrolled;
+            setIsScrolled(nextScrolled);
+          }
+        },
+      });
+
+      syncActive(trigger.isActive);
+      cleanup = () => {
+        section.style.zIndex = "0";
+        trigger.kill();
+      };
     });
 
-    syncActive(trigger.isActive);
-
     return () => {
-      section.style.zIndex = "0";
-      trigger.kill();
+      cancelled = true;
+      cleanup();
     };
-  }, [pinDistance]);
+  }, [enabled, isArmed, pinDistance]);
 
   return {
     sectionRef,

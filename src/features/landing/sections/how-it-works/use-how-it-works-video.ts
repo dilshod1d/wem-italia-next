@@ -1,13 +1,20 @@
 "use client";
 
-import { useRef, useState } from "react";
-import { useSectionPin } from "@/features/landing/engine/use-section-pin";
+import { useLayoutEffect, useRef, useState } from "react";
 
 import type {
   HowItWorksSectionConfig,
   HowItWorksStageKey,
 } from "./how-it-works.types";
-import { useScrollVideoScrubber, useVideoDebugLogger } from "../../engine";
+import {
+  applyMobileVideoLayout,
+  applyMobileVideoTransform,
+  getResolvedMobileVideoLayout,
+  resolveMobileVideoPanTransform,
+  useScrollVideoScrubber,
+  useSectionPin,
+  useVideoDebugLogger,
+} from "../../engine";
 
 interface HowItWorksVideoState {
   lastStageKey: HowItWorksStageKey;
@@ -18,102 +25,6 @@ interface HowItWorksVideoOptions {
   onEnterBack?: () => void;
 }
 
-function getMobileVideoPanTransform(
-  currentFrame: number,
-  pans: HowItWorksSectionConfig["mobileVideoPan"],
-  mobileVideoConfig: HowItWorksSectionConfig["mobileVideoConfig"],
-) {
-  const activePan = pans?.find(
-    (pan) => currentFrame >= pan.startFrame && currentFrame <= pan.endFrame,
-  );
-
-  if (!activePan) return null;
-
-  // const progress =
-  //   activePan.endFrame === activePan.startFrame
-  //     ? 1
-  //     : (currentFrame - activePan.startFrame) /
-  //       (activePan.endFrame - activePan.startFrame);
-
-  // const easedProgress = 1 - Math.pow(1 - progress, 3);
-  const progress =
-    activePan.endFrame === activePan.startFrame
-      ? 1
-      : (currentFrame - activePan.startFrame) /
-        (activePan.endFrame - activePan.startFrame);
-
-  const easeOutCubic = (t: number) => 1 - (1 - t) ** 3;
-
-  const easedProgress = easeOutCubic(progress);
-
-  const fromY = activePan.fromY ?? 0;
-  const toY = activePan.toY ?? fromY;
-  const fromScale = activePan.fromScale ?? 1;
-  const toScale = activePan.toScale ?? fromScale;
-  const x = activePan.fromX + (activePan.toX - activePan.fromX) * easedProgress;
-  const y = fromY + (toY - fromY) * easedProgress;
-
-  return {
-    x,
-    y,
-    scale: fromScale + (toScale - fromScale) * easedProgress,
-    objectFit: mobileVideoConfig?.objectFit ?? "cover",
-    objectPosition: mobileVideoConfig?.objectPosition ?? "center center",
-    widthPercent: mobileVideoConfig?.widthPercent ?? 180,
-    heightPercent: mobileVideoConfig?.heightPercent ?? 100,
-    verticalAnchor: mobileVideoConfig?.verticalAnchor ?? "top",
-  };
-}
-
-function applyMobileVideoPan(
-  video: HTMLVideoElement | null,
-  pan: {
-    x: number;
-    y: number;
-    scale: number;
-    objectFit: "cover" | "contain";
-    objectPosition: "center center" | "center top" | "center bottom";
-    widthPercent: number;
-    heightPercent: number;
-    verticalAnchor: "top" | "center" | "bottom";
-  } | null,
-) {
-  if (!video) return;
-
-  const isMobile = window.matchMedia("(max-width: 767px)").matches;
-
-  if (pan && isMobile) {
-    video.style.width = `${pan.widthPercent}%`;
-    video.style.height = `${pan.heightPercent}%`;
-    video.style.maxWidth = "none";
-    video.style.left = "0";
-    video.style.right = "auto";
-    video.style.top =
-      pan.verticalAnchor === "center"
-        ? `${(100 - pan.heightPercent) / 2}%`
-        : pan.verticalAnchor === "bottom"
-          ? "auto"
-          : "0";
-    video.style.bottom = pan.verticalAnchor === "bottom" ? "0" : "auto";
-    video.style.objectFit = pan.objectFit;
-    video.style.objectPosition = pan.objectPosition;
-    video.style.transformOrigin = "center center";
-    video.style.transform = `translate3d(${pan.x}%, ${pan.y}%, 0) scale(${pan.scale})`;
-  } else {
-    video.style.width = "";
-    video.style.height = "";
-    video.style.maxWidth = "";
-    video.style.left = "";
-    video.style.right = "";
-    video.style.top = "";
-    video.style.bottom = "";
-    video.style.objectFit = "";
-    video.style.objectPosition = "";
-    video.style.transformOrigin = "";
-    video.style.transform = "";
-  }
-}
-
 export function useHowItWorksVideo(
   config: HowItWorksSectionConfig,
   options: HowItWorksVideoOptions = {},
@@ -121,6 +32,8 @@ export function useHowItWorksVideo(
   const { fps, stages, totalFrames, videoDuration, videoUrl } = config;
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const scrubVideo = useScrollVideoScrubber(videoRef, { fps });
+  const isMobileViewportRef = useRef(false);
+  const lastFrameRef = useRef(-1);
   const stateRef = useRef<HowItWorksVideoState>({
     lastStageKey: stages[0]?.key ?? "intro",
   });
@@ -143,16 +56,20 @@ export function useHowItWorksVideo(
       const currentFrame = Math.round(
         Math.min(Math.max(currentTime * fps, 0), totalFrames),
       );
-
-      const mobilePan = getMobileVideoPanTransform(
-        currentFrame,
-        config.mobileVideoPan,
-        config.mobileVideoConfig,
-      );
+      if (currentFrame === lastFrameRef.current) return;
+      lastFrameRef.current = currentFrame;
 
       scrubVideo(currentFrame / fps);
 
-      applyMobileVideoPan(video, mobilePan);
+      applyMobileVideoTransform(
+        video,
+        resolveMobileVideoPanTransform(
+          currentFrame,
+          config.mobileVideoPan,
+          (value) => 1 - (1 - value) ** 3,
+        ),
+        isMobileViewportRef.current,
+      );
 
       const { lastStageKey } = stateRef.current;
       const activeStage = stages.find(
@@ -172,6 +89,38 @@ export function useHowItWorksVideo(
       }
     },
   });
+
+  useLayoutEffect(() => {
+    const video = videoRef.current;
+    const mobileLayout = getResolvedMobileVideoLayout(config.mobileVideoConfig);
+    const initialFrame = config.mobileVideoPan?.[0]?.startFrame ?? 0;
+    const syncLayout = (matches: boolean) => {
+      isMobileViewportRef.current = matches;
+      applyMobileVideoLayout(video, mobileLayout, matches);
+      applyMobileVideoTransform(
+        video,
+        resolveMobileVideoPanTransform(
+          initialFrame,
+          config.mobileVideoPan,
+          (progress) => 1 - (1 - progress) ** 3,
+        ),
+        matches,
+      );
+    };
+
+    syncLayout(window.matchMedia("(max-width: 767px)").matches);
+
+    const mediaQuery = window.matchMedia("(max-width: 767px)");
+    const handleChange = (event: MediaQueryListEvent) => {
+      syncLayout(event.matches);
+    };
+
+    mediaQuery.addEventListener("change", handleChange);
+
+    return () => {
+      mediaQuery.removeEventListener("change", handleChange);
+    };
+  }, [config.mobileVideoConfig, config.mobileVideoPan, isActive]);
 
   return {
     sectionRef,

@@ -1,13 +1,10 @@
 "use client";
 
 import { useLayoutEffect, useRef } from "react";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { whoWeSupportSectionConfig } from "./who-we-support-story";
 import AudienceCard from "./audience-card";
 import WarningCard from "./warning-card";
-
-gsap.registerPlugin(ScrollTrigger);
+import { ensureGsap } from "../../engine";
 
 const { copy, cards } = whoWeSupportSectionConfig;
 
@@ -25,60 +22,72 @@ export function WhoWeSupportSection() {
 
     if (!section || !heading || !grid || !warning) return;
 
-    const ctx = gsap.context(() => {
-      const cards = Array.from(
-        grid.querySelectorAll<HTMLElement>("[data-audience-card]"),
-      );
-      const revealTargets = [heading, warning, ...cards];
+    let cancelled = false;
+    let cleanup = () => {};
 
-      gsap.set(revealTargets, {
-        autoAlpha: 0,
-        y: 46,
-        scale: 0.985,
-      });
+    void ensureGsap().then(({ gsap }) => {
+      if (cancelled) return;
 
-      gsap
-        .timeline({
-          scrollTrigger: {
-            trigger: section,
-            start: "top 74%",
-            once: true,
-          },
-        })
-        .to(heading, {
-          autoAlpha: 1,
-          y: 0,
-          scale: 1,
-          duration: 0.7,
-          ease: "power3.out",
-        })
-        .to(
-          cards,
-          {
-            autoAlpha: 1,
-            y: 0,
-            scale: 1,
-            duration: 0.75,
-            ease: "power3.out",
-            stagger: 0.12,
-          },
-          "-=0.22",
-        )
-        .to(
-          warning,
-          {
-            autoAlpha: 1,
-            y: 0,
-            scale: 1,
-            duration: 0.65,
-            ease: "power3.out",
-          },
-          "-=0.18",
+      const ctx = gsap.context(() => {
+        const cards = Array.from(
+          grid.querySelectorAll<HTMLElement>("[data-audience-card]"),
         );
-    }, section);
+        const revealTargets = [heading, warning, ...cards];
+
+        gsap.set(revealTargets, {
+          autoAlpha: 0,
+          y: 46,
+          scale: 0.985,
+        });
+
+        gsap
+          .timeline({
+            scrollTrigger: {
+              trigger: section,
+              start: "top 74%",
+              once: true,
+            },
+          })
+          .to(heading, {
+            autoAlpha: 1,
+            y: 0,
+            scale: 1,
+            duration: 0.7,
+            ease: "power3.out",
+          })
+          .to(
+            cards,
+            {
+              autoAlpha: 1,
+              y: 0,
+              scale: 1,
+              duration: 0.75,
+              ease: "power3.out",
+              stagger: 0.12,
+            },
+            "-=0.22",
+          )
+          .to(
+            warning,
+            {
+              autoAlpha: 1,
+              y: 0,
+              scale: 1,
+              duration: 0.65,
+              ease: "power3.out",
+            },
+            "-=0.18",
+          );
+      }, section);
+
+      cleanup = () => {
+        ctx.revert();
+      };
+    });
 
     return () => {
-      ctx.revert();
+      cancelled = true;
+      cleanup();
     };
   }, []);
 
