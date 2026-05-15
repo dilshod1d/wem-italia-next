@@ -145,13 +145,21 @@ export function LandingPage() {
     onHeightChange: refreshScrollTriggers,
   });
 
-  const resetScrollPosition = useCallback(() => {
-    window.scrollTo(0, 0);
-    void ensureGsap().then(({ ScrollTrigger }) => {
-      ScrollTrigger.clearScrollMemory("manual");
-      queueScrollTriggerRefresh();
-    });
-  }, [queueScrollTriggerRefresh]);
+  const resetScrollPosition = useCallback(
+    ({ refresh = true }: { refresh?: boolean } = {}) => {
+      if (window.scrollX !== 0 || window.scrollY !== 0) {
+        window.scrollTo(0, 0);
+      }
+
+      if (!refresh) return;
+
+      void ensureGsap().then(({ ScrollTrigger }) => {
+        ScrollTrigger.clearScrollMemory("manual");
+        queueScrollTriggerRefresh();
+      });
+    },
+    [queueScrollTriggerRefresh],
+  );
 
   const resetToLandingStart = useCallback(() => {
     setLogoTheme("light");
@@ -162,11 +170,14 @@ export function LandingPage() {
     const previousScrollRestoration = window.history.scrollRestoration;
 
     window.history.scrollRestoration = "manual";
-    resetScrollPosition();
 
     return () => {
       window.history.scrollRestoration = previousScrollRestoration;
     };
+  }, []);
+
+  useEffect(() => {
+    resetScrollPosition({ refresh: false });
   }, [resetScrollPosition]);
 
   useEffect(() => {

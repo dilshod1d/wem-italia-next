@@ -5,6 +5,7 @@ import { useLayoutEffect, type RefObject } from "react";
 interface UseDynamicViewportHeightOptions {
   propertyName?: string;
   onHeightChange?: () => void;
+  notifyOnMount?: boolean;
 }
 
 export function useDynamicViewportHeight(
@@ -12,6 +13,7 @@ export function useDynamicViewportHeight(
   {
     propertyName = "--landing-viewport-height",
     onHeightChange,
+    notifyOnMount = false,
   }: UseDynamicViewportHeightOptions = {},
 ) {
   useLayoutEffect(() => {
@@ -57,7 +59,7 @@ export function useDynamicViewportHeight(
     const scheduleLayoutSync = () => scheduleSync(true);
     const scheduleViewportSync = () => scheduleSync(false);
 
-    syncHeight(true);
+    syncHeight(notifyOnMount);
 
     window.addEventListener("resize", scheduleLayoutSync);
     window.addEventListener("orientationchange", scheduleLayoutSync);
@@ -73,5 +75,5 @@ export function useDynamicViewportHeight(
       window.visualViewport?.removeEventListener("scroll", scheduleViewportSync);
       element.style.removeProperty(propertyName);
     };
-  }, [elementRef, onHeightChange, propertyName]);
+  }, [elementRef, notifyOnMount, onHeightChange, propertyName]);
 }
