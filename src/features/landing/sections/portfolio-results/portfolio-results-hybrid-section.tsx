@@ -125,6 +125,8 @@ export function PortfolioResultsHybridSection({
   }, []);
 
   useLayoutEffect(() => {
+    if (!(isVideoActive || isFlowPortfolioActive)) return;
+
     const track = portfolioTrackRef.current;
     const viewport = portfolioViewportRef.current;
 
@@ -158,7 +160,7 @@ export function PortfolioResultsHybridSection({
       resizeObserver.disconnect();
       window.removeEventListener("resize", scheduleSync);
     };
-  }, []);
+  }, [isFlowPortfolioActive, isVideoActive]);
 
   useEffect(() => {
     const interaction = portfolioInteractionRef.current;
