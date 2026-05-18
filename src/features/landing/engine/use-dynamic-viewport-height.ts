@@ -59,7 +59,9 @@ export function useDynamicViewportHeight(
     const scheduleLayoutSync = () => scheduleSync(true);
     const scheduleViewportSync = () => scheduleSync(false);
 
-    syncHeight(notifyOnMount);
+    // Let the first paint use the 100vh fallback, then sync the precise
+    // viewport height on the next frame to avoid a mount-time forced reflow.
+    scheduleSync(notifyOnMount);
 
     window.addEventListener("resize", scheduleLayoutSync);
     window.addEventListener("orientationchange", scheduleLayoutSync);
