@@ -1,7 +1,6 @@
 "use client";
 
 import {
-  useCallback,
   useEffect,
   useLayoutEffect,
   useMemo,
@@ -36,7 +35,6 @@ interface ChapterProps {
   videoClassName?: string;
   contentClassName?: string;
   preloadStrategy?: VideoPreloadStrategy;
-  deferVideoUntilPaint?: boolean;
 }
 
 export function Chapter({
@@ -59,7 +57,6 @@ export function Chapter({
   videoClassName,
   contentClassName,
   preloadStrategy = "none",
-  deferVideoUntilPaint = false,
 }: ChapterProps) {
   const isIOS = useMemo(() => {
     if (typeof window === "undefined") return false;
@@ -71,45 +68,33 @@ export function Chapter({
   const [resolvedVideoSrc, setResolvedVideoSrc] = useState<string | undefined>(
     undefined,
   );
-  const [isVideoMountReady, setIsVideoMountReady] = useState(
-    !deferVideoUntilPaint,
-  );
 
   useIOSVideoUnlock(videoRef, isIOS && isActive, resolvedVideoSrc);
 
-  const syncResolvedVideoSrc = useCallback(() => {
-    if (typeof window === "undefined") return;
-
-    const mediaQuery = window.matchMedia("(max-width: 767px)");
-    const nextVideoSrc =
-      mediaQuery.matches && mobileVideoSrc ? mobileVideoSrc : fallbackVideoSrc;
-
-    setResolvedVideoSrc((currentVideoSrc) =>
-      currentVideoSrc === nextVideoSrc ? currentVideoSrc : nextVideoSrc,
-    );
-  }, [fallbackVideoSrc, mobileVideoSrc]);
-
   useLayoutEffect(() => {
-    if (deferVideoUntilPaint) return;
     if (typeof window === "undefined") return;
 
     const mediaQuery = window.matchMedia("(max-width: 767px)");
-    let frameId = requestAnimationFrame(() => {
-      frameId = 0;
-      syncResolvedVideoSrc();
-    });
+
+    const syncVideoSrc = () => {
+      const nextVideoSrc =
+        mediaQuery.matches && mobileVideoSrc ? mobileVideoSrc : fallbackVideoSrc;
+
+      setResolvedVideoSrc((currentVideoSrc) =>
+        currentVideoSrc === nextVideoSrc ? currentVideoSrc : nextVideoSrc,
+      );
+    };
+
+    syncVideoSrc();
 
     const handleChange = () => {
-      syncResolvedVideoSrc();
+      syncVideoSrc();
     };
 
     if (typeof mediaQuery.addEventListener === "function") {
       mediaQuery.addEventListener("change", handleChange);
 
       return () => {
-        if (frameId) {
-          cancelAnimationFrame(frameId);
-        }
         mediaQuery.removeEventListener("change", handleChange);
       };
     }
@@ -117,45 +102,9 @@ export function Chapter({
     mediaQuery.addListener(handleChange);
 
     return () => {
-      if (frameId) {
-        cancelAnimationFrame(frameId);
-      }
       mediaQuery.removeListener(handleChange);
     };
-  }, [deferVideoUntilPaint, syncResolvedVideoSrc]);
-
-  useEffect(() => {
-    if (!deferVideoUntilPaint) return;
-
-    let frameId = requestAnimationFrame(() => {
-      frameId = 0;
-      setIsVideoMountReady(true);
-      syncResolvedVideoSrc();
-    });
-
-    const mediaQuery = window.matchMedia("(max-width: 767px)");
-    const handleChange = () => {
-      syncResolvedVideoSrc();
-    };
-
-    if (typeof mediaQuery.addEventListener === "function") {
-      mediaQuery.addEventListener("change", handleChange);
-    } else {
-      mediaQuery.addListener(handleChange);
-    }
-
-    return () => {
-      if (frameId) {
-        cancelAnimationFrame(frameId);
-      }
-
-      if (typeof mediaQuery.addEventListener === "function") {
-        mediaQuery.removeEventListener("change", handleChange);
-      } else {
-        mediaQuery.removeListener(handleChange);
-      }
-    };
-  }, [deferVideoUntilPaint, syncResolvedVideoSrc]);
+  }, [fallbackVideoSrc, mobileVideoSrc]);
 
   useEffect(() => {
     if (isActive) return;
@@ -164,9 +113,7 @@ export function Chapter({
   }, [isActive, videoRef]);
 
   const shouldAttachVideo =
-    isVideoMountReady &&
-    Boolean(resolvedVideoSrc) &&
-    (preloadStrategy !== "none" || isActive);
+    Boolean(resolvedVideoSrc) && (preloadStrategy !== "none" || isActive);
 
   const isPanelVisible = !isolateWhenInactive || isActive;
   const shouldAutoPreload = preloadStrategy === "eager" || isActive;
