@@ -25,6 +25,7 @@ interface CinematicVideoSectionProps {
   sectionClassName?: string;
   videoClassName?: string;
   preloadStrategy?: VideoPreloadStrategy;
+  deferVideoUntilPaint?: boolean;
 }
 
 export function CinematicVideoSection({
@@ -46,6 +47,7 @@ export function CinematicVideoSection({
   sectionClassName,
   videoClassName,
   preloadStrategy,
+  deferVideoUntilPaint,
 }: CinematicVideoSectionProps) {
   return (
     <Chapter
@@ -66,6 +68,7 @@ export function CinematicVideoSection({
       sectionClassName={cx("relative", sectionClassName)}
       videoClassName={videoClassName}
       preloadStrategy={preloadStrategy}
+      deferVideoUntilPaint={deferVideoUntilPaint}
     >
       {children}
     </Chapter>

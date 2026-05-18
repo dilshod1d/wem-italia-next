@@ -56,6 +56,7 @@ export function HeroSection({
       isScrolled={isScrolled}
       navTheme="dark"
       preloadStrategy={preloadStrategy}
+      deferVideoUntilPaint
       indicatorLabel="Scroll to explore"
       indicatorDelayMs={1800}
       videoClassName="hero-mobile-pan md:object-[center_58%] object-[center_0%]"
