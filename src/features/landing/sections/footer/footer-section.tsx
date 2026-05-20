@@ -299,7 +299,7 @@ export function FooterSection({ setLogoTheme }: FooterSectionProps) {
 
             <form
               onSubmit={(event) => event.preventDefault()}
-              className="rounded-[0.75rem] border border-brand-cyan/55 bg-footer-surface p-2.5 shadow-[0_16px_40px_rgba(0,0,0,0.18)] sm:p-3"
+              className="rounded-xl border border-brand-cyan/55 bg-footer-surface p-2.5 shadow-[0_16px_40px_rgba(0,0,0,0.18)] sm:p-3"
             >
               <div className="grid gap-3">
                 <input
