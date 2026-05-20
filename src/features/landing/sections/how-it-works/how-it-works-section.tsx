@@ -70,7 +70,7 @@ export function HowItWorksSection({
           <div className="landing-copy-panel-alt text-black">
             <p
               className={cx(
-                "text-eyebrow text-black/25 transition-all duration-700",
+                "text-eyebrow text-black/60 transition-all duration-700",
                 showHeading
                   ? "translate-y-0 opacity-100"
                   : "translate-y-8 opacity-0",

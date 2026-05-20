@@ -463,12 +463,12 @@ export function PortfolioResultsHybridSection({
           )}
         >
           <div className="max-w-[70rem] shrink-0 text-center text-black sm:text-left">
-            <p
-              className={cx(
-                "text-eyebrow text-black/25 transition-all duration-700",
-                showUnifiedHeader
-                  ? "translate-y-0 opacity-100"
-                  : "translate-y-8 opacity-0",
+              <p
+                className={cx(
+                  "text-eyebrow text-black/60 transition-all duration-700",
+                  showUnifiedHeader
+                    ? "translate-y-0 opacity-100"
+                    : "translate-y-8 opacity-0",
               )}
             >
               {header.eyebrow}
@@ -547,7 +547,7 @@ export function PortfolioResultsHybridSection({
             ref={metricsHeadingRef}
             className="text-center text-black sm:text-left"
           >
-            <p className="text-eyebrow text-black/25">{proofSection.eyebrow}</p>
+            <p className="text-eyebrow text-black/60">{proofSection.eyebrow}</p>
             <h2 className="heading">{proofSection.title}</h2>
           </div>
 

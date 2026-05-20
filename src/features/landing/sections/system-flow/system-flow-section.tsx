@@ -73,7 +73,7 @@ export function SystemFlowSection({
             <div className="shrink-0">
               <p
                 className={cx(
-                  "text-eyebrow text-black/25 transition-all duration-700",
+                  "text-eyebrow text-black/60 transition-all duration-700",
                   showHeader
                     ? "translate-y-0 opacity-100"
                     : "translate-y-6 opacity-0",
