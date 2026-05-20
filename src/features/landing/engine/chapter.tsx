@@ -2,6 +2,7 @@
 
 import {
   useEffect,
+  useLayoutEffect,
   useMemo,
   useState,
   type ReactNode,
@@ -65,12 +66,12 @@ export function Chapter({
   // Keep one concrete asset attached per device class. Safari can still
   // inspect or preload fallback <source> entries even when media matches.
   const [resolvedVideoSrc, setResolvedVideoSrc] = useState<string | undefined>(
-    fallbackVideoSrc,
+    undefined,
   );
 
   useIOSVideoUnlock(videoRef, isIOS && isActive, resolvedVideoSrc);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (typeof window === "undefined") return;
 
     const mediaQuery = window.matchMedia("(max-width: 767px)");
