@@ -1,6 +1,6 @@
 "use client";
 
-import { useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import type { IconType } from "react-icons";
 import { FaFacebookF, FaLinkedinIn, FaXTwitter } from "react-icons/fa6";
 
@@ -41,9 +41,37 @@ export function FooterSection({ setLogoTheme }: FooterSectionProps) {
   const footerFaqListRef = useRef<HTMLDivElement | null>(null);
   const footerTalkRef = useRef<HTMLDivElement | null>(null);
   const footerPanelRef = useRef<HTMLDivElement | null>(null);
+  const [isFooterArmed, setIsFooterArmed] = useState(false);
   const [openFaqId, setOpenFaqId] = useState<string | null>(null);
 
+  useEffect(() => {
+    const footer = footerRef.current;
+
+    if (!footer || isFooterArmed) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) return;
+
+        setIsFooterArmed(true);
+        observer.disconnect();
+      },
+      {
+        rootMargin: "100% 0px",
+        threshold: 0.01,
+      },
+    );
+
+    observer.observe(footer);
+
+    return () => {
+      observer.disconnect();
+    };
+  }, [isFooterArmed]);
+
   useLayoutEffect(() => {
+    if (!isFooterArmed) return;
+
     const frame = footerFrameRef.current;
     const cta = footerCtaRef.current;
     const content = footerContentRef.current;
@@ -94,9 +122,11 @@ export function FooterSection({ setLogoTheme }: FooterSectionProps) {
       window.removeEventListener("resize", scheduleSync);
       content.style.paddingTop = "";
     };
-  }, []);
+  }, [isFooterArmed]);
 
   useLayoutEffect(() => {
+    if (!isFooterArmed) return;
+
     const footer = footerRef.current;
     const cta = footerCtaRef.current;
     const faqHeading = footerFaqHeadingRef.current;
@@ -205,7 +235,7 @@ export function FooterSection({ setLogoTheme }: FooterSectionProps) {
       cancelled = true;
       cleanup();
     };
-  }, [setLogoTheme]);
+  }, [isFooterArmed, setLogoTheme]);
 
   return (
     <footer

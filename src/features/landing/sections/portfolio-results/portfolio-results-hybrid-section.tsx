@@ -60,6 +60,7 @@ export function PortfolioResultsHybridSection({
     PORTFOLIO_ROW_CENTER_INDEX,
   );
   const [isFlowPortfolioActive, setIsFlowPortfolioActive] = useState(false);
+  const [isMetricsArmed, setIsMetricsArmed] = useState(false);
   const [areMetricsVisible, setAreMetricsVisible] = useState(false);
   const portfolioInteractionRef = useRef<HTMLDivElement | null>(null);
   const portfolioViewportRef = useRef<HTMLDivElement | null>(null);
@@ -214,7 +215,34 @@ export function PortfolioResultsHybridSection({
     };
   }, []);
 
+  useEffect(() => {
+    const section = metricsSectionRef.current;
+
+    if (!section || isMetricsArmed) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) return;
+
+        setIsMetricsArmed(true);
+        observer.disconnect();
+      },
+      {
+        rootMargin: "100% 0px",
+        threshold: 0.01,
+      },
+    );
+
+    observer.observe(section);
+
+    return () => {
+      observer.disconnect();
+    };
+  }, [isMetricsArmed]);
+
   useLayoutEffect(() => {
+    if (!isMetricsArmed) return;
+
     const section = metricsSectionRef.current;
     const heading = metricsHeadingRef.current;
     const grid = metricsGridRef.current;
@@ -290,7 +318,7 @@ export function PortfolioResultsHybridSection({
       cancelled = true;
       cleanup();
     };
-  }, []);
+  }, [isMetricsArmed]);
 
   const showVideoHeader = isVideoActive && Boolean(activeHeaderItem);
   const showUnifiedHeader =

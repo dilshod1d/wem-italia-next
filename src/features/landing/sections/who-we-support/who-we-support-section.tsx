@@ -1,6 +1,6 @@
 "use client";
 
-import { useLayoutEffect, useRef } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { whoWeSupportSectionConfig } from "./who-we-support-story";
 import AudienceCard from "./audience-card";
 import WarningCard from "./warning-card";
@@ -13,8 +13,36 @@ export function WhoWeSupportSection() {
   const headingRef = useRef<HTMLDivElement | null>(null);
   const cardsGridRef = useRef<HTMLDivElement | null>(null);
   const warningRef = useRef<HTMLDivElement | null>(null);
+  const [isRevealArmed, setIsRevealArmed] = useState(false);
+
+  useEffect(() => {
+    const section = sectionRef.current;
+
+    if (!section || isRevealArmed) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) return;
+
+        setIsRevealArmed(true);
+        observer.disconnect();
+      },
+      {
+        rootMargin: "100% 0px",
+        threshold: 0.01,
+      },
+    );
+
+    observer.observe(section);
+
+    return () => {
+      observer.disconnect();
+    };
+  }, [isRevealArmed]);
 
   useLayoutEffect(() => {
+    if (!isRevealArmed) return;
+
     const section = sectionRef.current;
     const heading = headingRef.current;
     const grid = cardsGridRef.current;
@@ -89,7 +117,7 @@ export function WhoWeSupportSection() {
       cancelled = true;
       cleanup();
     };
-  }, []);
+  }, [isRevealArmed]);
 
   return (
     <section
