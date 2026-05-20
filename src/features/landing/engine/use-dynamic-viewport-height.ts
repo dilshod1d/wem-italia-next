@@ -1,6 +1,6 @@
 "use client";
 
-import { useLayoutEffect, type RefObject } from "react";
+import { useEffect, type RefObject } from "react";
 
 interface UseDynamicViewportHeightOptions {
   propertyName?: string;
@@ -16,7 +16,7 @@ export function useDynamicViewportHeight(
     notifyOnMount = false,
   }: UseDynamicViewportHeightOptions = {},
 ) {
-  useLayoutEffect(() => {
+  useEffect(() => {
     const element = elementRef?.current ?? document.documentElement;
 
     if (!element) return;

@@ -156,7 +156,7 @@ export const portfolioResultsSectionConfig = {
           body: "Nuovi lead in 5 settimane",
           borderClassName: "border-brand-yellow/85",
           bandClassName: "bg-brand-yellow",
-          labelTextClassName: "text-black",
+          labelTextClassName: "text-white",
         },
         {
           value: "+289%",
