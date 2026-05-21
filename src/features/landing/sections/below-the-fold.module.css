@@ -1,0 +1,335 @@
+@media (max-width: 390px) and (max-height: 820px) {
+  .insightBlock {
+    width: 72%;
+    border-radius: 1.2rem;
+    padding: 0.9rem;
+  }
+
+  .insightBlockTitle {
+    font-size: 1rem;
+  }
+
+  .insightBlockCopy {
+    margin-top: 0.35rem;
+  }
+}
+
+@media (max-width: 375px) and (max-height: 667px) {
+  .benefitRail {
+    width: 92%;
+    height: 11.4rem;
+    margin-right: auto;
+  }
+
+  .benefitCard {
+    min-height: 4.2rem;
+    border-radius: var(--landing-compact-card-radius);
+    padding: var(--landing-compact-card-padding-y)
+      var(--landing-compact-card-padding-x);
+  }
+
+  .benefitCard::before {
+    inset-inline: 1rem;
+  }
+
+  .benefitCard::after {
+    top: -2rem;
+    right: -2rem;
+    width: 5.5rem;
+    height: 5.5rem;
+  }
+
+  .benefitCardIconBadge {
+    top: 0.8rem;
+    right: 0.8rem;
+    width: 2.3rem;
+    height: 2.3rem;
+  }
+
+  .benefitCardIconBadge svg {
+    width: 1rem;
+    height: 1rem;
+  }
+
+  .benefitCard > svg[aria-hidden="true"] {
+    right: -1rem;
+    bottom: -1rem;
+    width: 4.4rem;
+    height: 4.4rem;
+  }
+
+  .benefitCardContent {
+    max-width: 100%;
+    padding-right: 3rem;
+  }
+
+  .benefitCardTitle {
+    font-size: 0.94rem;
+    line-height: 0.98;
+  }
+
+  .benefitCardCopy {
+    margin-top: 0.3rem;
+    max-width: 100%;
+  }
+
+  .benefitRail .benefitCard:nth-of-type(1) {
+    top: 0 !important;
+  }
+
+  .benefitRail .benefitCard:nth-of-type(2) {
+    top: 2.65rem !important;
+  }
+
+  .benefitRail .benefitCard:nth-of-type(3) {
+    top: 5.3rem !important;
+  }
+
+  .stepRail {
+    margin-top: 0.65rem;
+  }
+
+  .stepCard {
+    --step-overlap: 42%;
+    border-radius: 1.1rem;
+    padding: 0.72rem 0.8rem;
+  }
+
+  .stepRail > .stepCard:not(:first-child) {
+    margin-top: -2.55rem;
+  }
+
+  .stepCardTitle {
+    font-size: 0.88rem;
+    line-height: 0.98;
+  }
+
+  .stepCardCopy {
+    margin-top: 0.25rem;
+  }
+
+  .insightBlock {
+    border-radius: var(--landing-compact-card-radius);
+    padding: 0.75rem;
+  }
+
+  .insightBlockTitle {
+    font-size: 0.98rem;
+  }
+
+  .insightBlockCopy {
+    margin-top: 0.3rem;
+    max-width: 100%;
+  }
+
+  .proofGrid {
+    width: 44%;
+    max-width: 11.75rem;
+    gap: 0.38rem;
+  }
+
+  .proofCard {
+    border-radius: 1.1rem;
+    min-height: 6.35rem;
+    padding: 0.78rem 0.58rem;
+  }
+
+  .proofCardIcon {
+    width: 1.55rem;
+    height: 1.55rem;
+    margin-bottom: 0.34rem;
+  }
+
+  .proofCardTitle {
+    font-size: 0.76rem;
+    line-height: 0.96;
+  }
+
+  .metricCard {
+    min-height: 8.7rem;
+    border-radius: 1.2rem;
+    padding: 0.8rem;
+  }
+
+  .metricCardLabel {
+    padding: 0.4rem 0.75rem;
+    font-size: 0.63rem;
+    letter-spacing: 0.12em;
+  }
+
+  .metricCardValueWrap {
+    padding-top: 0.72rem;
+    padding-bottom: 0.72rem;
+  }
+
+  .metricCardValue {
+    font-size: 1.55rem;
+  }
+
+  .metricCardCopy {
+    padding-top: 0.55rem;
+  }
+
+  .audienceCard {
+    min-height: 10.5rem;
+    border-radius: 1.35rem;
+    padding: 0.82rem 0.78rem;
+  }
+
+  .audienceCardIcon {
+    width: 2.7rem;
+    height: 2.7rem;
+    border-radius: 0.9rem;
+  }
+
+  .audienceCardTitle {
+    margin-top: 0.65rem;
+    font-size: 0.92rem;
+  }
+
+  .audienceCardCopy {
+    margin-top: 0.3rem;
+  }
+
+  .warningCardContent {
+    gap: 0.6rem;
+    padding: 0.82rem 0.78rem;
+  }
+
+  .warningCardIcon {
+    width: 2.7rem;
+    height: 2.7rem;
+    border-radius: 0.9rem;
+  }
+
+  .warningCardIcon svg {
+    width: 1.4rem;
+    height: 1.4rem;
+  }
+
+  .warningCardTitle {
+    font-size: 0.96rem;
+  }
+
+  .warningCardCopy {
+    max-width: 11.5rem;
+    margin-top: 0.3rem;
+  }
+}
+
+@media (max-width: 320px) and (max-height: 568px) {
+  .benefitRail {
+    width: 90%;
+    height: 10rem;
+  }
+
+  .benefitCard {
+    min-height: 3.9rem;
+  }
+
+  .benefitCardIconBadge {
+    top: 0.72rem;
+    right: 0.72rem;
+    width: 2.05rem;
+    height: 2.05rem;
+  }
+
+  .benefitCard > svg[aria-hidden="true"] {
+    width: 3.9rem;
+    height: 3.9rem;
+  }
+
+  .benefitCardContent {
+    padding-right: 2.7rem;
+  }
+
+  .benefitCardTitle {
+    font-size: 0.84rem;
+  }
+
+  .benefitRail .benefitCard:nth-of-type(2) {
+    top: 2.35rem !important;
+  }
+
+  .benefitRail .benefitCard:nth-of-type(3) {
+    top: 4.7rem !important;
+  }
+
+  .stepCard {
+    --step-overlap: 38%;
+    padding: 0.64rem 0.7rem;
+  }
+
+  .stepRail > .stepCard:not(:first-child) {
+    margin-top: -2.35rem;
+  }
+
+  .stepCardTitle {
+    font-size: 0.8rem;
+  }
+
+  .insightBlockTitle {
+    font-size: 0.9rem;
+  }
+
+  .proofGrid {
+    width: 42%;
+    max-width: 10.4rem;
+    gap: 0.32rem;
+  }
+
+  .proofCard {
+    min-height: 5.6rem;
+    padding: 0.66rem 0.5rem;
+  }
+
+  .proofCardIcon {
+    width: 1.3rem;
+    height: 1.3rem;
+    margin-bottom: 0.28rem;
+  }
+
+  .proofCardTitle {
+    font-size: 0.7rem;
+  }
+
+  .metricCard {
+    min-height: 8rem;
+    padding: 0.7rem;
+  }
+
+  .metricCardValue {
+    font-size: 1.4rem;
+  }
+
+  .audienceCard {
+    min-height: 9.7rem;
+    padding: 0.74rem 0.7rem;
+  }
+
+  .audienceCardIcon {
+    width: 2.45rem;
+    height: 2.45rem;
+  }
+
+  .audienceCardTitle {
+    font-size: 0.84rem;
+  }
+
+  .warningCardContent {
+    padding: 0.74rem 0.7rem;
+  }
+
+  .warningCardIcon {
+    width: 2.45rem;
+    height: 2.45rem;
+  }
+
+  .warningCardTitle {
+    font-size: 0.88rem;
+  }
+
+  .warningCardCopy {
+    max-width: 10.5rem;
+  }
+}

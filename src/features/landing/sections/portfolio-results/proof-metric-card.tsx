@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 
 import type { PortfolioResultsMetric } from "./portfolio-results.types";
 import cx from "../../utils/cx";
+import styles from "../below-the-fold.module.css";
 
 const METRIC_COUNT_DURATION_MS = 1600;
 const metricNumberFormatter = new Intl.NumberFormat("en-US");
@@ -131,7 +132,7 @@ export function ProofMetricCard({
     <article
       data-metric-card
       className={cx(
-        "landing-metric-card",
+        styles.metricCard,
         "group relative flex min-h-[12.5rem] overflow-hidden rounded-[1.7rem] border bg-white/94 p-5 shadow-[0_20px_55px_rgba(0,0,0,0.07)] backdrop-blur-sm transition-[box-shadow,transform] duration-300 sm:min-h-[13.5rem] sm:p-6 md:min-h-[17rem] md:p-7 2xl:min-h-[19rem] 2xl:p-8 motion-safe:hover:-translate-y-1 motion-safe:hover:shadow-[0_28px_72px_rgba(0,0,0,0.11)]",
         metric.borderClassName,
       )}
@@ -152,7 +153,8 @@ export function ProofMetricCard({
         <div className="flex items-start">
           <span
             className={cx(
-              "landing-metric-card-label rounded-full px-3 py-1.5 font-sans text-[0.72rem] font-semibold uppercase tracking-[0.14em] shadow-[0_10px_24px_rgba(0,0,0,0.08)] sm:text-[0.78rem] md:px-4 md:py-2 md:text-[0.86rem] 2xl:text-[0.98rem]",
+              styles.metricCardLabel,
+              "rounded-full px-3 py-1.5 font-sans text-[0.72rem] font-semibold uppercase tracking-[0.14em] shadow-[0_10px_24px_rgba(0,0,0,0.08)] sm:text-[0.78rem] md:px-4 md:py-2 md:text-[0.86rem] 2xl:text-[0.98rem]",
               metric.bandClassName,
               metric.labelTextClassName,
             )}
@@ -161,8 +163,18 @@ export function ProofMetricCard({
           </span>
         </div>
 
-        <div className="landing-metric-card-value-wrap flex flex-1 items-center justify-center py-6 md:py-8 2xl:py-10">
-          <div className="landing-metric-card-value font-sans text-[2.1rem] font-semibold leading-none tracking-tight text-black tabular-nums sm:text-[2.6rem] md:text-[3.2rem] lg:text-[3.4rem] xl:text-[4.4rem] 2xl:text-[5.2rem]">
+        <div
+          className={cx(
+            styles.metricCardValueWrap,
+            "flex flex-1 items-center justify-center py-6 md:py-8 2xl:py-10",
+          )}
+        >
+          <div
+            className={cx(
+              styles.metricCardValue,
+              "font-sans text-[2.1rem] font-semibold leading-none tracking-tight text-black tabular-nums sm:text-[2.6rem] md:text-[3.2rem] lg:text-[3.4rem] xl:text-[4.4rem] 2xl:text-[5.2rem]",
+            )}
+          >
             <AnimatedMetricValue
               value={metric.value}
               visible={visible}
@@ -171,7 +183,12 @@ export function ProofMetricCard({
           </div>
         </div>
 
-        <p className="landing-metric-card-copy border-t border-black/8 pt-4 text-center text-body text-black/70 md:pt-5">
+        <p
+          className={cx(
+            styles.metricCardCopy,
+            "border-t border-black/8 pt-4 text-center text-body text-black/70 md:pt-5",
+          )}
+        >
           {metric.body}
         </p>
       </div>

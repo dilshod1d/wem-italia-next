@@ -10,6 +10,7 @@ import {
 } from "../../shared";
 import HowItWorksStepCard from "./how-it-works-step-card";
 import cx from "../../utils/cx";
+import styles from "../below-the-fold.module.css";
 
 const {
   videoUrl,
@@ -110,13 +111,16 @@ export function HowItWorksSection({
 
           {isStepRailVisible ? (
             <div
-              className="
-                landing-step-rail landing-card-gap relative flex w-full flex-col overflow-visible
+              className={cx(
+                styles.stepRail,
+                `
+                landing-card-gap relative flex w-full flex-col overflow-visible
                 lg:ml-auto lg:w-[82%]
                 min-[1200px]:w-[86%]
                 min-[1400px]:w-full min-[1400px]:max-w-[68rem]
                 2xl:max-w-[72rem]
-              "
+              `,
+              )}
             >
               {steps.map((step, index) => (
                 <HowItWorksStepCard
