@@ -2,7 +2,6 @@
 
 import {
   useEffect,
-  useLayoutEffect,
   useMemo,
   useState,
   type ReactNode,
@@ -71,7 +70,7 @@ export function Chapter({
 
   useIOSVideoUnlock(videoRef, isIOS && isActive, resolvedVideoSrc);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (typeof window === "undefined") return;
 
     const mediaQuery = window.matchMedia("(max-width: 767px)");
