@@ -35,6 +35,7 @@ interface ChapterProps {
   videoClassName?: string;
   contentClassName?: string;
   preloadStrategy?: VideoPreloadStrategy;
+  mobileStickyFallback?: boolean;
 }
 
 export function Chapter({
@@ -57,6 +58,7 @@ export function Chapter({
   videoClassName,
   contentClassName,
   preloadStrategy = "none",
+  mobileStickyFallback = false,
 }: ChapterProps) {
   const isIOS = useMemo(() => {
     if (typeof window === "undefined") return false;
@@ -127,7 +129,14 @@ export function Chapter({
       className={cx("relative", sectionClassName)}
       style={{ height: `${CHAPTER_SCROLL_DISTANCE}px` }}
     >
-      <div className="relative z-20 h-screen w-full overflow-visible">
+      <div
+        className={cx(
+          "z-20 h-screen w-full overflow-visible",
+          mobileStickyFallback
+            ? "sticky top-0 md:relative md:top-auto"
+            : "relative",
+        )}
+      >
         <div
           className={cx(
             "relative w-full overflow-hidden",
