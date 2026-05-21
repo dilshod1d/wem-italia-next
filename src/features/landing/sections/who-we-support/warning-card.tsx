@@ -1,7 +1,6 @@
 import cx from "../../utils/cx";
 import { FaTriangleExclamation } from "react-icons/fa6";
 import { whoWeSupportSectionConfig } from "./who-we-support-story";
-import styles from "../below-the-fold.module.css";
 
 const { copy } = whoWeSupportSectionConfig;
 
@@ -30,7 +29,7 @@ export default function WarningCard({
 
         <div
           className={cx(
-            styles.warningCardContent,
+            "landing-warning-card-content",
             "relative",
             stackedMobile
               ? "flex min-h-[176px] flex-col items-center justify-center gap-4 px-5 py-5 text-center"
@@ -41,7 +40,7 @@ export default function WarningCard({
         >
           <div
             className={cx(
-              styles.warningCardIcon,
+              "landing-warning-card-icon",
               stackedMobile
                 ? "flex h-14 w-14 items-center justify-center rounded-[1.1rem] bg-brand-yellow/12 text-brand-yellow ring-1 ring-brand-yellow/30"
                 : mobile
@@ -72,7 +71,7 @@ export default function WarningCard({
           >
             <p
               className={cx(
-                styles.warningCardTitle,
+                "landing-warning-card-title",
                 "font-sans font-semibold tracking-tight text-black/92",
                 mobile ? "hidden" : "text-[1.5rem] md:text-[2rem]",
               )}
@@ -81,7 +80,7 @@ export default function WarningCard({
             </p>
             <p
               className={cx(
-                styles.warningCardCopy,
+                "landing-warning-card-copy",
                 stackedMobile
                   ? "mt-2 text-body text-black/68"
                   : mobile

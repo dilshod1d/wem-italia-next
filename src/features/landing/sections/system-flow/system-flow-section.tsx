@@ -8,7 +8,6 @@ import { systemFlowSectionConfig } from "./system-flow-story";
 import { useSystemFlowVideo } from "./use-system-flow-video";
 import cx from "../../utils/cx";
 import BenefitCard from "./benefit-card";
-import styles from "../below-the-fold.module.css";
 
 const {
   videoUrl,
@@ -110,12 +109,7 @@ export function SystemFlowSection({
               </div>
             </div>
 
-            <div
-              className={cx(
-                styles.benefitRail,
-                "pointer-events-none landing-card-gap relative z-30 h-[17rem] w-full sm:mr-auto sm:h-[19rem] sm:w-[92%] md:h-[22rem] md:w-[80%] lg:mr-0 lg:h-auto lg:min-h-0 lg:flex-1 lg:w-[70%] xl:w-[72%] 2xl:w-[74%]",
-              )}
-            >
+            <div className="landing-benefit-rail pointer-events-none landing-card-gap relative z-30 h-[17rem] w-full sm:mr-auto sm:h-[19rem] sm:w-[92%] md:h-[22rem] md:w-[80%] lg:mr-0 lg:h-auto lg:min-h-0 lg:flex-1 lg:w-[70%] xl:w-[72%] 2xl:w-[74%]">
               <div className="relative h-full w-full">
                 {cards.map((card, index) => (
                   <BenefitCard

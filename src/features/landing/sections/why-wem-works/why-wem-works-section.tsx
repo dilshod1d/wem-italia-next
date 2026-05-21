@@ -10,7 +10,6 @@ import { whyWemWorksSectionConfig } from "./why-wem-works-story";
 import cx from "../../utils/cx";
 import ProofPointCard from "./proof-point-card";
 import InsightBlock from "./insight-block";
-import styles from "../below-the-fold.module.css";
 
 const {
   videoUrl,
@@ -169,12 +168,7 @@ export function WhyWemWorksSection({
 
               {showProofGrid ? (
                 <div className="flex w-full flex-col items-end justify-end w-full">
-                  <div
-                    className={cx(
-                      styles.proofGrid,
-                      "ml-auto flex w-[50%] max-w-[28rem] flex-col gap-3 sm:mx-0 sm:grid sm:h-full sm:w-full sm:max-h-[27rem] sm:max-w-[27rem] sm:grid-cols-2 sm:grid-rows-2 sm:gap-5 md:max-h-[31rem] md:max-w-[31rem] lg:max-h-[34rem] lg:max-w-[34rem] xl:max-h-[37rem] xl:max-w-[37rem] 2xl:max-h-[40rem] 2xl:max-w-[40rem]",
-                    )}
-                  >
+                  <div className="landing-proof-grid ml-auto flex w-[50%] max-w-[28rem] flex-col gap-3 sm:mx-0 sm:grid sm:h-full sm:w-full sm:max-h-[27rem] sm:max-w-[27rem] sm:grid-cols-2 sm:grid-rows-2 sm:gap-5 md:max-h-[31rem] md:max-w-[31rem] lg:max-h-[34rem] lg:max-w-[34rem] xl:max-h-[37rem] xl:max-w-[37rem] 2xl:max-h-[40rem] 2xl:max-w-[40rem]">
                     {visibleProofPoints.map((item, index) => (
                       <ProofPointCard
                         key={item.titleLines.join("-")}

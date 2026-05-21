@@ -5,7 +5,6 @@ import type {
 import { OfficeWorkerIcon, RocketIcon, StoreIcon } from "../../shared/icons";
 import type { IconType } from "react-icons";
 import cx from "../../utils/cx";
-import styles from "../below-the-fold.module.css";
 
 function getAudienceCardDeckClass(index: number) {
   if (index === 0) return "-rotate-[1.2deg]";
@@ -65,7 +64,7 @@ export default function AudienceCard({
     <article
       data-audience-card
       className={cx(
-        styles.audienceCard,
+        "landing-audience-card",
         "group relative isolate overflow-hidden rounded-[1.6rem] border border-slate-200/70 bg-white text-center shadow-[0_10px_30px_rgba(15,23,42,0.08)] ring-1 ring-white/70 transition-[border-color,box-shadow,transform] duration-300 will-change-transform",
         "motion-safe:hover:-translate-y-1.5 motion-safe:hover:scale-[1.012] motion-safe:hover:border-slate-300/80 motion-safe:hover:shadow-[0_22px_54px_rgba(15,23,42,0.14)]",
         stackedMobile
@@ -86,7 +85,7 @@ export default function AudienceCard({
 
       <div
         className={cx(
-          styles.audienceCardIcon,
+          "landing-audience-card-icon",
           "mx-auto flex items-center justify-center rounded-[1.2rem] ring-1 transition-transform duration-500 group-hover:scale-[1.04]",
           accent.icon,
           stackedMobile
@@ -101,7 +100,7 @@ export default function AudienceCard({
 
       <h3
         className={cx(
-          styles.audienceCardTitle,
+          "landing-audience-card-title",
           "font-sans font-semibold tracking-tight text-black",
           stackedMobile
             ? "mt-1.5 text-[1.05rem]"
@@ -115,7 +114,7 @@ export default function AudienceCard({
 
       <p
         className={cx(
-          styles.audienceCardCopy,
+          "landing-audience-card-copy",
           "text-body text-black/70",
           stackedMobile ? "mt-2" : compact ? "mt-2.5 sm:mt-3" : "mt-4",
         )}
