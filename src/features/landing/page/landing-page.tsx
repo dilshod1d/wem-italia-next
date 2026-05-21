@@ -2,6 +2,7 @@
 
 import dynamic from "next/dynamic";
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
+import { flushSync } from "react-dom";
 
 import { ensureGsap, useDynamicViewportHeight } from "../engine";
 import { HeroSection } from "../sections/hero";
@@ -186,24 +187,29 @@ export function LandingPage() {
     const markInteracted = () => {
       setHasInteracted(true);
     };
+    const markInteractedSync = () => {
+      flushSync(() => {
+        setHasInteracted(true);
+      });
+    };
 
     const interactionOptions: AddEventListenerOptions = { passive: true };
 
     window.addEventListener("wheel", markInteracted, interactionOptions);
-    window.addEventListener("touchstart", markInteracted, interactionOptions);
-    window.addEventListener("pointerdown", markInteracted, interactionOptions);
+    window.addEventListener("touchstart", markInteractedSync, interactionOptions);
+    window.addEventListener("pointerdown", markInteractedSync, interactionOptions);
     window.addEventListener("keydown", markInteracted);
 
     return () => {
       window.removeEventListener("wheel", markInteracted, interactionOptions);
       window.removeEventListener(
         "touchstart",
-        markInteracted,
+        markInteractedSync,
         interactionOptions,
       );
       window.removeEventListener(
         "pointerdown",
-        markInteracted,
+        markInteractedSync,
         interactionOptions,
       );
       window.removeEventListener("keydown", markInteracted);
