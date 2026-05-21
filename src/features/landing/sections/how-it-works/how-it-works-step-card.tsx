@@ -46,10 +46,10 @@ export default function HowItWorksStepCard({
 
         // tablet / desktop
         "sm:max-w-[84%] sm:rounded-[2.2rem] sm:px-7 sm:py-5",
-        "md:max-w-[740px] md:rounded-[6rem] md:px-9",
+        "md:max-w-185 md:rounded-[6rem] md:px-9",
         "lg:max-w-none lg:px-[2.4%] lg:py-3",
-        "xl:max-w-[880px] xl:px-[2.8%] xl:py-3.5",
-        "2xl:max-w-[960px] 2xl:px-[3%] 2xl:py-4",
+        "xl:max-w-220 xl:px-[2.8%] xl:py-3.5",
+        "2xl:max-w-240 2xl:px-[3%] 2xl:py-4",
 
         "text-white shadow-[0_24px_65px_rgba(0,0,0,0.12)]",
         "transition-[opacity,transform,box-shadow] duration-700 will-change-transform",
