@@ -154,7 +154,7 @@ export function ProofMetricCard({
             className={cx(
               "landing-metric-card-label rounded-full px-3 py-1.5 font-sans text-[0.72rem] font-semibold uppercase tracking-[0.14em] shadow-[0_10px_24px_rgba(0,0,0,0.08)] sm:text-[0.78rem] md:px-4 md:py-2 md:text-[0.86rem] 2xl:text-[0.98rem]",
               metric.bandClassName,
-              metric.labelTextClassName ?? "text-white",
+              metric.labelTextClassName,
             )}
           >
             {metric.label}

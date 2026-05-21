@@ -31,7 +31,7 @@ export interface PortfolioResultsMetric {
   readonly body: string;
   readonly borderClassName: string;
   readonly bandClassName: string;
-  readonly labelTextClassName?: string;
+  readonly labelTextClassName: string;
 }
 
 export interface PortfolioResultsPortfolioRail extends FrameWindow {
