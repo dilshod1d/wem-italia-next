@@ -8,7 +8,7 @@ export const landingVideoAssets = {
     desktop:
       "https://res.cloudinary.com/dhdkedt1m/video/upload/v1779086237/video1v2_sbglcy.mp4",
     mobile:
-      "https://res.cloudinary.com/dhdkedt1m/video/upload/v1779086237/video2-mobile_o8pqut.mp4",
+      "https://res.cloudinary.com/dhdkedt1m/video/upload/v1779086237/video1-mobile_oyym3j.mp4",
   },
   whyWemWorks: {
     desktop:
