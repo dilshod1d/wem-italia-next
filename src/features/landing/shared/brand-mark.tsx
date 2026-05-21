@@ -1,9 +1,6 @@
-import { memo, useId, useMemo } from "react";
+import { memo } from "react";
+import Image from "next/image";
 import Link from "next/link";
-import {
-  BRAND_MARK_DARK_SVG,
-  BRAND_MARK_LIGHT_SVG,
-} from "./brand-mark-svgs";
 import cx from "../utils/cx";
 
 interface BrandMarkProps {
@@ -12,60 +9,44 @@ interface BrandMarkProps {
   onClick?: () => void;
 }
 
-function scopeSvgMarkup(svgMarkup: string, idPrefix: string) {
-  const idMap = new Map<string, string>();
-
-  let scopedMarkup = svgMarkup.replace(/\bid="([^"]+)"/g, (_, id: string) => {
-    const scopedId = `${idPrefix}-${id}`;
-
-    idMap.set(id, scopedId);
-    return `id="${scopedId}"`;
-  });
-
-  for (const [id, scopedId] of idMap) {
-    const escapedId = id.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-
-    scopedMarkup = scopedMarkup
-      .replace(new RegExp(`url\\(#${escapedId}\\)`, "g"), `url(#${scopedId})`)
-      .replace(
-        new RegExp(`xlink:href="#${escapedId}"`, "g"),
-        `xlink:href="#${scopedId}"`,
-      )
-      .replace(
-        new RegExp(`xlinkHref="#${escapedId}"`, "g"),
-        `xlinkHref="#${scopedId}"`,
-      )
-      .replace(new RegExp(`href="#${escapedId}"`, "g"), `href="#${scopedId}"`);
-  }
-
-  return scopedMarkup;
-}
+const BRAND_MARK_ASSETS = {
+  light: {
+    src: "/landing/brand-mark-light.svg",
+    width: 364,
+    height: 79,
+  },
+  dark: {
+    src: "/landing/brand-mark-dark.svg",
+    width: 2052,
+    height: 451,
+  },
+} as const;
 
 export const BrandMark = memo(function BrandMark({
   className = "",
   theme = "light",
   onClick,
 }: BrandMarkProps) {
-  const instanceId = useId().replace(/:/g, "");
-  const logoMarkup = useMemo(
-    () =>
-      scopeSvgMarkup(
-        theme === "light" ? BRAND_MARK_LIGHT_SVG : BRAND_MARK_DARK_SVG,
-        `brand-mark-${instanceId}`,
-      ),
-    [instanceId, theme],
-  );
+  const asset = BRAND_MARK_ASSETS[theme];
 
   return (
     <Link href="/" aria-label="Go to homepage" scroll={false} onClick={onClick}>
       <span
         className={cx(
-          "relative block h-[56px] w-[140px] sm:h-[72px] sm:w-[180px] lg:h-[100px] lg:w-[250px] [&>svg]:h-full [&>svg]:w-full",
+          "relative block h-[56px] w-[140px] sm:h-[72px] sm:w-[180px] lg:h-[100px] lg:w-[250px] [&>img]:h-full [&>img]:w-full",
           className,
         )}
         aria-hidden="true"
-        dangerouslySetInnerHTML={{ __html: logoMarkup }}
-      />
+      >
+        <Image
+          src={asset.src}
+          width={asset.width}
+          height={asset.height}
+          alt=""
+          unoptimized
+          className="block"
+        />
+      </span>
     </Link>
   );
 });

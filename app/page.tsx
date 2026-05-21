@@ -11,13 +11,13 @@ export default function HomePage() {
 
   return (
     <>
+      <LandingPage />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify(structuredData).replace(/</g, "\\u003c"),
         }}
       />
-      <LandingPage />
     </>
   );
 }
