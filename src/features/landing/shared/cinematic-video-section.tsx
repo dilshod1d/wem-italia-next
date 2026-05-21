@@ -25,7 +25,6 @@ interface CinematicVideoSectionProps {
   sectionClassName?: string;
   videoClassName?: string;
   preloadStrategy?: VideoPreloadStrategy;
-  mobileStickyFallback?: boolean;
 }
 
 export function CinematicVideoSection({
@@ -47,7 +46,6 @@ export function CinematicVideoSection({
   sectionClassName,
   videoClassName,
   preloadStrategy,
-  mobileStickyFallback,
 }: CinematicVideoSectionProps) {
   return (
     <Chapter
@@ -68,7 +66,6 @@ export function CinematicVideoSection({
       sectionClassName={cx("relative", sectionClassName)}
       videoClassName={videoClassName}
       preloadStrategy={preloadStrategy}
-      mobileStickyFallback={mobileStickyFallback}
     >
       {children}
     </Chapter>
