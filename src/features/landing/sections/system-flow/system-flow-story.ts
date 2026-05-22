@@ -12,7 +12,7 @@ export const systemFlowSectionConfig = {
   videoDuration: 5,
   mobileVideoConfig: {
     objectFit: "cover",
-    objectPosition: "center top",
+    objectPosition: "center bottom",
     widthPercent: 240,
     heightPercent: 75,
     verticalAnchor: "bottom",
